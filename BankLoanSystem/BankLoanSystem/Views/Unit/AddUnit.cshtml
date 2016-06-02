@@ -908,11 +908,11 @@
                                 <div class="col-md-3">
                                     @if (ViewBag.Editable == "Yes")
                                     {
-                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;", @tabindex = "-1" } })
+                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtLoanAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;", @tabindex = "-1" } })
                                     }
                                     else
                                     {
-                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;", @tabindex = "-1" } })
+                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtLoanAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;", @tabindex = "-1" } })
                                     }
                                     @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger", @style = "left: 0%; text-align: left; width: 217px;" })
                                     <div id="tagscloudAdvance" class="validation-error"><span class="text-danger ad"></span></div>
@@ -1512,7 +1512,7 @@
                     document.getElementById('motorcyclemiles').value = "";
 
                     document.getElementById('txtCost').value = "";
-                    document.getElementById('txtAdvanceAmount').value = "";
+                    document.getElementById('txtLoanAdvanceAmount').value = "";
 
                     $("#advanceDate").val("");
                     $('#advanceDate').attr("placeholder", "MM/DD/YYYY");
@@ -1983,7 +1983,7 @@
                     $(".miles").val("");
                     $(".lengths").val("");
                     $('#txtCost').val("");
-                    $('#txtAdvanceAmount').val("");
+                    $('#txtLoanAdvanceAmount').val("");
 
                 }
                 function valueChangeUnitType(){
@@ -2406,7 +2406,7 @@
                     $(this).removeAttr('placeholder');
                 });
 
-                $("#txtAdvanceAmount").on('click', function(e) {
+                $("#txtLoanAdvanceAmount").on('click', function(e) {
                     //if (this.value === "0.00") {
                     //    document.getElementById(this.id).value = "";
                     //}
@@ -2427,9 +2427,9 @@
                         if (e.which !== 46 && e.which !== 8) {
                             if (cost <= maxCost) {
                                 //$("#tagscloudAdvance span").fadeOut();
-                                $('#txtAdvanceAmount').removeClass('input-validation-error');
+                                $('#txtLoanAdvanceAmount').removeClass('input-validation-error');
                                 //$("#tagscloudAdvance span").text("");
-                                $('#txtAdvanceAmount').next('span').children('span').text('');
+                                $('#txtLoanAdvanceAmount').next('span').children('span').text('');
                             } else {
                                 //$("#tagscloud span").fadeIn();
                                 $(this).addClass('input-validation-error');
@@ -2460,7 +2460,7 @@
                     if (e.keyCode === 8) {
                         var val = this.value;
                         var advanceAmount = (advancePt * val) / 100;
-                        document.getElementById('txtAdvanceAmount').value = advanceAmount;
+                        document.getElementById('txtLoanAdvanceAmount').value = advanceAmount;
                         $("#tagscloud span").text("");
                         $("#tagscloudAdvance span").text("");
                     }
@@ -2468,9 +2468,9 @@
 
                 $('#txtCost').blur(function () {
                     var val = $.trim($(this).val());
-                    if (val.indexOf(',') > -1) {
-                        val = val.replace(',', '');
-                    }
+                    //if (val.indexOf(',') > -1) {
+                    val = val.replace(/,/g, '');
+                    //}
 
                     var num = parseFloat(val);
                     num = num.toFixed(2);
@@ -2495,8 +2495,8 @@
                         //$(this).addClass('input-validation-error');
                         $("#tagscloud span").text("");
                         $(this).attr('placeholder', '0.00');
-                        $('#txtAdvanceAmount').val("");
-                        $('#txtAdvanceAmount').attr('placeholder', '0.00');
+                        $('#txtLoanAdvanceAmount').val("");
+                        $('#txtLoanAdvanceAmount').attr('placeholder', '0.00');
                         //$(this).val("0.00");
                         //$('#txtAdvanceAmount').val("0.00");
                     }
@@ -2510,7 +2510,7 @@
                         $("#tagscloud span").text("");
 
                         //$("#tagscloudAdvance span").fadeOut();
-                        $('#txtAdvanceAmount').removeClass('input-validation-error');
+                        $('#txtLoanAdvanceAmount').removeClass('input-validation-error');
                         $("#tagscloudAdvance span").text("");
                         if(num != 0){
                             $(this).val(num);
@@ -2520,13 +2520,13 @@
 
                         advanceAmount = parseFloat(advanceAmount);
                         advanceAmountRoundUp = advanceAmount.toFixed(2);
-                        document.getElementById('txtAdvanceAmount').value = advanceAmountRoundUp;
+                        document.getElementById('txtLoanAdvanceAmount').value = advanceAmountRoundUp;
 
                         if (advanceAmountRoundUp == ""||advanceAmountRoundUp <=  0) {
                             //$("#tagscloudAdvance span").fadeIn();
                             //$(this).addClass('input-validation-error');
                             $(this).attr('placeholder', '0.00');
-                            $('#txtAdvanceAmount').attr('placeholder', '0.00');
+                            $('#txtLoanAdvanceAmount').attr('placeholder', '0.00');
                             //$(this).val("0.00");
                             //$('#txtAdvanceAmount').val("0.00");
                         }
@@ -2540,12 +2540,18 @@
                         //$("#tagscloudAdvance span").delay(1000).fadeOut();
                         //$(this).removeClass('input-validation-error');
                     }
+                    if(Number(num)  > 0.009 && Number(num) <= maxCost){
+                        if($(this).next('span').text() == 'Out of range'){
+                            $(this).next('span').text('');
+                            middleSpanCheck();
+                        }
+                    }
                 });
 
-                $('#txtAdvanceAmount').keypress(function(e) {
+                $('#txtLoanAdvanceAmount').keypress(function(e) {
                     var cost = document.getElementById('txtCost').value;
                     //alert(e.which);
-                    var advance = document.getElementById('txtAdvanceAmount').value;
+                    var advance = document.getElementById('txtLoanAdvanceAmount').value;
                     if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8 || e.keyCode === 9) {
                         //var val = this.value + (e.which - 48);
                         //alert(cost + ' ' + val);
@@ -2579,7 +2585,7 @@
                 });
 
                 //claculate advance when click back-space
-                $('#txtAdvanceAmount').keyup(function(e) {
+                $('#txtLoanAdvanceAmount').keyup(function(e) {
                     //alert(e.keyCode);
                     if (e.keyCode === 8) {
                         var val = this.value;
@@ -2588,17 +2594,24 @@
                     }
                 });
 
-                $('#txtAdvanceAmount').blur(function () {
+                $('#txtLoanAdvanceAmount').blur(function () {
                     var cost = document.getElementById('txtCost').value;
-                    var advance = document.getElementById('txtAdvanceAmount').value;
+                    var advance = document.getElementById('txtLoanAdvanceAmount').value;
                     var val = $.trim($(this).val());
 
-                    if (val.indexOf(',') > -1) {
-                        val = val.replace(',', '');
-                    }
+                    //if (val.indexOf(',') > -1) {
+                        val = val.replace(/,/g, '');
+                    //}
 
                     var num = parseFloat(val);
-                    num = num.toFixed(2);
+                    if(num == 0){
+                        $(this).val() = "";
+                        $(this).attr('placeholder', '0.00');
+                    }else{
+                        num = num.toFixed(2);
+                    }
+                    
+
                     if (isNaN(num)) {
                         num = '';
                     }
@@ -2644,6 +2657,12 @@
                         $(this).attr('placeholder', '0.00');
 
                     }
+                    if(Number(num)  > 0.009){
+                        if($(this).next('span').text() == 'Out of range'){
+                            $(this).next('span').text('');
+                            middleSpanCheck();
+                        }
+                    }
                 });
 
                 $('#advanceDate').blur(function() {
@@ -2656,7 +2675,7 @@
                     $('#btnSubmit').prop('disabled', true);
                     var unitType = document.getElementById("unitType").value;
                     var cost = document.getElementById("txtCost").value;
-                    var advance = document.getElementById("txtAdvanceAmount").value;
+                    var advance = document.getElementById("txtLoanAdvanceAmount").value;
 
 
 
@@ -3035,7 +3054,7 @@
                     }
 
                     var cost = parseFloat(document.getElementById('txtCost').value);
-                    var advance = parseFloat(document.getElementById('txtAdvanceAmount').value);
+                    var advance = parseFloat(document.getElementById('txtLoanAdvanceAmount').value);
                     if (advance > cost) {
                         //$("#tagscloudAdvance span").fadeIn();
                         //$("#tagscloudAdvance span").addClass('input-validation-error');
@@ -3299,8 +3318,6 @@
                             e.preventDefault();
                         }
                     }
-
-
                 });
 
                 $('#advanceDate').blur(function () {
