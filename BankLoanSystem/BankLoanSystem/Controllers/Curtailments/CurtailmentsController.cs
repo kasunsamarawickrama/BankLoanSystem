@@ -274,22 +274,23 @@ namespace BankLoanSystem.Controllers.Curtailments
                             byte[] bytes = rptViewerCurtailmentReceiptDuringSession.LocalReport.Render(
                                 "PDF", null, out mimeType, out encoding, out filenameExtension,
                                 out streamids, out warnings);
-                            string fileName = userData.UserName + loanDetails.loanId + DateTime.Now;
-                            fileName = fileName.Replace('/', '-');
-                            fileName = fileName.Replace(':', '.');
-                            string filePath = "~/Reports/" + fileName + ".pdf";
-                            using (FileStream fs = new FileStream(Server.MapPath(filePath), FileMode.Create))
-                            {
-                                fs.Write(bytes, 0, bytes.Length);
-                            }
-                            string fullPath = System.Web.HttpContext.Current.Server.MapPath(filePath);
+
+                            //string fileName = userData.UserName + loanDetails.loanId + DateTime.Now;
+                            //fileName = fileName.Replace('/', '-');
+                            //fileName = fileName.Replace(':', '.');
+                            //string filePath = "~/Reports/" + fileName + ".pdf";
+                            //using (FileStream fs = new FileStream(Server.MapPath(filePath), FileMode.Create))
+                            //{
+                            //    fs.Write(bytes, 0, bytes.Length);
+                            //}
+                            //string fullPath = System.Web.HttpContext.Current.Server.MapPath(filePath);
                             if (dealerEmail != "")
                             {
                                 Thread thread = new Thread(delegate ()
                                 {
                                     //SendEmail(to, from, password, subject, body, postedFile);
                                     Email email = new Email(dealerEmail);
-                                    email.SendMailWithAttachment("Report", "Curtailment receipt test mail", fullPath);
+                                    email.SendMailWithAttachment("Report", "Curtailment receipt test mail", bytes);
                                 });
 
                                 thread.IsBackground = true;

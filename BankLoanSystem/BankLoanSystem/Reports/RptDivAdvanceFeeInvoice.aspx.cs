@@ -60,7 +60,7 @@ namespace BankLoanSystem.Reports
             rptViewerAdvanceFeeInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", advanceFeeInvoice));
         }
 
-        public int PrintPage(int loanId, DateTime startDate, DateTime endDate)
+        public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
             ReportViewer rptViewerAdvanceFeeInvoicePrint = new ReportViewer();
             rptViewerAdvanceFeeInvoicePrint.ProcessingMode = ProcessingMode.Local;
@@ -84,16 +84,17 @@ namespace BankLoanSystem.Reports
             rptViewerAdvanceFeeInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerAdvanceFeeInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", advanceFeeInvoice));
 
-            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerAdvanceFeeInvoicePrint.LocalReport);
-            try
-            {
-                rpd.Print();
-                return 1;
-            }
-            catch (Exception e)
-            {
-                return 0;
-            }
+            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerAdvanceFeeInvoicePrint.LocalReport);
+            //try
+            //{
+            //    rpd.Print();
+            //    return 1;
+            //}
+            //catch (Exception e)
+            //{
+            //    return 0;
+            //}
+            return rptViewerAdvanceFeeInvoicePrint;
         }
     }
 }

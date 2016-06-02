@@ -48,7 +48,7 @@ namespace BankLoanSystem.Reports
             rptViewerTitleStatus.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
         }
 
-        public int PrintPage(int loanId, int titleStatus)
+        public ReportViewer PrintPage(int loanId, int titleStatus)
         {
             ReportViewer rptViewerTitleStatusPrint = new ReportViewer();
             rptViewerTitleStatusPrint.ProcessingMode = ProcessingMode.Local;
@@ -70,16 +70,18 @@ namespace BankLoanSystem.Reports
             rptViewerTitleStatusPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerTitleStatusPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
 
-            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerTitleStatusPrint.LocalReport);
-            try
-            {
-                rpd.Print();
-                return 1;
-            }
-            catch (Exception e)
-            {
-                return 0;
-            }
+            ////ReportPrintDocument rpd = new ReportPrintDocument(rptViewerTitleStatusPrint.LocalReport);
+            ////try
+            ////{
+            ////    rpd.Print();
+            ////    return 1;
+            ////}
+            ////catch (Exception e)
+            ////{
+            ////    return 0;
+            ////}
+
+            return rptViewerTitleStatusPrint;
         }
     }
 }

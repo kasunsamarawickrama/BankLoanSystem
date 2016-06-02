@@ -710,25 +710,31 @@
         var range2 = $('#endDate').val();
         var titleStatus=$('#titleStatus').val();
 
-        $.ajax({
-            url: '/Reports/PrintPage',
-            type: 'POST',
-            contentType: 'application/json;',
-            data: JSON.stringify({ 'rptType': rptType, 'loanId': loanId, 'range1': range1, 'range2': range2, 'titleStatus': titleStatus }),
-            success: function (view) {
-                //alert(view);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                // Your handler here...
+        //window.location.blank = true;
+        var url = '/Reports/PrintPage?rptType='+ rptType + '&loanId=' + loanId + '&range1=' + range1+ '&range2=' + range2 + '&titleStatus=' + titleStatus;
 
-                // if session expires
-                if (jqXHR.status == "404") {
-                    window.location.href = '/Login/UserLogin?lbl=Session expired';
-                } else {
-                    $('#errPage span').text('No printers are installed.');
-                }
-            }
-        });
+        var win = window.open(url, '_blank');
+        win.focus();
+
+        //$.ajax({
+        //    url: '/Reports/PrintPage',
+        //    type: 'POST',
+        //    contentType: 'application/json;',
+        //    data: JSON.stringify({ 'rptType': rptType, 'loanId': loanId, 'range1': range1, 'range2': range2, 'titleStatus': titleStatus }),
+        //    success: function (view) {
+        //        //alert(view);
+        //    },
+        //    error: function (jqXHR, textStatus, errorThrown) {
+        //        // Your handler here...
+
+        //        // if session expires
+        //        if (jqXHR.status == "404") {
+        //            window.location.href = '/Login/UserLogin?lbl=Session expired';
+        //        } else {
+        //            $('#errPage span').text('No printers are installed.');
+        //        }
+        //    }
+        //});
 
         ////Code for adding HTML content to report viwer
         //var headstr = "<html><head><title></title></head><body>";

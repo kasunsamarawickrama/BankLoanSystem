@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Web.Mvc;
 using BankLoanSystem.Code;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
@@ -49,7 +51,7 @@ namespace BankLoanSystem.Reports
             rptViewerLotInspection.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
         }
 
-        public int PrintPage(int loanId)
+        public ReportViewer PrintPage(int loanId)
         {
             ReportViewer rptViewerLotInspectionPrint = new ReportViewer();
             rptViewerLotInspectionPrint.ProcessingMode = ProcessingMode.Local;
@@ -75,18 +77,19 @@ namespace BankLoanSystem.Reports
             }
 
             rptViewerLotInspectionPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
+            return rptViewerLotInspectionPrint;
 
-            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerLotInspectionPrint.LocalReport);
-            try
-            {
-                rpd.Print();
-                return 1;
-            }
-            catch (Exception e)
-            {
-                return 0;
-            }
-            
+            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerLotInspectionPrint.LocalReport);
+            //try
+            //{
+            //    rpd.Print();
+            //    return 1;
+            //}
+            //catch (Exception e)
+            //{
+            //    return 0;
+            //}
+
         }
     }
 }
