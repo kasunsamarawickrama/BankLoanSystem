@@ -226,118 +226,158 @@ namespace BankLoanSystem.Controllers.Unit
                 return RedirectToAction("UserLogin", "Login", null);
             }
             string loanCode = Session["loanCode"].ToString();
-            unit.UnitId = gc.GenerateUnitId(loanCode, unit.LoanId);
-            //unit.UnitId = "LEN11_01-56454-78-676-000003";
-            //if()
-            string IDNumber;
-            UnitAccess ua = new UnitAccess();
-            var res = ua.InsertUnit(unit, userId , out IDNumber);
+            //check vin unique
 
-            //if mention advance fee, then insert in to fee table
-            if (res == true && unit.AddAndAdvance)
+            int num = 0;
+            if (unit.UnitTypeId == 1)
             {
-
-                
-                if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
-                {
-                    Loan loanObj = new Loan();
-                    if (Session["loanDashboard"] != null)
-                    {
-                        loanObj = (Loan)Session["loanDashboard"];
-                    }
-                    else
-                    {
-                        loanObj = (Loan)Session["oneLoanDashboard"];
-                    }
-                    if (loanObj.AdvanceFee == 1)
-                    {
-                        //check advance amount and other details
-                       
-                        ua.insertFreeDetails(unit);
-                    }
-                }
+                num = (new UnitAccess()).IsUniqueVinForaLoan(unit.vehicle.IdentificationNumber, unit.LoanId);
             }
-
-
-
-            flag = 1;
-            if (res)
+            else if (unit.UnitTypeId == 2)
             {
-                if (Session["addUnitloan"] == null)
+                num = (new UnitAccess()).IsUniqueVinForaLoan(unit.rv.IdentificationNumber , unit.LoanId);
+
+            }
+            else if (unit.UnitTypeId == 3)
+            {
+                num = (new UnitAccess()).IsUniqueVinForaLoan(unit.camper.IdentificationNumber, unit.LoanId);
+            }
+            else if (unit.UnitTypeId == 4)
+            {
+                num = (new UnitAccess()).IsUniqueVinForaLoan(unit.atv.IdentificationNumber, unit.LoanId);
+            }
+            else if (unit.UnitTypeId == 5)
+            {
+                num = (new UnitAccess()).IsUniqueVinForaLoan(unit.boat.IdentificationNumber, unit.LoanId);
+            }
+            else if (unit.UnitTypeId == 6)
+            {
+                num = (new UnitAccess()).IsUniqueVinForaLoan(unit.motorcycle.IdentificationNumber, unit.LoanId);
+            }
+            else if (unit.UnitTypeId == 7)
+            {
+                num = (new UnitAccess()).IsUniqueVinForaLoan(unit.snowmobile.IdentificationNumber, unit.LoanId);
+            }
+            else if (unit.UnitTypeId == 8)
+            {
+                num = (new UnitAccess()).IsUniqueVinForaLoan(unit.heavyequipment.SerialNumber, unit.LoanId);
+            }
+            if (num != 0 && num != 1)
+            {
+                unit.UnitId = gc.GenerateUnitId(loanCode, unit.LoanId);
+
+                //unit.UnitId = "LEN11_01-56454-78-676-000003";
+                //if()
+                string IDNumber;
+                UnitAccess ua = new UnitAccess();
+                var res = ua.InsertUnit(unit, userId, out IDNumber);
+
+                //if mention advance fee, then insert in to fee table
+                if (res == true && unit.AddAndAdvance)
                 {
-                    return RedirectToAction("UserLogin", "Login", new { lbl = "Failed find loan" });
-                }
-                LoanSetupStep1 loan = (LoanSetupStep1)Session["addUnitloan"];
-                //insert to log 
-                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, unit.LoanId, "Add Unit",  (unit.AddAndAdvance ?  "Added and advanced" : "Added" ) + " unit : " + IDNumber + ", Cost Amount : " + unit.Cost + (unit.Cost * loan.advancePercentage / 100 != unit.AdvanceAmount ? ", Edited Advance amount " + unit.AdvanceAmount : ", Advance amount : " + unit.AdvanceAmount), DateTime.Now);
 
-                int islog = (new LogAccess()).InsertLog(log);
-                //Handling file attachments
 
-                //Check directory is already exists, if not create new
-                string mapPath = "~/Uploads/" + loan.RegisteredCompanyCode + "/" + loan.RegisteredBranchCode + "/";
-                if (!Directory.Exists(Server.MapPath(mapPath)))
-                {
-                    Directory.CreateDirectory(Server.MapPath(mapPath));
-                }
-
-                List<TitleUpload> titleList = new List<TitleUpload>();
-
-                int imageNo = 1;
-                if (unit.FileName !=null && fileUpload != null)
-                {
-                    foreach (var file in fileUpload)
+                    if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
                     {
-                        if (file != null && Array.Exists(unit.FileName.Split(','), s => s.Equals(file.FileName)))
+                        Loan loanObj = new Loan();
+                        if (Session["loanDashboard"] != null)
                         {
-                            if (file.ContentLength > 1 * 1024 * 1024)
-                            {
-                                break;
-                            }
+                            loanObj = (Loan)Session["loanDashboard"];
+                        }
+                        else
+                        {
+                            loanObj = (Loan)Session["oneLoanDashboard"];
+                        }
+                        if (loanObj.AdvanceFee == 1)
+                        {
+                            //check advance amount and other details
 
-                            string extension = Path.GetExtension(file.FileName);
-
-                            string filename = unit.UnitId + "_" + imageNo.ToString("00") + extension;
-
-                            file.SaveAs(Server.MapPath(mapPath + filename));
-                            string filepathtosave = mapPath + filename;
-
-                            //add file information to list
-                            TitleUpload title = new TitleUpload();
-                            title.UploadId = imageNo;
-                            title.FilePath = filepathtosave;
-                            title.UnitId = unit.UnitId;
-                            title.OriginalFileName = file.FileName;
-
-                            titleList.Add(title);
-
-                            imageNo++;
+                            ua.insertFreeDetails(unit);
                         }
                     }
-
-                    try
-                    {
-                        XElement xEle = new XElement("Titles",
-                            from title in titleList
-                            select new XElement("Title",
-                                new XElement("FilePath", title.FilePath),
-                                new XElement("UnitId", title.UnitId),
-                                new XElement("OriginalFileName", title.OriginalFileName)
-                                ));
-                        string xmlDoc = xEle.ToString();
-
-                        res = ua.InsertTitleDocumentUploadInfo(xmlDoc, unit.UnitId);
-                        
-                    }
-                    catch (Exception ex)
-                    {
-                        flag = 0;
-                        throw ex;
-                    }
                 }
-                TempData["Msg"] = 1;
-                
-                return RedirectToAction("AddUnit");
+
+
+
+                flag = 1;
+                if (res)
+                {
+                    if (Session["addUnitloan"] == null)
+                    {
+                        return RedirectToAction("UserLogin", "Login", new { lbl = "Failed find loan" });
+                    }
+                    LoanSetupStep1 loan = (LoanSetupStep1)Session["addUnitloan"];
+                    //insert to log 
+                    Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, unit.LoanId, "Add Unit", (unit.AddAndAdvance ? "Added and advanced" : "Added") + " unit : " + IDNumber + ", Cost Amount : " + unit.Cost + (unit.Cost * loan.advancePercentage / 100 != unit.AdvanceAmount ? ", Edited Advance amount " + unit.AdvanceAmount : ", Advance amount : " + unit.AdvanceAmount), DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
+                    //Handling file attachments
+
+                    //Check directory is already exists, if not create new
+                    string mapPath = "~/Uploads/" + loan.RegisteredCompanyCode + "/" + loan.RegisteredBranchCode + "/";
+                    if (!Directory.Exists(Server.MapPath(mapPath)))
+                    {
+                        Directory.CreateDirectory(Server.MapPath(mapPath));
+                    }
+
+                    List<TitleUpload> titleList = new List<TitleUpload>();
+
+                    int imageNo = 1;
+                    if (unit.FileName != null && fileUpload != null)
+                    {
+                        foreach (var file in fileUpload)
+                        {
+                            if (file != null && Array.Exists(unit.FileName.Split(','), s => s.Equals(file.FileName)))
+                            {
+                                if (file.ContentLength > 1 * 1024 * 1024)
+                                {
+                                    break;
+                                }
+
+                                string extension = Path.GetExtension(file.FileName);
+
+                                string filename = unit.UnitId + "_" + imageNo.ToString("00") + extension;
+
+                                file.SaveAs(Server.MapPath(mapPath + filename));
+                                string filepathtosave = mapPath + filename;
+
+                                //add file information to list
+                                TitleUpload title = new TitleUpload();
+                                title.UploadId = imageNo;
+                                title.FilePath = filepathtosave;
+                                title.UnitId = unit.UnitId;
+                                title.OriginalFileName = file.FileName;
+
+                                titleList.Add(title);
+
+                                imageNo++;
+                            }
+                        }
+
+                        try
+                        {
+                            XElement xEle = new XElement("Titles",
+                                from title in titleList
+                                select new XElement("Title",
+                                    new XElement("FilePath", title.FilePath),
+                                    new XElement("UnitId", title.UnitId),
+                                    new XElement("OriginalFileName", title.OriginalFileName)
+                                    ));
+                            string xmlDoc = xEle.ToString();
+
+                            res = ua.InsertTitleDocumentUploadInfo(xmlDoc, unit.UnitId);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            flag = 0;
+                            throw ex;
+                        }
+                    }
+                    TempData["Msg"] = 1;
+
+                    return RedirectToAction("AddUnit");
+                }
             }
             TempData["Msg"] = 2;
             return RedirectToAction("AddUnit", unit);

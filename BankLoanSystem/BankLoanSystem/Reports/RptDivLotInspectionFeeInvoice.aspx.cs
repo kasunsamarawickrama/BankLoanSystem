@@ -59,7 +59,7 @@ namespace BankLoanSystem.Reports
             rptViewerLotInspectionFeeInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerLotInspectionFeeInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", lotInspectionFeeInvoice));
         }
-        public int PrintPage(int loanId, DateTime startDate, DateTime endDate)
+        public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
             ReportViewer rptViewerLotInspectionFeeInvoicePrint = new ReportViewer();
             rptViewerLotInspectionFeeInvoicePrint.ProcessingMode = ProcessingMode.Local;
@@ -83,16 +83,17 @@ namespace BankLoanSystem.Reports
             rptViewerLotInspectionFeeInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerLotInspectionFeeInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", lotInspectionFeeInvoice));
 
-            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerLotInspectionFeeInvoicePrint.LocalReport);
-            try
-            {
-                rpd.Print();
-                return 1;
-            }
-            catch (Exception e)
-            {
-                return 0;
-            }
+            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerLotInspectionFeeInvoicePrint.LocalReport);
+            //try
+            //{
+            //    rpd.Print();
+            //    return 1;
+            //}
+            //catch (Exception e)
+            //{
+            //    return 0;
+            //}
+            return rptViewerLotInspectionFeeInvoicePrint;
         }
     }
 }

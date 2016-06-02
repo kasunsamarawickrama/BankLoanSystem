@@ -59,7 +59,7 @@ namespace BankLoanSystem.Reports
             rptViewerLoanSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", loanSumm));
         }
 
-        public int PrintPage(int loanId, DateTime startDate, DateTime endDate)
+        public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
             ReportViewer rptViewerLoanSummaryPrint = new ReportViewer();
             rptViewerLoanSummaryPrint.ProcessingMode = ProcessingMode.Local;
@@ -83,16 +83,17 @@ namespace BankLoanSystem.Reports
             rptViewerLoanSummaryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerLoanSummaryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", loanSumm));
 
-            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerLoanSummaryPrint.LocalReport);
-            try
-            {
-                rpd.Print();
-                return 1;
-            }
-            catch (Exception e)
-            {
-                return 0;
-            }
+            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerLoanSummaryPrint.LocalReport);
+            //try
+            //{
+            //    rpd.Print();
+            //    return 1;
+            //}
+            //catch (Exception e)
+            //{
+            //    return 0;
+            //}
+            return rptViewerLoanSummaryPrint;
         }
     }
 }
