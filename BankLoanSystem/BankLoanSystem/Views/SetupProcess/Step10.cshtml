@@ -201,7 +201,7 @@
                                                             <td style="width: 10%;"><label id="lblCur">@Model.InfoModel[a].CurtailmentId</label></td>
                                                             <td style="width: 35%;">
                                                                 @*<input class="clstimePeriod" id="timePeriod" type="text" value="" disabled="disabled" style="text-align: right">*@
-                                                                @Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, "{0:#.#}", new { @id = "timePeriod", @class = "clstimePeriod", @disabled = "disabled", @style = "text-align: right", @tabindex = "-1" })
+                                                                @Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, "{0:#.#}", new { @id = "timePeriod", @class = "clstimePeriod", @disabled = "disabled", @style = "text-align: right" })
                                                                 <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
                                                             </td>
                                                             <td style="width: 35%;">
@@ -443,7 +443,7 @@
         var HelpString = $('.right_panel_box p').html();
         var HelpTitle = $('.right_panel_box h4').html();
 
-        $('input[name="CalculationBase"] , .icon-help_outline.1').click(function() {
+        $('.icon-help_outline.1').click(function() {
 
             $('.right_panel_box p').html("Select if the curtailments will be calculated from the original price/cost of the unit or if they will be calculated from the advanced amount. <br></br><i>(example: If the advance percent is 80% and the original price was $10,000 then the advanced amount is $8,000. The first curtailment is 25%. If you chose 'Original price' then the curtailment amount would be $2,500. If you chose 'Advance amount' then the curtailment amount would be $2,000.)</i>");
             $('.right_panel_box h4').html('Curtailment calculation base');
@@ -451,7 +451,7 @@
 
         });
 
-        $('input[name="TimeBase"] , .icon-help_outline.3').click(function() {
+        $('.icon-help_outline.3').click(function() {
 
             $('.right_panel_box p').html("Specify if the curtailment schedule will follow months or days. <br></br><i>(example: If you have a curtailment which is due in 45 days you will need to select 'days' and then convert all curtailments to days. You will not be able to select months and then use 1.5 months. If you chose months then you will only be able to specify whole months.)</i>");
             $('.right_panel_box h4').html('Curtailment schedule setup');
@@ -471,7 +471,7 @@
 
         });
 
-        $('#CurtailmentDueDate , .icon-help_outline.5').click(function() {
+        $('.icon-help_outline.5').click(function() {
 
             $('.right_panel_box p').html("Specify which day of each month the curtailments are paid. The system will calculate all units which had a curtailment come due since the last curtailment was paid.");
             $('.right_panel_box h4').html('Curtailment due date');
@@ -479,7 +479,7 @@
 
         });
 
-        $('#curtailmentDueEmail , .icon-help_outline.6').click(function() {
+        $('.icon-help_outline.6').click(function() {
 
             $('.right_panel_box p').html("Specify an email address if you would like a reminder to be sent out prior to the curtailment becoming due.");
             $('.right_panel_box h4').html('Curtailment due reminder email');
@@ -488,7 +488,7 @@
         });
 
 
-        $('select:not(#CurtailmentDueDate), span:not(.icon-help_outline.1, .icon-help_outline.3, .icon-help_outline.2, .icon-help_outline.4, .icon-help_outline.5, .icon-help_outline.6), input:not([name="CalculationBase"], [name="TimeBase"], #curtailmentDueEmail) ').click(function() {
+        $('span:not(.icon-help_outline.1, .icon-help_outline.3, .icon-help_outline.2, .icon-help_outline.4, .icon-help_outline.5, .icon-help_outline.6)').click(function() {
 
             $('.right_panel_box p').html(HelpString);
             $('.right_panel_box h4').html(HelpTitle);
@@ -496,7 +496,56 @@
 
         });
 
-        $(document).on('click', 'input[class^="clstimePeriod"]', function() {
+
+
+
+
+
+        $('input[name="CalculationBase"]').focus(function() {
+
+            $('.right_panel_box p').html("Select if the curtailments will be calculated from the original price/cost of the unit or if they will be calculated from the advanced amount. <br></br><i>(example: If the advance percent is 80% and the original price was $10,000 then the advanced amount is $8,000. The first curtailment is 25%. If you chose 'Original price' then the curtailment amount would be $2,500. If you chose 'Advance amount' then the curtailment amount would be $2,000.)</i>");
+            $('.right_panel_box h4').html('Curtailment calculation base');
+
+
+        });
+
+        $('input[name="TimeBase"]').focus(function() {
+
+            $('.right_panel_box p').html("Specify if the curtailment schedule will follow months or days. <br></br><i>(example: If you have a curtailment which is due in 45 days you will need to select 'days' and then convert all curtailments to days. You will not be able to select months and then use 1.5 months. If you chose months then you will only be able to specify whole months.)</i>");
+            $('.right_panel_box h4').html('Curtailment schedule setup');
+
+
+        });
+
+      
+
+        $('#CurtailmentDueDate').focus(function() {
+
+            $('.right_panel_box p').html("Specify which day of each month the curtailments are paid. The system will calculate all units which had a curtailment come due since the last curtailment was paid.");
+            $('.right_panel_box h4').html('Curtailment due date');
+
+
+        });
+
+        $('#curtailmentDueEmail').focus(function() {
+
+            $('.right_panel_box p').html("Specify an email address if you would like a reminder to be sent out prior to the curtailment becoming due.");
+            $('.right_panel_box h4').html('Curtailment due reminder email');
+
+
+        });
+
+
+        $('select:not(#CurtailmentDueDate), input:not([name="CalculationBase"], [name="TimeBase"], #curtailmentDueEmail, [class^="clstimePeriod"], [class^="clsaddCuirtailment"]) ').focus(function() {
+
+            $('.right_panel_box p').html(HelpString);
+            $('.right_panel_box h4').html(HelpTitle);
+
+
+        });
+
+
+        $(document).on('focus', 'input[class^="clstimePeriod"], input[class^="clsaddCuirtailment"]', function() {
             $('.right_panel_box p').html("In this table you can enter all curtailments. You need to specify when the curtailment is due (months/days) and what percentage is due for that curtailment. If you specified months above you will need to enter all curtailments as whole months. If you specified days above you will need to enter all curtailments as days. <br></br><i>(example: Curt #1 - 2 months (from advance date) - 30%, Curt #2 - 4 months (from advance date) - 40%, Curt #3 - 5 months (from advance date) - 10%.)</i>");
             $('.right_panel_box h4').html('Curtailment schedule');
 
