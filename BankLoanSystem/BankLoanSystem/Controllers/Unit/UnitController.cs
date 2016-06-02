@@ -365,6 +365,13 @@ namespace BankLoanSystem.Controllers.Unit
             return Json(modelSelectList);
         }
 
+        
+        //[HttpPost]
+        //public void StoreMakeModels(IList<VehicleUnit> List)
+        //{
+        //    (new UnitAccess()).StoreMakeModels(List);
+        //}
+
         /// <summary>
         /// Auther: kasun
         /// get the mskes accrding to the vehicle model year

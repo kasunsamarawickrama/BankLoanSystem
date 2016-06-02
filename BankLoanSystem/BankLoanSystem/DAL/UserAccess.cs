@@ -56,7 +56,7 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                return dataHandler.ExecuteSQL("spInsertUser", paramertList) ? 1 : 0;
+                return dataHandler.ExecuteSQLReturn("spInsertUser", paramertList);
             }
             catch (Exception ex)
             {

@@ -34,7 +34,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 //If succeed update step table to step2 
                 StepAccess sa = new StepAccess();
-                if (sa.updateStepNumberByUserId(ua.getUserId(user.Email), 1))
+                //if (sa.updateStepNumberByUserId(ua.getUserId(user.Email), 1))
                     return RedirectToAction("UserLogin", "Login");
             }
             ViewBag.ErrorMsg = "Failed to Sign up try again!";

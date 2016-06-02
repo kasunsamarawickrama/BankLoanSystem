@@ -159,7 +159,7 @@ namespace BankLoanSystem.Controllers
             {
                 flag = int.Parse(TempData["updateReslt"].ToString());
             }
-            if ((flag == 1)||(flag == 2))
+            if (flag == 1)
             {
                 ViewBag.Msg = "Success";
             }
@@ -167,7 +167,7 @@ namespace BankLoanSystem.Controllers
             {
                 ViewBag.Msg = "Error";
             }
-            else if (flag == 3)
+            else if (flag == 2)
             {
                 ViewBag.Msg = "Advance amount error";
             }
