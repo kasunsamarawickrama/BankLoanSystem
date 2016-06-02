@@ -664,22 +664,22 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        // database make model store perpose
-        public void StoreMakeModels(IList<VehicleUnit> units)
-        {
-            foreach (var unit in units)
-            {
-                DataHandler dataHandler = new DataHandler();
-                List<object[]> parameterList = new List<object[]>();
-                parameterList.Add(new object[] { "@year", unit.Year });
-                parameterList.Add(new object[] { "@make", unit.Make });
-                parameterList.Add(new object[] { "@model", unit.Model });
+        //// database make model store perpose
+        //public void StoreMakeModels(IList<VehicleUnit> units)
+        //{
+        //    foreach (var unit in units)
+        //    {
+        //        DataHandler dataHandler = new DataHandler();
+        //        List<object[]> parameterList = new List<object[]>();
+        //        parameterList.Add(new object[] { "@year", unit.Year });
+        //        parameterList.Add(new object[] { "@make", unit.Make });
+        //        parameterList.Add(new object[] { "@model", unit.Model });
 
-                DataSet dataSet = dataHandler.GetDataSet("spStoreMakeModels", parameterList);
-            }
+        //        DataSet dataSet = dataHandler.GetDataSet("spStoreMakeModels", parameterList);
+        //    }
 
 
-        }
+        //}
         /// <summary>
         /// CreatedBy:kasun
         /// CreatedDate:2016/4/09

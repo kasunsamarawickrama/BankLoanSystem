@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using BankLoanSystem.Code;
-using Newtonsoft.Json.Linq;
 
 namespace BankLoanSystem.Controllers.Unit
 {
