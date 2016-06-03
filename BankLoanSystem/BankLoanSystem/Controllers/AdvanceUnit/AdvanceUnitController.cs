@@ -170,7 +170,11 @@ namespace BankLoanSystem.Controllers
             else if (flag == 2)
             {
                 ViewBag.Msg = "Advance amount error";
+            }else if(flag == 3)
+            {
+                ViewBag.Msg = "Advance Error";
             }
+            
 
             return View(advanceUnit);
         }
@@ -309,6 +313,7 @@ namespace BankLoanSystem.Controllers
                 Session["AdvItems"] = unitlist;
             }
             }
+           
 
             return reslt;
         }
