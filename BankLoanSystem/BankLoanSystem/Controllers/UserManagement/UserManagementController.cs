@@ -264,11 +264,17 @@ namespace BankLoanSystem.Controllers
 
                         if (userData.RoleId == 3)
                         {
-                            if ((loanSelected.Rights != ""))
+                            if (Session["CurrentLoanRights"] != null)
                             {
-                                string[] charactors = loanSelected.Rights.Split(',');
+                                //string[] charactors = loanSelected.Rights.Split(',');
 
-                                List<string> rightList = new List<string>(charactors);
+                                List<Right> rgts = (List<Right>)((Session["CurrentLoanRights"]));
+                                List<string> rightList = new List<string>();
+                                foreach (var rgt in rgts) {
+                                    rightList.Add(rgt.rightId);
+                                }
+
+                                //List<string> rightList = new List<string>(charactors);
                                 ViewBag.RightList = rightList;
                                 Session["CurrentLoanRights"] = loanSelected.Rights;
                             }
@@ -369,11 +375,17 @@ namespace BankLoanSystem.Controllers
                         Session["loanCode"] = loan.LoanCode;
                         if (userData.RoleId == 3)
                         {
+
                             if ((loan.Rights.Length > 0) && (loan.Rights != null))
                             {
-                                List<string> righList = new List<string>();
-                                righList.Add(loan.Rights);
-                                ViewBag.RightList = righList;
+                                string[] charactors = { };
+                                if (loan.Rights != "")
+                                {
+                                    charactors = loan.Rights.Split(',');
+                                }
+                                List<string> rightLst = new List<string>(charactors);
+                                                             
+                                ViewBag.RightList = rightLst;
                                 
                             }
                             
@@ -1192,7 +1204,7 @@ namespace BankLoanSystem.Controllers
             {
                 //get permission string for the relevent user
                 List<Right> permissionString = access.getRightsString(userId, loanId);
-                if (permissionString.Count == 1)
+                if (permissionString.Count >= 1)
                 {
                     string permission = permissionString[0].rightsPermissionString;
                     if (permission != "")
