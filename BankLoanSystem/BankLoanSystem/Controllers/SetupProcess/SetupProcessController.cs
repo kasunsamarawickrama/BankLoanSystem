@@ -210,7 +210,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (string.IsNullOrEmpty(company.CompanyCode))
             {
                 GeneratesCode gc = new GeneratesCode();
-                company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
+                //company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
                 type = "INSERT";
             }
 
@@ -452,11 +452,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
             userCompany2.MainBranch.BranchCode = branchCode;
 
             BranchAccess ba = new BranchAccess();
-            if (string.IsNullOrEmpty(branchCode))
-            {
-                userCompany2.MainBranch.BranchCode = ba.createBranchCode(userData.CompanyCode);
-                //_userCompany.MainBranch = userCompany2.MainBranch;
-            }
+            //if (string.IsNullOrEmpty(branchCode))
+            //{
+            //    userCompany2.MainBranch.BranchCode = ba.createBranchCode(userData.CompanyCode);
+            //    //_userCompany.MainBranch = userCompany2.MainBranch;
+            //}
 
             userCompany2.Company = new Company();
             userCompany2.Company.CompanyCode = userData.CompanyCode;
@@ -1483,11 +1483,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
             nonRegBranch.MainBranch.StateId = nonRegCompanyBranch.StateId;
 
             nonRegBranch.MainBranch.BranchCode = branchCode;
-
+            Company company = new Company();
             if (string.IsNullOrEmpty(branchCode))
             {
-                Company company = ca.GetNonRegCompanyByCompanyId(nonRegCompanyBranch.NonRegCompanyId);
-                nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(company.CompanyCode);
+               company = ca.GetNonRegCompanyByCompanyId(nonRegCompanyBranch.NonRegCompanyId);
+                //nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(company.CompanyCode);
+                //nonRegBranch.Company.CompanyCode = company.CompanyCode;
             }
 
             nonRegBranch.MainBranch = nonRegBranch.MainBranch;
@@ -1504,7 +1505,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 nonRegBranch.MainBranch.BranchCreatedBy = userData.BranchId;
             }
 
-            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userId);
+            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userId, company.CompanyCode);
             if (reslt > 0)
             {
                 StepAccess sa = new StepAccess();

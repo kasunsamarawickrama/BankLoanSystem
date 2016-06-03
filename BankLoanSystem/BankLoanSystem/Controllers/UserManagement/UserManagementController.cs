@@ -2719,7 +2719,7 @@ namespace BankLoanSystem.Controllers
             nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(company.CompanyCode);
 
             
-            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userData.UserId);
+            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userData.UserId, company.CompanyCode);
 
             if (reslt > 0)
             {
