@@ -821,7 +821,14 @@ namespace BankLoanSystem.DAL
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_id", userId });
             paramertList.Add(new object[] { "@company_code", companyCode });
-            paramertList.Add(new object[] { "@branch_code", nonRegBranch.MainBranch.BranchCode.Trim() });
+            if (!string.IsNullOrEmpty(nonRegBranch.MainBranch.BranchCode))
+            {
+                paramertList.Add(new object[] { "@branch_code", nonRegBranch.MainBranch.BranchCode.Trim() });
+            }
+            else
+            {
+                paramertList.Add(new object[] { "@branch_code", nonRegBranch.MainBranch.BranchCode });
+            }
             if (!string.IsNullOrEmpty(nonRegBranch.MainBranch.BranchName))
             {
                 paramertList.Add(new object[] { "@branch_name", nonRegBranch.MainBranch.BranchName.Trim() });

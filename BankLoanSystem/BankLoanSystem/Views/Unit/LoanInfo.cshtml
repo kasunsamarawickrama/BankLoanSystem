@@ -107,19 +107,24 @@
         }else if (ViewBag.Msg == "Advance Error") {
 
             <text> $('.centered span').text('Invalid amount found for advance');</text>
-        }else if (ViewBag.Msg == "PayOffSuccess")
+        }else if(ViewBag.Msg == "Advance amount error")
+        {
+            <text> $('.centered span').text('Your available balance is low');</text>
+        }
+
+        else if (ViewBag.Msg == "PayOffSuccess")
         {
            <text> $('.centered1 span').text('PayOff Completed');</text>
         } else if (ViewBag.Msg == "PayOffError") {
 
             <text> $('.centered span').text('PayOff Failed');</text>
         }
-            else if (ViewBag.Msg == "DeleteError")
-            {
+        else if (ViewBag.Msg == "DeleteError")
+        {
                 <text> $('.centered span').text('Failed delete the unit');</text>
             }
-            else if (ViewBag.Msg == "DeleteSuccess")
-            {
+        else if (ViewBag.Msg == "DeleteSuccess")
+        {
                 <text> $('.centered1 span').text('Successfully deleted the unit');</text>
             }
 
@@ -173,18 +178,18 @@
             else if (ViewBag.Title == "Pay Off")
             {
                 <text>
-            if ($('#payDate2').val() != undefined){
+            if ($('#payDate2').val() != undefined) {
                 if ($('#payDate2').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0 || $("#searchGrid1").css('display') == "block") {
-                event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
-            }
+                    event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
+                }
             }</text>
             }
 
             else if (ViewBag.Title == "Pay Fees")
             {
                 <text>if ($('#iVin').val() != "" || $('#checkableGrid tbody tr td').children(':input[type="checkbox"]:checked').length > 0) {
-                    event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
-                }</text>
+                event.preventDefault(); var selectedPopup = $(this).data('showpopup'); showPopup(selectedPopup);
+            }</text>
             }
 
         });
@@ -241,11 +246,11 @@
             var isError = false;
 
             if ($('#txtCost').next('span').children('span').text().length > 0 || $('#txtAdvanceAmount').next('span').children('span').text().length > 0 || $('#rdAdvanceNo').next('span').children('span').text().length > 0 || $('#rdNo').next('span').children('span').text().length > 0) {
-                
+
                 $('.centered span').text('Error');
                 isError = true;
             }
- 
+
 
 
             //$.each($('input').next('span'), function (i, obj) {
