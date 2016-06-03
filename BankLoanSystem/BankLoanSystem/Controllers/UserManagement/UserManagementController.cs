@@ -371,8 +371,9 @@ namespace BankLoanSystem.Controllers
                         {
                             if ((loan.Rights.Length > 0) && (loan.Rights != null))
                             {
-
-                                ViewBag.RightList = loan.Rights;
+                                List<string> righList = new List<string>();
+                                righList.Add(loan.Rights);
+                                ViewBag.RightList = righList;
                                 
                             }
                             
@@ -2719,7 +2720,7 @@ namespace BankLoanSystem.Controllers
             nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(company.CompanyCode);
 
             
-            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userData.UserId);
+            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userData.UserId, company.CompanyCode);
 
             if (reslt > 0)
             {
