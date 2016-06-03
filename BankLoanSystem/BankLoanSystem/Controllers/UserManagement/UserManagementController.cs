@@ -2519,10 +2519,10 @@ namespace BankLoanSystem.Controllers
             userCompany2.MainBranch.BranchCode = branchCode;
 
             BranchAccess ba = new BranchAccess();
-            if (string.IsNullOrEmpty(branchCode))
-            {
-                userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany2.Company.CompanyCode);
-            }
+            //if (string.IsNullOrEmpty(branchCode))
+            //{
+            //    userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany2.Company.CompanyCode);
+            //}
 
             int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
             if(reslt > 0)
@@ -2717,7 +2717,7 @@ namespace BankLoanSystem.Controllers
             CompanyAccess ca = new CompanyAccess();
             BranchAccess ba = new BranchAccess();
             Company company = ca.GetNonRegCompanyByCompanyId(model.NonRegCompanyId);
-            nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(company.CompanyCode);
+            //nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(company.CompanyCode);
 
             
             int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userData.UserId, company.CompanyCode);
@@ -2915,7 +2915,7 @@ namespace BankLoanSystem.Controllers
             {
                 if (partnerCompany != null)
                 {
-                    partnerCompany.CompanyCode = (new GeneratesCode()).GenerateNonRegCompanyCode(partnerCompany.CompanyName);
+                    //partnerCompany.CompanyCode = (new GeneratesCode()).GenerateNonRegCompanyCode(partnerCompany.CompanyName);
                     partnerCompany.Zip = partnerCompany.ZipPre;
                     if (partnerCompany.Extension != null)
                         partnerCompany.Zip += "-" + partnerCompany.Extension;
