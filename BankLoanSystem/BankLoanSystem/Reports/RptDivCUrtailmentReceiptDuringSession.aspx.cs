@@ -99,16 +99,17 @@ namespace BankLoanSystem.Reports
                 rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", selectedCurtailmentSchedules));
             }
 
-            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport);
-            try
-            {
-                rpd.Print();
-                return 1;
-            }
-            catch (Exception e)
-            {
-                return 0;
-            }
+            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport);
+            //try
+            //{
+            //    rpd.Print();
+            //    return 1;
+            //}
+            //catch (Exception e)
+            //{
+            //    return 0;
+            //}
+            return 0;
         }
     }
 }

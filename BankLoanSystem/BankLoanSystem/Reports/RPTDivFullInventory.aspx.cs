@@ -66,7 +66,7 @@ namespace BankLoanSystem.Reports
             //rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
         }
 
-        public int PrintPage(int loanId)
+        public ReportViewer PrintPage(int loanId)
         {
             ReportViewer rptViewerFullInventoryPrint = new ReportViewer();
             rptViewerFullInventoryPrint.ProcessingMode = ProcessingMode.Local;
@@ -88,16 +88,17 @@ namespace BankLoanSystem.Reports
             rptViewerFullInventoryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerFullInventoryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
 
-            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerFullInventoryPrint.LocalReport);
-            try
-            {
-                rpd.Print();
-                return 1;
-            }
-            catch (Exception e)
-            {
-                return 0;
-            }
+            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerFullInventoryPrint.LocalReport);
+            //try
+            //{
+            //    rpd.Print();
+            //    return 1;
+            //}
+            //catch (Exception e)
+            //{
+            //    return 0;
+            //}
+            return rptViewerFullInventoryPrint;
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using BankLoanSystem.Reports;
+using Microsoft.Reporting.WebForms;
 
 namespace BankLoanSystem.Controllers.Reports
 {
@@ -152,13 +154,45 @@ namespace BankLoanSystem.Controllers.Reports
         /// <param name="range1"></param>
         /// <param name="range2"></param>
         /// <param name="titleStatus"></param>
-        [HttpPost]
-        public int PrintPage(string rptType, int loanId, string range1, string range2, string titleStatus)
+        //[HttpPost]
+        //public int PrintPage(string rptType, int loanId, string range1, string range2, string titleStatus)
+
+        public FileResult PrintPage()
         {
+            Warning[] warnings;
+            string[] streamids;
+            string mimeType;
+            string encoding;
+            string filenameExtension;
+            ReportViewer rptViewerPrint = new ReportViewer();
+
+            byte[] bytes;
+
+            string rptType = "";
+            int loanId = 0;
+            string range1 = "";
+            string range2 = "";
+            int titleStatus = 0;
+
+            if (Request.QueryString["rptType"] != "")
+                rptType = Request.QueryString["rptType"];
+
+            if (Request.QueryString["loanId"] != "")
+                loanId = Convert.ToInt32(Request.QueryString["loanId"]);
+
+            if(Request.QueryString["range1"] != "")
+                range1 = Request.QueryString["range1"];
+
+            if (Request.QueryString["range2"] != "")
+                range2 = Request.QueryString["range2"];
+
+            if(Request.QueryString["titleStatus"] != "")
+                titleStatus = Convert.ToInt32(Request.QueryString["titleStatus"]);
+
             if (rptType == "LotInspection")
             {
                 RptDivLotInspection lInspection = new RptDivLotInspection();
-                return lInspection.PrintPage(loanId);
+                rptViewerPrint = lInspection.PrintPage(loanId);
             }
             else if (rptType == "CurtailmentInvoice")
             {
@@ -166,15 +200,15 @@ namespace BankLoanSystem.Controllers.Reports
                 DateTime endtDate = Convert.ToDateTime(range2);
 
                 RptDivCurtailmentInvoice ciInvoice = new RptDivCurtailmentInvoice();
-                return ciInvoice.PrintPage(loanId, startDate, endtDate);
+                rptViewerPrint = ciInvoice.PrintPage(loanId, startDate, endtDate);
             }
             else if (rptType == "AdvanceFeeInvoice")
             {
                 DateTime startDate = Convert.ToDateTime(range1);
                 DateTime endtDate = Convert.ToDateTime(range2);
 
-               RptDivAdvanceFeeInvoice afInvoice = new RptDivAdvanceFeeInvoice();
-                return afInvoice.PrintPage(loanId, startDate, endtDate);
+                RptDivAdvanceFeeInvoice afInvoice = new RptDivAdvanceFeeInvoice();
+                rptViewerPrint = afInvoice.PrintPage(loanId, startDate, endtDate);
             }
             else if (rptType == "LoanFeeInvoice")
             {
@@ -182,7 +216,7 @@ namespace BankLoanSystem.Controllers.Reports
                 DateTime endtDate = Convert.ToDateTime(range2);
 
                 RptDivMonthlyLoanFeeInvoice lfInvoice = new RptDivMonthlyLoanFeeInvoice();
-                return lfInvoice.PrintPage(loanId, startDate, endtDate);
+                rptViewerPrint = lfInvoice.PrintPage(loanId, startDate, endtDate);
             }
             else if (rptType == "LotInspectionFeeInvoice")
             {
@@ -190,7 +224,7 @@ namespace BankLoanSystem.Controllers.Reports
                 DateTime endtDate = Convert.ToDateTime(range2);
 
                 RptDivLotInspectionFeeInvoice liInvoice = new RptDivLotInspectionFeeInvoice();
-                return liInvoice.PrintPage(loanId, startDate, endtDate);
+                rptViewerPrint = liInvoice.PrintPage(loanId, startDate, endtDate);
             }
             else if (rptType == "PayOff")
             {
@@ -198,7 +232,7 @@ namespace BankLoanSystem.Controllers.Reports
                 DateTime endtDate = Convert.ToDateTime(range2);
 
                 RptPayOff payOff = new RptPayOff();
-                return payOff.PrintPage(loanId, startDate, endtDate);
+                rptViewerPrint = payOff.PrintPage(loanId, startDate, endtDate);
             }
             else if (rptType == "AdvanceFeeReceipt")
             {
@@ -206,7 +240,7 @@ namespace BankLoanSystem.Controllers.Reports
                 DateTime endtDate = Convert.ToDateTime(range2);
 
                 RptDivAdvanceFeeInvoice ciInvoice = new RptDivAdvanceFeeInvoice();
-                return ciInvoice.PrintPage(loanId, startDate, endtDate);
+                rptViewerPrint = ciInvoice.PrintPage(loanId, startDate, endtDate);
             }
             else if (rptType == "MonthlyLoanFeeReceipt")
             {
@@ -214,7 +248,7 @@ namespace BankLoanSystem.Controllers.Reports
                 DateTime endtDate = Convert.ToDateTime(range2);
 
                 RptDivMonthlyLoanFeeInvoice ciInvoice = new RptDivMonthlyLoanFeeInvoice();
-                return ciInvoice.PrintPage(loanId, startDate, endtDate);
+                rptViewerPrint = ciInvoice.PrintPage(loanId, startDate, endtDate);
             }
             else if (rptType == "LotInspectionFeeReceipt")
             {
@@ -222,7 +256,7 @@ namespace BankLoanSystem.Controllers.Reports
                 DateTime endtDate = Convert.ToDateTime(range2);
 
                 RptDivLotInspectionFeeInvoice ciInvoice = new RptDivLotInspectionFeeInvoice();
-                return ciInvoice.PrintPage(loanId, startDate, endtDate);
+                rptViewerPrint = ciInvoice.PrintPage(loanId, startDate, endtDate);
             }
             else if (rptType == "CurtailmentReceipt")
             {
@@ -230,7 +264,7 @@ namespace BankLoanSystem.Controllers.Reports
                 DateTime endtDate = Convert.ToDateTime(range2);
 
                 RptDivCurtailmentReceipt crReceipt = new RptDivCurtailmentReceipt();
-                return crReceipt.PrintPage(loanId, startDate, endtDate);
+                rptViewerPrint = crReceipt.PrintPage(loanId, startDate, endtDate);
             }
             else if (rptType == "LoanSummary")
             {
@@ -238,20 +272,27 @@ namespace BankLoanSystem.Controllers.Reports
                 DateTime endtDate = Convert.ToDateTime(range2);
 
                 RptDivLoanSummary loanSmmry = new RptDivLoanSummary();
-                return loanSmmry.PrintPage(loanId, startDate, endtDate);
+                rptViewerPrint = loanSmmry.PrintPage(loanId, startDate, endtDate);
             }
             else if (rptType == "TitlesStatus")
             {
                 RptDivTitleStatus tsStatus = new RptDivTitleStatus();
-                return tsStatus.PrintPage(loanId, 0);
+                rptViewerPrint = tsStatus.PrintPage(loanId, titleStatus);
             }
             else if (rptType == "FullInventory")
             {
                 RptDivFullInventory fInventory = new RptDivFullInventory();
-                return fInventory.PrintPage(loanId);
+                rptViewerPrint = fInventory.PrintPage(loanId);
             }
-           
-            return -1;
+
+            //return -1;
+
+            bytes = rptViewerPrint.LocalReport.Render(
+                    "PDF", null, out mimeType, out encoding, out filenameExtension,
+                    out streamids, out warnings);
+
+            var fsResult = File(bytes, "application/pdf");
+            return fsResult;
         }
 
     }

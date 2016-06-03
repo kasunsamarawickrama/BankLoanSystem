@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
 
@@ -71,7 +72,7 @@ namespace BankLoanSystem.Models
             return success;
         }
 
-        public void SendMailWithAttachment(string subject, string body, string fullPath)
+        public void SendMailWithAttachment(string subject, string body, byte[] bytePdf)
         {
             try
             {
@@ -82,11 +83,15 @@ namespace BankLoanSystem.Models
                 mail.Subject = subject;
                 mail.Body = body;
 
-                if (System.IO.File.Exists(fullPath))
-                {
-                    var attachment = new Attachment(fullPath);
-                    mail.Attachments.Add(attachment);
-                }
+                MemoryStream ms = new MemoryStream(bytePdf);
+                var attachment = new Attachment(ms, "Report", "application/pdf");
+                mail.Attachments.Add(attachment);
+
+                //if (System.IO.File.Exists(fullPath))
+                //{
+                //    var attachment = new Attachment(fullPath);
+                //    mail.Attachments.Add(attachment);
+                //}
 
                 smtpServer.Send(mail);
             }

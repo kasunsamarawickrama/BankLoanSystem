@@ -371,8 +371,9 @@ namespace BankLoanSystem.Controllers
                         {
                             if ((loan.Rights.Length > 0) && (loan.Rights != null))
                             {
-
-                                ViewBag.RightList = loan.Rights;
+                                List<string> righList = new List<string>();
+                                righList.Add(loan.Rights);
+                                ViewBag.RightList = righList;
                                 
                             }
                             

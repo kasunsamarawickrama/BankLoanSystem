@@ -58,7 +58,7 @@ namespace BankLoanSystem.Reports
             rptViewerCurtailmentReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
         }
 
-        public int PrintPage(int loanId, DateTime startDate, DateTime endDate)
+        public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
             ReportViewer rptViewerCurtailmentReceiptPrint = new ReportViewer();
             rptViewerCurtailmentReceiptPrint.ProcessingMode = ProcessingMode.Local;
@@ -82,16 +82,17 @@ namespace BankLoanSystem.Reports
             rptViewerCurtailmentReceiptPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerCurtailmentReceiptPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
 
-            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerCurtailmentReceiptPrint.LocalReport);
-            try
-            {
-                rpd.Print();
-                return 1;
-            }
-            catch (Exception e)
-            {
-                return 0;
-            }
+            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerCurtailmentReceiptPrint.LocalReport);
+            //try
+            //{
+            //    rpd.Print();
+            //    return 1;
+            //}
+            //catch (Exception e)
+            //{
+            //    return 0;
+            //}
+            return rptViewerCurtailmentReceiptPrint;
         }
 
     }

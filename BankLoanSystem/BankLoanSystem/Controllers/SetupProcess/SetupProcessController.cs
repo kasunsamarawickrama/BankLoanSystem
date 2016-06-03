@@ -611,6 +611,23 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     return View();
                 }
             }
+            else if (lbls != null && lbls.Equals("Failed to create user!"))
+            {
+
+
+                ViewBag.ErrorMsg = "Failed to create user";
+
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView();
+                }
+                else
+                {
+
+                    return View();
+                }
+            }
 
             ViewBag.CurrUserRoleType = roleId;
 
@@ -845,12 +862,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (HttpContext.Request.IsAjaxRequest())
                 {
                     ViewBag.AjaxRequest = 1;
-                    return PartialView();
+                    return RedirectToAction("Step3", new { lbls = ViewBag.ErrorMsg });
                 }
                 else
                 {
 
-                    return View();
+                    return RedirectToAction("Step3", new { lbls = ViewBag.ErrorMsg });
                 }
             }
         }
@@ -1001,6 +1018,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
 
+            }
+
+            if(TempData["error"] != null && TempData["error"].ToString() == "error")
+            {
+                ViewBag.Error = "Failed to create loan";
             }
 
             // get the Role Name for front end view
@@ -1642,6 +1664,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                     int islog = (new LogAccess()).InsertLog(log);
                 }
+                else
+                {
+                    TempData["error"] = "error";
+                    return RedirectToAction("step6");
+                }
               
             }
             else
@@ -1657,7 +1684,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     int islog = (new LogAccess()).InsertLog(log);
                 }
                 //need to update loanSetup object
-
+                else
+                {
+                    TempData["error"] = "error";
+                    return RedirectToAction("step6");
+                }
 
 
             }

@@ -89,8 +89,8 @@ namespace BankLoanSystem.Reports
 
         public void PrintPage(int loanId)
         {
-            ReportPrintDocument rpd = new ReportPrintDocument(rptViewerAdvanceUnit.LocalReport);
-            rpd.Print();
+            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerAdvanceUnit.LocalReport);
+            //rpd.Print();
         }
     }
 }
