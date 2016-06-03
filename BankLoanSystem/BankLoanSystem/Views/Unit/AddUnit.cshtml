@@ -2529,6 +2529,7 @@
                             //$(this).val("0.00");
                             //$('#txtAdvanceAmount').val("0.00");
                         }
+                        middleSpanCheck();
                     }
 
 
@@ -2540,7 +2541,7 @@
                         //$(this).removeClass('input-validation-error');
                     }
                     if(Number(num)  > 0.009 && Number(num) <= maxCost){
-                        if($(this).next('span').text() == 'Out of range'){
+                        if($(this).next('span').text() == 'Out of range'|| $(this).next('span').text() == 'The field Cost must be a number.'){
                             $(this).next('span').text('');
                             middleSpanCheck();
                         }
@@ -2657,7 +2658,7 @@
 
                     }
                     if(Number(num)  > 0.009){
-                        if($(this).next('span').text() == 'Out of range'){
+                        if($(this).next('span').text() == 'Out of range' || $(this).next('span').text() == 'The field Advance Amount must be a number.'){
                             $(this).next('span').text('');
                             middleSpanCheck();
                         }
