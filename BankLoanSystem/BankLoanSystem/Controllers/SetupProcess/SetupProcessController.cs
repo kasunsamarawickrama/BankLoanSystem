@@ -1285,11 +1285,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
             }
 
-            if (string.IsNullOrEmpty(companyCode))
-            {
-                GeneratesCode gc = new GeneratesCode();
-                nonRegComModel.Company.CompanyCode = gc.GenerateNonRegCompanyCode(nonRegComModel.Company.CompanyName);
-            }
+            //if (string.IsNullOrEmpty(companyCode))
+            //{
+            //    GeneratesCode gc = new GeneratesCode();
+            //    nonRegComModel.Company.CompanyCode = gc.GenerateNonRegCompanyCode(nonRegComModel.Company.CompanyName);
+            //}
 
             nonRegComModel.Company.Zip = nonRegComModel.Company.ZipPre;
             if (nonRegComModel.Company.Extension != null)
