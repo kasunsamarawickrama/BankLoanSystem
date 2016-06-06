@@ -36,6 +36,7 @@ namespace BankLoanSystem.Reports
             rptViewerAdvanceUnitRpt.Reset();
             rptViewerAdvanceUnitRpt.LocalReport.EnableExternalImages = true;
             rptViewerAdvanceUnitRpt.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAdvanceReport.rdlc");
+            rptViewerAdvanceUnitRpt.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);

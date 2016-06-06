@@ -501,6 +501,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         changePartialPaymentRowColor();
 
         $('.checkboxAll').change(function () {
+            SetMinDate();
             var tr = $(this).parents('tr:first');
             var checked = tr.find("#all").is(':checked');
 
@@ -683,7 +684,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 SetRadioBtnHeaderChecked();
             }
             //changePartialPaymentRowColor();
+            SetMinDate();
         }
+        
     }));
 
     function SetRadioBtnHeaderChecked() {
@@ -1895,6 +1898,46 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         return;
 
     }
+
+    ////////////////////////////////////////
+    //set advance date as min date on datepicker
+    function SetMinDate(){
+
+        var mindate = $('.gridtable tbody tr .gridColumnSelect').find('input[type=checkbox]:checked').filter(':first').closest('tr').find("#dateAdvance").text();
+        if(mindate != ""){
+            mindate = new Date(mindate);
+
+
+
+
+
+            $('.gridtable tbody tr .gridColumnSelect #all').each(function () {
+                if($(this).is(':checked')){
+
+
+
+                    var dateAdvance = new Date($(this).closest('tr').find("#dateAdvance").text());
+
+                    if(mindate.getTime()  < dateAdvance.getTime()){
+
+                        mindate = dateAdvance;
+                    }
+
+                }
+
+            });
+
+
+            payPicker.setMinDate(mindate);
+        }
+
+
+    }
+
+    $('#payCurtDate').focus(function(){
+        payCurtPicker.setMinDate(new Date($('#iDateAdvance').val()));
+    });
+    /////////////////////////////////
     </script>
 
 
