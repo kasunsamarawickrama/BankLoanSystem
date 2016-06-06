@@ -1784,8 +1784,16 @@ namespace BankLoanSystem.Controllers
             //user.UserRights = arrList.ToString();
             user.UserRights = string.Join(",", arrList);
             int check = (new UserAccess()).updateUserRightDetails(user,userData.UserId);
-            if(check==1)
+            if (check == 1)
+            {
+                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId,user.LoanId, "Assign User Rights", "Assign user rights for User ID: " + user.UserId, DateTime.Now);
+
+                int islog = (new LogAccess()).InsertLog(log);
                 TempData["submit"] = "success";
+
+            }
+
+            
             else
                 TempData["submit"] = "failed";
 
