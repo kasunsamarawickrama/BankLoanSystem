@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Web.Mvc;
-using BankLoanSystem.Code;
+using System.Web.UI;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using Microsoft.Reporting.WebForms;
 
 namespace BankLoanSystem.Reports
 {
-    public partial class RptDivLotInspection : System.Web.UI.Page
+    public partial class RptDivLotInspection : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
