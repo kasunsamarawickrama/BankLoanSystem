@@ -482,6 +482,7 @@ if (Model.Type == "advanceFee")
                 //changePartialPaymentRowColor();
 
                 $('.checkboxAll').change(function () {
+                    SetMinDate();
                     var tr = $(this).parents('tr:first');
                     var checked = tr.find("#all").is(':checked');
 
@@ -528,7 +529,7 @@ if (Model.Type == "advanceFee")
                                     if($("#hdnSelectedButton").val() == "advanceFee"){
                                         SetTextBoxValues(tr);
                                     }
-                                    
+
                                     else{
                                         $("#payAll").removeAttr("disabled");
                                         $("#payDate").removeAttr("disabled");
@@ -603,24 +604,24 @@ if (Model.Type == "advanceFee")
                     colWidth = bodyCells.map(function() {
                         return $(this)[0].getBoundingClientRect().width;
                     }).get();
-    
+
                     // Set the width of thead columns
                     table.find('thead tr').children().each(function(i, v) {
                         $(v).outerWidth(colWidth[i]);
-                    });    
-                }).resize(); // Trigger resize handler  
+                    });
+                }).resize(); // Trigger resize handler
 
                 $(window).bind("load",function(){
-                  
+
                     // Get the tbody columns width array
                     colWidth = bodyCells.map(function() {
                         return $(this)[0].getBoundingClientRect().width;
                     }).get();
-    
+
                     // Set the width of thead columns
                     table.find('thead tr').children().each(function(i, v) {
                         $(v).outerWidth(colWidth[i]);
-                    });    
+                    });
                 });
             }
 
@@ -635,6 +636,8 @@ if (Model.Type == "advanceFee")
                     var table = document.getElementById("checkableGrid");
                     var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
                     ClearLabelMessages();
+                  
+                    
 
                     if (ColIndex != 0) {
 
@@ -668,6 +671,8 @@ if (Model.Type == "advanceFee")
                     } else {
                         SetRadioBtnHeaderChecked();
                     }
+
+                    SetMinDate();
                     //changePartialPaymentRowColor();
                 }
             }));
@@ -878,7 +883,7 @@ if (Model.Type == "advanceFee")
                         var table = $('table'),
                              bodyCells = table.find('tbody tr:first').children(),
                              colWidth;
-                       
+
                         colWidth = bodyCells.map(function () {
                             return $(this)[0].getBoundingClientRect().width;
                         }).get();
@@ -1014,7 +1019,7 @@ if (Model.Type == "advanceFee")
     var data = { Fees: [] };
 
     $('#payAll').click(function () {
-        
+
         data = { Fees: [] };
         if($("#payDate").val() == ""){
             if($('#payDate').next('span').children().length == 0 ){
@@ -1094,7 +1099,7 @@ if (Model.Type == "advanceFee")
                 if(View == 1){
                     $('.centered1 span').text('Successfully Updated');
 
-                    
+
                     FilterFees();
                     window.scrollTo(0, 0);
                 }else if(View == 0){
@@ -1195,6 +1200,46 @@ if (Model.Type == "advanceFee")
             $('.centered span').text('Error');
         }
     });
+
+    ////////////////////////////////////////
+    //set advance date as min date on datepicker
+    function SetMinDate(){
+
+        var mindate = $('.gridtable tbody tr .gridColumnSelect').find('input[type=checkbox]:checked').filter(':first').closest('tr').find("#dateAdvance").text();
+        if(mindate != ""){
+            mindate = new Date(mindate);
+
+
+
+
+
+        $('.gridtable tbody tr .gridColumnSelect #all').each(function () {
+            if($(this).is(':checked')){
+
+
+
+                var dateAdvance = new Date($(this).closest('tr').find("#dateAdvance").text());
+
+                if(mindate.getTime()  < dateAdvance.getTime()){
+
+                    mindate = dateAdvance;
+                }
+
+            }
+
+        });
+
+
+        payPicker.setMinDate(mindate);
+        }
+
+
+    }
+
+    $('#payCurtDate').focus(function(){
+        payCurtPicker.setMinDate(new Date($('#iDateAdvance').val()));
+    });
+    /////////////////////////////////
 </script>
 
 
