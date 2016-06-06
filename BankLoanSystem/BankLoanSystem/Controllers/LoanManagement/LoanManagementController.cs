@@ -138,6 +138,10 @@ namespace BankLoanSystem.Controllers
             }
 
             if ((new LoanManagementAccess()).LoanRenew(loanPost, userData.UserId)) {
+                Log log = new Log(userData.UserId, userData.Company_Id, loanPost.BranchId, loanPost.LoanId, "Renew Loan", "Renew Loan Number" + loanPost.LoanNumber + " , Renewal Date: " + loanPost.RenewalDate, DateTime.Now);
+
+                int islog = (new LogAccess()).InsertLog(log);
+
                 TempData["message"] = "success";
             }
             else {
