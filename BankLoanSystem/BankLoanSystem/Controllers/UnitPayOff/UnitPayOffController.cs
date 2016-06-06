@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
-using BankLoanSystem.Models;
 using BankLoanSystem.DAL;
+using BankLoanSystem.Models;
 
 namespace BankLoanSystem.Controllers.UnitPayOff
 {
     public class UnitPayOffController : Controller
     {
-        //private static LoanSetupStep1 loan;
         User userData = new User();
 
         // Check session in page initia stage
@@ -38,7 +36,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                     }
                 }
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 //filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 //filterContext.Controller.TempData.Add("UserLogin", "Login");
@@ -46,11 +44,11 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             }
         }
 
-        // GET: UnitPayOff
-        public ActionResult Index()
-        {
-            return View();
-        }
+        //// GET: UnitPayOff
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
 
         public ActionResult setLoanCode(string loanCode)
         {
@@ -63,7 +61,6 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
         public ActionResult loadGrid()
         {
-            int userId = userData.UserId;
             string loanCode;
 
             try
@@ -104,6 +101,8 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             TitleAccess ta = new TitleAccess();
             Title title = ta.getTitleDetails(loanDetails.loanId);
 
+            Session["PayOffUnitloanId"] = loanDetails.loanId;
+
             if (title != null)
             {
                 bool isTitleTrack = title.IsTitleTrack;
@@ -117,7 +116,6 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
         public ActionResult PayOff()
         {
-            int userId = userData.UserId;
             string loanCode;
 
             try
@@ -135,33 +133,29 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                 {
                     return RedirectToAction("UserDetails", "UserManagement");
                 }
-                else {
-                    var checkPermission = false;
-                    string rgts = "";
-                    rgts = (string)Session["CurrentLoanRights"];
-                    string[] rgtList = null;
-                    if (rgts != "")
+                var checkPermission = false;
+                var rgts = (string)Session["CurrentLoanRights"];
+                string[] rgtList = null;
+                if (rgts != "")
+                {
+                    rgtList = rgts.Split(',');
+                }
+                if (rgtList != null)
+                {
+                    foreach (var x in rgtList)
                     {
-                        rgtList = rgts.Split(',');
-                    }
-                    if (rgtList != null)
-                    {
-                        foreach (var x in rgtList)
+                        if (x == "U003")
                         {
-                            if (x == "U003")
-                            {
-                                checkPermission = true;
-                            }
-                        }
-                        if (checkPermission == false)
-                        {
-                            return RedirectToAction("UserDetails", "UserManagement");
+                            checkPermission = true;
                         }
                     }
-                    else {
+                    if (checkPermission == false)
+                    {
                         return RedirectToAction("UserDetails", "UserManagement");
                     }
-
+                }
+                else {
+                    return RedirectToAction("UserDetails", "UserManagement");
                 }
             }
             else if (userData.RoleId == 4)
@@ -244,24 +238,23 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             //{
 
             return View();
-            //}
         }
 
-        //[HttpPost]
-        //public ActionResult PayOff(UnitPayOffViewModel resModel)
-        //{
-        //    return View();
-        //}
         [HttpPost]
         public int UnitListPay(List<UnitPayOffModel> payOffModelList, DateTime payDate, string titleReturn)
         {
-            int result = 0;
+            if (Session["PayOffUnitloanId"] == null)
+            {
+                return -1;
+            }
+            
+            var loanId = (int) Session["PayOffUnitloanId"];
             try
             {
                 XElement xEle = new XElement("Units",
                     from unit in payOffModelList
                     select new XElement("Unit",
-                        new XElement("LoanId", unit.LoanId),
+                        new XElement("LoanId", loanId),
                         new XElement("UnitId", unit.UnitId),
                         new XElement("Balance", unit.Balance)
                         ));
@@ -274,7 +267,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                 else if (userData.CompanyType == 2)
                     titleStatus = titleReturn == "Yes" ? 3 : 4;
 
-                result = (new CurtailmentAccess()).PayOffUnits(xmlDoc, payDate, titleStatus);
+                var result = (new CurtailmentAccess()).PayOffUnits(xmlDoc, payDate, titleStatus);
 
                 if(result == 1)
                 {
@@ -285,7 +278,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                     if ((Session["loanDashboard"] != null) || (Session["oneLoanDashboard"] != null))
                     {
                         
-                        Loan loanObj = new Loan();
+                        Loan loanObj;
                         if (Session["loanDashboard"] != null)
                         {
                             loanObj = (Loan)Session["loanDashboard"];
@@ -294,7 +287,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                         {
                             loanObj = (Loan)Session["oneLoanDashboard"];
                         }
-                        //loanObj = (Loan)Session["loanDashboard"]; 
+
                         if (loanObj.AdvanceFee == 1)
                         {
                             //check advance amount and other details      
@@ -352,17 +345,16 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
             }
-            //int userId = 57;
 
             LoanSetupStep1 loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
 
             ViewBag.loanDetails = loanDetails;
-            List<Models.UnitPayOffModel> unitList = (List<Models.UnitPayOffModel>)Session["payoffList"];
+            List<UnitPayOffModel> unitList = (List<UnitPayOffModel>)Session["payoffList"];
 
-            Models.UnitPayOffViewModel unitListMain = new Models.UnitPayOffViewModel();
-            //unitListMain.NotAdvanced = unitList;
-            unitListMain.UnitPayOffList = new List<Models.UnitPayOffModel>();
+            UnitPayOffViewModel unitListMain = new UnitPayOffViewModel();
+            
+            unitListMain.UnitPayOffList = new List<UnitPayOffModel>();
             if (((!string.IsNullOrEmpty(identificationNumber)) || (!string.IsNullOrEmpty(year)) || (!string.IsNullOrEmpty(make)) || (!string.IsNullOrEmpty(vehicleModel))))
             {
                 //search through list elements
@@ -372,19 +364,17 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
                 return PartialView(unitListMain);
             }
-            else
-            {
-                unitListMain.SearchList = new List<Models.UnitPayOffModel>();
-                return PartialView(unitListMain);
-            }
+            unitListMain.SearchList = new List<UnitPayOffModel>();
+            return PartialView(unitListMain);
         }
-        private Models.AdvanceUnit GetAdvanceUnitList(int loanId)
+
+        private AdvanceUnit GetAdvanceUnitList(int loanId)
         {
             UnitAccess unitAccess = new UnitAccess();
-            List<BankLoanSystem.Models.Unit> unitList = new List<Models.Unit>();
+            List<Models.Unit> unitList = new List<Models.Unit>();
             unitList = unitAccess.GetNotAdvancedUnitDetailsByLoanId(loanId);
-            List<BankLoanSystem.Models.Unit> unitList2 = new List<Models.Unit>();
-            Models.AdvanceUnit unitList1 = new Models.AdvanceUnit();
+            List<Models.Unit> unitList2 = new List<Models.Unit>();
+            AdvanceUnit unitList1 = new AdvanceUnit();
             unitList1.NotAdvanced = unitList;
 
             unitList1.Search = unitList2;

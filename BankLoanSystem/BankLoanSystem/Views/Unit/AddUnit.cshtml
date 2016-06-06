@@ -177,7 +177,7 @@
                                         <span class="optional">(Optional)</span>
                                     </label>
                                     <div class="col-sm-2" style="width: 175px;">
-                                        @Html.EditorFor(model => model.vehicle.Trim, new { htmlAttributes = new { @class = "form-control trim block_invalid_char", @Style = "width: 100%;", @id = "vehicletrim" } })
+                                        @Html.EditorFor(model => model.vehicle.Trim, new { htmlAttributes = new { @class = "form-control trim block_invalid_char", @Style = "width: 100%;", @id = "vehicletrim" , maxlength = "20" } })
                                         @Html.ValidationMessageFor(model => model.vehicle.Trim, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
