@@ -210,7 +210,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (string.IsNullOrEmpty(company.CompanyCode))
             {
                 GeneratesCode gc = new GeneratesCode();
-                company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
+                //company.CompanyCode = gc.GenerateCompanyCode(company.CompanyName);
                 type = "INSERT";
             }
 
@@ -452,11 +452,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
             userCompany2.MainBranch.BranchCode = branchCode;
 
             BranchAccess ba = new BranchAccess();
-            if (string.IsNullOrEmpty(branchCode))
-            {
-                userCompany2.MainBranch.BranchCode = ba.createBranchCode(userData.CompanyCode);
-                //_userCompany.MainBranch = userCompany2.MainBranch;
-            }
+            //if (string.IsNullOrEmpty(branchCode))
+            //{
+            //    userCompany2.MainBranch.BranchCode = ba.createBranchCode(userData.CompanyCode);
+            //    //_userCompany.MainBranch = userCompany2.MainBranch;
+            //}
 
             userCompany2.Company = new Company();
             userCompany2.Company.CompanyCode = userData.CompanyCode;
@@ -599,6 +599,23 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
 
                 
+
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView();
+                }
+                else
+                {
+
+                    return View();
+                }
+            }
+            else if (lbls != null && lbls.Equals("Failed to create user!"))
+            {
+
+
+                ViewBag.ErrorMsg = "Failed to create user";
 
                 if (HttpContext.Request.IsAjaxRequest())
                 {
@@ -845,12 +862,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (HttpContext.Request.IsAjaxRequest())
                 {
                     ViewBag.AjaxRequest = 1;
-                    return PartialView();
+                    return RedirectToAction("Step3", new { lbls = ViewBag.ErrorMsg });
                 }
                 else
                 {
 
-                    return View();
+                    return RedirectToAction("Step3", new { lbls = ViewBag.ErrorMsg });
                 }
             }
         }
@@ -1001,6 +1018,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
 
 
+            }
+
+            if(TempData["error"] != null && TempData["error"].ToString() == "error")
+            {
+                ViewBag.Error = "Failed to create loan";
             }
 
             // get the Role Name for front end view
@@ -1263,11 +1285,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
             }
 
-            if (string.IsNullOrEmpty(companyCode))
-            {
-                GeneratesCode gc = new GeneratesCode();
-                nonRegComModel.Company.CompanyCode = gc.GenerateNonRegCompanyCode(nonRegComModel.Company.CompanyName);
-            }
+            //if (string.IsNullOrEmpty(companyCode))
+            //{
+            //    GeneratesCode gc = new GeneratesCode();
+            //    nonRegComModel.Company.CompanyCode = gc.GenerateNonRegCompanyCode(nonRegComModel.Company.CompanyName);
+            //}
 
             nonRegComModel.Company.Zip = nonRegComModel.Company.ZipPre;
             if (nonRegComModel.Company.Extension != null)
@@ -1483,11 +1505,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
             nonRegBranch.MainBranch.StateId = nonRegCompanyBranch.StateId;
 
             nonRegBranch.MainBranch.BranchCode = branchCode;
-
+            Company company = new Company();
             if (string.IsNullOrEmpty(branchCode))
             {
-                Company company = ca.GetNonRegCompanyByCompanyId(nonRegCompanyBranch.NonRegCompanyId);
-                nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(company.CompanyCode);
+               company = ca.GetNonRegCompanyByCompanyId(nonRegCompanyBranch.NonRegCompanyId);
+                //nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(company.CompanyCode);
+                //nonRegBranch.Company.CompanyCode = company.CompanyCode;
             }
 
             nonRegBranch.MainBranch = nonRegBranch.MainBranch;
@@ -1504,7 +1527,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 nonRegBranch.MainBranch.BranchCreatedBy = userData.BranchId;
             }
 
-            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userId);
+            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userId, company.CompanyCode);
             if (reslt > 0)
             {
                 StepAccess sa = new StepAccess();
@@ -1641,6 +1664,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                     int islog = (new LogAccess()).InsertLog(log);
                 }
+                else
+                {
+                    TempData["error"] = "error";
+                    return RedirectToAction("step6");
+                }
               
             }
             else
@@ -1656,7 +1684,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     int islog = (new LogAccess()).InsertLog(log);
                 }
                 //need to update loanSetup object
-
+                else
+                {
+                    TempData["error"] = "error";
+                    return RedirectToAction("step6");
+                }
 
 
             }

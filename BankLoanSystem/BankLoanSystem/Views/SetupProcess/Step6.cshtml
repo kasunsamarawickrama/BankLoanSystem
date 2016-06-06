@@ -1199,6 +1199,10 @@
     $('#maturityDate').focusout(function () {
         $(this).attr('placeholder', 'MM/DD/YYYY');
     });
+
+    $('*').click(function () {
+        $('.topErrors .text-danger').text('');
+    });
 </script>
 <script>
 

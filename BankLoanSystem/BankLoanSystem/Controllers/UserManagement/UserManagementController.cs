@@ -264,11 +264,17 @@ namespace BankLoanSystem.Controllers
 
                         if (userData.RoleId == 3)
                         {
-                            if ((loanSelected.Rights != ""))
+                            if (Session["CurrentLoanRights"] != null)
                             {
-                                string[] charactors = loanSelected.Rights.Split(',');
+                                //string[] charactors = loanSelected.Rights.Split(',');
 
-                                List<string> rightList = new List<string>(charactors);
+                                List<Right> rgts = (List<Right>)((Session["CurrentLoanRights"]));
+                                List<string> rightList = new List<string>();
+                                foreach (var rgt in rgts) {
+                                    rightList.Add(rgt.rightId);
+                                }
+
+                                //List<string> rightList = new List<string>(charactors);
                                 ViewBag.RightList = rightList;
                                 Session["CurrentLoanRights"] = loanSelected.Rights;
                             }
@@ -369,10 +375,17 @@ namespace BankLoanSystem.Controllers
                         Session["loanCode"] = loan.LoanCode;
                         if (userData.RoleId == 3)
                         {
+
                             if ((loan.Rights.Length > 0) && (loan.Rights != null))
                             {
-
-                                ViewBag.RightList = loan.Rights;
+                                string[] charactors = { };
+                                if (loan.Rights != "")
+                                {
+                                    charactors = loan.Rights.Split(',');
+                                }
+                                List<string> rightLst = new List<string>(charactors);
+                                                             
+                                ViewBag.RightList = rightLst;
                                 
                             }
                             
@@ -1191,7 +1204,7 @@ namespace BankLoanSystem.Controllers
             {
                 //get permission string for the relevent user
                 List<Right> permissionString = access.getRightsString(userId, loanId);
-                if (permissionString.Count == 1)
+                if (permissionString.Count >= 1)
                 {
                     string permission = permissionString[0].rightsPermissionString;
                     if (permission != "")
@@ -2518,10 +2531,10 @@ namespace BankLoanSystem.Controllers
             userCompany2.MainBranch.BranchCode = branchCode;
 
             BranchAccess ba = new BranchAccess();
-            if (string.IsNullOrEmpty(branchCode))
-            {
-                userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany2.Company.CompanyCode);
-            }
+            //if (string.IsNullOrEmpty(branchCode))
+            //{
+            //    userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany2.Company.CompanyCode);
+            //}
 
             int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
             if(reslt > 0)
@@ -2716,10 +2729,10 @@ namespace BankLoanSystem.Controllers
             CompanyAccess ca = new CompanyAccess();
             BranchAccess ba = new BranchAccess();
             Company company = ca.GetNonRegCompanyByCompanyId(model.NonRegCompanyId);
-            nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(company.CompanyCode);
+            //nonRegBranch.MainBranch.BranchCode = ba.createNonRegBranchCode(company.CompanyCode);
 
             
-            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userData.UserId);
+            int reslt = ba.insertNonRegBranchDetails(nonRegBranch, userData.UserId, company.CompanyCode);
 
             if (reslt > 0)
             {
@@ -2914,7 +2927,7 @@ namespace BankLoanSystem.Controllers
             {
                 if (partnerCompany != null)
                 {
-                    partnerCompany.CompanyCode = (new GeneratesCode()).GenerateNonRegCompanyCode(partnerCompany.CompanyName);
+                    //partnerCompany.CompanyCode = (new GeneratesCode()).GenerateNonRegCompanyCode(partnerCompany.CompanyName);
                     partnerCompany.Zip = partnerCompany.ZipPre;
                     if (partnerCompany.Extension != null)
                         partnerCompany.Zip += "-" + partnerCompany.Extension;

@@ -921,7 +921,14 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_name", company.CompanyName.Trim() });
-            paramertList.Add(new object[] { "@company_code", company.CompanyCode.Trim() });
+            if (!string.IsNullOrEmpty(company.CompanyCode))
+            {
+                paramertList.Add(new object[] { "@company_code", company.CompanyCode.Trim() });
+            }
+            else
+            {
+                paramertList.Add(new object[] { "@company_code", company.CompanyCode});
+            }
             paramertList.Add(new object[] { "@company_address_1", company.CompanyAddress1.Trim() });
             if (!string.IsNullOrEmpty(company.CompanyAddress2))
             {

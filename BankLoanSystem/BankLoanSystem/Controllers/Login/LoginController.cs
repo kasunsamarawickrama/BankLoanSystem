@@ -5,6 +5,7 @@ using BankLoanSystem.Models;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Code;
 using System.Web;
+using System;
 
 namespace BankLoanSystem.Controllers
 {
@@ -152,12 +153,16 @@ namespace BankLoanSystem.Controllers
                     var checkCharHave = passwordFromDB.ToLowerInvariant().Contains(':');
                     if (passwordFromDB == null || (checkCharHave == false))
                     {
+                        Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "User Login", "User : " + userData.UserName + " was unable to login, Entered password did not match", DateTime.Now);
+
+                        int islog = (new LogAccess()).InsertLog(log);
                         return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit." });
                     }
 
                     string passwordEncripted = PasswordEncryption.encryptPassword(user.password, split[1]);
                     if (string.Compare(passwordEncripted, passwordFromDB) == 0)
                     {
+                       
                         //user object pass to session
                         Session["AuthenticatedUser"] = userData;
 
@@ -166,10 +171,16 @@ namespace BankLoanSystem.Controllers
                         {
                             if (userData.RoleId == 3)
                             {
+                                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "User Login", "User : " + userData.UserName + " was unable to login", DateTime.Now);
+
+                                int islog = (new LogAccess()).InsertLog(log);
                                 return RedirectToAction("UserLogin", "Login", new { lbl = "Company setup process is on going please contact admin." });
                             }
                             else
                             {
+                                Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "User Login", "User : " + userData.UserName + " has logged successfully", DateTime.Now);
+
+                                int islog = (new LogAccess()).InsertLog(log);
                                 if (userData.Company_Id == 0)
                                 {
                                     Session["companyStep"] = 1;
@@ -262,15 +273,24 @@ namespace BankLoanSystem.Controllers
                             UnitAccess ua = new UnitAccess();
                             ua.DeleteJustAddedUnits(userData.UserId);
 
+                            //insert log
+                            Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "User Login", "User : " + userData.UserName + " has logged successfully", DateTime.Now);
+
+                            int islog = (new LogAccess()).InsertLog(log);
+
                             return RedirectToAction("UserDetails", "UserManagement");
                         }
                         // atleast one cycle complete and Start new cycle 
                         else if (userData.step_status == 2)
                         {
+
                             //delete just added unit if exists
                             UnitAccess ua = new UnitAccess();
                             ua.DeleteJustAddedUnits(userData.UserId);
+                            //insert log
+                            Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "User Login", "User : " + userData.UserName + " has logged successfully", DateTime.Now);
 
+                            int islog = (new LogAccess()).InsertLog(log);
                             if (userData.RoleId == 1)
                             {
                                 DataSet dsStepNo = new DataSet();
@@ -361,6 +381,10 @@ namespace BankLoanSystem.Controllers
                         }
                         else
                         {
+                            //insert log
+                            Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "User Login", "User : " + userData.UserName + " was unable to login", DateTime.Now);
+
+                            int islog = (new LogAccess()).InsertLog(log);
                             return RedirectToAction("UserLogin", "Login", new { lbl = "Company setup process is on going please contact admin." });
                         }
 
@@ -519,16 +543,24 @@ namespace BankLoanSystem.Controllers
                         //    //User Name Correct but user enter password does not match with database password value
                         //    return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit." });
                         //}
+                        //insert log entry
+                      
                     }
                     else
                     {
                         //User Name Correct but user enter password does not match with database password value
+                        Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "User Login", "User : " + userData.UserName + " was unable to login, Entered password did not match ", DateTime.Now);
+
+                        int islog = (new LogAccess()).InsertLog(log);
                         return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit." });
                     }
                 }
                 else
                 {
                     //Incorrect UserName
+                    Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "User Login", "User : " + userData.UserName + " was unable to login, Entered username did not exist ", DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
                     return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit" });
                 }     
             }

@@ -724,12 +724,12 @@ namespace BankLoanSystem.DAL
         /// <param name="branch">branch object</param>
         /// <param name="id"> user id</param>
         /// <returns></returns>
-        public int insertBranch(Branch branch, int id)
+        public int insertBranch(Branch branch, int id,string companyCode)
         {
-            if (string.IsNullOrEmpty(branch.BranchCode))
-            {
-                branch.BranchCode = createBranchCode(getCompanyCodeByUserId(id));
-            }
+            //if (string.IsNullOrEmpty(branch.BranchCode))
+            //{
+            //    branch.BranchCode = createBranchCode(getCompanyCodeByUserId(id));
+            //}
 
             //branch.BranchCompany = getCompanyIdByUserId(id);
 
@@ -737,6 +737,7 @@ namespace BankLoanSystem.DAL
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_id", id });
             paramertList.Add(new object[] { "@branch_code", branch.BranchCode });
+            paramertList.Add(new object[] { "@company_code", companyCode });
             paramertList.Add(new object[] { "@branch_name", branch.BranchName });
             paramertList.Add(new object[] { "@branch_address_1", branch.BranchAddress1 });
             paramertList.Add(new object[] { "@branch_address_2", branch.BranchAddress2 ?? "" });
@@ -777,14 +778,14 @@ namespace BankLoanSystem.DAL
         /// <param name="branch object"></param>
         /// <param name="id"></param>
         /// <returns>true/false</returns>
-        public int insertBranchDetails(Branch branch, int id)
-        {
-            branch.BranchCode = createBranchCode(getCompanyCodeByUserId(id));
-            branch.BranchCompany = getCompanyIdByUserId(id);
-            branch.BranchCreatedDate = DateTime.Now;
+        //public int insertBranchDetails(Branch branch, int id)
+        //{
+        //    branch.BranchCode = createBranchCode(getCompanyCodeByUserId(id));
+        //    branch.BranchCompany = getCompanyIdByUserId(id);
+        //    branch.BranchCreatedDate = DateTime.Now;
 
-            return this.insertBranch(branch, id);
-        }
+        //    return this.insertBranch(branch, id);
+        //}
 
         /// <summary>
         /// CreatedBy: Piyumi
@@ -802,7 +803,7 @@ namespace BankLoanSystem.DAL
             userCompany3.MainBranch.BranchCompany = getCompanyIdByCompanyCode(companyCode);
             userCompany3.MainBranch.BranchCreatedDate = DateTime.Now;
 
-            return this.insertBranch(userCompany3.MainBranch, id);
+            return this.insertBranch(userCompany3.MainBranch, id, companyCode);
         }
 
         /// <summary>
@@ -813,13 +814,21 @@ namespace BankLoanSystem.DAL
         /// <param name="nonRegBranch"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public int insertNonRegBranchDetails(CompanyBranchModel nonRegBranch, int userId)
+        public int insertNonRegBranchDetails(CompanyBranchModel nonRegBranch, int userId,string companyCode)
         {
             nonRegBranch.MainBranch.BranchCreatedDate = DateTime.Now;
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_id", userId });
-            paramertList.Add(new object[] { "@branch_code", nonRegBranch.MainBranch.BranchCode.Trim() });
+            paramertList.Add(new object[] { "@company_code", companyCode });
+            if (!string.IsNullOrEmpty(nonRegBranch.MainBranch.BranchCode))
+            {
+                paramertList.Add(new object[] { "@branch_code", nonRegBranch.MainBranch.BranchCode.Trim() });
+            }
+            else
+            {
+                paramertList.Add(new object[] { "@branch_code", nonRegBranch.MainBranch.BranchCode });
+            }
             if (!string.IsNullOrEmpty(nonRegBranch.MainBranch.BranchName))
             {
                 paramertList.Add(new object[] { "@branch_name", nonRegBranch.MainBranch.BranchName.Trim() });
@@ -856,7 +865,50 @@ namespace BankLoanSystem.DAL
                 throw ex;
             }
         }
+        public int insertNonRegBranchDetails(CompanyBranchModel nonRegBranch, int userId)
+        {
+            nonRegBranch.MainBranch.BranchCreatedDate = DateTime.Now;
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+            //paramertList.Add(new object[] { "@company_code", companyCode });
+            paramertList.Add(new object[] { "@branch_code", nonRegBranch.MainBranch.BranchCode.Trim() });
+            if (!string.IsNullOrEmpty(nonRegBranch.MainBranch.BranchName))
+            {
+                paramertList.Add(new object[] { "@branch_name", nonRegBranch.MainBranch.BranchName.Trim() });
+            }
 
+            paramertList.Add(new object[] { "@branch_address_1", nonRegBranch.MainBranch.BranchAddress1.Trim() });
+            paramertList.Add(new object[] { "@branch_address_2", nonRegBranch.MainBranch.BranchAddress2 ?? "" });
+            paramertList.Add(new object[] { "@state_id", nonRegBranch.MainBranch.StateId });
+            paramertList.Add(new object[] { "@city", nonRegBranch.MainBranch.BranchCity ?? "" });
+            if ((nonRegBranch.MainBranch.Extention != null) && (nonRegBranch.MainBranch.Extention.ToString() != ""))
+            {
+                nonRegBranch.MainBranch.BranchZip = nonRegBranch.MainBranch.ZipPre + "-" + nonRegBranch.MainBranch.Extention;
+            }
+            else
+            {
+                nonRegBranch.MainBranch.BranchZip = nonRegBranch.MainBranch.ZipPre;
+            }
+            paramertList.Add(new object[] { "@zip", nonRegBranch.MainBranch.BranchZip.Trim() });
+            paramertList.Add(new object[] { "@email", nonRegBranch.MainBranch.BranchEmail ?? "" });
+            paramertList.Add(new object[] { "@phone_num_1", nonRegBranch.MainBranch.BranchPhoneNum1.Trim() });
+            paramertList.Add(new object[] { "@phone_num_2", nonRegBranch.MainBranch.BranchPhoneNum2 ?? "" });
+            paramertList.Add(new object[] { "@phone_num_3", nonRegBranch.MainBranch.BranchPhoneNum3 ?? "" });
+            paramertList.Add(new object[] { "@fax", nonRegBranch.MainBranch.BranchFax ?? "" });
+            paramertList.Add(new object[] { "@created_date", DateTime.Now });
+            paramertList.Add(new object[] { "@company_id", nonRegBranch.MainBranch.BranchCompany });
+            paramertList.Add(new object[] { "@branch_id", nonRegBranch.MainBranch.BranchCreatedBy });
+
+            try
+            {
+                return dataHandler.ExecuteSQLReturn("spInsertNonRegisteredBranch", paramertList);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:17/1/2016

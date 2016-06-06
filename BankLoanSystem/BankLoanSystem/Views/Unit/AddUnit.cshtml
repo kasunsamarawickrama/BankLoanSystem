@@ -12,9 +12,6 @@
 
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 
-
-
-
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>
 
@@ -898,7 +895,7 @@
 
                                 <label class="control-label col-md-2" for="Cost">Cost  <span class="icon-help_outline help-cost"></span></label>
                                 <div class="col-md-3">
-                                    @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @id = "txtCost", autocomplete = "off", @placeholder = "0.00", @style = "text-align: right;" } })
+                                    @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control unset", @id = "txtCost", autocomplete = "off", @placeholder = "0.00", @style = "text-align: right;" } })
                                     @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger", @style = "left: 1%;" })
                                     <div id="tagscloud" class="validation-error"><span class="text-danger co"></span></div>
                                 </div>
@@ -908,11 +905,11 @@
                                 <div class="col-md-3">
                                     @if (ViewBag.Editable == "Yes")
                                     {
-                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtLoanAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;", @tabindex = "-1" } })
+                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control unset", @id = "txtLoanAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;", @tabindex = "-1" } })
                                     }
                                     else
                                     {
-                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "txtLoanAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;", @tabindex = "-1" } })
+                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control unset", @readonly = "readonly", @id = "txtLoanAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;", @tabindex = "-1" } })
                                     }
                                     @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger", @style = "left: 0%; text-align: left; width: 217px;" })
                                     <div id="tagscloudAdvance" class="validation-error"><span class="text-danger ad"></span></div>
@@ -1463,6 +1460,7 @@
 
                 // drop down combo boxes
                 $(function() {
+
                     $( "#combobox1-1" ).combobox();
                     $( "#combobox1-2" ).combobox();
                     $( "#combobox1-3" ).combobox();
@@ -1487,6 +1485,7 @@
                     $( "#combobox7-3" ).combobox();
                     $( "#combobox8-1" ).combobox();
                     $( "#combobox8-2" ).combobox();
+
                 });
 
                 unitTypeInitialLoad();
@@ -2530,6 +2529,7 @@
                             //$(this).val("0.00");
                             //$('#txtAdvanceAmount').val("0.00");
                         }
+                        middleSpanCheck();
                     }
 
 
@@ -2541,7 +2541,7 @@
                         //$(this).removeClass('input-validation-error');
                     }
                     if(Number(num)  > 0.009 && Number(num) <= maxCost){
-                        if($(this).next('span').text() == 'Out of range'){
+                        if($(this).next('span').text() == 'Out of range'|| $(this).next('span').text() == 'The field Cost must be a number.'){
                             $(this).next('span').text('');
                             middleSpanCheck();
                         }
@@ -2658,7 +2658,7 @@
 
                     }
                     if(Number(num)  > 0.009){
-                        if($(this).next('span').text() == 'Out of range'){
+                        if($(this).next('span').text() == 'Out of range' || $(this).next('span').text() == 'The field Advance Amount must be a number.'){
                             $(this).next('span').text('');
                             middleSpanCheck();
                         }

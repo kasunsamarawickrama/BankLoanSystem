@@ -69,8 +69,8 @@ namespace BankLoanSystem.Controllers.CreateBranch
             int id = userData.UserId;
             //branch.StateId = branch.StateId2;
             BranchAccess br = new BranchAccess();
-            int reslt = br.insertBranchDetails(branch, id);
-
+            //int reslt = br.insertBranchDetails(branch, id);
+            int reslt = 0;
             CompanyAccess ca = new CompanyAccess();
             List<State> stateList = ca.GetAllStates();
             ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
