@@ -11,6 +11,10 @@ namespace BankLoanSystem.Reports
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["AuthenticatedUser"] == null)
+            {
+                return;
+            }
             if (!IsPostBack)
             {
                 int loanId = 0;
@@ -28,6 +32,7 @@ namespace BankLoanSystem.Reports
             rptViewerLotInspection.Reset();
             rptViewerLotInspection.LocalReport.EnableExternalImages = true;
             rptViewerLotInspection.LocalReport.ReportPath = Server.MapPath("~/Reports/RptLotInspection.rdlc");
+            rptViewerLotInspection.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
@@ -51,6 +56,11 @@ namespace BankLoanSystem.Reports
 
         public ReportViewer PrintPage(int loanId)
         {
+            if (Session["AuthenticatedUser"] == null)
+            {
+                return null;
+            }
+
             ReportViewer rptViewerLotInspectionPrint = new ReportViewer();
             rptViewerLotInspectionPrint.ProcessingMode = ProcessingMode.Local;
             rptViewerLotInspectionPrint.Reset();
@@ -76,17 +86,6 @@ namespace BankLoanSystem.Reports
 
             rptViewerLotInspectionPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
             return rptViewerLotInspectionPrint;
-
-            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerLotInspectionPrint.LocalReport);
-            //try
-            //{
-            //    rpd.Print();
-            //    return 1;
-            //}
-            //catch (Exception e)
-            //{
-            //    return 0;
-            //}
 
         }
     }

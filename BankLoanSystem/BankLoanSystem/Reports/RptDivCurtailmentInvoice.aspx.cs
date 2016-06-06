@@ -35,6 +35,7 @@ namespace BankLoanSystem.Reports
             rptViewerCurtailmentInvoice.Reset();
             rptViewerCurtailmentInvoice.LocalReport.EnableExternalImages = true;
             rptViewerCurtailmentInvoice.LocalReport.ReportPath = Server.MapPath("~/Reports/RptCurtailmentInvoice.rdlc");
+            rptViewerCurtailmentInvoice.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);

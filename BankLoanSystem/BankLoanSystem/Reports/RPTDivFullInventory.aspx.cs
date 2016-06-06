@@ -32,6 +32,7 @@ namespace BankLoanSystem.Reports
             rptViewerFullInventory.Reset();
             rptViewerFullInventory.LocalReport.EnableExternalImages = true;
             rptViewerFullInventory.LocalReport.ReportPath = Server.MapPath("~/Reports/RptFullInventory.rdlc");
+            rptViewerFullInventory.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);

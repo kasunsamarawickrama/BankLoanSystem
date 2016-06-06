@@ -43,6 +43,7 @@ namespace BankLoanSystem.Reports
             rptViewerPayOff.Reset();
             rptViewerPayOff.LocalReport.EnableExternalImages = true;
             rptViewerPayOff.LocalReport.ReportPath = Server.MapPath("~/Reports/RptPayOff.rdlc");
+            rptViewerPayOff.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
