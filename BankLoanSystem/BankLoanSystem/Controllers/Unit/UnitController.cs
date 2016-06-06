@@ -192,6 +192,7 @@ namespace BankLoanSystem.Controllers.Unit
 
             ViewBag.Editable = loan.isEditAllowable ? "Yes" : "No";
 
+            
             //set user role to restrict add & advance unit if this user is dealer user(role id = 4)
             ViewBag.RoleId = userData.RoleId; 
 
