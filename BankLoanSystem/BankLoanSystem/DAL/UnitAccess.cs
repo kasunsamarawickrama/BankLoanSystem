@@ -204,7 +204,7 @@ namespace BankLoanSystem.DAL
         /// <param name="unit"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public bool InsertUnit(Unit unit, int userId ,out string IDNumber)
+        public bool InsertUnit(Unit unit, int userId ,string loanCode,out string IDNumber)
         {
 
             DataHandler dataHandler = new DataHandler();
@@ -212,7 +212,7 @@ namespace BankLoanSystem.DAL
 
             paramertList.Add(new object[] { "@loan_id", unit.LoanId });
             paramertList.Add(new object[] { "@user_id", userId });
-            paramertList.Add(new object[] { "@unit_id", unit.UnitId });
+            paramertList.Add(new object[] { "@loan_code", loanCode });
             paramertList.Add(new object[] { "@created_date", DateTime.Now });
             paramertList.Add(new object[] { "@unit_type_id", unit.UnitTypeId });
             if (unit.UnitTypeId == 1)
@@ -401,15 +401,15 @@ namespace BankLoanSystem.DAL
 
             try
             {
-                int val = dataHandler.ExecuteSQLReturn("spInsertUnitDetails", paramertList);
+                string val = dataHandler.ExecuteSQLWithStringReturnVal("spInsertUnitDetails", paramertList);
 
 
-                if (val == 1 && unit.AddAndAdvance)
+                if (!string.IsNullOrEmpty(val) && unit.AddAndAdvance)
                 {
-
+                    unit.UnitId = val;
                     return this.GetLoanCurtailmentDetails(unit.LoanId, unit.UnitId, unit.AdvanceDate, unit.AdvanceAmount, unit.Cost);
                 }
-                else if (val ==1) {
+                else if (!string.IsNullOrEmpty(val)) {
                     return true;
                 }
                 else {

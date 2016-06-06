@@ -264,13 +264,13 @@ namespace BankLoanSystem.Controllers.Unit
             }
             if (num != 0 && num != 1)
             {
-                unit.UnitId = gc.GenerateUnitId(loanCode, unit.LoanId);
+                //unit.UnitId = gc.GenerateUnitId(loanCode, unit.LoanId);
 
                 //unit.UnitId = "LEN11_01-56454-78-676-000003";
                 //if()
                 string IDNumber;
                 UnitAccess ua = new UnitAccess();
-                var res = ua.InsertUnit(unit, userId, out IDNumber);
+                var res = ua.InsertUnit(unit, userId, loanCode, out IDNumber);
 
                 //if mention advance fee, then insert in to fee table
                 if (res == true && unit.AddAndAdvance)
