@@ -4,7 +4,7 @@
 <form id="form1" runat="server">
     <div>
         <asp:scriptmanager id="ScriptManager1" runat="server"></asp:scriptmanager>
-        <rsweb:ReportViewer ID="rptViewerLotInspection" runat="server" Font-Size="8pt" Height="100%" Width="100%" repo Font-Names="Verdana"  WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" AsyncRendering="False" SizeToReportContent="True">
+        <rsweb:ReportViewer ID="rptViewerLotInspection" runat="server" Font-Size="8pt" Height="100%" Width="100%" repo Font-Names="Verdana"  WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt">
             
         </rsweb:ReportViewer>
 
