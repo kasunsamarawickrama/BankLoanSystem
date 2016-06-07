@@ -189,11 +189,13 @@
 
 
     </div>
-    @if (true)
+    @if (ViewBag.Page != 0)
     {
        
 
         <script>
+
+            function showLoading(){
        
             $('body').css({ 'cursor': 'wait' });
 
@@ -201,8 +203,8 @@
             var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
             $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
             $('.loading').show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
-           
-      
+            }
+            showLoading();
           
         </script>
     }
@@ -454,21 +456,31 @@
    * Slide right instantiation and action.
    */
     $(document).ready(function () {
-       
-       // sleep(4000);
-        $('body').css({ 'cursor': 'default' });
-        setTimeout(function () { $('.overlay-bg, .overlay-content').hide();}, 3000);
-      
+
+        // sleep(4000);
+
+        function hideLoading() {
+            $('body').css({ 'cursor': 'default' });
+            setTimeout(function () { $('.overlay-bg, .overlay-content').hide(); }, 2000);
+            //$('.overlay-bg, .overlay-content').hide();
+        }
+
+        @if (ViewBag.Page != 0)
+         {
+             <text>hideLoading();</text>
+         }
+
+
         $('.icon-help_outline').click(function (e) {
             e.preventDefault;
             slideRight_open();
 
         });
     });
-    
-    
 
 
-  
+
+
+
 
 </script>
