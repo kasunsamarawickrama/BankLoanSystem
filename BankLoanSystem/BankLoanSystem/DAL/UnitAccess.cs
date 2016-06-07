@@ -204,7 +204,7 @@ namespace BankLoanSystem.DAL
         /// <param name="unit"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public bool InsertUnit(Unit unit, int userId ,string loanCode,out string IDNumber)
+        public string InsertUnit(Unit unit, int userId ,string loanCode,out string IDNumber)
         {
 
             DataHandler dataHandler = new DataHandler();
@@ -407,13 +407,20 @@ namespace BankLoanSystem.DAL
                 if (!string.IsNullOrEmpty(val) && unit.AddAndAdvance)
                 {
                     unit.UnitId = val;
-                    return this.GetLoanCurtailmentDetails(unit.LoanId, unit.UnitId, unit.AdvanceDate, unit.AdvanceAmount, unit.Cost);
+                    if (this.GetLoanCurtailmentDetails(unit.LoanId, unit.UnitId, unit.AdvanceDate, unit.AdvanceAmount, unit.Cost))
+                    {
+                        return val;
+                    }
+                    else
+                    {
+                        return "";
+                    }
                 }
                 else if (!string.IsNullOrEmpty(val)) {
-                    return true;
+                    return val;
                 }
                 else {
-                    return false;
+                    return "";
                 }
             }
             catch (Exception ex)
