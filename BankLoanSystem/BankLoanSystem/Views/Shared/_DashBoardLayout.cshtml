@@ -166,7 +166,7 @@
     <script src="~/scripts/menu.js?version=2"></script>
 
     
-    <script src="~/scripts/popup.js"></script>
+    <script src="~/scripts/popup.js?version=1"></script>
     
 </head>
 
@@ -189,11 +189,53 @@
 
 
     </div>
-    @if (ViewBag.Page == 1 || ViewBag.Page == 2 || ViewBag.Page == 3 || ViewBag.Page == 5)
-    {
+
+    <div class="overlay-content searching" style="width:auto;text-align:center;left: 41.5%;">
+
+
+
+
+        <img src="~/Images/searching.gif" style="height:56px" />
+
+
+
+    </div>
+
+    <div class="overlay-content pleasewait" style="width:auto;text-align:center;left: 41.5%;">
+
+
+
+
+        <img src="~/Images/pleasewait.gif" style="height:56px" />
+
+
+
+    </div>
+   
 
 
         <script>
+
+            function showPleaseWait() {
+
+                $('body').css({ 'cursor': 'wait' });
+
+                var docHeight = $(document).height(); //grab the height of the page
+                var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+                $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+                $('.pleasewait').show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+            }
+
+            function showSearching() {
+
+                $('body').css({ 'cursor': 'wait' });
+
+                var docHeight = $(document).height(); //grab the height of the page
+                var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+                $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+                $('.searching').show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+            }
+
 
             function showLoading(){
        
@@ -204,10 +246,22 @@
             $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
             $('.loading').show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
             }
-            showLoading();
+
+
+            function hideLoading() {
+                $('body').css({ 'cursor': 'default' });
+                setTimeout(function () { $('.overlay-bg, .overlay-content').hide(); }, 2000);
+                //$('.overlay-bg, .overlay-content').hide();
+            }
+
+
+             @if (ViewBag.Page == 1 || ViewBag.Page == 2 || ViewBag.Page == 3 || ViewBag.Page == 5)
+             {
+                 <text>showLoading();</text>
+             }
           
         </script>
-    }
+
 
        
     
@@ -459,11 +513,7 @@
 
         // sleep(4000);
 
-        function hideLoading() {
-            $('body').css({ 'cursor': 'default' });
-            setTimeout(function () { $('.overlay-bg, .overlay-content').hide(); }, 2000);
-            //$('.overlay-bg, .overlay-content').hide();
-        }
+       
 
          @if (ViewBag.Page == 1 || ViewBag.Page == 2 || ViewBag.Page == 3 || ViewBag.Page == 5)
         {
