@@ -78,6 +78,7 @@
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+    ViewBag.Page = 2;
     WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");/**/
 
 }

@@ -401,7 +401,7 @@ if (Model.Type == "advanceFee")
                                 var checkboxes = $(this).closest('table').find('tbody tr td input[type="checkbox"]');
                                 checkboxes.prop('checked', $(this).is(':checked'));
                                 var chk = checkboxes.prop('checked');
-
+                               
                                 if (chk) {
                                     var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
                                     $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
@@ -472,6 +472,8 @@ if (Model.Type == "advanceFee")
                                     }
                                 }
                                 //changePartialPaymentRowColor();
+
+                                SetMinDate();
                             }
                         })
 
