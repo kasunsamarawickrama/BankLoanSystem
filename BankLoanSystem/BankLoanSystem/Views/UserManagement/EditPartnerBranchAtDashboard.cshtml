@@ -672,7 +672,9 @@
         @if (Enumerable.Count(ViewBag.RegBranchId) > 1) { 
         <text>document.getElementById("RegBranchId2").value = model.NonRegBranches[index].BranchId;</text>
             }
-        document.getElementById("NonRegCompanyId2").value = model.NonRegBranches[index].BranchCompany;
+
+        @if (Enumerable.Count(ViewBag.NonRegCompanyId) > 1) { 
+            <text>document.getElementById("NonRegCompanyId2").value = model.NonRegBranches[index].BranchCompany;</text>}
 
         $("#fields").show();
         $("#dashBoard").hide();
