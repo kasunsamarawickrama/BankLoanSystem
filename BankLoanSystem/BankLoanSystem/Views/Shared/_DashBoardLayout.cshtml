@@ -140,8 +140,14 @@
        padding-bottom: 0.5em;
 }
 
-    </style>
 
+
+/**Loading */
+
+
+    </style>
+    <link href="~/Content/overlaypopup.css" rel="stylesheet" />
+   
     @if (IsSectionDefined("AddToHead"))
     {
         @RenderSection("AddToHead", required: false)
@@ -158,6 +164,9 @@
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/scripts/CommonFunctions.js"></script>
     <script src="~/scripts/menu.js?version=2"></script>
+
+    
+    <script src="~/scripts/popup.js"></script>
     
 </head>
 
@@ -165,14 +174,36 @@
 
 
 <body data-scrolling-animations="true">
+
+    <!--Loading div-->
+    <div class="overlay-bg">
+    </div>
+
+    <div class="overlay-content loading" style="width:auto;text-align:center;left: 41.5%;">
+
+
+       
+
+       <img src="~/Images/loading1.gif" style="height:56px"/>
+
+
+
+    </div>
     @if (true)
     {
        
 
         <script>
        
-       $('body').css({ 'cursor': 'wait' });
+            $('body').css({ 'cursor': 'wait' });
+
+            var docHeight = $(document).height(); //grab the height of the page
+            var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+            $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+            $('.loading').show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+           
       
+          
         </script>
     }
 
@@ -408,7 +439,12 @@
     </nav><!-- /c-menu slide-right -->
 
     <div id="c-mask" class="c-mask"></div><!-- /c-mask -->
+
+
+
+   
 </body>
+
 
 
 </html>
@@ -418,21 +454,11 @@
    * Slide right instantiation and action.
    */
     $(document).ready(function () {
-        //var slideRight = new Menu({
-        //    wrapper: '#o-wrapper',
-        //    type: 'slide-right',
-        //    menuOpenerClass: '.c-button',
-        //    maskId: '#c-mask'
-        //});
-
-        //var slideRightBtn = document.querySelectorAll('.icon-help_outline');
-
-        //slideRightBtn.addEventListener('click', function (e) {
-        //    e.preventDefault;
-        //    slideRight.open();
-        //});
-      
+       
+       // sleep(4000);
         $('body').css({ 'cursor': 'default' });
+        setTimeout(function () { $('.overlay-bg, .overlay-content').hide();}, 3000);
+      
         $('.icon-help_outline').click(function (e) {
             e.preventDefault;
             slideRight_open();
