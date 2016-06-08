@@ -876,6 +876,8 @@
             $('#btnPayAll').prop('disabled', true);
             $('#btnPay').prop('disabled', true);
             //alert(data.unitIdList[0]);
+
+            showPleaseWait();
             $.ajax({
                 url: '/UnitPayOff/UnitListPay/',
                 data: JSON.stringify(data),
@@ -892,15 +894,18 @@
 
                             success: function (partialView) {
                                 $('.centered1 span').text('Successfully Paid Off');
-                                $('#changeContainer').html(partialView);
-                                $('#changeContainer').show();
-                                $('.centered span').text('');
-                                //window.scrollTo(0, 0);
+                                hideLoading();
 
-                                countSelect = 0;
-                                totalToPay = 0;
-                                checkCount = 0;
-                                advanceFeeSelect = 0;
+                                setTimeout(function () { 
+                                    $('#changeContainer').html(partialView);
+                                    $('#changeContainer').show();
+                                    $('.centered span').text('');
+                                    //window.scrollTo(0, 0);
+                                
+                                    countSelect = 0;
+                                    totalToPay = 0;
+                                    checkCount = 0;
+                                    advanceFeeSelect = 0; }, 1000);
 
                                 //$('#btnPayAll').prop('disabled', false);
                                 //$('#btnPay').prop('disabled', false);
@@ -921,6 +926,7 @@
                                 if (jqXHR.status == "404") {
                                     window.location.href = '/Login/UserLogin?lbl=Session expired';
                                 }
+                                hideLoading();
                             }
                         });
                     } else {
@@ -1003,6 +1009,8 @@
             }
             $('#btnPayAll').prop('disabled', true);
             $('#btnPay').prop('disabled', true);
+
+            showPleaseWait();
             //alert(data.unitIdList[0]);
             $.ajax({
                 url: '/UnitPayOff/UnitListPay/',
@@ -1027,10 +1035,14 @@
 
                             success: function (partialView) {
                                 $('.centered1 span').text('Successfully Paid Off');
+                                
+                                hideLoading();
+
+                                setTimeout(function () { 
                                 $('#changeContainer').html(partialView);
                                 $('#changeContainer').show();
                                 $('.centered span').text('');
-                                window.scrollTo(0, 0);
+                                //window.scrollTo(0, 0);
                                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                                 countSelect = 0;
                                 totalToPay = 0;
@@ -1039,6 +1051,11 @@
 
                                 $('#btnPayAll').prop('disabled', false);
                                 $('#btnPay').prop('disabled', false);
+                                
+
+                                
+                                    window.scrollTo(0, 0);                  
+                                     }, 1000);
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 // Your handler here...
@@ -1054,6 +1071,7 @@
                                 if (jqXHR.status == "404") {
                                     window.location.href = '/Login/UserLogin?lbl=Session expired';
                                 }
+                                hideLoading();
                             }
                         });
                     } else {
@@ -1307,7 +1325,7 @@
 
     });
     function Search(para1, para2, para3, para4) {
-
+        showSearching();
         $.ajax({
             url: '/UnitPayOff/SearchUnit',
             type: 'POST',
@@ -1316,7 +1334,7 @@
             success: function (View) {
                 $('#searchGrid1').html(View);
                 $('#searchGrid1').show();
-
+                hideLoading();
                 //.highlight { background-color: lightblue; }
             },
 
@@ -1327,6 +1345,7 @@
                 if (jqXHR.status == "404") {
                     window.location.href = '/Login/UserLogin?lbl=Session expired';
                 }
+                hideLoading();
             }
         });
     }
@@ -1535,7 +1554,7 @@
        
         //var mindate = $('.gridtable tbody tr .gridColumnSelect').find('input[type=checkbox]:checked').filter(':first').closest('tr').find("#advanceDate").val();
         var mindate = e.find("#advanceDate").val();
-        alert(mindate);
+       // alert(mindate);
         if(mindate != ""){
             mindate = new Date(mindate);
 
