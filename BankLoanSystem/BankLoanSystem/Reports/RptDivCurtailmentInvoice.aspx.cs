@@ -78,16 +78,6 @@ namespace BankLoanSystem.Reports
             rptViewerCurtailmentInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerCurtailmentInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
 
-            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerCurtailmentInvoicePrint.LocalReport);
-            //try
-            //{
-            //    rpd.Print();
-            //    return 1;
-            //}
-            //catch (Exception e)
-            //{
-            //    return 0;
-            //}
             return rptViewerCurtailmentInvoicePrint;
         }
 

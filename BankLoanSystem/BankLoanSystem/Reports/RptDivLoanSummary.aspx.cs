@@ -19,8 +19,6 @@ namespace BankLoanSystem.Reports
             if (!IsPostBack)
             {
                 int loanId = 0;
-                //DateTime startDate = Convert.ToDateTime("5/5/2016");
-                //DateTime endDate = Convert.ToDateTime("5/5/2019");
 
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
@@ -84,16 +82,6 @@ namespace BankLoanSystem.Reports
             rptViewerLoanSummaryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerLoanSummaryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", loanSumm));
 
-            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerLoanSummaryPrint.LocalReport);
-            //try
-            //{
-            //    rpd.Print();
-            //    return 1;
-            //}
-            //catch (Exception e)
-            //{
-            //    return 0;
-            //}
             return rptViewerLoanSummaryPrint;
         }
     }

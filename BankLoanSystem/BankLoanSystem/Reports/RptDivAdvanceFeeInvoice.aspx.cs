@@ -42,6 +42,7 @@ namespace BankLoanSystem.Reports
             rptViewerAdvanceFeeInvoice.Reset();
             rptViewerAdvanceFeeInvoice.LocalReport.EnableExternalImages = true;
             rptViewerAdvanceFeeInvoice.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAdvanceFeeInvoice.rdlc");
+            rptViewerAdvanceFeeInvoice.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);

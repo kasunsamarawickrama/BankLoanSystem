@@ -86,16 +86,6 @@ namespace BankLoanSystem.Reports
             rptViewerPayOffPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerPayOffPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
 
-            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerPayOffPrint.LocalReport);
-            //try
-            //{
-            //    rpd.Print();
-            //    return 1;
-            //}
-            //catch (Exception e)
-            //{
-            //    return 0;
-            //}
             return rptViewerPayOffPrint;
         }
     }
