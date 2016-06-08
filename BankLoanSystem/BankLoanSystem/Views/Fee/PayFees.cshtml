@@ -473,6 +473,8 @@
 
     function FilterFees() {
         if ($('#dueDate').val() != "" && $('#hdnSelectedButton').val() != "") {
+
+            showLoading();
             $.ajax({
                 url: '/Fee/PayFeesForSelectedDueDate/',
                 data: JSON.stringify({ dueDate: $('#dueDate').val(), type: $("#hdnSelectedButton").val() }),
@@ -480,6 +482,9 @@
                 contentType: 'application/json; charset=utf-8',
 
                 success: function (partialView) {
+
+                    
+
                     $('#advanceGrid').html(partialView);
                     $('#advanceGrid').show();
                     $('.centered span').text('');
@@ -509,6 +514,8 @@
                     table.find('thead tr').children().each(function (i, v) {
                         $(v).outerWidth(colWidth[i]);
                     });
+
+                    hideLoading();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     // Your handler here...
@@ -517,6 +524,8 @@
                     if (jqXHR.status == "404") {
                         window.location.href = '/Login/UserLogin?lbl=Session expired';
                     }
+
+                    hideLoading();
                 }
             });
         }

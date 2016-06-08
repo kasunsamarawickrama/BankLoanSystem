@@ -47,6 +47,7 @@
 @{
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     ViewBag.Title = "Pay Curtailments";
+    ViewBag.Page = 3;
     //WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
 }
 @using System.Threading;
@@ -160,7 +161,7 @@
             onSelect: function () {
                 var dueDate = this.getDate();
 
-
+                showLoading();
                 $.ajax({
                     url: '/Curtailments/PayCurtailmentForSelectedDueDate/',
                     data: JSON.stringify({ dueDate: dueDate }),
@@ -171,6 +172,7 @@
                         $('#changeContainer').html(partialView);
                         $('#changeContainer').show();
                         $('.centered span').text('');
+                        hideLoading();
                         //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
@@ -180,6 +182,7 @@
                         if (jqXHR.status == "404") {
                             window.location.href = '/Login/UserLogin?lbl=Session expired';
                         }
+                        hideLoading();
                     }
                 });
             }

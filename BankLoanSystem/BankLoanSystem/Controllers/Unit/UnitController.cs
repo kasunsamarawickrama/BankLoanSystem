@@ -271,10 +271,10 @@ namespace BankLoanSystem.Controllers.Unit
                 //if()
                 string IDNumber;
                 UnitAccess ua = new UnitAccess();
-                var res = ua.InsertUnit(unit, userId, loanCode, out IDNumber);
+                string res = ua.InsertUnit(unit, userId, loanCode, out IDNumber);
 
                 //if mention advance fee, then insert in to fee table
-                if (res == true && unit.AddAndAdvance)
+                if (!string.IsNullOrEmpty(res) && unit.AddAndAdvance)
                 {
 
 
@@ -301,7 +301,7 @@ namespace BankLoanSystem.Controllers.Unit
 
 
                 flag = 1;
-                if (res)
+                if (!string.IsNullOrEmpty(res))
                 {
                     if (Session["addUnitloan"] == null)
                     {
@@ -334,7 +334,7 @@ namespace BankLoanSystem.Controllers.Unit
                                 {
                                     break;
                                 }
-
+                                unit.UnitId = res;
                                 string extension = Path.GetExtension(file.FileName);
 
                                 string filename = unit.UnitId + "_" + imageNo.ToString("00") + extension;
@@ -366,7 +366,7 @@ namespace BankLoanSystem.Controllers.Unit
                                     ));
                             string xmlDoc = xEle.ToString();
 
-                            res = ua.InsertTitleDocumentUploadInfo(xmlDoc, unit.UnitId);
+                            bool res1 = ua.InsertTitleDocumentUploadInfo(xmlDoc, unit.UnitId);
 
                         }
                         catch (Exception ex)

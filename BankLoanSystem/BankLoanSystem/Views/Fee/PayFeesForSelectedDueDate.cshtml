@@ -401,7 +401,7 @@ if (Model.Type == "advanceFee")
                                 var checkboxes = $(this).closest('table').find('tbody tr td input[type="checkbox"]');
                                 checkboxes.prop('checked', $(this).is(':checked'));
                                 var chk = checkboxes.prop('checked');
-
+                               
                                 if (chk) {
                                     var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
                                     $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
@@ -472,6 +472,8 @@ if (Model.Type == "advanceFee")
                                     }
                                 }
                                 //changePartialPaymentRowColor();
+
+                                SetMinDate();
                             }
                         })
 
@@ -868,6 +870,7 @@ if (Model.Type == "advanceFee")
             function Search(para1, para2, para3, para4) {
 
                 var curtList = @Html.Raw(Json.Encode(Model));
+                showSearching();
                 //alert(curtList);
                 $.ajax({
                     url: '/Fee/SearchFee',
@@ -893,10 +896,14 @@ if (Model.Type == "advanceFee")
                             $(v).outerWidth(colWidth[i]);
                         });
 
+                        hideLoading();
+
                     },
                     error: function (jqXHR, textStatus, errorThrown){
                         // Your handler here...
+                        
                         $('#searchGrid1').hide();
+                        hideLoading();
                         // if session expires
                         if(jqXHR.status == "404"){
                             window.location.href='/Login/UserLogin?lbl=Session expired';
@@ -1088,6 +1095,8 @@ if (Model.Type == "advanceFee")
     function PayFees(lst,date){
         $('#btnPay').attr("disabled","disabled");
         $('#payAll').attr("disabled","disabled");
+
+        showPleaseWait();
         $.ajax({
             url: '/Fee/PayFees/',
             //data: JSON.stringify(lst),date,
@@ -1096,17 +1105,21 @@ if (Model.Type == "advanceFee")
             contentType: 'application/json; charset=utf-8',
 
             success: function (View) {
-                if(View == 1){
-                    $('.centered1 span').text('Successfully Updated');
+                $('.overlay-bg, .overlay-content').hide();
+
+                
+                    if(View == 1){
+                        $('.centered1 span').text('Successfully Updated');
+
+                        window.scrollTo(0, 0);
+                        FilterFees();
+                        
+                    }else if(View == 0){
+                        $('.centered span').text('Error');
 
 
-                    FilterFees();
-                    window.scrollTo(0, 0);
-                }else if(View == 0){
-                    $('.centered span').text('Error');
-
-
-                }
+                    }
+                
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 // Your handler here...
@@ -1115,6 +1128,7 @@ if (Model.Type == "advanceFee")
                 if (jqXHR.status == "404") {
                     window.location.href = '/Login/UserLogin?lbl=Session expired';
                 }
+                $('.overlay-bg, .overlay-content').hide();
             }
         });
     }

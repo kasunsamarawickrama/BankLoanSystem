@@ -30,9 +30,9 @@ $(document).ready(function(){
     });
   
     // hide popup when user clicks on close button or if user clicks anywhere outside the container
-    $('.close-btn, .overlay-bg').click(function(){
-        closePopup();
-    });
+    //$('.close-btn, .overlay-bg').click(function(){
+    //    closePopup();
+    //});
     
     // hide the popup when user presses the esc key
     $(document).keyup(function(e) {

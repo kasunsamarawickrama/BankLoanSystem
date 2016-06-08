@@ -24,8 +24,7 @@ namespace BankLoanSystem.Reports
                 RenderReport(loanId, titleStatus);
             }
         }
-
-        //public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
+        
         public void RenderReport(int loanId, int titleStatus)
         {
             rptViewerTitleStatus.ProcessingMode=ProcessingMode.Local;
@@ -70,17 +69,6 @@ namespace BankLoanSystem.Reports
 
             rptViewerTitleStatusPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerTitleStatusPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
-
-            ////ReportPrintDocument rpd = new ReportPrintDocument(rptViewerTitleStatusPrint.LocalReport);
-            ////try
-            ////{
-            ////    rpd.Print();
-            ////    return 1;
-            ////}
-            ////catch (Exception e)
-            ////{
-            ////    return 0;
-            ////}
 
             return rptViewerTitleStatusPrint;
         }

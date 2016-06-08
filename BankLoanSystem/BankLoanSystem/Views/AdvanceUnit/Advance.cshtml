@@ -78,6 +78,7 @@
 @{
     ViewBag.Title = "Advance Unit";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+    ViewBag.Page = 2;
     WebGrid grid = new WebGrid(Model.NotAdvanced, defaultSort: "CreatedDate", canPage: false, ajaxUpdateContainerId: "checkableGridDiv", ajaxUpdateCallback: "GridUpdate");/**/
 
 }
@@ -645,6 +646,8 @@
 
     function Search(para1, para2, para3, para4) {
 
+        showSearching();
+
         $.ajax({
             url: '/AdvanceUnit/SearchUnit',
             type: 'POST',
@@ -653,12 +656,15 @@
             success: function (View) {
                 $('#searchGrid1').html(View);
                 $('#searchGrid1').show();
+
+
+                hideLoading();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#loadingSpan').hide();
                 //alert("error : " + reponse);
                 $('#searchGrid1').hide();
-
+                hideLoading();
                 // if session expires
                 if (jqXHR.status == "404") {
                     window.location.href = '/Login/UserLogin?lbl=Session expired';
@@ -1066,12 +1072,15 @@
                 "Model": $('#iModel').val().replace(',', '')
             };
 
+            showPleaseWait();
             $.ajax({
                 url: '/AdvanceUnit/UpdateAdvance/',
                 data: JSON.stringify(unit),
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 success: function (View) {
+
+                    
                     if (View != '0') {
                         $(location).attr('href', '/AdvanceUnit/Advance');
                     } else {
@@ -1086,6 +1095,8 @@
                     if (jqXHR.status == "404") {
                         window.location.href = '/Login/UserLogin?lbl=Session expired';
                     }
+
+                    hideLoading();
                 }
             });
         }
@@ -1132,6 +1143,7 @@
                 }
             });
 
+            showPleaseWait();
             $.ajax({
                 url: '/AdvanceUnit/UpdateAdvanceAll/',
                 data: JSON.stringify(data),
@@ -1149,6 +1161,8 @@
                     if (jqXHR.status == "404") {
                         window.location.href = '/Login/UserLogin?lbl=Session expired';
                     }
+
+                    hideLoading();
                 }
             });
         }
