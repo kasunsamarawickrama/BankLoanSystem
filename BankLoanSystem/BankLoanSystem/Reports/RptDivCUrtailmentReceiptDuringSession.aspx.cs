@@ -81,6 +81,7 @@ namespace BankLoanSystem.Reports
             rptViewerCurtailmentReceiptDuringSessionPrint.Reset();
             rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport.EnableExternalImages = true;
             rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptCurtailmentDuringSession.rdlc");
+            rptViewerCurtailmentReceiptDuringSessionPrint.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
@@ -99,17 +100,7 @@ namespace BankLoanSystem.Reports
             {
                 rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", selectedCurtailmentSchedules));
             }
-
-            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport);
-            //try
-            //{
-            //    rpd.Print();
-            //    return 1;
-            //}
-            //catch (Exception e)
-            //{
-            //    return 0;
-            //}
+            
             return 0;
         }
     }

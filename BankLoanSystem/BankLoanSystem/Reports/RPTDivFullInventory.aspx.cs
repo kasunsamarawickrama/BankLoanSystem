@@ -47,24 +47,6 @@ namespace BankLoanSystem.Reports
 
             rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
-
-            //Warning[] warnings;
-            //string[] streamids;
-            //string mimeType;
-            //string encoding;
-            //string filenameExtension;
-
-            //byte[] bytes = rptViewerFullInventory.LocalReport.Render(
-            //    "PDF", null, out mimeType, out encoding, out filenameExtension,
-            //    out streamids, out warnings);
-
-            //using (FileStream fs = new FileStream(Server.MapPath("FullInvontory.pdf"), FileMode.Create))
-            //{
-            //    fs.Write(bytes, 0, bytes.Length);
-            //}
-
-            //rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-            //rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
         }
 
         public ReportViewer PrintPage(int loanId)
@@ -88,17 +70,7 @@ namespace BankLoanSystem.Reports
 
             rptViewerFullInventoryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerFullInventoryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
-
-            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerFullInventoryPrint.LocalReport);
-            //try
-            //{
-            //    rpd.Print();
-            //    return 1;
-            //}
-            //catch (Exception e)
-            //{
-            //    return 0;
-            //}
+            
             return rptViewerFullInventoryPrint;
         }
     }

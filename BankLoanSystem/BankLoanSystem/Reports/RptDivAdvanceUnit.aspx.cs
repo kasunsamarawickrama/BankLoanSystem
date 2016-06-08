@@ -32,6 +32,7 @@ namespace BankLoanSystem.Reports
             rptViewerAdvanceUnit.Reset();
             rptViewerAdvanceUnit.LocalReport.EnableExternalImages = true;
             rptViewerAdvanceUnit.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAdvanceUnit.rdlc");
+            rptViewerAdvanceUnit.ZoomMode = ZoomMode.PageWidth;
             List<Unit> units = (List<Unit>)Session["AdvItems"];
 
             ReportAccess ra = new ReportAccess();
