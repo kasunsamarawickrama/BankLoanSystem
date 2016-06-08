@@ -401,7 +401,7 @@ if (Model.Type == "advanceFee")
                                 var checkboxes = $(this).closest('table').find('tbody tr td input[type="checkbox"]');
                                 checkboxes.prop('checked', $(this).is(':checked'));
                                 var chk = checkboxes.prop('checked');
-
+                               
                                 if (chk) {
                                     var checkBoxText = $('<div />').attr({ id: 'someID' }).html('<span> Deselect </span>');
                                     $('.gridtable thead tr th:first').html(checkBoxText.prepend(ctrl));
@@ -472,6 +472,8 @@ if (Model.Type == "advanceFee")
                                     }
                                 }
                                 //changePartialPaymentRowColor();
+
+                                SetMinDate();
                             }
                         })
 
@@ -868,6 +870,7 @@ if (Model.Type == "advanceFee")
             function Search(para1, para2, para3, para4) {
 
                 var curtList = @Html.Raw(Json.Encode(Model));
+                showSearching();
                 //alert(curtList);
                 $.ajax({
                     url: '/Fee/SearchFee',
@@ -893,10 +896,14 @@ if (Model.Type == "advanceFee")
                             $(v).outerWidth(colWidth[i]);
                         });
 
+                        hideLoading();
+
                     },
                     error: function (jqXHR, textStatus, errorThrown){
                         // Your handler here...
+                        
                         $('#searchGrid1').hide();
+                        hideLoading();
                         // if session expires
                         if(jqXHR.status == "404"){
                             window.location.href='/Login/UserLogin?lbl=Session expired';

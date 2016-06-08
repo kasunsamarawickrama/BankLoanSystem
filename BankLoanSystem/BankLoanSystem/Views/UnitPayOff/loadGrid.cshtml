@@ -451,7 +451,8 @@
 
     $(document).on('click', '#cbSelectAll', function () {
         ClearTextBoxValues();
-
+        //SetMinDate($(this));
+        
         var isChecked = $(this).is(':checked');
 
         var status;
@@ -534,6 +535,7 @@
             }
 
         checkTextBoxBlurCenterError();
+        //SetMinDate($(this));
     });
 
     $('#checkableGrid').children('tbody').children('tr').click(function (e) {
@@ -582,6 +584,7 @@
 
         $('table#searchResultGrid > tbody > tr').each(function () {
             $(this).css('background', 'aliceblue');
+            
         });
 
         $('#spnTotal').text(totalToPay.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
@@ -614,11 +617,12 @@
 
         }
         checkTextBoxBlurCenterError();
+        SetMinDate($(this));
     });
 
     $('.checkboxAll').change( function () {
 
-
+        SetMinDate($(this).parent().parent());
         var isChecked = $(this).is(':checked');
 
         var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
@@ -1524,5 +1528,47 @@
             $('.centered span').text('');
         }
     };
+
+    ////////////////////////////////////////
+    //set advance date as min date on datepicker
+    function SetMinDate(e){
+       
+        //var mindate = $('.gridtable tbody tr .gridColumnSelect').find('input[type=checkbox]:checked').filter(':first').closest('tr').find("#advanceDate").val();
+        var mindate = e.find("#advanceDate").val();
+        alert(mindate);
+        if(mindate != ""){
+            mindate = new Date(mindate);
+
+
+
+
+
+            $('.gridtable tbody tr .gridColumnSelect #all').each(function () {
+                if($(this).is(':checked')){
+
+
+
+                    var dateAdvance = new Date($(this).closest('tr').find("#dateAdvance").text());
+
+                    if(mindate.getTime()  < dateAdvance.getTime()){
+
+                        mindate = dateAdvance;
+                    }
+
+                }
+
+            });
+
+            
+            payDate.setMinDate(mindate);
+        }
+
+
+    }
+
+    $('#payCurtDate').focus(function(){
+        payDate2.setMinDate(new Date($('#iDateAiAdvance').val()));
+    });
+    /////////////////////////////////
 
 </script>

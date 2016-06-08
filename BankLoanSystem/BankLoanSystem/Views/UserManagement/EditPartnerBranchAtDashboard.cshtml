@@ -668,8 +668,13 @@
         document.getElementById("RegBranchId").value = model.NonRegBranches[index].BranchId;
         document.getElementById("NonRegCompanyId").value = model.NonRegBranches[index].BranchCompany;
         document.getElementById("NonRegCompanyName").value = model.NonRegBranches[index].NonRegCompanyName;
-        document.getElementById("RegBranchId2").value = model.NonRegBranches[index].BranchId;
-        document.getElementById("NonRegCompanyId2").value = model.NonRegBranches[index].BranchCompany;
+
+        @if (Enumerable.Count(ViewBag.RegBranchId) > 1) { 
+        <text>document.getElementById("RegBranchId2").value = model.NonRegBranches[index].BranchId;</text>
+            }
+
+        @if (Enumerable.Count(ViewBag.NonRegCompanyId) > 1) { 
+            <text>document.getElementById("NonRegCompanyId2").value = model.NonRegBranches[index].BranchCompany;</text>}
 
         $("#fields").show();
         $("#dashBoard").hide();
