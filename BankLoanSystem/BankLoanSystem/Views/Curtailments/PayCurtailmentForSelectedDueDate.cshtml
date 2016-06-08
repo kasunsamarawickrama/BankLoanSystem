@@ -881,7 +881,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
     function Search(para1, para2, para3, para4) {
 
         var curtList = @Html.Raw(Json.Encode(Model));
-
+        showSearching();
         $.ajax({
             url: '/Curtailments/SearchCurtailment',
             type: 'POST',
@@ -905,7 +905,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 table.find('thead tr').children().each(function (i, v) {
                     $(v).outerWidth(colWidth[i]);
                 });
-
+                hideLoading();
             },
 
             error: function (jqXHR, textStatus, errorThrown) {
@@ -915,6 +915,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 if (jqXHR.status == "404") {
                     window.location.href = '/Login/UserLogin?lbl=Session expired';
                 }
+                hideLoading()
             }
         });
     }
@@ -1120,10 +1121,10 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
     });
 
     function doConfirm1() {
-
+        var scrollTop = $(window).scrollTop();
         var docHeight = $(document).height(); //grab the height of the page
         $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
-        $('#confirmBox').show().css({ 'top': 0 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+        $('#confirmBox').show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
 
         $('.overlay-bg, .overlay-content.popupReport').show();
         return;
@@ -1196,6 +1197,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                     }
                 });
 
+                showPleaseWait();
+
+
                 $("#btnPay").attr("disabled", "disabled");
                 $("#payAll").attr("disabled", "disabled");
 
@@ -1211,7 +1215,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
                         //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
                         if(View == "") {
-                            window.scrollTo(0, 0);
+                            //window.scrollTo(0, 0);
                             if (ckbReport) {
                                 doConfirm1();
                                 var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
@@ -1232,7 +1236,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                         myFrame.setAttribute('src', url);
                                     }
                                 }
-                                $('.overlay-bg, .overlay-content.popupReport').show();
+                                hideLoading();
+                                setTimeout(function () {$('.overlay-bg, .overlay-content.popupReport').show(); }, 2000);
+
                                 e.preventDefault();
                                 $('#btnCancelPtrDiv').click(function() {
 
@@ -1271,6 +1277,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                 $('.centered1 span').text('Successfully Updated');
                                 GetCurrentCurtailment($('#dueDate').val());
 
+                                hideLoading();
+                                setTimeout(function () {window.scrollTo(0, 0); }, 2000);
+
                             }
                         }
 
@@ -1296,7 +1305,8 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                         myFrame.setAttribute('src', url);
                                     }
                                 }
-                                $('.overlay-bg, .overlay-content.popupReport').show();
+                                hideLoading();
+                                setTimeout(function () { $('.overlay-bg, .overlay-content.popupReport').show(); }, 2000);
                                 e.preventDefault();
                                 $('#btnCancelPtrDiv').click(function() {
                                     $('.overlay-bg, .overlay-content.popupReport').hide();
@@ -1334,8 +1344,13 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                             }
                             else{
 
-                                var array = View.split(',');
-                                showPopup5(5 , array);
+                                hideLoading();
+                                setTimeout(function () { var array = View.split(',');
+                                    window.scrollTo(0, 0);
+
+
+                                    var array = View.split(',');
+                                    showPopup5(5 , array);});
 
                             }
                         }
@@ -1600,6 +1615,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 $("#btnPay").attr("disabled", "disabled");
                 $("#payAll").attr("disabled", "disabled");
 
+                showPleaseWait();
                 //alert(data.SelectedCurtailmentSchedules.length);
                 $.ajax({
                     url: '/Curtailments/PayCurtailments/',
@@ -1624,7 +1640,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                         //}
 
                         if(View == "") {
-                            window.scrollTo(0, 0);
+                            
                             if (ckbReport) {
                                 doConfirm1();
                                 var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
@@ -1645,7 +1661,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                         myFrame.setAttribute('src', url);
                                     }
                                 }
-                                $('.overlay-bg, .overlay-content.popupReport').show();
+                                hideLoading();
+                                setTimeout(function () {$('.overlay-bg, .overlay-content.popupReport').show(); }, 2000);
+                                
                                 e.preventDefault();
                                 $('#btnCancelPtrDiv').click(function() {
 
@@ -1684,7 +1702,13 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                 $('.centered1 span').text('Successfully Updated');
                                 GetCurrentCurtailment($('#dueDate').val());
 
+                                hideLoading();
+                                setTimeout(function () {window.scrollTo(0, 0); }, 2000);
+                                
+
                             }
+
+                            //window.scrollTo(0, 0);
                         }
 
                         if(View.length > 5){
@@ -1709,7 +1733,11 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                         myFrame.setAttribute('src', url);
                                     }
                                 }
-                                $('.overlay-bg, .overlay-content.popupReport').show();
+
+                                hideLoading();
+                                setTimeout(function () { $('.overlay-bg, .overlay-content.popupReport').show(); }, 2000);
+                              
+                               
                                 e.preventDefault();
                                 $('#btnCancelPtrDiv').click(function() {
                                     $('.overlay-bg, .overlay-content.popupReport').hide();
@@ -1747,8 +1775,13 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                             }
                             else{
 
-                                var array = View.split(',');
-                                showPopup5(5 , array);
+
+                                hideLoading();
+                                setTimeout(function () { var array = View.split(',');
+                                    window.scrollTo(0, 0);
+                               
+                                    showPopup5(5 , array); }, 2000);
+                                
 
                             }
                         }
@@ -1760,6 +1793,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
                         //alert("Success");
 
+                        
+                        
+
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         // Your handler here...
@@ -1768,6 +1804,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                         if (jqXHR.status == "404") {
                             window.location.href = '/Login/UserLogin?lbl=Session expired';
                         }
+                        hideLoading();
                     }
                 });
 
@@ -1775,12 +1812,15 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
             else{
                 $('.centered span').text('Your selected items has previous unpaid curtailment, Please pay that also');
+               
                 window.scrollTo(0, 0);
 
 
             }
 
         }
+
+        
 
 
     });
@@ -1942,8 +1982,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
     </script>
 
 
-<div class="overlay-bg">
-</div>
+
 
 <div class="overlay-content popupReport" id="confirmBox" style="height: 750px;">
     <h3>Curtailment Receipt</h3>
@@ -1955,7 +1994,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
     <button style="font-size:14px;width: 100px;margin-top: -56px;" type="button" id="btnCancelPtrDiv" class="btn btn-primary m-b cancel next_clear_button clear_back"> Cancel</button>
 </div>
 
-<div class="overlay-content popup5" style="width:auto;text-align:center;margin-left: 173px;top:280px">
+<div class="overlay-content popup5" style="width:640px;text-align:center;margin-left: 173px;top:280px">
 
 
     <h3>Message</h3>

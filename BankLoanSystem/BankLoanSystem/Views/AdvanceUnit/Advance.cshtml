@@ -1095,6 +1095,8 @@
                     if (jqXHR.status == "404") {
                         window.location.href = '/Login/UserLogin?lbl=Session expired';
                     }
+
+                    hideLoading();
                 }
             });
         }
@@ -1159,6 +1161,8 @@
                     if (jqXHR.status == "404") {
                         window.location.href = '/Login/UserLogin?lbl=Session expired';
                     }
+
+                    hideLoading();
                 }
             });
         }
