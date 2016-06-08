@@ -369,7 +369,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         
     });
     function GetCurrentCurtailment(dueDate){
-
+        showLoading();
         // alert(dueDate);
         $.ajax({
             url: '/Curtailments/PayCurtailmentForSelectedDueDate/',
@@ -381,6 +381,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 $('#changeContainer').html(partialView);
                 $('#changeContainer').show();
                 $('.centered span').text('');
+                hideLoading();
                 //$('.centered1 span').text('Successfully Updated');
                 //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
             },
@@ -391,6 +392,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 if (jqXHR.status == "404") {
                     window.location.href = '/Login/UserLogin?lbl=Session expired';
                 }
+                hideLoading();
             }
         });
 
@@ -1241,7 +1243,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
                                 e.preventDefault();
                                 $('#btnCancelPtrDiv').click(function() {
-
+                                    
                                     GetCurrentCurtailment($('#dueDate').val());
                                     $('.overlay-bg, .overlay-content.popupReport').hide();
                                     $('.centered1 span').text('Successfully Updated');
