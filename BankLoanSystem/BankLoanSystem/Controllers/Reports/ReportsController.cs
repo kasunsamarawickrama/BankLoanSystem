@@ -166,8 +166,6 @@ namespace BankLoanSystem.Controllers.Reports
             string filenameExtension;
             ReportViewer rptViewerPrint = new ReportViewer();
 
-            byte[] bytes;
-
             string rptType = "";
             int loanId = 0;
             string range1 = "";
@@ -287,9 +285,9 @@ namespace BankLoanSystem.Controllers.Reports
 
             //return -1;
 
-            bytes = rptViewerPrint.LocalReport.Render(
-                    "PDF", null, out mimeType, out encoding, out filenameExtension,
-                    out streamids, out warnings);
+            var bytes = rptViewerPrint.LocalReport.Render(
+                "PDF", null, out mimeType, out encoding, out filenameExtension,
+                out streamids, out warnings);
 
             var fsResult = File(bytes, "application/pdf");
             return fsResult;

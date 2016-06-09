@@ -7,7 +7,10 @@
     <div id="reportViewerDiv" hidden>
         <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="1" scrolling="no"></iframe>
     </div>
-    </div>
+
+    <button style="font-size: 14px; width: 100px; margin-top: -56px;" type="button" id="btnPrint" class="btn btn-primary m-b cancel next_clear_button back_back"> Print</button>
+
+</div>
 
     <script type="text/javascript">
         function ReportCurtailmentInvoice(url) {
@@ -33,6 +36,13 @@
         $(document).ready(function () {
             var url = "../Reports/RptDivAddUnit.aspx?loanId=" + "@ViewBag.LoanId" + "&userId=" + "@ViewBag.UserId";
             ReportCurtailmentInvoice(url);
+        });
+
+        $('#btnPrint').click(function () {
+            var url = '/Unit/PrintPage';
+
+            var win = window.open(url, '_blank');
+            win.focus();
         });
     </script>
 
