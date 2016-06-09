@@ -750,9 +750,12 @@
                         totalRecCount = 0;
                         $('.advanceAmount').each(function () {
                             var tr = $(this).parents('tr:first');
+                            
                             totalRecCount++;
+                            
                             if (document.getElementById('all').checked) {
-                                total = total + parseFloat(tr.find("#am").text().replace(',', ''));
+                                total = total + parseFloat(tr.find("#am").text().replace(/,/g, ""));
+                                //alert(tr.find("#am").text().replace(/,/g, ""));
                                 checkCount++;
 
                                 $(this).parents('tr').css('background', 'lightblue');
@@ -798,11 +801,11 @@
             //alert(fullcost);
             var checked = tr.find("#all").is(':checked');
             if (checked) {
-                total = total + parseFloat(tr.find("#am").text().replace(',', ''));
+                total = total + parseFloat(tr.find("#am").text().replace(/,/g, ""));
                 checkCount++;
                 $(this).parents('tr').css('background', 'lightblue');
             } else {
-                total = total - parseFloat(tr.find("#am").text().replace(',', ''));
+                total = total - parseFloat(tr.find("#am").text().replace(/,/g, ""));
                 checkCount--;
                 $(this).parents('tr').css('background', 'transparent');
             }
@@ -961,7 +964,7 @@
                     row.css('background', 'lightblue');
 
                     checkCount++;
-                    total = total + parseFloat(row.find("#am").text().replace(',', ''));
+                    total = total + parseFloat(row.find("#am").text().replace(/,/g, ""));
 
                     if (checkCount == 1) {
 
@@ -1063,9 +1066,9 @@
             var unit = {
                 "UnitId": $('#unitid').text(),
                 "IdentificationNumber": $('#iVin').val(),
-                "AdvanceAmount": $('#iAdvance').val().replace(',', ''),
+                "AdvanceAmount": $('#iAdvance').val().replace(/,/g, ""),
                 "AdvanceDate": $('#advanceDate').val(),
-                "Cost": $('#iCost').val().replace(',', ''), 
+                "Cost": $('#iCost').val().replace(/,/g, ""),
                 "IdentificationNumber": $('#iVin').val().replace(',', ''),
                 "Year": $('#iYear').val().replace(',', ''),
                 "Make": $('#iMake').val().replace(',', ''),
@@ -1103,7 +1106,7 @@
     });
 
     $('#btnAdvanceAll').click(function (e) {
-
+        
         if ($('#errorStartDate').text() != "") {
             e.preventDefault();
             return;
@@ -1132,17 +1135,18 @@
                     data.ItemList.push({
                         UnitId: tr.find("#all").val(),
                         IdentificationNumber: tr.find("#vin").text(),
-                        AdvanceAmount: tr.find("#am").text().replace(',', ''),
+                        AdvanceAmount: tr.find("#am").text().replace(/,/g, ""),
                         AdvanceDate: $('#startDate').val(),
-                        Cost: $('#iCost').val().replace(',', ''),
+                        Cost: $('#iCost').val().replace(/,/g, ""),
                         Year: tr.find("#year").text(),
                         Make: tr.find("#make").text(),
                         Model: tr.find("#model").text()
                     });
 
                 }
+                
             });
-
+            //alert(data.ItemList[1].AdvanceAmount);
             showPleaseWait();
             $.ajax({
                 url: '/AdvanceUnit/UpdateAdvanceAll/',
@@ -1207,7 +1211,7 @@
         $('#iMake').val(tr.find("#make").text());
         $('#iModel').val(tr.find("#model").text());
         $('#iCost').val(tr.find("#cost").text());
-        $('#iAdvance').val(tr.find("#am").text().replace(',', ''));
+        $('#iAdvance').val(tr.find("#am").text().replace(/,/g, ""));
         document.getElementById("unitid").innerHTML = tr.find("#all").val();
         //document.getElementById("subtotal").innerHTML = "Current Total to Advance : $ ";
         @if(ViewBag.loanDetails.isEditAllowable == true)
@@ -1366,11 +1370,11 @@
     //    $(this).val(num);
     //});
 
-    var maxAdvance = parseFloat($('#blc').text().replace(',', ''))
+    var maxAdvance = parseFloat($('#blc').text().replace(/,/g, ""))
     $('#iAdvance').keypress(function (e) {
-        var cost = document.getElementById('iCost').value.replace(',', '');
+        var cost = document.getElementById('iCost').value.replace(/,/g, "");
 
-        var advance = document.getElementById('iAdvance').value.replace(',', '');
+        var advance = document.getElementById('iAdvance').value.replace(/,/g, "");
         if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8) {
             //var val = this.value + (e.which - 48);
             //alert(cost + ' ' + val);
@@ -1421,12 +1425,12 @@
     });
 
     $('#iAdvance').blur(function () {
-        var cost = document.getElementById('iCost').value.replace(',', '');
-        var advance = document.getElementById('iAdvance').value.replace(',', '');
+        var cost = document.getElementById('iCost').value.replace(/,/g, "");
+        var advance = document.getElementById('iAdvance').value.replace(/,/g, "");
         var val = $.trim($(this).val());
 
         if (val.indexOf(',') > -1) {
-            val = val.replace(',', '');
+            val = val.replace(/,/g, "");
         }
 
         var num = parseFloat(val);

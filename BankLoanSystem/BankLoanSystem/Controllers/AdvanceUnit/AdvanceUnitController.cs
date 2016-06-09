@@ -3,6 +3,8 @@ using BankLoanSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using BankLoanSystem.Reports;
+using Microsoft.Reporting.WebForms;
 
 
 namespace BankLoanSystem.Controllers
@@ -439,6 +441,29 @@ namespace BankLoanSystem.Controllers
             ViewBag.LoanId = loanId;
             return View();
         }
+
+        public FileResult PrintPage()
+        {
+            if (Session["advUnitloanId"] == null) return null;
+            int loanId = (int)Session["advUnitloanId"];
+
+            Warning[] warnings;
+            string[] streamids;
+            string mimeType;
+            string encoding;
+            string filenameExtension;
+
+            RptDivAdvanceUnit advanceUnitReport = new RptDivAdvanceUnit();
+            var rptViewerPrint = advanceUnitReport.PrintPage(loanId);
+
+            var bytes = rptViewerPrint.LocalReport.Render(
+                "PDF", null, out mimeType, out encoding, out filenameExtension,
+                out streamids, out warnings);
+
+            var fsResult = File(bytes, "application/pdf");
+            return fsResult;
+        }
+
         public FileResult Download(string imagePath)
         {
             string[] tokens = imagePath.Split('/');
