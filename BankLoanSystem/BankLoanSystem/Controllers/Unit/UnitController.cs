@@ -543,7 +543,11 @@ namespace BankLoanSystem.Controllers.Unit
 
             LoanSetupStep1 loanSetupStep1 = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
-            return PartialView((new UnitAccess()).GetLoanPaymentDetailsByLoanId(loanSetupStep1.loanId));
+
+            LoanPaymentDetails advance = (new UnitAccess()).GetLoanPaymentDetailsByLoanId(loanSetupStep1.loanId);
+            ViewBag.AvailableBalance = advance.Amount - advance.UsedAmount;
+
+            return PartialView(advance);
 
         }
 

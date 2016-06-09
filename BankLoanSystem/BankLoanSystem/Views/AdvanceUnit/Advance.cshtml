@@ -8,6 +8,9 @@
 <link href="~/Content/theme.css" rel="stylesheet" />
 <link href="~/Content/triangle.css" rel="stylesheet" />*@
 
+
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+
 @section AddToHead{
    <style>
 
@@ -725,6 +728,7 @@
     var totalRecCount = 0;
     var unitIdSelect = "";
 
+
     function GridUpdate() {
         var ctrl =
                 $('<input />', {
@@ -1083,33 +1087,41 @@
                 "Model": $('#iModel').val().replace(',', '')
             };
 
-            showPleaseWait();
-            $.ajax({
-                url: '/AdvanceUnit/UpdateAdvance/',
-                data: JSON.stringify(unit),
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                success: function (View) {
+            if (parseFloat(AvailableBalance) >= parseFloat(unit.AdvanceAmount)) {
+                showPleaseWait();
+                $.ajax({
+                    url: '/AdvanceUnit/UpdateAdvance/',
+                    data: JSON.stringify(unit),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (View) {
 
-                    
-                    if (View != '0') {
-                        $(location).attr('href', '/AdvanceUnit/Advance');
-                    } else {
-                        $(location).attr('href', '/AdvanceUnit/Advance');
+
+                        if (View != '0') {
+                            $(location).attr('href', '/AdvanceUnit/Advance');
+                        } else {
+                            $(location).attr('href', '/AdvanceUnit/Advance');
+                        }
+                    },
+
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // Your handler here...
+
+                        // if session expires
+                        if (jqXHR.status == "404") {
+                            window.location.href = '/Login/UserLogin?lbl=Session expired';
+                        }
+
+                        hideLoading();
                     }
-                },
+                });
+            }
+            else {
+                showPopup(11);
+                $('#btnAdvance').attr("disabled", false);
+                $('#btnAdvanceAll').attr("disabled", false);
+            }
 
-                error: function (jqXHR, textStatus, errorThrown) {
-                    // Your handler here...
-
-                    // if session expires
-                    if (jqXHR.status == "404") {
-                        window.location.href = '/Login/UserLogin?lbl=Session expired';
-                    }
-
-                    hideLoading();
-                }
-            });
         }
     });
 
@@ -1155,28 +1167,38 @@
                 
             });
             //alert(data.ItemList[1].AdvanceAmount);
-            showPleaseWait();
-            $.ajax({
-                url: '/AdvanceUnit/UpdateAdvanceAll/',
-                data: JSON.stringify(data),
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
+            var countAmount = 0;
+            for (var i=0 ; i < data.ItemList.length; i++) {
+                countAmount = countAmount + parseFloat(data.ItemList[i].AdvanceAmount);
+            }
+            if (parseFloat(AvailableBalance) >= parseFloat(countAmount)) {
+                showPleaseWait();
+                $.ajax({
+                    url: '/AdvanceUnit/UpdateAdvanceAll/',
+                    data: JSON.stringify(data),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
 
-                success: function (View) {
+                    success: function (View) {
 
-                    $(location).attr('href', '/AdvanceUnit/Advance');
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    // Your handler here...
+                        $(location).attr('href', '/AdvanceUnit/Advance');
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // Your handler here...
 
-                    // if session expires
-                    if (jqXHR.status == "404") {
-                        window.location.href = '/Login/UserLogin?lbl=Session expired';
+                        // if session expires
+                        if (jqXHR.status == "404") {
+                            window.location.href = '/Login/UserLogin?lbl=Session expired';
+                        }
+
+                        hideLoading();
                     }
-
-                    hideLoading();
-                }
-            });
+                });
+            } else {
+                showPopup(11);
+                $('#btnAdvance').attr("disabled", false);
+                $('#btnAdvanceAll').attr("disabled", false);
+            }
         }
 
     });
@@ -1696,3 +1718,52 @@
 <div id="titles"></div>
 
 
+<div class="overlay-content popup11" style="width:491px;text-align:center;margin-left: 232px;top:314px !important">
+
+
+    <h3>Message</h3>
+
+    <span class="text-warning"> The amount you are trying to advance is more than what is available in the loan. If trying to advance multiple units please go back and uncheck some units so the advance amount does not exceed the available loan amount. Otherwise some active units will need to be paid down before this advance can be completed.  </span><br />
+    <br />
+    <button class="close-btn btn btn-info" style="width:70px">Ok</button>
+
+
+</div>
+<script>
+
+
+    // function to show our popups
+    function showPopup(whichpopup) {
+        var docHeight = $(document).height(); //grab the height of the page
+        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+        $('.popup' + whichpopup).show().css({ 'top': scrollTop + 314 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+    }
+
+    // function to close our popups
+    function closePopup() {
+        $('.overlay-bg, .overlay-content').hide(); //hide the overlay
+    }
+
+    // timer if we want to show a popup after a few seconds.
+    //get rid of this if you don't want a popup to show up automatically
+    // setTimeout(function() {
+    // Show popup3 after 2 seconds
+    //    showPopup(3);
+    // }, 2000);
+
+
+    // show popup when you click on the link
+    $('.show-popup').click(function (event) {
+        //event.preventDefault(); // disable normal link function so that it doesn't refresh the page
+        var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
+
+        showPopup(selectedPopup); //we'll pass in the popup number to our showPopup() function to show which popup we want
+    });
+
+    // hide popup when user clicks on close button or if user clicks anywhere outside the container
+    $('.close-btn').click(function () {
+        closePopup();
+    });
+
+    </script>

@@ -245,11 +245,11 @@
         $(document).on("blur", "input", function () {
             var isError = false;
 
-            if ($('#txtCost').next('span').children('span').text().length > 0 || $('#txtAdvanceAmount').next('span').children('span').text().length > 0 || $('#rdAdvanceNo').next('span').children('span').text().length > 0 || $('#rdNo').next('span').children('span').text().length > 0) {
+            //if ($('#txtCost').next('span').children('span').text().length > 0 || $('#txtAdvanceAmount').next('span').children('span').text().length > 0 || $('#rdAdvanceNo').next('span').children('span').text().length > 0 || $('#rdNo').next('span').children('span').text().length > 0) {
 
-                $('.centered span').text('Error');
-                isError = true;
-            }
+            //    $('.centered span').text('Error');
+            //    isError = true;
+            //}
 
 
 
@@ -280,12 +280,12 @@
                 //    $('.centered span').text('Error');
                 //    isError = true;
                 //}
-                if ($(this).next('span').next('#tagscloud').children('span').text() != "" || $(this).next('span').next('#tagscloudAdvance').children('span').text() || $('.vinCheck').text() || $('.co').text() || $('.ad').text()) {
-                    $('.centered span').text('Error');
-                    isError = true;
-                } else {
-                    isError = false;
-                }
+                //if ($(this).next('span').next('#tagscloud').children('span').text() != "" || $(this).next('span').next('#tagscloudAdvance').children('span').text() || $('.vinCheck').text() || $('.co').text() || $('.ad').text()) {
+                //    $('.centered span').text('Error');
+                //    isError = true;
+                //} else {
+                //    isError = false;
+                //}
             }
             //alert($('.vinCheck').text().length);
 
@@ -338,10 +338,16 @@
             //alert("ok");
 
             //$('.centered span').text('Error');
-            if (isError === false)
-                $('.centered span').text('');
-            else
-                $('.centered span').text('Error');
+            @if(ViewBag.Title != "Add Unit Page"){
+                <text>
+                if (isError === false)
+                    $('.centered span').text('');
+                else
+                    $('.centered span').text('Error');
+
+                </text>
+            }
+
 
         });
     });
