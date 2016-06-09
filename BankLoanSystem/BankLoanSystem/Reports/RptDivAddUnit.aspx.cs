@@ -51,10 +51,31 @@ namespace BankLoanSystem.Reports
 
         }
 
-        //public void PrintPage(int loanId)
-        //{
-        //    ReportPrintDocument rpd = new ReportPrintDocument(rptViewerAddUnit.LocalReport);
-        //    rpd.Print();
-        //}
+        public ReportViewer PrintPage(int loanId, int userId)
+        {
+            ReportViewer rptViewerAddUnitPrint = new ReportViewer();
+
+            rptViewerAddUnitPrint.ProcessingMode = ProcessingMode.Local;
+            rptViewerAddUnitPrint.Reset();
+            rptViewerAddUnitPrint.LocalReport.EnableExternalImages = true;
+            rptViewerAddUnitPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAddUnit.rdlc");
+            rptViewerAddUnitPrint.ZoomMode = ZoomMode.PageWidth;
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            foreach (var dates in details)
+            {
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+
+            rptViewerAddUnitPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+
+            List<RptAddUnit> units = ra.GetJustAddedUnitDetails(userId, loanId);
+
+            rptViewerAddUnitPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
+
+            return rptViewerAddUnitPrint;
+        }
     }
 }
