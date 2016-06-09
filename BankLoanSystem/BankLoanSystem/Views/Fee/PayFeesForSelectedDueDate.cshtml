@@ -427,7 +427,7 @@ if (Model.Type == "advanceFee")
                                     var tr = $(this).parents('tr:first');
                                     totalRecCount++;
                                     if (document.getElementById('all').checked) {
-                                        total = total + parseFloat(tr.find("#am").text().replace(',', ''));
+                                        total = total + parseFloat(tr.find("#am").text().replace(/,/g, ""));
                                         checkCount++;
                                         if (tr.find("#curtailmentStatus").val() === '2') {
                                             $(this).parents('tr').css('background', '#fff5cc');  $('#partialPaymentColor').show();
@@ -489,7 +489,7 @@ if (Model.Type == "advanceFee")
                     var checked = tr.find("#all").is(':checked');
 
                     if (checked) {
-                        total = total + parseFloat(tr.find("#am").text().replace(',', ''));
+                        total = total + parseFloat(tr.find("#am").text().replace(/,/g, ""));
 
                         checkCount++;
                         if (tr.find("#curtailmentStatus").val() === '2') {
@@ -501,7 +501,7 @@ if (Model.Type == "advanceFee")
 
 
                     } else {
-                        total = total - parseFloat(tr.find("#am").text().replace(',', ''));
+                        total = total - parseFloat(tr.find("#am").text().replace(/,/g, ""));
                         checkCount--;
                         if (tr.find("#curtailmentStatus").val() === '2') {
                             $(this).parents('tr').css('background', '#fffae6'); //not checked color of partial payment
@@ -653,7 +653,7 @@ if (Model.Type == "advanceFee")
                             }
 
                             checkCount++;
-                            total = total + parseFloat(row.find("#am").text().replace(',', ''));
+                            total = total + parseFloat(row.find("#am").text().replace(/,/g, ""));
 
                             if (checkCount == 1 &&  $("#hdnSelectedButton").val() == "advanceFee") {ClearSearchGrid() ;
                                 SetTextBoxValues(row);
@@ -836,8 +836,8 @@ if (Model.Type == "advanceFee")
                 $('#iFeeId').val(tr.find("#all").val());
                 $('#iCurtNumber').val(tr.find("#CurtNumber").text());
                 $('#iDateAdvance').val(tr.find("#dateAdvance").text());
-                $('#iCurtAmount').val(tr.find("#am").text().replace(',', ''));
-                $('#aCurtAmount').val(tr.find("#am").text().replace(',', ''));
+                $('#iCurtAmount').val(tr.find("#am").text().replace(/,/g, ""));
+                $('#aCurtAmount').val(tr.find("#am").text().replace(/,/g, ""));
                 $('#errorCurtAmount').text('');
                 //$('#iCurtAmount').removeClass('input-validation-error');
                 $('#errorFeesPayDate').text('');

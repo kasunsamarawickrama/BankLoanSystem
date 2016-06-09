@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>index</title>
+    <style>
+        html {
+            background: url(/Images/Error_page_landscape.png) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        body > div {
+            top: 10%;
+            right: 5%;
+            position: absolute;
+        }
+
+            body > div > .text1 {
+                width: 600px;
+                text-align: left;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            body > div > .text2 {
+                width: 800px;
+            }
+
+        p {
+            font-size: 37px;
+        }
+
+        body > div > a {
+            color: #186198;
+            text-decoration: none;
+        }
+
+        button {
+            border: none;
+            border-radius: 15px;
+            width: 200px;
+            height: 65px;
+            background-color: #402cb9;
+            color: white;
+            font-size: 35px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        button:hover{
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="text1">
+            <p>Oops,<br /> it looks like something went wrong.</p>
+
+
+        </div>
+        <div class="text2" style="text-align:center;color:#186198;">
+            <p>Please try accessing the program from the login page</p>
+            <button onclick="window.location.href = '/Login/UserLogin';">Login</button>
+        </div>
+
+    </div>
+</body>
+</html>

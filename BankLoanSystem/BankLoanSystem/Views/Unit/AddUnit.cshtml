@@ -1271,7 +1271,7 @@
                         },
                         error: function (jqXHR, textStatus, errorThrown){
                             // Your handler here...
-                            $('.vinUnique').val("");
+                            //$('.vinUnique').val("");
                             // if session expires
                             if(jqXHR.status == "404"){
                                 window.location.href='/Login/UserLogin?lbl=Session expired';
@@ -2423,7 +2423,13 @@
 
 
                     $("#tagscloud span").text("");
-                    if($(this).val().length >= 12 ){
+                    var val1 = $(this).val();
+                    val1 = val1.replace(/,/g, '');
+
+                    var num1 = parseFloat(val1);
+                    num1 = num1.toFixed(2);
+
+                    if(num1.length > 12 ){
                         e.preventDefault();
                     }
                     else if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8 ||e.keyCode === 9) {
@@ -2527,7 +2533,7 @@
                         advanceAmount = parseFloat(advanceAmount);
                         advanceAmountRoundUp = advanceAmount.toFixed(2);
                         document.getElementById('txtLoanAdvanceAmount').value = advanceAmountRoundUp;
-
+                        $("#tagscloudAdvance span").text("");
                         if (advanceAmountRoundUp == ""||advanceAmountRoundUp <=  0) {
                             //$("#tagscloudAdvance span").fadeIn();
                             //$(this).addClass('input-validation-error');
