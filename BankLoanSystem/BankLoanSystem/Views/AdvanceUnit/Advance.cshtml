@@ -750,9 +750,12 @@
                         totalRecCount = 0;
                         $('.advanceAmount').each(function () {
                             var tr = $(this).parents('tr:first');
+                            
                             totalRecCount++;
+                            
                             if (document.getElementById('all').checked) {
-                                total = total + parseFloat(tr.find("#am").text().replace(',', ''));
+                                total = total + parseFloat(tr.find("#am").text().replace(/,/g, ""));
+                                //alert(tr.find("#am").text().replace(/,/g, ""));
                                 checkCount++;
 
                                 $(this).parents('tr').css('background', 'lightblue');
@@ -1103,7 +1106,7 @@
     });
 
     $('#btnAdvanceAll').click(function (e) {
-
+        
         if ($('#errorStartDate').text() != "") {
             e.preventDefault();
             return;
@@ -1141,8 +1144,9 @@
                     });
 
                 }
+                
             });
-
+            //alert(data.ItemList[1].AdvanceAmount);
             showPleaseWait();
             $.ajax({
                 url: '/AdvanceUnit/UpdateAdvanceAll/',
