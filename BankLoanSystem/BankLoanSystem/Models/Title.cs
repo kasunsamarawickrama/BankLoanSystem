@@ -13,7 +13,7 @@ namespace BankLoanSystem.Models
         [Required(ErrorMessage = "Please specify an email address for the reminder to be sent to.")]
         public string RemindEmail { get; set; }
 
-        [Required(ErrorMessage = "Please choose when to email the reminder if the title is not received.")]
+        [Required(ErrorMessage = "Please specify when to email the reminder if the title is not received.")]
         [Range(1, int.MaxValue, ErrorMessage = "Remind Period must be greater than 0")]
         [RegularExpression(@"^[0-9]*$", ErrorMessage = "Invalid Remind Period")]
         public int RemindPeriod { get; set; }

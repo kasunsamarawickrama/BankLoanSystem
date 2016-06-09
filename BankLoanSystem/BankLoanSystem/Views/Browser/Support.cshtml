@@ -26,16 +26,16 @@
             if ((BrowserType.ToUpper().Contains("FIREFOX") && MajorVersion < 24))
             {
                 // remove
-                <span>This Firefox version is not supported. Please install latest version. To download latest version <a href="https://www.mozilla.org/en-US/firefox/new/?scene=2#download-fx"> Click Here</a></span>
+                <span>You are currently using Firefox version @MajorVersion. This version of Firefox is not supported. Please install the latest version to access the program. Download the latest version <a href="https://www.mozilla.org/en-US/firefox/new/?scene=2#download-fx">here</a></span>
 
             }
             else if ((BrowserType.ToUpper().Contains("CHROME") && MajorVersion < 5))
             {
-                <span>This Chrome version is not supported. Please install latest version. To download latest version <a href="https://www.google.com/chrome/browser/desktop/index.html">Click here</a> </span>
+                <span>You are currently using Google Chrome version @MajorVersion. This version of Google Chrome is not supported. Please install the latest version to access the program. Download the latest version <a href="https://www.google.com/chrome/browser/desktop/index.html">here</a> </span>
             }
             else if ((BrowserType.ToUpper().Contains("INTERNETEXPLORER") && MajorVersion < 10))
             {
-                <span>This Internet Explorer version is not supported. Please install to latest version. To download latest version <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Click Here</a></span>
+                <span>You are currently using Internet Explorer version @MajorVersion. This version of Internet Explorer is not supported. Please install the latest version to access the program. Download the latest version <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">here</a></span>
             }
             else if (BrowserType.ToUpper().Contains("INTERNETEXPLORER") && MajorVersion > 10)
             {
@@ -49,7 +49,7 @@
                     // remove all
                     //alert("don't allow");
                     //$('html').text('');
-                    $('body div').append(' <span>This Internet Explorer version is not supported. Please install latest version. To download latest version <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Click Here</a></span>');
+                    $('body div').append(' <span>This version of Internet Explorer is not supported. Please install the latest version to access the program. Download the latest version <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">here</a></span>');
                 }
 
                 </script>
@@ -57,10 +57,10 @@
             }
             else if (!((BrowserType.ToUpper().Contains("FIREFOX") && MajorVersion > 24) || (BrowserType.ToUpper().Contains("CHROME") && MajorVersion > 5) || (BrowserType.ToUpper().Contains("INTERNETEXPLORER") && MajorVersion > 10)))
             {
-                <span>This Browser is not supported. Please install Chrome / FireFox / Internet Explorer.<br />
-                 To download Chrome <a href="https://www.google.com/chrome/browser/desktop/index.html">Click here</a> <br />
-                 To download FireFox <a href="https://www.mozilla.org/en-US/firefox/new/?scene=2#download-fx"> Click Here</a> <br />
-                 To download Internet Explorer <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Click Here</a>
+                <span>You are currently using @BrowserType browser. This browser is not supported. Please install one of the following browsers to access the program.<br />
+                 Download Google Chrome <a href="https://www.google.com/chrome/browser/desktop/index.html">here</a> <br />
+                 Download Firefox <a href="https://www.mozilla.org/en-US/firefox/new/?scene=2#download-fx">here</a> <br />
+                 Download Internet Explorer <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">here</a>
                 </span>
             }
             else if((BrowserType.ToUpper().Contains("FIREFOX") && MajorVersion > 24) || (BrowserType.ToUpper().Contains("CHROME") && MajorVersion > 5) || (BrowserType.ToUpper().Contains("INTERNETEXPLORER") && MajorVersion > 10))

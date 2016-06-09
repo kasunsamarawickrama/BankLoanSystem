@@ -74,7 +74,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Current Password")]
         public string CurrentPassword { get; set; }
 
-        [Required(ErrorMessage = "Please create the Password")]
+        [Required(ErrorMessage = "Please create a Password")]
         [StringLength(30, ErrorMessage = "Please chose a Password at least 6 characters long", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

@@ -267,8 +267,8 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
 
                     <div class="form-group row" style="margin-top:25px !important;margin-left: 13px !important;text-align:left">
-                        <input type="checkbox" id="report2" value="Report" style="width:16px;height:16px" /><label>Print a report of the transactions being submitted at this time</label><br />
-                        <input type="checkbox" id="emailReceipt2" value="email" style="width:16px;height:16px" /><label>Email a report of the transactions being submitted at this time to the dealer</label>
+                        <input type="checkbox" id="report2" value="Report" style="width:16px;height:16px" /><label>Print a report of the transaction being submitted at this time</label><br />
+                        <input type="checkbox" id="emailReceipt2" value="email" style="width:16px;height:16px" /><label>Email a report of the transaction being submitted at this time to the dealer</label>
                         <div id="receiptEmail2" hidden>
                             <label style="margin-left: -315px;">
                                 email address</label>
@@ -1276,10 +1276,11 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                 //});
 
                             } else {
+                                hideLoading();
                                 $('.centered1 span').text('Successfully Updated');
                                 GetCurrentCurtailment($('#dueDate').val());
 
-                                hideLoading();
+                                
                                 window.scrollTo(0, 0);
 
                             }
