@@ -449,7 +449,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
                             totalRecCount++;
                             if (document.getElementById('all').checked) {
-                                total = total + parseFloat(tr.find("#am").text().replace(',', ''));
+                                total = total + parseFloat(tr.find("#am").text().replace(/,/g, ""));
                                 checkCount++;
                                 if (tr.find("#curtailmentStatus").val() === '2') {
                                     $(this).parents('tr').css('background', '#C18410');  $('#partialPaymentColor').show();
@@ -509,7 +509,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
             var checked = tr.find("#all").is(':checked');
 
             if (checked) {
-                total = total + parseFloat(tr.find("#am").text().replace(',', ''));
+                total = total + parseFloat(tr.find("#am").text().replace(/,/g, ""));
 
                 checkCount++;
                 if (tr.find("#curtailmentStatus").val() === '2') {
@@ -521,7 +521,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
 
             } else {
-                total = total - parseFloat(tr.find("#am").text().replace(',', ''));
+                total = total - parseFloat(tr.find("#am").text().replace(/,/g, ""));
                 checkCount--;
                 if (tr.find("#curtailmentStatus").val() === '2') {
                     $(this).parents('tr').css('background', '#ecb764'); //not checked color of partial payment
@@ -667,7 +667,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                     }
 
                     checkCount++;
-                    total = total + parseFloat(row.find("#am").text().replace(',', ''));
+                    total = total + parseFloat(row.find("#am").text().replace(/,/g, ""));
 
                     if (checkCount == 1) {ClearSearchGrid() ;
                         SetTextBoxValues(row);
@@ -849,8 +849,8 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         $('#iCurtNumber').val(tr.find("#CurtNumber").text());
 
         $('#iDateAdvance').val(tr.find("#dateAdvance").text());
-        $('#iCurtAmount').val(tr.find("#am").text().replace(',', ''));
-        $('#aCurtAmount').val(tr.find("#am").text().replace(',', ''));
+        $('#iCurtAmount').val(tr.find("#am").text().replace(/,/g, ""));
+        $('#aCurtAmount').val(tr.find("#am").text().replace(/,/g, ""));
         $('#errorCurtAmount').text('');
         $('#iCurtAmount').removeClass('input-validation-error');
         $('#errorCurtPayDate').text('');
@@ -1192,7 +1192,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                     var checked = tr.find("#all").is(':checked');
                     if (checked) {
                         data.SelectedCurtailmentSchedules.push({
-                            UnitId: tr.find("#all").val(), IDNumber: tr.find("#vin").text(), CurtNumber: tr.find("#CurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: tr.find("#am").text().replace(',',''),
+                            UnitId: tr.find("#all").val(), IDNumber: tr.find("#vin").text(), CurtNumber: tr.find("#CurtNumber").text(), PayDate: $('#payDate').val(), CurtAmount: tr.find("#am").text().replace(/,/g, ""),
                             Year: tr.find("#year").text(), Make: tr.find("#make").text(), Model: tr.find("#model").text()
                         });
 
@@ -1609,7 +1609,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
 
                 data.SelectedCurtailmentSchedules.push({
-                    UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").val(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(',', ''),
+                    UnitId: $('#iUnitID').val(), IDNumber: $('#iVin').val(), CurtNumber: $("#iCurtNumber").val(), PayDate: $('#payDate').val(), CurtAmount: $('#iCurtAmount').val().replace(/,/g, ""),
                     Year: $("#iYear").val(), Make: $("#iMake").val(), Model: $("#iModel").val()
                 });
 
@@ -1851,7 +1851,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         var val = $.trim($(this).val());
 
         if (val.indexOf(',') > -1) {
-            val = val.replace(',', '');
+            val = val.replace(/,/g, "");
         }
         //if (val.indexOf('$') > -1) {
         //    val = val.replace('$', '');
