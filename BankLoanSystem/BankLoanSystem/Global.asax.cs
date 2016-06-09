@@ -35,6 +35,8 @@ namespace BankLoanSystem
         /// <param name="e"></param>
         protected void Application_Error(object sender, EventArgs e)
         {
+            Session.Clear(); // asanka 09062016
+
             Exception exception = Server.GetLastError();
             Response.Clear();
 
@@ -46,10 +48,10 @@ namespace BankLoanSystem
             Response.Write(exception.Message + "\n");
             //Response.Write("Return to the <a href='/UserManagement/UserDetails'>" + "Dashboard</a>\n");
             Response.Write(exception.StackTrace + "\n");
-           
+
             // Clear the error from the server
-            Server.ClearError();
-           
+            //Server.ClearError(); comment by Asanka
+
         }
 
             //protected void Application_BeginRequest(object sender, EventArgs e)
