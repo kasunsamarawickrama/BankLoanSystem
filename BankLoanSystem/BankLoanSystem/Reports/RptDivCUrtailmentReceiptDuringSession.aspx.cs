@@ -81,7 +81,6 @@ namespace BankLoanSystem.Reports
             rptViewerCurtailmentReceiptDuringSessionPrint.Reset();
             rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport.EnableExternalImages = true;
             rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptCurtailmentDuringSession.rdlc");
-            rptViewerCurtailmentReceiptDuringSessionPrint.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
