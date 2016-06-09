@@ -59,23 +59,6 @@ namespace BankLoanSystem.Reports
                     var advanceUnits = ra.AdvanceUnitsDuringSession(xmlDoc);
                     
                     rptViewerAdvanceUnit.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", advanceUnits));
-
-                    //Warning[] warnings;
-                    //string[] streamids;
-                    //string mimeType;
-                    //string encoding;
-                    //string filenameExtension;
-
-                    //byte[] bytes = rptViewerAdvanceUnit.LocalReport.Render(
-                    //    "PDF", null, out mimeType, out encoding, out filenameExtension,
-                    //    out streamids, out warnings);
-
-                    //using (FileStream fs = new FileStream(Server.MapPath("AdvanceUnit.pdf"), FileMode.Create))
-                    //{
-                    //    fs.Write(bytes, 0, bytes.Length);
-                    //}
-
-                    
                 }
                 catch (Exception e)
                 {
@@ -88,10 +71,49 @@ namespace BankLoanSystem.Reports
             }
         }
 
-        public void PrintPage(int loanId)
+        public ReportViewer PrintPage(int loanId)
         {
-            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerAdvanceUnit.LocalReport);
-            //rpd.Print();
+            ReportViewer rptViewerAdvanceUnitPrint = new ReportViewer();
+
+            rptViewerAdvanceUnitPrint.ProcessingMode = ProcessingMode.Local;
+            rptViewerAdvanceUnitPrint.Reset();
+            rptViewerAdvanceUnitPrint.LocalReport.EnableExternalImages = true;
+            rptViewerAdvanceUnitPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAdvanceUnit.rdlc");
+            
+            List<Unit> units = (List<Unit>)Session["AdvItems"];
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            foreach (var dates in details)
+            {
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+
+            rptViewerAdvanceUnitPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+
+            if (units != null && units.Count > 0)
+            {
+                try
+                {
+                    XElement xEle = new XElement("Units",
+                    from unit in units
+                    select new XElement("Unit",
+                        new XElement("UnitId", unit.UnitId)
+                        ));
+                    string xmlDoc = xEle.ToString();
+
+                    var advanceUnits = ra.AdvanceUnitsDuringSession(xmlDoc);
+
+                    rptViewerAdvanceUnitPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", advanceUnits));
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+
+            return rptViewerAdvanceUnitPrint;
         }
     }
 }
