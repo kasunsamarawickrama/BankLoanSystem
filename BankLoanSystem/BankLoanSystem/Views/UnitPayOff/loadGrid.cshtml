@@ -500,7 +500,7 @@
         }
 
         $('table#checkableGrid > tbody > tr').each(function () {
-            var balance = $(this).find("#balance").text().replace(',', '');
+            var balance = $(this).find("#balance").text().replace(/,/g, "");
             //alert(balance);
             $(this).find("#all").prop('checked', status);
             if (status === true) {
@@ -552,7 +552,7 @@
             $(this).find("#all").prop('checked', true);
             countSelect++;
 
-            var balance = $(this).find("#balance").text().replace(',', '');
+            var balance = $(this).find("#balance").text().replace(/,/g, "");
             totalToPay = parseFloat(totalToPay) + parseFloat(balance);
             totalToPay = totalToPay.toFixed(2);
 
@@ -625,7 +625,7 @@
         SetMinDate($(this).parent().parent());
         var isChecked = $(this).is(':checked');
 
-        var balance = $(this).parent().parent().find("#balance").text().replace(',', '');
+        var balance = $(this).parent().parent().find("#balance").text().replace(/,/g, "");
 
         if (isChecked === false) {
             countSelect--;
@@ -754,7 +754,7 @@
         $('#iMake').val(tr.find("#make").text());
         $('#iModel').val(tr.find("#model").text());
         $('#iCost').val(tr.find("#cost").text());
-        $('#iBalance').val(tr.find("#balance").text().replace(',', ''));
+        $('#iBalance').val(tr.find("#balance").text().replace(/,/g, ""));
         $('#iUnitId').val(tr.find("#all").val());
         if(tr.find("#advanceDate").val() != ""){
             $('#iAdvanceDate').val((tr.find("#advanceDate").val()).slice(0, -11));
@@ -769,7 +769,7 @@
         @if (ViewBag.AdvanceFee != 0)
         {
         <text>
-        var pay = tr.find("#balance").text().replace(',', '')
+        var pay = tr.find("#balance").text().replace(/,/g, "")
         var tot = 0;
         if(tr.find('#isAdvancePaid').val() != 'False'){
             $('#iAdvanceFee').val('0.00');
@@ -853,7 +853,7 @@
                 if (isChecked === true) {
                     var loanId = document.getElementById('loanId').value;
                     var unitId = $(this).find("#all").val();
-                    var balance = $(this).find("#balance").text().replace(',', '');
+                    var balance = $(this).find("#balance").text().replace(/,/g, "");
                     var idNum = $(this).find("#vin").text();
                     var year = $(this).find("#year").text(); //document.getElementById('iYear').value;
                     var make = $(this).find("#make").text(); //document.getElementById('iMake').value;
