@@ -341,7 +341,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Advance Date</Value>
+                              <Value>Date Added</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -545,7 +545,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Advance Amount</Value>
+                              <Value>Status</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -579,7 +579,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Unit Staus</Value>
+                              <Value>Advanced Amount</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -645,14 +645,14 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="AdvanceDate">
+                    <Textbox Name="AddDate">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!AdvanceDate.Value</Value>
+                              <Value>=Fields!AddDate.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -661,7 +661,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>AdvanceDate</rd:DefaultName>
+                      <rd:DefaultName>AddDate</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -880,12 +880,12 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!AdvanceAmount.Value</Value>
+                              <Value>=Fields!UnitStaus.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -918,12 +918,12 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!UnitStaus.Value</Value>
+                              <Value>=Fields!AdvanceAmount.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Left</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -983,7 +983,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -1112,6 +1111,13 @@
       </ConnectionProperties>
       <rd:DataSourceID>857f1eb2-4572-49f5-8a59-17197acf4860</rd:DataSourceID>
     </DataSource>
+    <DataSource Name="BankLoanSystemDAL3">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>fb7492a5-7ef0-47f6-8714-31718e0a258d</rd:DataSourceID>
+    </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="DataSet1">
@@ -1159,10 +1165,18 @@
     </DataSet>
     <DataSet Name="DataSet2">
       <Query>
-        <DataSourceName>BankLoanSystemDAL2</DataSourceName>
+        <DataSourceName>BankLoanSystemDAL3</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
+        <Field Name="LoanId">
+          <DataField>LoanId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="AddDate">
+          <DataField>AddDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="AdvanceDate">
           <DataField>AdvanceDate</DataField>
           <rd:TypeName>System.String</rd:TypeName>

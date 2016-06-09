@@ -252,7 +252,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                             <label for="">Curtailment Amount </label>
                         @Html.Hidden("aCurtAmount", new {@id = "aCurtAmount"})
                         @Html.Editor("iCurtAmount", new {@id = "iCurtAmount", htmlAttributes = new {@class = "form-control", style = "text-align:right;"}})
-                        <span class="text-danger field-validation-error" id="errorCurtAmount" style="left: 8%; width: 274%"></span>
+                        <span class="text-danger field-validation-error" id="errorCurtAmount" style="left: 8%; width: 300%"></span>
                         </div>
                     <div class="col-md-2" style="width:25%;">
                             <label for="">Curtailment Payment Date </label>
@@ -266,9 +266,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                     </div>
 
 
-                    <div style="display: inline-table;margin-left: 13px;">
-                        <input type="checkbox" id="report2" value="Report" style="margin-right:9px;width:16px;height:16px" /><label>Print a report of the transactions being submitted at this time</label><br />
-                        <input type="checkbox" id="emailReceipt2" value="email" style="margin-right:3px;width:16px;height:16px" /><label>Email a report of the transactions being submitted at this time to the dealer</label>
+                    <div class="form-group row" style="margin-top:25px !important;margin-left: 13px !important;text-align:left">
+                        <input type="checkbox" id="report2" value="Report" style="width:16px;height:16px" /><label>Print a report of the transactions being submitted at this time</label><br />
+                        <input type="checkbox" id="emailReceipt2" value="email" style="width:16px;height:16px" /><label>Email a report of the transactions being submitted at this time to the dealer</label>
                         <div id="receiptEmail2" hidden>
                             <label style="margin-left: -315px;">
                                 email address</label>
@@ -1379,7 +1379,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
             }
 
         }else{
-            $('.centered span').text('Your selected items has previous unpaid curtailment, Please pay that also');
+            $('.centered span').html('One or more of the units you have selected to pay curtailment for have an outstanding curtailment due.<br/> Please pay the outstanding curtailment before paying the current curtailment (you may also choose to pay both curtailments at once).');
             window.scrollTo(0, 0);
 
         }
@@ -1885,7 +1885,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
             $('#iCurtAmount').addClass('input-validation-error');
             $('.centered span').text('Error');
         }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) >  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
-            $('#errorCurtAmount').text('Paying Curt Amount can not be greater than Actual Curt Amount');
+            $('#errorCurtAmount').text('The curtailment amount being paid cannot be greater than the curtailment amount currently due.');
             $('#iCurtAmount').addClass('input-validation-error');
             $('.centered span').text('Error');
         }else if(parseFloat(parseFloat($(this).val()).toFixed(2)) <=  parseFloat(parseFloat($("#aCurtAmount").val()).toFixed(2))){
