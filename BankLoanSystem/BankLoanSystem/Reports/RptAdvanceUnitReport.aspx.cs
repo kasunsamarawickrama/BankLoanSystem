@@ -55,5 +55,34 @@ namespace BankLoanSystem.Reports
 
         }
 
+
+        public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
+        {
+            ReportViewer rptViewerAdvanceUnitRptPrint = new ReportViewer();
+            rptViewerAdvanceUnitRptPrint.ProcessingMode = ProcessingMode.Local;
+            rptViewerAdvanceUnitRptPrint.Reset();
+            rptViewerAdvanceUnitRptPrint.LocalReport.EnableExternalImages = true;
+            rptViewerAdvanceUnitRptPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAdvanceReport.rdlc");
+            rptViewerAdvanceUnitRptPrint.ZoomMode = ZoomMode.PageWidth;
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            foreach (var dates in details)
+            {
+                dates.StartRange = startDate.ToString("MM/dd/yyyy");
+                dates.EndRange = endDate.ToString("MM/dd/yyyy");
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+
+            rptViewerAdvanceUnitRptPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+
+            List<ReportFullInventoryUnit> units = ra.GetAdvanceUnitByLoanId(loanId, startDate, endDate);
+            rptViewerAdvanceUnitRptPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
+
+            return rptViewerAdvanceUnitRptPrint;
+
+        }
+
     }
 }

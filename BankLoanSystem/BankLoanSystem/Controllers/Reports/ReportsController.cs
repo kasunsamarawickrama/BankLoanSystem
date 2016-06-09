@@ -237,24 +237,24 @@ namespace BankLoanSystem.Controllers.Reports
                 DateTime startDate = Convert.ToDateTime(range1);
                 DateTime endtDate = Convert.ToDateTime(range2);
 
-                RptDivAdvanceFeeInvoice ciInvoice = new RptDivAdvanceFeeInvoice();
-                rptViewerPrint = ciInvoice.PrintPage(loanId, startDate, endtDate);
+                RptDivAdvanceFeeReceipt adFeeReceipt = new RptDivAdvanceFeeReceipt();
+                rptViewerPrint = adFeeReceipt.PrintPage(loanId, startDate, endtDate);
             }
             else if (rptType == "MonthlyLoanFeeReceipt")
             {
                 DateTime startDate = Convert.ToDateTime(range1);
                 DateTime endtDate = Convert.ToDateTime(range2);
 
-                RptDivMonthlyLoanFeeInvoice ciInvoice = new RptDivMonthlyLoanFeeInvoice();
-                rptViewerPrint = ciInvoice.PrintPage(loanId, startDate, endtDate);
+                RptDivMonthlyLoanFeeReceipt monthlyLoanFeeReceipt = new RptDivMonthlyLoanFeeReceipt();
+                rptViewerPrint = monthlyLoanFeeReceipt.PrintPage(loanId, startDate, endtDate);
             }
             else if (rptType == "LotInspectionFeeReceipt")
             {
                 DateTime startDate = Convert.ToDateTime(range1);
                 DateTime endtDate = Convert.ToDateTime(range2);
 
-                RptDivLotInspectionFeeInvoice ciInvoice = new RptDivLotInspectionFeeInvoice();
-                rptViewerPrint = ciInvoice.PrintPage(loanId, startDate, endtDate);
+                RptDivLotInspectionFeeReceipt lotInspectionFeeReceipt = new RptDivLotInspectionFeeReceipt();
+                rptViewerPrint = lotInspectionFeeReceipt.PrintPage(loanId, startDate, endtDate);
             }
             else if (rptType == "CurtailmentReceipt")
             {
@@ -281,6 +281,14 @@ namespace BankLoanSystem.Controllers.Reports
             {
                 RptDivFullInventory fInventory = new RptDivFullInventory();
                 rptViewerPrint = fInventory.PrintPage(loanId);
+            }
+            else if (rptType == "AdvanceUnit")
+            {
+                DateTime startDate = Convert.ToDateTime(range1);
+                DateTime endtDate = Convert.ToDateTime(range2);
+
+                RptAdvanceUnitReport advanceUnit = new RptAdvanceUnitReport();
+                rptViewerPrint = advanceUnit.PrintPage(loanId, startDate, endtDate);
             }
 
             //return -1;

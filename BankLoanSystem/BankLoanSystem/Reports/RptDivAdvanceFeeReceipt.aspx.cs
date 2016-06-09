@@ -60,5 +60,34 @@ namespace BankLoanSystem.Reports
             rptViewerAdvanceFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerAdvanceFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
         }
+
+        public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
+        {
+            ReportViewer rptViewerAdvanceFeeReceiptPrint = new ReportViewer();
+
+            rptViewerAdvanceFeeReceiptPrint.ProcessingMode = ProcessingMode.Local;
+            rptViewerAdvanceFeeReceiptPrint.Reset();
+            rptViewerAdvanceFeeReceiptPrint.LocalReport.EnableExternalImages = true;
+            rptViewerAdvanceFeeReceiptPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAdvanceFeeReceipt.rdlc");
+            rptViewerAdvanceFeeReceiptPrint.ZoomMode = ZoomMode.PageWidth;
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            foreach (var dates in details)
+            {
+                dates.StartRange = startDate.ToString("MM/dd/yyyy");
+                dates.EndRange = endDate.ToString("MM/dd/yyyy");
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+
+
+            List<RptFee> curtailments = ra.GetFeeReceiptByDateRange(loanId, "advanceFee", startDate, endDate);
+
+            rptViewerAdvanceFeeReceiptPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+            rptViewerAdvanceFeeReceiptPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
+
+            return rptViewerAdvanceFeeReceiptPrint;
+        }
     }
 }

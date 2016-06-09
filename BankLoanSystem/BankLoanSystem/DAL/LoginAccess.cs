@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
 using BankLoanSystem.Code;
+using static System.String;
 
 
 namespace BankLoanSystem.DAL
@@ -47,6 +48,8 @@ namespace BankLoanSystem.DAL
         /// <summary>
         /// CreatedBy : Kasun Samarawickrama
         /// CreatedDate: 2016/01/14
+        /// EditedBy  : Kanishka Mahanama
+        /// EditedDate: 06
         /// 
         /// check employee authentication
         /// </summary>
@@ -55,65 +58,86 @@ namespace BankLoanSystem.DAL
         /// <returns>employeeid</returns>
         public int CheckEmployeeLogin(string username, string password)
         {
-          
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
-            {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand("spEmployeeLogin", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
+            int idOut = 0;
+            string passwordOut = "";
 
-                        cmd.Parameters.Add("@userName", SqlDbType.VarChar).Value = username;
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+            paramertList.Add(new object[] { "@userName", username });
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spEmployeeLogin", paramertList);
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        idOut = Convert.ToInt32(dataRow["system_admin_id"]);
+                        passwordOut = dataRow["password"].ToString();
+                        break;
+                    }
+
+                    if (CompareOrdinal(password, passwordOut) == 0)
+                    {
+                        return idOut;
+                    }
+                    
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            //using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
+            //{
+            //    try
+            //    {
+            //        using (SqlCommand cmd = new SqlCommand("spEmployeeLogin", con))
+            //        {
+            //            cmd.CommandType = CommandType.StoredProcedure;
+
+            //            cmd.Parameters.Add("@userName", SqlDbType.VarChar).Value = username;
                         
 
-                        con.Open();
-                        cmd.ExecuteNonQuery();
-                        //SqlParameter idOut = cmd.Parameters.Add("@IdOut", SqlDbType.Int);
-                        //SqlParameter passwordOut = cmd.Parameters.Add("@PasswordOut", SqlDbType.VarChar);
-                        //idOut.Direction = ParameterDirection.ReturnValue;
-                        //passwordOut.Direction = ParameterDirection.ReturnValue;
-                        //cmd.ExecuteNonQuery();
-                        int idOut = 0;
-                        string passwordOut = "";
-                        var reader = cmd.ExecuteReader();
-                        if (reader.Read())
-                        {
-                            idOut = Convert.ToInt32(reader["system_admin_id"]);
-                            passwordOut = reader["password"].ToString();
-                        }
+            //            con.Open();
+            //            cmd.ExecuteNonQuery();
+
+            //            int idOut = 0;
+            //            string passwordOut = "";
+            //            var reader = cmd.ExecuteReader();
+            //            if (reader.Read())
+            //            {
+            //                idOut = Convert.ToInt32(reader["system_admin_id"]);
+            //                passwordOut = reader["password"].ToString();
+            //            }
 
 
-                        int idFromDB = (int)idOut;
-                        string passwordFromDB = (string)passwordOut;
+            //            int idFromDB = (int)idOut;
+            //            string passwordFromDB = (string)passwordOut;
 
-                        //char[] delimiter = { ':' };
+            //            //char[] delimiter = { ':' };
 
-                        //string[] split = passwordFromDB.Split(delimiter);
+            //            //string[] split = passwordFromDB.Split(delimiter);
 
-                        //string passwordEncripted = PasswordEncryption.encryptPassword(password,split[1]);
+            //            //string passwordEncripted = PasswordEncryption.encryptPassword(password,split[1]);
 
-                        if (string.Compare(password, password) == 0)
-                        {
-                            return idFromDB;
-                        }
-                        else {
-                            return -1;
-                        }
+            //            if (string.Compare(password, passwordFromDB) == 0)
+            //            {
+            //                return idFromDB;
+            //            }
+            //            else {
+            //                return -1;
+            //            }
 
-                    }
-                }
-
-
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
-                }
-            }
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        throw ex;
+            //    }
+            //}
         }
 
         public DataSet GetDealerUserCompanyBranch(int userId)

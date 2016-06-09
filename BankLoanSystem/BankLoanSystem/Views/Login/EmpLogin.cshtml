@@ -1,0 +1,163 @@
+﻿@model BankLoanSystem.Models.UserLogin
+@{
+    ViewBag.Title = "UserLogin";
+    Layout = "~/Views/Shared/_login.cshtml";
+}
+
+
+
+@{
+    // checking browser combatability
+
+    HttpBrowserCapabilitiesBase objBrwInfo = Request.Browser;
+
+    // pass the type and version.
+    string browserType = objBrwInfo.Type;
+    int majorVersion = objBrwInfo.MajorVersion;
+
+    if ((browserType.ToUpper().Contains("FIREFOX") && majorVersion < 24) || (browserType.ToUpper().Contains("CHROME") && majorVersion < 5) || (browserType.ToUpper().Contains("INTERNETEXPLORER") && majorVersion < 10))
+    {
+        // remove
+        <script>
+            window.location.href = "/Browser/Support";
+
+        </script>
+    }
+    else if (browserType.ToUpper().Contains("INTERNETEXPLORER") && majorVersion > 10)
+    {
+        <script>
+            var version = navigator.userAgent;
+            if (version.toUpperCase().indexOf("RV:") > -1 || version.toUpperCase().indexOf("MSIE 10.0") > -1) {
+                // allow
+
+
+            } else {
+                // remove all
+                //alert("don't allow");
+                //$('html').text('');
+                window.location.href = "/Browser/Support";
+            }
+
+        </script>
+
+    }
+    else if (!((browserType.ToUpper().Contains("FIREFOX")) || (browserType.ToUpper().Contains("CHROME")) || (browserType.ToUpper().Contains("INTERNETEXPLORER"))))
+    {
+        <script>
+            window.location.href = "/Browser/Support";
+
+        </script>
+    }
+}
+
+<div class="container loginwrapper">
+    <div class="loginBanner">
+        <h1>Floor Plan Financing</h1>
+    </div>
+    <div class="login-container">
+        <div class="loginInner">
+            <div class="loginHeader">
+                <h1 class="logo-name">Management Software</h1>
+            </div>
+            <h5 class="form-signin-heading"> &nbsp;<!--Please sign in--></h5>
+            @using (Html.BeginForm("EmpLogin", "Login", FormMethod.Post, new { @class = "form-signin" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="text-danger"> <span></span> </div>
+                <div class="form-group login-form-group">
+                    @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", placeholder = "Username", id = "userName" } })
+                    <div class="loginerror"><p>@Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })</p></div>
+                </div>
+
+
+                <div class="form-group login-form-group">
+                    @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", placeholder = "Password", id = "password" } })
+                    <div class="loginerror">
+                        <p>@Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })</p>
+                    </div>
+                </div>
+
+                <div class="errorMsg"><p id="error" style="height: 31px;">@Html.DisplayFor(item => item.lbl)</p></div>
+                <div class="login-button">
+                    <button class="btn btn-md btn-success btn-block" id="sub" type="submit">Sign in</button>
+                </div>
+
+            }
+        </div>
+    </div>
+    <!-- / login container -->
+</div>
+<script>
+
+    jQuery(function () {
+        jQuery.support.placeholder = false;
+        var test = document.createElement('input');
+        if ('placeholder' in test) jQuery.support.placeholder = true;
+    });
+
+    $(function () {
+        if (!$.support.placeholder) {
+            $('input').focusin(function () {
+                if ($(this).attr('placeholder') !== '' && $(this).val() === $(this).attr('placeholder')) {
+                    $(this).val('');
+                }
+            }).blur(function () {
+                if ($(this).attr('placeholder') !== '' && ($(this).val() === '' || $(this).val() === $(this).attr('placeholder'))) {
+                    $(this).val($(this).attr('placeholder'));
+                }
+            });
+            $('input').blur();
+        }
+    });
+
+    $('#sub').click(function () {
+        if (!$.support.placeholder) {
+            if ($('#userName').attr('placeholder') !== '' && $('#userName').val() === $('#userName').attr('placeholder')) {
+                $('#userName').val('');
+            }
+            else if ($('#password').attr('placeholder') !== '' && $('#password').val() === $('#password').attr('placeholder')) {
+                $('#password').val('');
+            }
+        }
+
+    });
+</script>
+<script>
+
+    $('#userName').focusout(function () {
+        $(this).attr('placeholder', 'User Name');
+    });
+
+    $('#userName').keypress(function (e) {
+        //var array = [' ', '/', '`', '~', '!'];
+        var array = ['~', '`', '!', '#', '$', '%', '&', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', '@@', ' ', "'", '.'];
+        var res = InvalidCharacters(this, array, e.which);
+
+        if (res === 1) {
+            e.preventDefault();
+            return;
+        }
+
+        if (e.which === 92) {
+            //$(this).siblings('div').children('span').text("Invalid character.");
+            e.preventDefault();
+            return;
+        }
+    });
+    $('#password').focusout(function () {
+        $(this).attr('placeholder', 'Password');
+    });
+
+
+
+    $('input, button').click(function () {
+        $('#error').text("");
+
+    });
+
+</script>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js?version=@((new Random()).Next(1,10000))."></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js?version=@((new Random()).Next(1,10000))."></script>
+
