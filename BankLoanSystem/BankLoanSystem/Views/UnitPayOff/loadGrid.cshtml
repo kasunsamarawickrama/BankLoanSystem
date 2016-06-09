@@ -896,7 +896,7 @@
                                 $('.centered1 span').text('Successfully Paid Off');
                                 hideLoading();
 
-                                setTimeout(function () { 
+                              
                                     $('#changeContainer').html(partialView);
                                     $('#changeContainer').show();
                                     $('.centered span').text('');
@@ -905,7 +905,7 @@
                                     countSelect = 0;
                                     totalToPay = 0;
                                     checkCount = 0;
-                                    advanceFeeSelect = 0; }, 1000);
+                                    advanceFeeSelect = 0;
 
                                 //$('#btnPayAll').prop('disabled', false);
                                 //$('#btnPay').prop('disabled', false);
@@ -1038,7 +1038,7 @@
                                 
                                 hideLoading();
 
-                                setTimeout(function () { 
+                                
                                 $('#changeContainer').html(partialView);
                                 $('#changeContainer').show();
                                 $('.centered span').text('');
@@ -1055,7 +1055,7 @@
 
                                 
                                     window.scrollTo(0, 0);                  
-                                     }, 1000);
+                                    
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 // Your handler here...

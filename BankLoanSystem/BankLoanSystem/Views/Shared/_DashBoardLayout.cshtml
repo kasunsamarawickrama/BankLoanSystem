@@ -217,47 +217,63 @@
         <script>
 
             function showPleaseWait() {
+                myTimer = setTimeout(function () {
 
-                $('body').css({ 'cursor': 'wait' });
+                    $('body').css({ 'cursor': 'wait' });
 
-                var docHeight = $(document).height(); //grab the height of the page
-                var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
-                $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
-                $('.pleasewait').show().css({ 'top': scrollTop + 200 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+                    var docHeight = $(document).height(); //grab the height of the page
+                    var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+                    $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+                    $('.pleasewait').show().css({ 'top': scrollTop + 200 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+                },3000);
             }
 
             function showSearching() {
+                myTimer = setTimeout(function () {
 
-                $('body').css({ 'cursor': 'wait' });
+                    $('body').css({ 'cursor': 'wait' });
 
-                var docHeight = $(document).height(); //grab the height of the page
-                var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
-                $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
-                $('.searching').show().css({ 'top': scrollTop + 200 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+                    var docHeight = $(document).height(); //grab the height of the page
+                    var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+                    $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+                    $('.searching').show().css({ 'top': scrollTop + 200 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+                },3000);
             }
 
 
-            function showLoading(){
-       
-            $('body').css({ 'cursor': 'wait' });
+            function showLoading() {
+                myTimer = setTimeout(function () {
 
-            var docHeight = $(document).height(); //grab the height of the page
-            var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
-            $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
-            $('.loading').show().css({ 'top': scrollTop + 200 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+                    $('body').css({ 'cursor': 'wait' });
+
+                    var docHeight = $(document).height(); //grab the height of the page
+                    var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+                    $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+                    $('.loading').show().css({ 'top': scrollTop + 200 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+                },3000);
             }
 
 
             function hideLoading() {
+                clearTimeout(myTimer);
                 $('body').css({ 'cursor': 'default' });
-                setTimeout(function () { $('.overlay-bg, .overlay-content').hide(); }, 1000);
+                 $('.overlay-bg, .overlay-content').hide();
                 //$('.overlay-bg, .overlay-content').hide();
             }
 
 
-             @if (ViewBag.Page == 1 || ViewBag.Page == 2 || ViewBag.Page == 3 || ViewBag.Page == 5)
+            @if (ViewBag.Page == 1 || ViewBag.Page == 2 || ViewBag.Page == 3 || ViewBag.Page == 5)
              {
-                 <text>showLoading();</text>
+                 <text>
+            
+            //myTimer =setTimeout(function () { 
+                
+            //        showLoading();
+                
+            //}, 3000);
+          
+    
+    </text>
              }
           
         </script>
@@ -517,7 +533,7 @@
 
          @if (ViewBag.Page == 1 || ViewBag.Page == 2 || ViewBag.Page == 3 || ViewBag.Page == 5)
         {
-             <text>hideLoading();</text>
+             @*<text>hideLoading();</text>*@
          }
 
 

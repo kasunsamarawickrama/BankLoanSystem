@@ -89,7 +89,7 @@ namespace BankLoanSystem.Models
         [System.ComponentModel.DataAnnotations.Compare("Password",ErrorMessage = "Your Passwords do not match, please check your inputs")]
         public string ConfirmPassword { get; set; }
 
-        [Required(ErrorMessage = "Please select")]
+        [Required(ErrorMessage = "Please select whether the user will be activated at this time.")]
         [Display(Name = "Status")]
         public bool Status { get; set; }
 
