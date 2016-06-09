@@ -596,5 +596,35 @@ namespace BankLoanSystem.Controllers
             }
         }
 
+
+        public ActionResult EmpLogin()
+        {
+            Session["employeeId"] = null;
+            if (TempData["lbl"] != null)
+            {
+                var loginlbl = new UserLogin();
+                loginlbl.lbl = (string)TempData["lbl"];
+                return View(loginlbl);
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EmpLogin(UserLogin user)
+        {
+            var login = new LoginAccess();
+
+            int userId = login.CheckEmployeeLogin(user.userName, user.password);
+
+            if (userId > 0)
+            {
+                Session["employeeId"] = userId;
+                return RedirectToAction("SignUp", "SetupSignUp");
+            }
+
+            TempData["lbl"] = "Incorrect Username or Password, please confirm and submit";
+            return RedirectToAction("EmpLogin", "Login");
+        }
     }
 }
