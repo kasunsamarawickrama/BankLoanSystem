@@ -1276,10 +1276,11 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                 //});
 
                             } else {
+                                hideLoading();
                                 $('.centered1 span').text('Successfully Updated');
                                 GetCurrentCurtailment($('#dueDate').val());
 
-                                hideLoading();
+                                
                                 window.scrollTo(0, 0);
 
                             }
