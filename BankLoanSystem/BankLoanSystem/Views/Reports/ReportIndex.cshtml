@@ -47,6 +47,8 @@
         <button type="button" id="btnTitlesStatus" class="btn btn-info">Title Status</button>
         <button type="button" id="btnFullInventory" class="btn btn-info">Full Inventory</button>
 
+        <button type="button" id="btnAdvanceUnit" class="btn btn-info">Advance Unit</button>
+
         <button type="button" id="btnAdvFeeInv" class="btn btn-info">Advance Fee Invoice</button>
         <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info">Advance Fee Receipt</button>
         <button type="button" id="btnLoanFeeInv" class="btn btn-info">Monthly Loan Fee Invoice</button>
@@ -274,6 +276,20 @@
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
     });
+    
+    $('#btnAdvanceUnit').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('AdvanceUnit');
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
 
     $('#btnAdvFeeInv').click(function () {
         ChangeButtonColor(this);
@@ -408,7 +424,7 @@
     $('#btnDisplay').click(function () {
         errorCount = 0;
         var rptType = $('#hdnSelectedButton').val();
-
+        
         if (rptType !== '') {
             var input = $("#LoanId");
 
@@ -453,6 +469,9 @@
             else if (rptType === 'LoanSummary') {
                 urlPrefix = "../Reports/RptDivLoanSummary.aspx?loanId=";
             }
+            else if (rptType === 'AdvanceUnit') {
+                urlPrefix = "../Reports/RptAdvanceUnitReport.aspx?loanId=";
+            }
             var selectedIndex;
             if (input.attr('type') !== 'hidden') {
                 selectedIndex = $("#LoanId option:selected").index();
@@ -473,8 +492,9 @@
             var myFrame;
             var frameDoc;
 
-            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice' || rptType === 'PayOff' || rptType === 'AdvanceFeeReceipt' || rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt' || rptType === 'LoanSummary') {
-
+            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice' || rptType === 'PayOff' || rptType === 'AdvanceFeeReceipt' ||
+                rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt' || rptType === 'LoanSummary' || rptType === 'AdvanceUnit') {
+                
                 var startDate = $('#startDate').val();
                 if (startDate === '') {
                     $('#tagscloudStartDate').children('span').text("Please select start date");
