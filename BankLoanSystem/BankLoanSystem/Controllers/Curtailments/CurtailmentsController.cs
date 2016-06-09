@@ -361,16 +361,56 @@ namespace BankLoanSystem.Controllers.Curtailments
         }
 
 
-        [HttpPost]
-        public int PrintPage()
+        //[HttpPost]
+        public FileResult PrintPage()
         {
             if (Session["curtLaonId"] == null || Session["curtLaonId"].ToString() == "")
             {
-                return 0;
+                return null;
             }
+
+            Warning[] warnings;
+            string[] streamids;
+            string mimeType;
+            string encoding;
+            string filenameExtension;
+            ReportViewer rptViewerPrint = new ReportViewer();
+
             int loanId = (int) Session["curtLaonId"];
-            RptDivCUrtailmentReceiptDuringSession curtThisSession = new RptDivCUrtailmentReceiptDuringSession();
-            return curtThisSession.PrintPage(loanId);
+            //RptDivCUrtailmentReceiptDuringSession curtThisSession = new RptDivCUrtailmentReceiptDuringSession();
+            //return curtThisSession.PrintPage(loanId);
+
+
+            ReportViewer rptViewerCurtailmentReceiptDuringSessionPrint = new ReportViewer();
+            rptViewerCurtailmentReceiptDuringSessionPrint.ProcessingMode = ProcessingMode.Local;
+            rptViewerCurtailmentReceiptDuringSessionPrint.Reset();
+            rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport.EnableExternalImages = true;
+            rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptCurtailmentDuringSession.rdlc");
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            foreach (var dates in details)
+            {
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+
+            rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+
+            List<CurtailmentShedule> selectedCurtailmentSchedules =
+                (List<CurtailmentShedule>)Session["CurtUnitDuringSession"];
+
+            if (selectedCurtailmentSchedules != null && selectedCurtailmentSchedules.Count > 0)
+            {
+                rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", selectedCurtailmentSchedules));
+            }
+
+            var bytes = rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport.Render(
+                "PDF", null, out mimeType, out encoding, out filenameExtension,
+                out streamids, out warnings);
+
+            var fsResult = File(bytes, "application/pdf");
+            return fsResult;
         }
 
     }
