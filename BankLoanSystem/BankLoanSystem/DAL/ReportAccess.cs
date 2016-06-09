@@ -298,6 +298,7 @@ namespace BankLoanSystem.DAL
                 {
                     RptAddUnit justAddedUnit = new RptAddUnit();
 
+                    justAddedUnit.AddDate = !dataRow.IsNull("created_date") ? Convert.ToDateTime(dataRow["created_date"]).ToString("MM/dd/yyy") : "";
                     justAddedUnit.AdvanceDate = !dataRow.IsNull("advance_date") ? Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyy") : "";
 
                     justAddedUnit.IdentificationNumber = dataRow["identification_number"].ToString();
