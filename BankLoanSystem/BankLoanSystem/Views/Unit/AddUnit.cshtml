@@ -2473,6 +2473,7 @@
                         var advanceAmount = (advancePt * val) / 100;
                         document.getElementById('txtLoanAdvanceAmount').value = advanceAmount;
                         $("#tagscloud span").text("");
+                        
                         $("#tagscloudAdvance span").text("");
                     }
                 });
@@ -2534,6 +2535,7 @@
                         advanceAmountRoundUp = advanceAmount.toFixed(2);
                         document.getElementById('txtLoanAdvanceAmount').value = advanceAmountRoundUp;
                         $("#tagscloudAdvance span").text("");
+                        $('#txtLoanAdvanceAmount').next('span').children('span').text("");
                         if (advanceAmountRoundUp == ""||advanceAmountRoundUp <=  0) {
                             //$("#tagscloudAdvance span").fadeIn();
                             //$(this).addClass('input-validation-error');

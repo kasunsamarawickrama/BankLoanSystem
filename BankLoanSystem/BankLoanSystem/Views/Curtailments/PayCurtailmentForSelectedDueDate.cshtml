@@ -1239,7 +1239,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                     }
                                 }
                                 hideLoading();
-                                setTimeout(function () {$('.overlay-bg, .overlay-content.popupReport').show(); }, 1000);
+                                $('.overlay-bg, .overlay-content.popupReport').show();
 
                                 e.preventDefault();
                                 $('#btnCancelPtrDiv').click(function() {
@@ -1249,38 +1249,38 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                     $('.centered1 span').text('Successfully Updated');
                                 });
 
-                                $('#btnPrint').click(function () {
-                                    $('.overlay-bg, .overlay-content.popupReport').hide();
-                                    $.ajax({
-                                        url: '/Curtailments/PrintPage',
-                                        type: 'POST',
-                                        contentType: 'application/json;',
-                                        data: {},
-                                        success: function (view) {
-                                            //alert(view);
-                                            $('.centered1 span').text('Successfully Updated');
-                                            GetCurrentCurtailment($('#dueDate').val());
-                                            $('.overlay-bg, .overlay-content.popupReport').hide();
-                                        },
-                                        error: function (jqXHR, textStatus, errorThrown) {
-                                            // Your handler here...
+                                //$('#btnPrint').click(function () {
+                                //    $('.overlay-bg, .overlay-content.popupReport').hide();
+                                //    $.ajax({
+                                //        url: '/Curtailments/PrintPage',
+                                //        type: 'POST',
+                                //        contentType: 'application/json;',
+                                //        data: {},
+                                //        success: function (view) {
+                                //            //alert(view);
+                                //            $('.centered1 span').text('Successfully Updated');
+                                //            GetCurrentCurtailment($('#dueDate').val());
+                                //            $('.overlay-bg, .overlay-content.popupReport').hide();
+                                //        },
+                                //        error: function (jqXHR, textStatus, errorThrown) {
+                                //            // Your handler here...
 
-                                            // if session expires
-                                            if (jqXHR.status == "404") {
-                                                window.location.href = '/Login/UserLogin?lbl=Session expired';
-                                            } else {
-                                                $('#errPage span').text('No printers are installed.');
-                                            }
-                                        }
-                                    });
-                                });
+                                //            // if session expires
+                                //            if (jqXHR.status == "404") {
+                                //                window.location.href = '/Login/UserLogin?lbl=Session expired';
+                                //            } else {
+                                //                $('#errPage span').text('No printers are installed.');
+                                //            }
+                                //        }
+                                //    });
+                                //});
 
                             } else {
                                 $('.centered1 span').text('Successfully Updated');
                                 GetCurrentCurtailment($('#dueDate').val());
 
                                 hideLoading();
-                                setTimeout(function () {window.scrollTo(0, 0); }, 1000);
+                                window.scrollTo(0, 0);
 
                             }
                         }
@@ -1308,7 +1308,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                     }
                                 }
                                 hideLoading();
-                                setTimeout(function () { $('.overlay-bg, .overlay-content.popupReport').show(); }, 1000);
+                                 $('.overlay-bg, .overlay-content.popupReport').show();
                                 e.preventDefault();
                                 $('#btnCancelPtrDiv').click(function() {
                                     $('.overlay-bg, .overlay-content.popupReport').hide();
@@ -1318,41 +1318,41 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                     }
                                 });
 
-                                $('#btnPrint').click(function () {
-                                    $('.overlay-bg, .overlay-content.popupReport').hide();
-                                    $.ajax({
-                                        url: '/Curtailments/PrintPage',
-                                        type: 'POST',
-                                        contentType: 'application/json;',
-                                        data: {},
-                                        success: function (view) {
-                                            //alert(view);
+                                //$('#btnPrint').click(function () {
+                                //    $('.overlay-bg, .overlay-content.popupReport').hide();
+                                //    $.ajax({
+                                //        url: '/Curtailments/PrintPage',
+                                //        type: 'POST',
+                                //        contentType: 'application/json;',
+                                //        data: {},
+                                //        success: function (view) {
+                                //            //alert(view);
 
-                                            var array = View.split(',');
-                                            showPopup5(5 , array);
-                                        },
-                                        error: function (jqXHR, textStatus, errorThrown) {
-                                            // Your handler here...
+                                //            var array = View.split(',');
+                                //            showPopup5(5 , array);
+                                //        },
+                                //        error: function (jqXHR, textStatus, errorThrown) {
+                                //            // Your handler here...
 
-                                            // if session expires
-                                            if (jqXHR.status == "404") {
-                                                window.location.href = '/Login/UserLogin?lbl=Session expired';
-                                            } else {
-                                                $('#errPage span').text('No printers are installed.');
-                                            }
-                                        }
-                                    });
-                                });
+                                //            // if session expires
+                                //            if (jqXHR.status == "404") {
+                                //                window.location.href = '/Login/UserLogin?lbl=Session expired';
+                                //            } else {
+                                //                $('#errPage span').text('No printers are installed.');
+                                //            }
+                                //        }
+                                //    });
+                                //});
                             }
                             else{
 
                                 hideLoading();
-                                setTimeout(function () { var array = View.split(',');
+                                var array = View.split(',');
                                     window.scrollTo(0, 0);
 
 
                                     var array = View.split(',');
-                                    showPopup5(5 , array);});
+                                    showPopup5(5 , array);
 
                             }
                         }
@@ -1664,7 +1664,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                     }
                                 }
                                 hideLoading();
-                                setTimeout(function () {$('.overlay-bg, .overlay-content.popupReport').show(); }, 1000);
+                                $('.overlay-bg, .overlay-content.popupReport').show();
                                 
                                 e.preventDefault();
                                 $('#btnCancelPtrDiv').click(function() {
@@ -1674,38 +1674,44 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                     $('.centered1 span').text('Successfully Updated');
                                 });
 
-                                $('#btnPrint').click(function () {
-                                    $('.overlay-bg, .overlay-content.popupReport').hide();
-                                    $.ajax({
-                                        url: '/Curtailments/PrintPage',
-                                        type: 'POST',
-                                        contentType: 'application/json;',
-                                        data: {},
-                                        success: function (view) {
-                                            //alert(view);
-                                            $('.centered1 span').text('Successfully Updated');
-                                            GetCurrentCurtailment($('#dueDate').val());
-                                            $('.overlay-bg, .overlay-content.popupReport').hide();
-                                        },
-                                        error: function (jqXHR, textStatus, errorThrown) {
-                                            // Your handler here...
+                                //$('#btnPrint').click(function () {
+                                //    //$('.overlay-bg, .overlay-content.popupReport').hide();
 
-                                            // if session expires
-                                            if (jqXHR.status == "404") {
-                                                window.location.href = '/Login/UserLogin?lbl=Session expired';
-                                            } else {
-                                                $('#errPage span').text('No printers are installed.');
-                                            }
-                                        }
-                                    });
-                                });
+                                //    var url = '/Curtailments/PrintPage';
+
+                                //    var win = window.open(url, '_blank');
+                                //    win.focus();
+
+                                //    //$.ajax({
+                                //    //    url: '/Curtailments/PrintPage',
+                                //    //    type: 'POST',
+                                //    //    contentType: 'application/json;',
+                                //    //    data: {},
+                                //    //    success: function (view) {
+                                //    //        //alert(view);
+                                //    //        $('.centered1 span').text('Successfully Updated');
+                                //    //        GetCurrentCurtailment($('#dueDate').val());
+                                //    //        $('.overlay-bg, .overlay-content.popupReport').hide();
+                                //    //    },
+                                //    //    error: function (jqXHR, textStatus, errorThrown) {
+                                //    //        // Your handler here...
+
+                                //    //        // if session expires
+                                //    //        if (jqXHR.status == "404") {
+                                //    //            window.location.href = '/Login/UserLogin?lbl=Session expired';
+                                //    //        } else {
+                                //    //            $('#errPage span').text('No printers are installed.');
+                                //    //        }
+                                //    //    }
+                                //    //});
+                                //});
 
                             } else {
                                 $('.centered1 span').text('Successfully Updated');
                                 GetCurrentCurtailment($('#dueDate').val());
 
                                 hideLoading();
-                                setTimeout(function () {window.scrollTo(0, 0); }, 1000);
+                                window.scrollTo(0, 0);
                                 
 
                             }
@@ -1737,7 +1743,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                 }
 
                                 hideLoading();
-                                setTimeout(function () { $('.overlay-bg, .overlay-content.popupReport').show(); }, 1000);
+                                $('.overlay-bg, .overlay-content.popupReport').show();
                               
                                
                                 e.preventDefault();
@@ -1749,40 +1755,40 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                     }
                                 });
 
-                                $('#btnPrint').click(function () {
-                                    $('.overlay-bg, .overlay-content.popupReport').hide();
-                                    $.ajax({
-                                        url: '/Curtailments/PrintPage',
-                                        type: 'POST',
-                                        contentType: 'application/json;',
-                                        data: {},
-                                        success: function (view) {
-                                            //alert(view);
+                                //$('#btnPrint').click(function () {
+                                //    $('.overlay-bg, .overlay-content.popupReport').hide();
+                                //    $.ajax({
+                                //        url: '/Curtailments/PrintPage',
+                                //        type: 'POST',
+                                //        contentType: 'application/json;',
+                                //        data: {},
+                                //        success: function (view) {
+                                //            //alert(view);
 
-                                            var array = View.split(',');
-                                            showPopup5(5 , array);
-                                        },
-                                        error: function (jqXHR, textStatus, errorThrown) {
-                                            // Your handler here...
+                                //            var array = View.split(',');
+                                //            showPopup5(5 , array);
+                                //        },
+                                //        error: function (jqXHR, textStatus, errorThrown) {
+                                //            // Your handler here...
 
-                                            // if session expires
-                                            if (jqXHR.status == "404") {
-                                                window.location.href = '/Login/UserLogin?lbl=Session expired';
-                                            } else {
-                                                $('#errPage span').text('No printers are installed.');
-                                            }
-                                        }
-                                    });
-                                });
+                                //            // if session expires
+                                //            if (jqXHR.status == "404") {
+                                //                window.location.href = '/Login/UserLogin?lbl=Session expired';
+                                //            } else {
+                                //                $('#errPage span').text('No printers are installed.');
+                                //            }
+                                //        }
+                                //    });
+                                //});
                             }
                             else{
 
 
                                 hideLoading();
-                                setTimeout(function () { var array = View.split(',');
+                                var array = View.split(',');
                                     window.scrollTo(0, 0);
                                
-                                    showPopup5(5 , array); }, 1000);
+                                    showPopup5(5 , array);
                                 
 
                             }
@@ -1825,6 +1831,15 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         
 
 
+    });
+
+    $('#btnPrint').click(function () {
+        //$('.overlay-bg, .overlay-content.popupReport').hide();
+
+        var url = '/Curtailments/PrintPage';
+
+        var win = window.open(url, '_blank');
+        win.focus();
     });
 
     $("#iCurtAmount").keypress(function (e){
