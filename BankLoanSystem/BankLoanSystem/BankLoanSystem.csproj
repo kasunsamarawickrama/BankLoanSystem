@@ -187,6 +187,7 @@
     <Content Include="Images\currentstpIco.png" />
     <Content Include="Images\deleteRow.png" />
     <Content Include="Images\doc.png" />
+    <Content Include="Images\Error_page_landscape.png" />
     <Content Include="Images\formTitleBG.png" />
     <Content Include="Images\infoIcon.png" />
     <Content Include="Images\loading1.gif" />
@@ -262,6 +263,7 @@
     <Content Include="Uploads\LEN01\LEN01_02\imagesee.jpg" />
     <Content Include="Views\Browser\Support.cshtml" />
     <Content Include="Views\DeleteUnit\Delete.cshtml" />
+    <Content Include="Views\Exceptions\index.cshtml" />
     <Content Include="Views\UserManagement\UserRequestMessage.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -287,6 +289,7 @@
     <Compile Include="Controllers\DashBoard\EmployeeDashBoardController.cs" />
     <Compile Include="Controllers\DeleteUnit\DeleteUnitController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
+    <Compile Include="Controllers\Exception\ExceptionsController.cs" />
     <Compile Include="Controllers\Fee\FeeController.cs" />
     <Compile Include="Controllers\LoanManagement\LoanManagementController.cs" />
     <Compile Include="Controllers\LoanSetUpStep5Controller.cs" />
