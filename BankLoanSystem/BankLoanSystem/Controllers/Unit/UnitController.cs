@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using BankLoanSystem.Code;
+using BankLoanSystem.Reports;
+using Microsoft.Reporting.WebForms;
 
 namespace BankLoanSystem.Controllers.Unit
 {
@@ -785,6 +787,28 @@ namespace BankLoanSystem.Controllers.Unit
 
 
             //return View();
+        }
+
+        public FileResult PrintPage()
+        {
+            if (Session["addUnitloan"] == null) return null;
+            LoanSetupStep1 loan = (LoanSetupStep1)Session["addUnitloan"];
+
+            Warning[] warnings;
+            string[] streamids;
+            string mimeType;
+            string encoding;
+            string filenameExtension;
+
+            RptDivAddUnit justAddedUnitReport = new RptDivAddUnit();
+            var rptViewerPrint = justAddedUnitReport.PrintPage(loan.loanId, userData.UserId);
+
+            var bytes = rptViewerPrint.LocalReport.Render(
+                "PDF", null, out mimeType, out encoding, out filenameExtension,
+                out streamids, out warnings);
+
+            var fsResult = File(bytes, "application/pdf");
+            return fsResult;
         }
 
     }

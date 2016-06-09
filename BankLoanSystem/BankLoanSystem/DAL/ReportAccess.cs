@@ -296,19 +296,6 @@ namespace BankLoanSystem.DAL
             {
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    //Unit justAddedUnit = new Unit();
-
-                    //justAddedUnit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
-                    //justAddedUnit.IdentificationNumber = dataRow["identification_number"].ToString();
-                    //justAddedUnit.Year = Convert.ToInt32(dataRow["year"]);
-                    //justAddedUnit.Make = dataRow["make"].ToString();
-                    //justAddedUnit.Model = dataRow["model"].ToString();
-                    //justAddedUnit.AdvanceAmount = (dataRow["advance_amount"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;
-                    //justAddedUnit.IsAdvanced = Convert.ToBoolean(dataRow["is_advanced"]);
-                    //justAddedUnit.TitleStatus = Convert.ToInt32(dataRow["title_status"]);
-
-                    //justAddedUnit.CreatedDate = Convert.ToDateTime(dataRow["created_date"].ToString());
-
                     RptAddUnit justAddedUnit = new RptAddUnit();
 
                     justAddedUnit.AdvanceDate = !dataRow.IsNull("advance_date") ? Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyy") : "";
