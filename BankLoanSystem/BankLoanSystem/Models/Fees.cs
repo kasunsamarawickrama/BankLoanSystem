@@ -39,7 +39,7 @@ namespace BankLoanSystem.Models
         [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
         public int AdvanceFeeDealerEmailRemindPeriod { get; set; }
 
-        [Required(ErrorMessage = "Advance Due Type is required.")]
+        [Required(ErrorMessage = "Please choose when the advance fee is due")]
         [Display(Name = "Due Type")]
         public string AdvanceDue { get; set; }
 
