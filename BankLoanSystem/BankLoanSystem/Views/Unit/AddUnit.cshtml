@@ -281,7 +281,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.rv.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4">
-                                        @Html.EditorFor(model => model.rv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "rvVin" } })
+                                        @Html.EditorFor(model => model.rv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "rvVin", @style = "width: 225px;" } })
                                         @Html.ValidationMessageFor(model => model.rv.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="rvVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -379,7 +379,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.camper.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4">
-                                        @Html.EditorFor(model => model.camper.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "camperVin" } })
+                                        @Html.EditorFor(model => model.camper.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "camperVin", @style = "width: 225px;" } })
                                         @Html.ValidationMessageFor(model => model.camper.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="camperVIN"><span class="text-danger"></span></div>
                                     </div>
@@ -503,7 +503,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.atv.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4">
-                                        @Html.EditorFor(model => model.atv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "atvVin" } })
+                                        @Html.EditorFor(model => model.atv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "atvVin", @style = "width: 225px;" } })
                                         @Html.ValidationMessageFor(model => model.atv.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="atvVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -593,7 +593,7 @@
 
                                     <label class="control-label col-md-2" style="width:18%" for="boat_IdentificationNumber">HIN <span class="icon-help_outline help-boat-hin"></span></label>
                                     <div class="col-sm-4">
-                                        @Html.EditorFor(model => model.boat.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "boatVin" } })
+                                        @Html.EditorFor(model => model.boat.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "boatVin", @style = "width: 225px;" } })
                                         @Html.ValidationMessageFor(model => model.boat.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="boatVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -677,7 +677,7 @@
                                     @*@Html.LabelFor(model => model.motorcycle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@
                                     <label class="control-label col-md-2" for="motorcycle_IdentificationNumber">VIN  <span class="icon-help_outline help-mot-vin"></span></label>
                                     <div class="col-sm-4">
-                                        @Html.EditorFor(model => model.motorcycle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "motorcycleVin" } })
+                                        @Html.EditorFor(model => model.motorcycle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "motorcycleVin", @style = "width: 225px;" } })
                                         @Html.ValidationMessageFor(model => model.motorcycle.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="motorcycleVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -777,7 +777,7 @@
                                     @*@Html.LabelFor(model => model.snowmobile.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@
                                     <label class="control-label col-md-2" for="snowmobile_IdentificationNumber">VIN <span class="icon-help_outline help-snow-vin"></span></label>
                                     <div class="col-sm-4">
-                                        @Html.EditorFor(model => model.snowmobile.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "snowmobileVin" } })
+                                        @Html.EditorFor(model => model.snowmobile.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "snowmobileVin", @style = "width: 225px;" } })
                                         @Html.ValidationMessageFor(model => model.snowmobile.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 305px; left: 0%;" })
                                         <div id="snowmobileVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -854,7 +854,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.heavyequipment.SerialNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-sm-4">
-                                        @Html.EditorFor(model => model.heavyequipment.SerialNumber, new { htmlAttributes = new { @class = "form-control cap block_invalid_char vinUnique", @id = "heavyequipmentSerial", @maxlength = 17 } })
+                                        @Html.EditorFor(model => model.heavyequipment.SerialNumber, new { htmlAttributes = new { @class = "form-control cap block_invalid_char vinUnique", @id = "heavyequipmentSerial", @maxlength = 17, @style = "width: 225px;" } })
                                         @Html.ValidationMessageFor(model => model.heavyequipment.SerialNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="heavyequipmentVIN" class="validation-error"><span class="text-danger"></span></div>
                                     </div>
@@ -2071,7 +2071,7 @@
                     files = null;
                     storedFiles = [];
                     upc = 0;
-
+                    
                     $('#selectedFiles').children().remove();
                     $(".miles").val("");
                     $(".lengths").val("");
@@ -2080,6 +2080,7 @@
                     $('input[type=radio]').each(function(){
                         ($(this).removeClass('input-validation-error'));
                     });
+                    $('#btnSubmit').prop('disabled', false);
 
                 });
 
@@ -2151,6 +2152,8 @@
 
                     $('.new_err_msg').children("span").text("");
 
+                    $('#txtLoanAdvanceAmount').attr('placeholder', '0.00');
+                    $('#txtCost').attr('placeholder', '0.00');
                 };
                 // vin key press key block validation with 17 charactors and Miles 10 charactors
 
@@ -2420,24 +2423,27 @@
 
 
                     $("#tagscloud span").text("");
-                    if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8 ||e.keyCode === 9) {
+                    if($(this).val().length >= 15 ){
+                        e.preventDefault();
+                    }
+                    else if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8 ||e.keyCode === 9) {
                         //var val = this.value + (e.which - 48);
                         var cost = document.getElementById('txtCost').value;
                         if (e.which !== 46 && e.which !== 8) {
-                            if (cost <= maxCost) {
-                                //$("#tagscloudAdvance span").fadeOut();
-                                $('#txtLoanAdvanceAmount').removeClass('input-validation-error');
-                                //$("#tagscloudAdvance span").text("");
-                                $('#txtLoanAdvanceAmount').next('span').children('span').text('');
-                            } else {
-                                //$("#tagscloud span").fadeIn();
-                                $(this).addClass('input-validation-error');
-                                $("#tagscloud span").text("Cost must be less than balance");
-                                //$("#tagscloud span").delay(1000).fadeOut();
-                                $(this).removeClass('input-validation-error');
-                                $("#tagscloud span");
-                                e.preventDefault();
-                            }
+                            //if (cost <= maxCost) {
+                            //    //$("#tagscloudAdvance span").fadeOut();
+                            //    $('#txtLoanAdvanceAmount').removeClass('input-validation-error');
+                            //    //$("#tagscloudAdvance span").text("");
+                            //    $('#txtLoanAdvanceAmount').next('span').children('span').text('');
+                            //} else {
+                            //    //$("#tagscloud span").fadeIn();
+                            //    $(this).addClass('input-validation-error');
+                            //    $("#tagscloud span").text("Cost must be less than balance");
+                            //    //$("#tagscloud span").delay(1000).fadeOut();
+                            //    $(this).removeClass('input-validation-error');
+                            //    $("#tagscloud span");
+                            //    e.preventDefault();
+                            //}
                         }
 
                     } else {
@@ -2484,11 +2490,11 @@
                         //$("#tagscloud span").text("Cost must be a positive number");
 
                     }
-                    else if (Number(num) > Number(maxCost)) {
+                    //else if (Number(num) > Number(maxCost)) {
                         //$("#tagscloud span").fadeIn();
-                        $(this).addClass('input-validation-error');
-                        $("#tagscloud span").text("Cost must be less than balance");
-                    }
+                        //$(this).addClass('input-validation-error');
+                        //$("#tagscloud span").text("Cost must be less than balance");
+                    //}
                     else if (Number(num) == "") {
                         //$("#tagscloudAdvance span").fadeIn();
                         //$(this).addClass('input-validation-error');
@@ -2501,9 +2507,10 @@
                     }
                     else if (Number(num) <= 0) {
                         //$("#tagscloud span").fadeIn();
-                        $(this).addClass('input-validation-error');
-                        $("#tagscloud span").text("Cost must be greater than zero");
-                    } else {
+                        //$(this).addClass('input-validation-error');
+                        //$("#tagscloud span").text("Cost must be greater than zero");
+                    }
+                    else{
                         //$("#tagscloud span").fadeOut();
                         $(this).removeClass('input-validation-error');
                         $("#tagscloud span").text("");
@@ -2533,13 +2540,13 @@
                     }
 
 
-                    if(advanceAmount > maxCost){
-                        //$("#tagscloudAdvance span").fadeIn();
-                        $(this).addClass('input-validation-error');
-                        $("#tagscloudAdvance span").text("Advance must be less than balance");
-                        //$("#tagscloudAdvance span").delay(1000).fadeOut();
-                        //$(this).removeClass('input-validation-error');
-                    }
+                    //if(advanceAmount > maxCost){
+                    //    //$("#tagscloudAdvance span").fadeIn();
+                    //    //$(this).addClass('input-validation-error');
+                    //    //$("#tagscloudAdvance span").text("Advance must be less than balance");
+                    //    //$("#tagscloudAdvance span").delay(1000).fadeOut();
+                    //    //$(this).removeClass('input-validation-error');
+                    //}
                     if(Number(num)  > 0.009 && Number(num) <= maxCost){
                         if($(this).next('span').text() == 'Out of range'|| $(this).next('span').text() == 'The field Cost must be a number.'){
                             $(this).next('span').text('');
@@ -2552,6 +2559,7 @@
                     var cost = document.getElementById('txtCost').value;
                     //alert(e.which);
                     var advance = document.getElementById('txtLoanAdvanceAmount').value;
+
                     if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8 || e.keyCode === 9) {
                         //var val = this.value + (e.which - 48);
                         //alert(cost + ' ' + val);
@@ -2566,11 +2574,11 @@
                             }
                             if (advance > maxAdvance) {
                                 //$("#tagscloudAdvance span").fadeIn();
-                                $(this).addClass('input-validation-error');
-                                $("#tagscloudAdvance span").text("Advance must be less than balance");
+                                //$(this).addClass('input-validation-error');
+                                //$("#tagscloudAdvance span").text("Advance must be less than balance");
                                 //$("#tagscloudAdvance span").delay(1000).fadeOut();
                                 //$(this).removeClass('input-validation-error');
-                                e.preventDefault();
+                                //e.preventDefault();
                             }
                         }
                     }
@@ -2639,11 +2647,11 @@
                     }
                     else if (advance > maxAdvance) {
                         //$("#tagscloudAdvance span").fadeIn();
-                        $(this).addClass('input-validation-error');
-                        $("#tagscloudAdvance span").text("Advance must be less than balance");
+                        //$(this).addClass('input-validation-error');
+                        //$("#tagscloudAdvance span").text("Advance must be less than balance");
                         //$("#tagscloudAdvance span").delay(1000).fadeOut();
                         //$(this).removeClass('input-validation-error');
-                        e.preventDefault();
+                        //e.preventDefault();
                     }
                     else {
                         //$("#tagscloudAdvance span").fadeOut();
@@ -2672,16 +2680,16 @@
 
 
                 $('#form').submit(function(e) {
+                    var valid = true;
                     $('#btnSubmit').prop('disabled', true);
                     var unitType = document.getElementById("unitType").value;
                     var cost = document.getElementById("txtCost").value;
                     var advance = document.getElementById("txtLoanAdvanceAmount").value;
 
-
-
-
-                    if (vin == ""  || cost =="" || advance == "") {
+                    if (cost =="" || advance == "") {
                         $('#btnSubmit').prop('disabled', false);
+                        valid = false;
+                        $('.centered span').text('Error');
                     }
 
                     if( $('.vinCheck').text().length > 0){
@@ -2690,6 +2698,8 @@
                         } else {
                             e.preventDefault();
                         }
+                        valid = false;
+
 
                     }
                     if (unitType == "1") {
@@ -2708,6 +2718,7 @@
 
                                 e.preventDefault();
                             }
+                            valid = false;
                         }
                         if ($('#combobox1-2').next().children('input').val() == "") {
                             //$('#vehiclemake span').fadeIn();
@@ -2715,6 +2726,7 @@
                             // $('#vehiclemake span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
 
@@ -2728,6 +2740,7 @@
                             //$('#vehiclemodel span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2746,6 +2759,7 @@
                             //$('#rvyear span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == ""  || cost =="" || advance == "" ) {
                             } else {
                                 e.preventDefault();
@@ -2758,6 +2772,7 @@
                             //$('#rvmake span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == ""  || cost =="" || advance == "" ) {
                             } else {
                                 e.preventDefault();
@@ -2769,6 +2784,7 @@
                             $('#rvmodel span').text("Please enter the rv Model");
                             //$('#rvmodel span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
+                            valid = false;
                             $('#btnSubmit').prop('disabled', false);
                             if (vin == ""  || cost =="" || advance == "" ) {
                             } else {
@@ -2790,6 +2806,7 @@
                             //$('#camperyear span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == ""|| cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2801,6 +2818,7 @@
                             $('#campermake span').text("Please enter the camper Make");
                             //$('#campermake span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
+                            valid = false;
                             $('#btnSubmit').prop('disabled', false);
                             if (vin == ""  || cost =="" || advance == "" ) {
                             } else {
@@ -2814,6 +2832,7 @@
                             //$('#campermodel span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == "" || cost =="" || advance == "") {
                                 $('.centered span').text('Error');
                             } else {
@@ -2833,6 +2852,7 @@
                             //$('#atvyear span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == "" || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2845,6 +2865,7 @@
                             //$('#atvmake span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == "" || cost =="" || advance == "" ) {
                             } else {
                                 e.preventDefault();
@@ -2857,6 +2878,7 @@
                             //$('#atvmodel span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == "" || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2876,6 +2898,7 @@
                             //$('#boatyear span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == "" || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2888,6 +2911,7 @@
                             //$('#boatmake span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == "" || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2906,6 +2930,7 @@
                             //$('#motorcycleyear span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == "" || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2918,6 +2943,7 @@
                             //$('#motorcyclemake span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2930,6 +2956,7 @@
                             //$('#motorcyclemodel span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2946,6 +2973,7 @@
                             //$('#snowmobileyear span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2958,6 +2986,7 @@
                             //$('#snowmobilemake span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2970,6 +2999,7 @@
                             //$('#snowmobilemodel span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2985,6 +3015,7 @@
                             //$('#heavyequipmentyear span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == "" || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2997,6 +3028,7 @@
                             //$('#heavyequipmentmake span').delay(1000).fadeOut();
                             $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
                             if (vin == "" || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -3013,6 +3045,8 @@
 
                     }else{
                         $('#btnSubmit').prop('disabled', false);
+                        valid = false;
+                        $('.centered span').text('Error');
                     }
                     </text>
                     }
@@ -3022,13 +3056,15 @@
 
                         }else{
                             $('#btnSubmit').prop('disabled', false);
+                            valid = false;
+                            $('.centered span').text('Error');
                         }
                     }
 
                     @if (ViewBag.Role != 4)
                     {
 
-                        if((ViewBag.Role ==3 && ViewBag.advanceAllow == true) || ViewBag.Role == 2 || ViewBag.Role == 2)
+                        if((ViewBag.Role ==3 && ViewBag.advanceAllow == true) || ViewBag.Role == 1 || ViewBag.Role == 2)
                         {
                             <text>
                             if ($('#rdAdvanceYes').is(':checked') || $('#rdAdvanceNo').is(':checked')){
@@ -3040,12 +3076,15 @@
                                     }
                                     else {
                                         $('#btnSubmit').prop('disabled', false);
+                                        valid = false;
                                         e.preventDefault();
                                     }
                                 }
 
                             }else{
                                 $('#btnSubmit').prop('disabled', false);
+                                valid = false;
+                                $('.centered span').text('Error');
                             }
                             </text>
                         }
@@ -3062,30 +3101,43 @@
                         //$("#tagscloudAdvance span").delay(1000).fadeOut();
                         //$(this).removeClass('input-validation-error');
                         $('#btnSubmit').prop('disabled', false);
+                        valid = false;
                         e.preventDefault();
 
-                    } else if (cost > maxCost) {
+                    } 
+                    //else if (cost > maxCost) {
+                    //    //$("#tagscloudAdvance span").fadeIn();
+                    //    //$("#tagscloudAdvance span").addClass('input-validation-error');
+                    //    //$("#tagscloudAdvance span").text("Advance must be less than balance");
+                    //    //$("#tagscloudAdvance span").delay(1000).fadeOut();
+                    //    //$(this).removeClass('input-validation-error');
+                    //    $('#btnSubmit').prop('disabled', false);
+                    //    e.preventDefault();
+
+                    //} 
+                    else if (advance > maxAdvance) {
                         //$("#tagscloudAdvance span").fadeIn();
                         //$("#tagscloudAdvance span").addClass('input-validation-error');
                         //$("#tagscloudAdvance span").text("Advance must be less than balance");
                         //$("#tagscloudAdvance span").delay(1000).fadeOut();
                         //$(this).removeClass('input-validation-error');
-                        $('#btnSubmit').prop('disabled', false);
-                        e.preventDefault();
-
-                    } else if (advance > maxAdvance) {
-                        //$("#tagscloudAdvance span").fadeIn();
-                        //$("#tagscloudAdvance span").addClass('input-validation-error');
-                        //$("#tagscloudAdvance span").text("Advance must be less than balance");
-                        //$("#tagscloudAdvance span").delay(1000).fadeOut();
-                        //$(this).removeClass('input-validation-error');
-                        $('#btnSubmit').prop('disabled', false);
-                        e.preventDefault();
+                        
+                        //$('#btnSubmit').prop('disabled', false);
+                        if($('#btnSubmit').val() == 'Add' && valid == true){
+                            showPopup(9);
+                        }
+                        if($('#btnSubmit').val() == 'Add and Advance' && valid == true){
+                            showPopup(10);
+                            $('#btnSubmit').prop('disabled', false);
+                            e.preventDefault();
+                        }
+                        
+                        //showPopup(10);
 
                     } else {
 
                     }
-
+                    middleSpanCheck();
                 });
 
 
@@ -3212,9 +3264,12 @@
 
                         $('.centered span').text('Error');
                     }
-                    //else if ($('.vinCheck').text().length > 0) {
-                    //    $('.centered span').text('Error');
-                    //}
+                    else if($('input').closest("div").children("span").text().length > 1 ){
+                        $('.centered span').text('Error');
+                    }
+                        //else if ($('.vinCheck').text().length > 0) {
+                        //    $('.centered span').text('Error');
+                        //}
                     else{
                         $('.centered span').text('');
                     }
@@ -3543,6 +3598,29 @@
     <br />
     <button class="close-btn btn btn-info" style="width:70px">Yes</button>
     <button class="close-btn btn btn-info" style="width:70px" onclick="ClearVin();">No</button>
+
+
+</div>
+
+<div class="overlay-content popup9" style="width:491px;text-align:center;margin-left: 232px;top:314px !important">
+
+
+    <h3>Warning</h3>
+
+    <span class="text-warning"> The pending amount has exceeded the available loan balance. You are able to continue adding units to the system but not all units will be able to advance until some active units have been paid down. </span><br />
+    <br />
+    <button class="close-btn btn btn-info" style="width:70px">Ok</button>
+
+
+</div>
+<div class="overlay-content popup10" style="width:491px;text-align:center;margin-left: 232px;top:314px !important">
+
+
+    <h3>Message</h3>
+
+    <span class="text-warning"> The amount you are tying to advance is more than what is available in the loan. This unit cannot be advanced at this time. Some active units will need to be paid down before this unit can be advanced. You are able to add the unit to the system for advance at a later time. </span><br />
+    <br />
+    <button class="close-btn btn btn-info" style="width:70px">Ok</button>
 
 
 </div>
