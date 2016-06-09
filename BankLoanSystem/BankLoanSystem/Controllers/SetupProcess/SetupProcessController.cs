@@ -459,7 +459,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
             //}
 
             userCompany2.Company = new Company();
-            userCompany2.Company.CompanyCode = userData.CompanyCode;
+            if (!string.IsNullOrEmpty(userData.CompanyCode))
+            {
+                userCompany2.Company.CompanyCode = userData.CompanyCode;
+            }
+            else
+            {
+                Company cmp = new Company();
+                cmp = (new CompanyAccess()).GetCompanyDetailsCompanyId(userData.Company_Id);
+                userCompany2.Company.CompanyCode = cmp.CompanyCode ;
+            }
             int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
             //userData.BranchId = reslt;
             if (reslt >= 0)
