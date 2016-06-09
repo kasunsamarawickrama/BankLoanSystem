@@ -61,13 +61,13 @@ namespace BankLoanSystem.Reports
             rptViewerMonthlyLoanFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
         }
 
-        public int PrintPage(int loanId, DateTime startDate, DateTime endDate)
+        public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
-            ReportViewer rptViewerAdvanceFeeInvoicePrint = new ReportViewer();
-            rptViewerAdvanceFeeInvoicePrint.ProcessingMode = ProcessingMode.Local;
-            rptViewerAdvanceFeeInvoicePrint.Reset();
-            rptViewerAdvanceFeeInvoicePrint.LocalReport.EnableExternalImages = true;
-            rptViewerAdvanceFeeInvoicePrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAdvanceFeeInvoice.rdlc");
+            ReportViewer rptViewerMonthlyLoanFeeReceiptPrint = new ReportViewer();
+            rptViewerMonthlyLoanFeeReceiptPrint.ProcessingMode = ProcessingMode.Local;
+            rptViewerMonthlyLoanFeeReceiptPrint.Reset();
+            rptViewerMonthlyLoanFeeReceiptPrint.LocalReport.EnableExternalImages = true;
+            rptViewerMonthlyLoanFeeReceiptPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptMonthlyLoanFeeReceipt.rdlc");
 
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
@@ -80,22 +80,12 @@ namespace BankLoanSystem.Reports
             }
 
 
-            List<RptFee> advanceFeeInvoice = ra.GetFeeInvoiceByDateRange(loanId, "monthlyLoanFee", startDate, endDate);
+            List<RptFee> curtailments = ra.GetFeeReceiptByDateRange(loanId, "monthlyLoanFee", startDate, endDate);
 
-            rptViewerAdvanceFeeInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-            rptViewerAdvanceFeeInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", advanceFeeInvoice));
+            rptViewerMonthlyLoanFeeReceiptPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+            rptViewerMonthlyLoanFeeReceiptPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
 
-            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerAdvanceFeeInvoicePrint.LocalReport);
-            //try
-            //{
-            //    rpd.Print();
-            //    return 1;
-            //}
-            //catch (Exception e)
-            //{
-            //    return 0;
-            //}
-            return 0;
+            return rptViewerMonthlyLoanFeeReceiptPrint;
         }
     }
 }
