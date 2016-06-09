@@ -86,6 +86,7 @@ namespace BankLoanSystem.Models
     public class RptAddUnit
     {
         public int LoanId { get; set; }
+        public string AddDate { get; set; }
         public string AdvanceDate { get; set; }
         public string IdentificationNumber { get; set; }
         public int Year { get; set; }

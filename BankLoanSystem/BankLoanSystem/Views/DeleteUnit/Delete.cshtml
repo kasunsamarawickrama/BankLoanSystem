@@ -487,6 +487,8 @@
         $("#cmbMake").val('');
         $("#cmbModel").val('');
 
+
+        showLoading();
         $.ajax({
             url: '/DeleteUnit/GridView',
             type: 'POST',
@@ -523,7 +525,7 @@
                         $(v).outerWidth(colWidth[i]);
                     });
                 }).resize(); // Trigger resize handler
-
+                hideLoading();
                 //.highlight { background-color: lightblue; }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -533,6 +535,7 @@
                 if (jqXHR.status == "404") {
                     window.location.href = '/Login/UserLogin?lbl=Session expired';
                 }
+                hideLoading();
             }
         });
     });
@@ -552,6 +555,8 @@
 
         ClearTextBoxText();
         $('#feeDetails').hide();
+
+        showSearching();
         $.ajax({
             url: '/DeleteUnit/GridView',
             type: 'POST',
@@ -590,6 +595,8 @@
                     });
                 }).resize(); // Trigger resize handler
 
+
+                hideLoading();
                 //.highlight { background-color: lightblue; }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -599,6 +606,7 @@
                 if (jqXHR.status == "404") {
                     window.location.href = '/Login/UserLogin?lbl=Session expired';
                 }
+                hideLoading();
             }
         });
     });
