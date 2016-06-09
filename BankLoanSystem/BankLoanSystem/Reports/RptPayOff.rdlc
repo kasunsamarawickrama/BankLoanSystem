@@ -273,7 +273,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!LoanNumber.Value, "DataSet1")</Value>
+                <Value>=First(Fields!ReportDate.Value, "DataSet1")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
