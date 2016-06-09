@@ -17,7 +17,7 @@ namespace BankLoanSystem.DAL
             {
                 if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Year.ToString().ToLower().StartsWith(year) && unitElement.Make.ToLower().StartsWith(make) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Year.ToString().ToLower().StartsWith(year) && unitElement.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
@@ -45,21 +45,21 @@ namespace BankLoanSystem.DAL
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.Year.ToString().ToLower().StartsWith(year) && unitElement.Make.ToLower().StartsWith(make) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.Year.ToString().ToLower().StartsWith(year) && unitElement.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.Make.ToLower().StartsWith(make) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (!string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
@@ -88,7 +88,7 @@ namespace BankLoanSystem.DAL
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
@@ -102,28 +102,28 @@ namespace BankLoanSystem.DAL
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Make.ToLower().StartsWith(make) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Year.ToString().ToLower().StartsWith(year) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Year.ToString().ToLower().StartsWith(year) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.Year.ToString().ToLower().StartsWith(year) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.Year.ToString().ToLower().StartsWith(year) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
@@ -141,7 +141,7 @@ namespace BankLoanSystem.DAL
             {
                 if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.IDNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Make.ToLower().StartsWith(make) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.IDNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
@@ -169,21 +169,21 @@ namespace BankLoanSystem.DAL
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Make.ToLower().StartsWith(make) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.Make.ToLower().StartsWith(make) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (!string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
@@ -212,7 +212,7 @@ namespace BankLoanSystem.DAL
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.IDNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.IDNumber.ToLower().EndsWith(identificationNumber) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
@@ -226,28 +226,28 @@ namespace BankLoanSystem.DAL
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.IDNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.IDNumber.ToLower().EndsWith(identificationNumber) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.IDNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Make.ToLower().StartsWith(make) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.IDNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.IDNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.IDNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
@@ -265,7 +265,7 @@ namespace BankLoanSystem.DAL
             {
                 if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Year.ToString().ToLower().StartsWith(year) && unitElement.Make.ToLower().StartsWith(make) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Year.ToString().ToLower().StartsWith(year) && unitElement.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
@@ -293,21 +293,21 @@ namespace BankLoanSystem.DAL
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.Year.ToString().ToLower().StartsWith(year) && unitElement.Make.ToLower().StartsWith(make) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.Year.ToString().ToLower().StartsWith(year) && unitElement.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.Make.ToLower().StartsWith(make) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (!string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
@@ -336,7 +336,7 @@ namespace BankLoanSystem.DAL
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
@@ -350,28 +350,28 @@ namespace BankLoanSystem.DAL
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Make.ToLower().StartsWith(make) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Year.ToString().ToLower().StartsWith(year) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.IdentificationNumber.ToLower().EndsWith(identificationNumber) && unitElement.Year.ToString().ToLower().StartsWith(year) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (unitElement.Year.ToString().ToLower().StartsWith(year) && unitElement.Model.ToLower().StartsWith(vehicleModel))
+                    if (unitElement.Year.ToString().ToLower().StartsWith(year) && !string.IsNullOrEmpty(unitElement.Model) && unitElement.Model.ToLower().StartsWith(vehicleModel))
                     {
                         resultList.Add(unitElement);
                     }
@@ -389,7 +389,7 @@ namespace BankLoanSystem.DAL
             {
                 if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Make.ToLower().StartsWith(make) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
@@ -417,21 +417,21 @@ namespace BankLoanSystem.DAL
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Make.ToLower().StartsWith(make) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.Make.ToLower().StartsWith(make) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (!string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
@@ -460,7 +460,7 @@ namespace BankLoanSystem.DAL
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
@@ -474,28 +474,28 @@ namespace BankLoanSystem.DAL
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Make.ToLower().StartsWith(make) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Make.ToLower().StartsWith(make) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
                 }
                 else if (!string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.IdentificationNumber.ToLower().EndsWith(identificationNumber) && curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
                 }
                 else if (string.IsNullOrEmpty(identificationNumber) && !string.IsNullOrEmpty(year) && string.IsNullOrEmpty(make) && !string.IsNullOrEmpty(vehicleModel))
                 {
-                    if (curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
+                    if (curtailmentShedule.Year.ToString().ToLower().StartsWith(year) && !string.IsNullOrEmpty(curtailmentShedule.Model) && curtailmentShedule.Model.ToLower().StartsWith(vehicleModel))
                     {
                         searchList.Add(curtailmentShedule);
                     }
