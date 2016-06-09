@@ -147,8 +147,11 @@
     }
     else
     {
+
+        
     <div class ="info-unit" id ="checkableGridDiv" style="padding: 1px 30px 30px 0px;">
         <div>
+            <span class="icon-help_outline help-select" style="float:left"></span>
             @grid.GetHtml(
             tableStyle: "gridtable",
            headerStyle: "webgrid-header",
@@ -207,7 +210,8 @@
     <div class ="info-unit" id="advanceAllDiv" style="margin-top:10px;width:79%">
         <div class="form-group">
             <div class="control-label col-sm-2" style="text-align:right;padding-top:5px">
-                @Html.Label("AdvanceDate", htmlAttributes: new { })
+                @*@Html.Label("AdvanceDate", htmlAttributes: new { })*@
+                <label for="AdvanceDate">Advance Date <span class="icon-help_outline help-adv-date1"></span></label>
             </div>
             <div class="col-xs-3" id="advanceDateAll" style="width:30%">
                 @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "startDate", autocomplete = "off", @disabled = "disabled" , placeholder = "MM/DD/YYYY" , maxlength = 10, @Style = "width:165px" } })
@@ -219,11 +223,14 @@
 
 
 <div class="info-unit" id="searchDiv" style="margin-top:10px;width:79%;padding-top:10px;padding-bottom: 18px;">
-    
+    <span class="icon-help_outline help-search" style="float:left;margin-left: -17px;"></span>
     <div class="row">
+        
         <div class="col-xs-12" style="padding:unset;">
+           
             <form>
                 <fieldset>
+                    
                     <div class="form-group row">
                         
                         <div class="col-md-2">
@@ -310,8 +317,9 @@
         <div class="col-xs-12">
             <form>
                 <fieldset>
-                    
+                   
                     <div class="form-group row">
+                        
                         <div class="col-md-2">
                             <label>VIN/HIN/Serial</label>
                             @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled",@Style= "width:210px" } })
@@ -336,13 +344,13 @@
                             <label>Price</label>
                             @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                         </div>
-                        <div class="col-md-2" style="margin-left: 92px;">
-                            <label>Advance Amount</label>
+                        <div class="col-md-2" style="margin-left: 92px;padding-right:4px;">
+                            <label>Advance Amount <span class="icon-help_outline help-amount"></span></label>
                             @Html.Editor("iAdvance", new { @id = "iAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                                <div id="tagscloud"><span class="text-danger field-validation-error" id="errorAdvanceAmount"></span></div>
                         </div>
                         <div class="col-md-2">
-                            <label>Advance Date</label>
+                            <label>Advance Date <span class="icon-help_outline help-adv-date2"></span></label>
                             @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @disabled = "disabled" , maxlength = 10 } })
                             <span class="text-danger field-validation-error" id="errorAdvanceDate" style=""></span>
                         </div>
@@ -1627,6 +1635,58 @@
                 }
             }
         });
+
+    });
+
+
+    
+    // help
+    $('.title-help').click(function () {
+
+        $('.help-text h4').html("About this page");
+        $('.help-text p').html(" &nbsp;&nbsp; On the advance unit page you can advance units to the system which were previously added. If there are multiple units pending you can select an individual unit or multiple units.<br/><br/>&nbsp;&nbsp; Once you have selected the unit(s) to advance then you can select the Advance Date.<br/><br/>&nbsp;&nbsp; You are also able to search for a specific unit by the last 6 of the VIN, Year, Make or Model.<br/><br/> &nbsp;&nbsp;If allowed by the loan setup to change the advance amount, you will have to search the unit and select it from the search results grid in order to change the advance amount.");
+
+    });
+
+    $('.help-select').click(function () {
+
+        $('.help-text h4').html("Select Unit(s)");
+        $('.help-text p').html(" &nbsp;&nbsp; Use these select boxes to check which unit(s) you are wanting to advance at this time.");
+
+    }); 
+
+    $('.help-adv-date1').click(function () {
+
+        $('.help-text h4').html("Advance Date");
+        $('.help-text p').html(" &nbsp;&nbsp; Select which date the unit(s) are being advanced to the loan.");
+
+    }); 
+
+    $('.help-search').click(function () {
+
+        $('.help-text h4').html("Search for a Unit");
+        $('.help-text p').html(" &nbsp;&nbsp; Use these fields (you can enter details in just one field or any number of fields) to search for a specific unit. The more fields you select the more refined the search results will be.");
+
+    });
+
+    $(document).on('click', '.help-search-select', function () {
+
+        $('.help-text h4').html("Select a Unit");
+        $('.help-text p').html(" &nbsp;&nbsp; You can select a single unit from this grid to advance.");
+
+    });
+
+    $('.help-amount').click(function () {
+
+        $('.help-text h4').html("Advance Amount");
+        $('.help-text p').html(" &nbsp;&nbsp; This amount is automatically calculated based on the loan set up. If allowed by the loan terms this amount can be changed by certain users.");
+
+    });
+
+    $('.help-adv-date2').click(function () {
+
+        $('.help-text h4').html("Advance Date");
+        $('.help-text p').html(" &nbsp;&nbsp; Select which date the unit is being advanced to the loan.");
 
     });
 

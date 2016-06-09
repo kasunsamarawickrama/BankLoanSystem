@@ -400,7 +400,7 @@
 
 
 
-                        <div class="dsh-name"><h3 style="padding-top:10px;padding-bottom:0px;font-size: 31px;">@ViewBag.Title @if(ViewBag.Page == 2) {<span class="icon-help_outline title-help"></span>}</h3></div>
+                        <div class="dsh-name"><h3 style="padding-top:10px;padding-bottom:0px;font-size: 31px;">@ViewBag.Title @if(ViewBag.Page == 2 || ViewBag.Page == 1) {<span class="icon-help_outline title-help"></span>}</h3></div>
                         <div class="cmp-name-panel">
                             <div>
                                 <div>
@@ -537,7 +537,7 @@
          }
 
 
-        $('.icon-help_outline').click(function (e) {
+        $(document).on('click' , '.icon-help_outline', function (e) {
             e.preventDefault;
             slideRight_open();
 
