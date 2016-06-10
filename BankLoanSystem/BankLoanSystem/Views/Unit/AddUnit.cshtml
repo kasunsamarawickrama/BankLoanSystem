@@ -1682,31 +1682,31 @@
                     if($('#rvVin').val().length == 17){
                         $("#rvVin").val(($("#rvVin").val()).toUpperCase());
                         $('#rvVIN span').text("");
-                        var vin =document.getElementById('rvVin').value;
-                        $.ajax({
-                            url: '/Unit/GetYearByVin',
-                            type: 'POST',
-                            contentType: 'application/json;',
-                            data: JSON.stringify({vin: vin }),
-                            success: function (data) {
-                                var year = data;
-                                if(year != 0){
-                                    $('#combobox2-1').next().children('input').val(year);
-                                    document.getElementById('editor2-1').value = year;
-                                    //GetMakes($('#combobox2-1'),'#combobox2-2',2);
-                                    $('.y').text("");
-                                }
+                        //var vin =document.getElementById('rvVin').value;
+                        //$.ajax({
+                        //    url: '/Unit/GetYearByVin',
+                        //    type: 'POST',
+                        //    contentType: 'application/json;',
+                        //    data: JSON.stringify({vin: vin }),
+                        //    success: function (data) {
+                        //        var year = data;
+                        //        if(year != 0){
+                        //            $('#combobox2-1').next().children('input').val(year);
+                        //            document.getElementById('editor2-1').value = year;
+                        //            //GetMakes($('#combobox2-1'),'#combobox2-2',2);
+                        //            $('.y').text("");
+                        //        }
 
-                            },
-                            error: function (jqXHR, textStatus, errorThrown){
-                                // Your handler here...
+                        //    },
+                        //    error: function (jqXHR, textStatus, errorThrown){
+                        //        // Your handler here...
 
-                                // if session expires
-                                if(jqXHR.status == "404"){
-                                    window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
-                                }
-                            }
-                        });
+                        //        // if session expires
+                        //        if(jqXHR.status == "404"){
+                        //            window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                        //        }
+                        //    }
+                        //});
                     }
                     else if($('#rvVin').val().length == 0){
                         //$('#vehicleVIN span').fadeIn();
@@ -1736,31 +1736,31 @@
                     if($('#camperVin').val().length == 17){
                         $("#camperVin").val(($("#camperVin").val()).toUpperCase());
                         $('#camperVIN span').text("");
-                        var vin =document.getElementById('camperVin').value;
-                        $.ajax({
-                            url: '/Unit/GetYearByVin',
-                            type: 'POST',
-                            contentType: 'application/json;',
-                            data: JSON.stringify({vin: vin }),
-                            success: function (data) {
-                                var year = data;
-                                if(year != 0){
-                                    $('#combobox3-1').next().children('input').val(year);
-                                    document.getElementById('editor3-1').value = year;
-                                    //GetMakes($('#combobox3-1'),'#combobox3-2',3);
-                                    $('.y').text("");
-                                }
+                        //var vin =document.getElementById('camperVin').value;
+                        //$.ajax({
+                        //    url: '/Unit/GetYearByVin',
+                        //    type: 'POST',
+                        //    contentType: 'application/json;',
+                        //    data: JSON.stringify({vin: vin }),
+                        //    success: function (data) {
+                        //        var year = data;
+                        //        if(year != 0){
+                        //            $('#combobox3-1').next().children('input').val(year);
+                        //            document.getElementById('editor3-1').value = year;
+                        //            //GetMakes($('#combobox3-1'),'#combobox3-2',3);
+                        //            $('.y').text("");
+                        //        }
 
-                            },
-                            error: function (jqXHR, textStatus, errorThrown){
-                                // Your handler here...
+                        //    },
+                        //    error: function (jqXHR, textStatus, errorThrown){
+                        //        // Your handler here...
 
-                                // if session expires
-                                if(jqXHR.status == "404"){
-                                    window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
-                                }
-                            }
-                        });
+                        //        // if session expires
+                        //        if(jqXHR.status == "404"){
+                        //            window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                        //        }
+                        //    }
+                        //});
                     }else if($('#camperVin').val().length == 0){
                         //$('#vehicleVIN span').fadeIn();
                         //$('#camperVIN span').text("");
@@ -1789,31 +1789,31 @@
                     if($('#atvVin').val().length == 17){
                         $("#atvVin").val(($("#atvVin").val()).toUpperCase());
                         $('#atvVIN span').text("");
-                        var vin =document.getElementById('atvVin').value;
-                        $.ajax({
-                            url: '/Unit/GetYearByVin',
-                            type: 'POST',
-                            contentType: 'application/json;',
-                            data: JSON.stringify({vin: vin }),
-                            success: function (data) {
-                                var year = data;
-                                if(year != 0){
-                                    $('#combobox4-1').next().children('input').val(year);
-                                    document.getElementById('editor4-1').value = year;
-                                    //GetMakes($('#combobox4-1'),'#combobox4-2',4);
-                                    $('.y').text("");
-                                }
+                        //var vin =document.getElementById('atvVin').value;
+                        //$.ajax({
+                        //    url: '/Unit/GetYearByVin',
+                        //    type: 'POST',
+                        //    contentType: 'application/json;',
+                        //    data: JSON.stringify({vin: vin }),
+                        //    success: function (data) {
+                        //        var year = data;
+                        //        if(year != 0){
+                        //            $('#combobox4-1').next().children('input').val(year);
+                        //            document.getElementById('editor4-1').value = year;
+                        //            //GetMakes($('#combobox4-1'),'#combobox4-2',4);
+                        //            $('.y').text("");
+                        //        }
 
-                            },
-                            error: function (jqXHR, textStatus, errorThrown){
-                                // Your handler here...
+                        //    },
+                        //    error: function (jqXHR, textStatus, errorThrown){
+                        //        // Your handler here...
 
-                                // if session expires
-                                if(jqXHR.status == "404"){
-                                    window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
-                                }
-                            }
-                        });
+                        //        // if session expires
+                        //        if(jqXHR.status == "404"){
+                        //            window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                        //        }
+                        //    }
+                        //});
                     }else if($('#atvVin').val().length == 0){
                         //$('#vehicleVIN span').fadeIn();
                         //$('#atvVIN span').text("");
@@ -1842,31 +1842,31 @@
                     if($('#boatVin').val().length == 12){
                         $("#boatVin").val(($("#boatVin").val()).toUpperCase());
                         $('#boatVIN span').text("");
-                        var vin =document.getElementById('boatVin').value;
-                        $.ajax({
-                            url: '/Unit/GetYearByVin',
-                            type: 'POST',
-                            contentType: 'application/json;',
-                            data: JSON.stringify({vin: vin }),
-                            success: function (data) {
-                                var year = data;
-                                if(year != 0){
-                                    $('#combobox5-1').next().children('input').val(year);
-                                    document.getElementById('editor5-1').value = year;
-                                    //GetMakes($('#combobox5-1'),'#combobox5-2',5);
-                                    $('.y').text("");
-                                }
+                        //var vin =document.getElementById('boatVin').value;
+                        //$.ajax({
+                        //    url: '/Unit/GetYearByVin',
+                        //    type: 'POST',
+                        //    contentType: 'application/json;',
+                        //    data: JSON.stringify({vin: vin }),
+                        //    success: function (data) {
+                        //        var year = data;
+                        //        if(year != 0){
+                        //            $('#combobox5-1').next().children('input').val(year);
+                        //            document.getElementById('editor5-1').value = year;
+                        //            //GetMakes($('#combobox5-1'),'#combobox5-2',5);
+                        //            $('.y').text("");
+                        //        }
 
-                            },
-                            error: function (jqXHR, textStatus, errorThrown){
-                                // Your handler here...
+                        //    },
+                        //    error: function (jqXHR, textStatus, errorThrown){
+                        //        // Your handler here...
 
-                                // if session expires
-                                if(jqXHR.status == "404"){
-                                    window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
-                                }
-                            }
-                        });
+                        //        // if session expires
+                        //        if(jqXHR.status == "404"){
+                        //            window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                        //        }
+                        //    }
+                        //});
                     }else if($('#boatVin').val().length == 0){
                         //$('#vehicleVIN span').fadeIn();
                         //$('#boatVIN span').text("");
@@ -1896,31 +1896,31 @@
                     if($('#motorcycleVin').val().length == 17){
                         $("#motorcycleVin").val(($("#motorcycleVin").val()).toUpperCase());
                         $('#motorcycleVIN span').text("");
-                        var vin =document.getElementById('motorcycleVin').value;
-                        $.ajax({
-                            url: '/Unit/GetYearByVin',
-                            type: 'POST',
-                            contentType: 'application/json;',
-                            data: JSON.stringify({vin: vin }),
-                            success: function (data) {
-                                var year = data;
-                                if(year != 0){
-                                    $('#combobox6-1').next().children('input').val(year);
-                                    document.getElementById('editor6-1').value = year;
-                                    //GetMakes($('#combobox6-1'),'#combobox6-2',6);
-                                    $('.y').text("");
-                                }
+                        //var vin =document.getElementById('motorcycleVin').value;
+                        //$.ajax({
+                        //    url: '/Unit/GetYearByVin',
+                        //    type: 'POST',
+                        //    contentType: 'application/json;',
+                        //    data: JSON.stringify({vin: vin }),
+                        //    success: function (data) {
+                        //        var year = data;
+                        //        if(year != 0){
+                        //            $('#combobox6-1').next().children('input').val(year);
+                        //            document.getElementById('editor6-1').value = year;
+                        //            //GetMakes($('#combobox6-1'),'#combobox6-2',6);
+                        //            $('.y').text("");
+                        //        }
 
-                            },
-                            error: function (jqXHR, textStatus, errorThrown){
-                                // Your handler here...
+                        //    },
+                        //    error: function (jqXHR, textStatus, errorThrown){
+                        //        // Your handler here...
 
-                                // if session expires
-                                if(jqXHR.status == "404"){
-                                    window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
-                                }
-                            }
-                        });
+                        //        // if session expires
+                        //        if(jqXHR.status == "404"){
+                        //            window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                        //        }
+                        //    }
+                        //});
                     }else if($('#motorcycleVin').val().length == 0){
                         //$('#vehicleVIN span').fadeIn();
                         //$('#motorcycleVIN span').text("");
@@ -1949,31 +1949,31 @@
                     if($('#snowmobileVin').val().length == 17){
                         $("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
                         $('#snowmobileVIN span').text("");
-                        var vin =document.getElementById('snowmobileVin').value;
-                        $.ajax({
-                            url: '/Unit/GetYearByVin',
-                            type: 'POST',
-                            contentType: 'application/json;',
-                            data: JSON.stringify({vin: vin }),
-                            success: function (data) {
-                                var year = data;
-                                if(year != 0){
-                                    $('#combobox7-1').next().children('input').val(year);
-                                    document.getElementById('editor7-1').value = year;
-                                    //GetMakes($('#combobox7-1'),'#combobox7-2',7);
-                                    $('.y').text("");
-                                }
+                        //var vin =document.getElementById('snowmobileVin').value;
+                        //$.ajax({
+                        //    url: '/Unit/GetYearByVin',
+                        //    type: 'POST',
+                        //    contentType: 'application/json;',
+                        //    data: JSON.stringify({vin: vin }),
+                        //    success: function (data) {
+                        //        var year = data;
+                        //        if(year != 0){
+                        //            $('#combobox7-1').next().children('input').val(year);
+                        //            document.getElementById('editor7-1').value = year;
+                        //            //GetMakes($('#combobox7-1'),'#combobox7-2',7);
+                        //            $('.y').text("");
+                        //        }
 
-                            },
-                            error: function (jqXHR, textStatus, errorThrown){
-                                // Your handler here...
+                        //    },
+                        //    error: function (jqXHR, textStatus, errorThrown){
+                        //        // Your handler here...
 
-                                // if session expires
-                                if(jqXHR.status == "404"){
-                                    window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
-                                }
-                            }
-                        });
+                        //        // if session expires
+                        //        if(jqXHR.status == "404"){
+                        //            window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                        //        }
+                        //    }
+                        //});
                     }else if($('#snowmobileVin').val().length == 0){
                         //$('#vehicleVIN span').fadeIn();
                         //$('#snowmobileVIN span').text("");
