@@ -26,7 +26,7 @@ namespace BankLoanSystem.Controllers.UnitTitle
                     {
 
                         //new HttpStatusCodeResult(404, "Failed to Setup company.");
-                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+                        filterContext.Result = new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
                     }
                     else
                     {

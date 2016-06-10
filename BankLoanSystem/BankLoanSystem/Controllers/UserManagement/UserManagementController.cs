@@ -39,7 +39,7 @@ namespace BankLoanSystem.Controllers
                     if (HttpContext.Request.IsAjaxRequest())
                     {
 
-                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+                        filterContext.Result = new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
 
                     }else
                     {
@@ -424,7 +424,7 @@ namespace BankLoanSystem.Controllers
             }
             else
             {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
                 
             
@@ -464,7 +464,7 @@ namespace BankLoanSystem.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
 
             int companyId;
@@ -523,7 +523,7 @@ namespace BankLoanSystem.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
 
 
@@ -596,7 +596,7 @@ namespace BankLoanSystem.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
 
             bool isUpdate;
@@ -1694,7 +1694,7 @@ namespace BankLoanSystem.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
         }
 

@@ -32,7 +32,7 @@ namespace BankLoanSystem.Controllers.Unit
                     {
 
                         //new HttpStatusCodeResult(404, "Failed to Setup company.");
-                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+                        filterContext.Result = new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
                     }
                     else
                     {
@@ -492,7 +492,7 @@ namespace BankLoanSystem.Controllers.Unit
             }
             catch (Exception)
             {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
 
             ViewBag.Title = title;
@@ -705,7 +705,7 @@ namespace BankLoanSystem.Controllers.Unit
             }
             catch (Exception)
             {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
             //int userId = 57;
 
