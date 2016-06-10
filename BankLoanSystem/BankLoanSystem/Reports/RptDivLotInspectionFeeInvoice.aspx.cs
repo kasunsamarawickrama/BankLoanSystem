@@ -42,6 +42,7 @@ namespace BankLoanSystem.Reports
             rptViewerLotInspectionFeeInvoice.Reset();
             rptViewerLotInspectionFeeInvoice.LocalReport.EnableExternalImages = true;
             rptViewerLotInspectionFeeInvoice.LocalReport.ReportPath = Server.MapPath("~/Reports/RptLotInspectionFeeInvoice.rdlc");
+            rptViewerLotInspectionFeeInvoice.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
