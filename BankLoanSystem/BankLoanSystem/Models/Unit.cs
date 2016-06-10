@@ -415,6 +415,10 @@ namespace BankLoanSystem.Models
         public string Model { get; set; }
         public decimal PurchasePrice { get; set; }
         public decimal AdvanceAmount { get; set; }
+        public decimal BalanceDue { get; set; }
+        public decimal CrtailmentPaid { get; set; }
+        public decimal FeesPaid { get; set; }
+
         public int UnitStaus { get; set; }
     }
 

@@ -300,11 +300,29 @@
 
                                     <div class="col-md-2">
                                         <label for="">Advance Amount</label>
-                                        @Html.Editor("AdvanceAmount", new { htmlAttributes = new { @class = "form-control", @id = "advanceAmount", @disabled = "disabled", @style= "text-align: right;" } })
+                                        @Html.Editor("AdvanceAmount", new {htmlAttributes = new {@class = "form-control", @id = "advanceAmount", @disabled = "disabled", @style = "text-align: right;"}})
 
                                     </div>
 
+                                    <div class="col-md-2" id="divcurtailmentPaid" hidden>
+                                        <label for="">Curtailment Paid</label>
+                                        @Html.Editor("CurtailmentPaid", new {htmlAttributes = new {@class = "form-control", @id = "curtailmentPaid", @disabled = "disabled", @style = "text-align: right;"}})
+
                                     </div>
+
+                                    <div class="col-md-2" id="divfeesPaid" hidden>
+                                        <label for="">Fees Paid</label>
+                                        @Html.Editor("FeesPaid", new {htmlAttributes = new {@class = "form-control", @id = "feesPaid", @disabled = "disabled", @style = "text-align: right;"}})
+
+                                    </div>
+
+                                    <div class="col-md-2" id="divbalanceDue" hidden>
+                                        <label for="">Balance Due</label>
+                                        @Html.Editor("BalanceDue", new { htmlAttributes = new { @class = "form-control", @id = "balanceDue", @disabled = "disabled", @style = "text-align: right;"} })
+
+                                    </div>
+
+                                </div>
 
                                 <div class="info-bar" id="FeeDetails" style="margin-top:10px;padding:1px 0px 30px 0px">
 
@@ -725,6 +743,9 @@
         $('#unitModel').val('');
         $('#purchasePrice').val('');
         $('#advanceAmount').val('');
+        $('#curtailmentPaid').val('');
+        $('#balanceDue').val('');
+        $('#feesPaid').val('');
         $('#unitId').val('');
     }
 
