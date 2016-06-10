@@ -933,6 +933,7 @@
                     } else {
                         $('#btnPayAll').prop('disabled', false);
                         $('#btnPay').prop('disabled', false);
+                        hideLoading();
 
                     }
                     //location.reload();
@@ -947,6 +948,7 @@
                     if (jqXHR.status == "404") {
                         window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
                     }
+                    hideLoading();
                 }
             });
         }
@@ -1075,7 +1077,12 @@
                                 hideLoading();
                             }
                         });
-                    } else {
+                    } 
+                    
+                    
+                    else {
+
+                        hideLoading();
 
                     }
 
@@ -1088,6 +1095,8 @@
                     if (jqXHR.status == "404") {
                         window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
                     }
+
+                    hideLoading();
                 }
             });
         }
