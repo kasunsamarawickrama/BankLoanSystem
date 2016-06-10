@@ -533,7 +533,7 @@
 
                 // if session expires
                 if (jqXHR.status == "404") {
-                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                    window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
                 }
                 hideLoading();
             }
@@ -604,7 +604,7 @@
 
                 // if session expires
                 if (jqXHR.status == "404") {
-                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                    window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
                 }
                 hideLoading();
             }
@@ -704,7 +704,7 @@
                         $('.centered span').text('Failed to delete unit, try again!');
                         // if session expires
                         if (jqXHR.status == "404") {
-                            window.location.href = '/Login/UserLogin?lbl=Session expired';
+                            window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
                         }
                     }
                 });
