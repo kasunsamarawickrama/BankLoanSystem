@@ -6,6 +6,7 @@
 }
 @if (Model.Search.Count() != 0)
 {
+    <span class="icon-help_outline help-search-select" style="float:left;padding-left: 0px;"></span>
     <div id="searchGrid" @*style="overflow-x: hidden;overflow-y: scroll;height: 200px;"*@>
         @grid1.GetHtml(
                tableStyle: "gridtable",
@@ -22,7 +23,7 @@
                              "Date Entered", canSort: false, style: "gridColumnOthers",
                              format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
                          ),
-                     grid1.Column("VIN/HIN/serial #", "VIN/HIN/serial #", canSort: false, style: "gridColumnVIN", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label><input type="hidden" value="@item.UnitId" name="ids" class="checkboxAll" id="all" />}</text>),
+                     grid1.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, style: "gridColumnVIN", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label><input type="hidden" value="@item.UnitId" name="ids" class="checkboxAll" id="all" />}</text>),
                      grid1.Column("Year", "Year", canSort: false, style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                      grid1.Column("Make", "Make", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                      grid1.Column("Model", "Model", canSort: false, style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
@@ -42,6 +43,13 @@
             SetTextBoxValues(tr);
             ClearMainGrid();
         });
+    });
+
+    $('.help-search-select').click(function () {
+
+        $('.help-text h4').html("Select a Unit");
+        $('.help-text p').html(" &nbsp;&nbsp; You can select a single unit from this grid to advance.");
+
     });
     </script>
 
