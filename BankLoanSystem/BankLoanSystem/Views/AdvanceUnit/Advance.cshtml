@@ -173,7 +173,7 @@
                    "Date Entered", style: "gridColumnOthers",
                    format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
                ),
-           grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", canSort: false, style: "gridColumnVIN", format: @<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+           grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, style: "gridColumnVIN", format: @<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
                 grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                 grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
@@ -209,7 +209,8 @@
              
         }
     </div>
-
+      @if (Model.NotAdvanced!=null && Model.NotAdvanced.Count > 0)
+      {
     <div class ="info-unit" id="advanceAllDiv" style="margin-top:10px;width:79%">
         <div class="form-group">
             <div class="control-label col-sm-2" style="text-align:right;padding-top:5px">
@@ -217,7 +218,7 @@
                 <label for="AdvanceDate">Advance Date <span class="icon-help_outline help-adv-date1"></span></label>
             </div>
             <div class="col-xs-3" id="advanceDateAll" style="width:30%">
-                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "startDate", autocomplete = "off", @disabled = "disabled" , placeholder = "MM/DD/YYYY" , maxlength = 10, @Style = "width:165px" } })
+                @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "startDate", autocomplete = "off", @disabled = "disabled", placeholder = "MM/DD/YYYY", maxlength = 10, @Style = "width:165px" } })
                 <span class="text-danger field-validation-error" id="errorStartDate" style="left:7%"></span>
         </div>
             <input type="button" value="Advance all selected items" id="btnAdvanceAll" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:60px;width:200px;margin-top:0px;margin-left: -185px;" disabled/>
@@ -238,7 +239,7 @@
                         
                         <div class="col-md-2">
                             <label for="">VIN/HIN/Serial</label>
-                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6",@Style="width:165px" } })
+                            @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @id = "identificationNumberSearch", @placeholder = "Last 6 of VIN/HIN/SN", @maxlength = "6", @Style = "width:165px" } })
                             @*@Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })*@
                             <span class="text-danger field-validation-error" id="searchIdentificationNumber" style="width:205px"></span>
                         </div>
@@ -259,7 +260,7 @@
                                 }
                                 yearList = yearList.OrderBy(s => s.Value).ToList();
                             }
-                             @Html.DropDownList("year", yearList, "--Select--", new { @class = "form-control", @id = "cmbYear"})
+                             @Html.DropDownList("year", yearList, "--Select--", new { @class = "form-control", @id = "cmbYear" })
                             @*@Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })*@
                                     @*<div id="vehicleyear"><span class="text-danger"></span></div>*@
 
@@ -325,7 +326,7 @@
                         
                         <div class="col-md-2">
                             <label>VIN/HIN/Serial</label>
-                            @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled",@Style= "width:210px" } })
+                            @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled", @Style = "width:210px" } })
                         </div>
                         <div class="col-md-2" style="margin-left:90px">
                             <label>Year</label>
@@ -344,7 +345,7 @@
                     <div class="form-group row" style="margin-top:15px !important">
 
                         <div class="col-md-2">
-                            <label>Price</label>
+                            <label>Cost</label>
                             @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                         </div>
                         <div class="col-md-2" style="margin-left: 92px;padding-right:4px;">
@@ -354,7 +355,7 @@
                         </div>
                         <div class="col-md-2">
                             <label>Advance Date <span class="icon-help_outline help-adv-date2"></span></label>
-                            @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @disabled = "disabled" , maxlength = 10 } })
+                            @Html.EditorFor(model => model.AdvanceDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "advanceDate", autocomplete = "off", @disabled = "disabled", maxlength = 10 } })
                             <span class="text-danger field-validation-error" id="errorAdvanceDate" style=""></span>
                         </div>
                     </div>
@@ -376,7 +377,7 @@
             </div>
         </div>
                     </div>
-
+                                }
     </div>
 
    
