@@ -101,7 +101,8 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         });    
     });
 </script>
-
+@if (Model.CurtailmentScheduleInfoModel !=null && Model.CurtailmentScheduleInfoModel.Count > 0)
+{
 <form method="post">
     <div class="info-bar" style="margin-top:15px" id="payDateDiv">
         <div class="form-inline">
@@ -190,7 +191,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                 modelList = modelList.OrderBy(s => s.Value).ToList();
                             }
 
-                                    @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel", @style= "width: 117%;" })
+                                    @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel", @style = "width: 117%;" })
                                     @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
 
 
@@ -223,25 +224,25 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                     <div class="form-group row">
                     <div class="col-md-2" style="width: 15%;">
                             <label for="">Date Advanced </label>
-                        @Html.Editor("iDateAdvance", new {@id = "iDateAdvance", htmlAttributes = new {@class = "form-control", @disabled = "disabled"}})
+                        @Html.Editor("iDateAdvance", new { @id = "iDateAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                     <div class="col-md-2" style="width: 27%; padding-left: 29px;">
                             <label for="">Vin/HIN/Serial </label>
-                        @Html.Editor("iVin", new {@id = "iVin", htmlAttributes = new {@class = "form-control", @disabled = "disabled"}})
+                        @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                     <div class="col-md-2" style="width: 10%;">
                             <label for="firstName">Year </label>
-                        @Html.Editor("iYear", new {@id = "iYear", htmlAttributes = new {@class = "form-control", @disabled = "disabled"}})
+                        @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
                     <div class="col-md-2" style="width: 15%;">
                             <label for="">Make </label>
-                        @Html.Editor("iMake", new {@id = "iMake", htmlAttributes = new {@class = "form-control", @disabled = "disabled"}})
+                        @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
                     <div class="col-md-2" style="width: 15%;">
                             <label for="firstName">Model </label>
-                        @Html.Editor("iModel", new {@id = "iModel", htmlAttributes = new {@class = "form-control", @disabled = "disabled"}})
+                        @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
                         
@@ -250,16 +251,16 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 <div class="form-group row" style="margin-top: 15px !important">
                         <div class="col-md-2"  style="width:20%;">
                             <label for="">Curtailment Amount </label>
-                        @Html.Hidden("aCurtAmount", new {@id = "aCurtAmount"})
-                        @Html.Editor("iCurtAmount", new {@id = "iCurtAmount", htmlAttributes = new {@class = "form-control", style = "text-align:right;"}})
+                        @Html.Hidden("aCurtAmount", new { @id = "aCurtAmount" })
+                        @Html.Editor("iCurtAmount", new { @id = "iCurtAmount", htmlAttributes = new { @class = "form-control", style = "text-align:right;" } })
                         <span class="text-danger field-validation-error" id="errorCurtAmount" style="left: 8%; width: 300%"></span>
                         </div>
                     <div class="col-md-2" style="width:25%;">
                             <label for="">Curtailment Payment Date </label>
-                        @Html.EditorFor(model => model.PayDate, new {htmlAttributes = new {@class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10}})
+                        @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
                         <span class="text-danger field-validation-error" id="errorCurtPayDate" style="margin-left: 95%; top: 50%; width: 125%"></span>
-                        @Html.Hidden("iCurtNumber", "", new {@id = "iCurtNumber"})
-                        @Html.Hidden("iUnitID", "", new {@id = "iUnitID"})
+                        @Html.Hidden("iCurtNumber", "", new { @id = "iCurtNumber" })
+                        @Html.Hidden("iUnitID", "", new { @id = "iUnitID" })
                         </div>
 
 
@@ -290,7 +291,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
 
 </div>
-
+                                }
 <script src="~/scripts/CommonFunctions.js"></script>
 <script>
     
