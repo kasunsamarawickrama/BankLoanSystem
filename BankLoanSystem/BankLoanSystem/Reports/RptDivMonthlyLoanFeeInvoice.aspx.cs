@@ -1,18 +1,14 @@
-﻿using BankLoanSystem.Code;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Web.UI;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using Microsoft.Reporting.WebForms;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace BankLoanSystem.Reports
 {
-    public partial class RptDivMonthlyLoanFeeInvoice : System.Web.UI.Page
+    public partial class RptDivMonthlyLoanFeeInvoice : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -20,8 +16,6 @@ namespace BankLoanSystem.Reports
             {
                 int loanId = 0;
                 string feeType = "monthlyLoanFee";
-                //DateTime startDate = Convert.ToDateTime("5/5/2016");
-                //DateTime endDate = Convert.ToDateTime("5/5/2019");
 
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
@@ -82,17 +76,7 @@ namespace BankLoanSystem.Reports
 
             rptViewerMonthlyLoanFeeInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerMonthlyLoanFeeInvoicePrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", monthlyLoanFeeInvoice));
-
-            //ReportPrintDocument rpd = new ReportPrintDocument(rptViewerMonthlyLoanFeeInvoicePrint.LocalReport);
-            //try
-            //{
-            //    rpd.Print();
-            //    return 1;
-            //}
-            //catch (Exception e)
-            //{
-            //    return 0;
-            //}
+            
             return rptViewerMonthlyLoanFeeInvoicePrint;
         }
     }

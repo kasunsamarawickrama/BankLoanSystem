@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using BankLoanSystem.Code;
 using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
@@ -7,6 +8,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
 {
     public class SetupSignUpController : Controller
     {
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            try
+            {
+                if (Session["employeeId"] == null)
+                {
+                    filterContext.Result = new RedirectResult("~/Login/EmpLogin");
+                }
+            }
+            catch (Exception e)
+            {
+                filterContext.Result = new RedirectResult("~/Login/EmpLogin");
+            }
+        }
+
+
         // GET: SetupSignUp
         public ActionResult SignUp()
         {

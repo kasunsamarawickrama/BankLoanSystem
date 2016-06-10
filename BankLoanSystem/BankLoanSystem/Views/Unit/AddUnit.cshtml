@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Add Unit Page";
-    ViewBag.Page = 2;
+    ViewBag.Page = 1;
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
@@ -1287,36 +1287,41 @@
                     document.getElementById('editor1-1').value = yearmakemodel;
                     focusoutcall('#vehicleyear span','#editor1-1','#combobox1-1',yearmakemodel);
                     //GetMakes($('#combobox1-1'),'#combobox1-2',1);
+                    middleSpanCheck();
                 });
                 $('#div-combobox1-2').focusout(function(){
                     var yearmakemodel = $('#combobox1-2').next().children('input').val();
                     document.getElementById('editor1-2').value = yearmakemodel;
                     //GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);
+                    middleSpanCheck();
                 });
                 $('#div-combobox1-3').focusout(function(){
                     var yearmakemodel = $('#combobox1-3').next().children('input').val();
                     document.getElementById('editor1-3').value = yearmakemodel;
-
+                    middleSpanCheck();
                 });
                 $('#div-combobox1-4').focusout(function(){
                     var yearmakemodel = $('#combobox1-4').next().children('input').val();
                     document.getElementById('editor1-4').value = yearmakemodel;
-
+                    middleSpanCheck();
                 });
                 $('#div-combobox2-1').focusout(function(){
                     var yearmakemodel = $('#combobox2-1').next().children('input').val();
                     document.getElementById('editor2-1').value = yearmakemodel;
                     focusoutcall('#rvyear span','#editor2-1','#combobox2-1',yearmakemodel);
                     //GetMakes($('#combobox1-1'),'#combobox1-2',1);
+                    middleSpanCheck();
                 });
                 $('#div-combobox2-2').focusout(function(){
                     var yearmakemodel = $('#combobox2-2').next().children('input').val();
                     document.getElementById('editor2-2').value = yearmakemodel;
                     //GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);
+                    middleSpanCheck();
                 });
                 $('#div-combobox2-3').focusout(function(){
                     var yearmakemodel = $('#combobox2-3').next().children('input').val();
                     document.getElementById('editor2-3').value = yearmakemodel;
+                    middleSpanCheck();
 
                 });
                 $('#div-combobox3-1').focusout(function(){
@@ -1324,31 +1329,36 @@
                     document.getElementById('editor3-1').value = yearmakemodel;
                     focusoutcall('#camperyear span','#editor3-1','#combobox3-1',yearmakemodel);
                     //GetMakes($('#combobox3-1'),'#combobox3-2',3);
+                    middleSpanCheck();
                 });
                 $('#div-combobox3-2').focusout(function(){
                     var yearmakemodel = $('#combobox3-2').next().children('input').val();
                     document.getElementById('editor3-2').value = yearmakemodel;
                     //GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',6);
+                    middleSpanCheck();
                 });
                 $('#div-combobox3-3').focusout(function(){
                     var yearmakemodel = $('#combobox3-3').next().children('input').val();
                     document.getElementById('editor3-3').value = yearmakemodel;
-
+                    middleSpanCheck();
                 });
                 $('#div-combobox4-1').focusout(function(){
                     var yearmakemodel = $('#combobox4-1').next().children('input').val();
                     document.getElementById('editor4-1').value = yearmakemodel;
                     focusoutcall('#atvyear span','#editor4-1','#combobox4-1',yearmakemodel);
                     //GetMakes($('#combobox4-1'),'#combobox4-2',4);
+                    middleSpanCheck();
                 });
                 $('#div-combobox4-2').focusout(function(){
                     var yearmakemodel = $('#combobox4-2').next().children('input').val();
                     document.getElementById('editor4-2').value = yearmakemodel;
                     //GetModels($('#combobox4-1'),$('#combobox4-2'),'#combobox4-3',4);
+                    middleSpanCheck();
                 });
                 $('#div-combobox4-3').focusout(function(){
                     var yearmakemodel = $('#combobox4-3').next().children('input').val();
                     document.getElementById('editor4-3').value = yearmakemodel;
+                    middleSpanCheck();
 
                 });
                 $('#div-combobox5-1').focusout(function(){
@@ -1356,10 +1366,12 @@
                     document.getElementById('editor5-1').value = yearmakemodel;
                     focusoutcall('#boatyear span','#editor5-1','#combobox5-1',yearmakemodel);
                     //GetMakes($('#combobox5-1'),'#combobox5-2',5);
+                    middleSpanCheck();
                 });
                 $('#div-combobox5-2').focusout(function(){
                     var yearmakemodel = $('#combobox5-2').next().children('input').val();
                     document.getElementById('editor5-2').value = yearmakemodel;
+                    middleSpanCheck();
 
                 });
                 $('#div-combobox6-1').focusout(function(){
@@ -1367,36 +1379,41 @@
                     document.getElementById('editor6-1').value = yearmakemodel;
                     focusoutcall('#motorcycleyear span','#editor6-1','#combobox6-1',yearmakemodel);
                     // GetMakes($('#combobox6-1'),'#combobox6-2',6);
+                    middleSpanCheck();
                 });
                 $('#div-combobox6-2').focusout(function(){
                     var yearmakemodel = $('#combobox6-2').next().children('input').val();
                     document.getElementById('editor6-2').value = yearmakemodel;
                     //GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',6);
+                    middleSpanCheck();
                 });
                 $('#div-combobox6-3').focusout(function(){
                     var yearmakemodel = $('#combobox6-3').next().children('input').val();
                     document.getElementById('editor6-3').value = yearmakemodel;
-
+                    middleSpanCheck();
                 });
                 $('#div-combobox6-4').focusout(function(){
                     var yearmakemodel = $('#combobox6-4').next().children('input').val();
                     document.getElementById('editor6-4').value = yearmakemodel;
-
+                    middleSpanCheck();
                 });
                 $('#div-combobox7-1').focusout(function(){
                     var yearmakemodel = $('#combobox7-1').next().children('input').val();
                     document.getElementById('editor7-1').value = yearmakemodel;
                     focusoutcall('#snowmobileyear span','#editor7-1','#combobox7-1',yearmakemodel);
                     //GetMakes($('#combobox7-1'),'#combobox7-2',7);
+                    middleSpanCheck();
                 });
                 $('#div-combobox7-2').focusout(function(){
                     var yearmakemodel = $('#combobox7-2').next().children('input').val();
                     document.getElementById('editor7-2').value = yearmakemodel;
                     //GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);
+                    middleSpanCheck();
                 });
                 $('#div-combobox7-3').focusout(function(){
                     var yearmakemodel = $('#combobox7-3').next().children('input').val();
                     document.getElementById('editor7-3').value = yearmakemodel;
+                    middleSpanCheck();
 
                 });
                 $('#div-combobox8-1').focusout(function(){
@@ -1404,11 +1421,12 @@
                     document.getElementById('editor8-1').value = yearmakemodel;
                     focusoutcall('#heavyequipmentyear span','#editor8-1','#combobox8-1',yearmakemodel);
                     //GetMakes($('#combobox8-1'),'#combobox8-2',8);
+                    middleSpanCheck();
                 });
                 $('#div-combobox8-2').focusout(function(){
                     var yearmakemodel = $('#combobox8-2').next().children('input').val();
                     document.getElementById('editor8-2').value = yearmakemodel;
-
+                    middleSpanCheck();
                 });
                 // -------------------------
                 //focusout functions End
@@ -2686,8 +2704,9 @@
                         $(this).attr('placeholder', 'MM/DD/YYYY');
                 });
 
-
+                isErrorAddUnit = false;
                 $('#form').submit(function(e) {
+                    
                     var valid = true;
                     $('#btnSubmit').prop('disabled', true);
                     var unitType = document.getElementById("unitType").value;
@@ -2697,7 +2716,9 @@
                     if (cost =="" || advance == "") {
                         $('#btnSubmit').prop('disabled', false);
                         valid = false;
-                        $('.centered span').text('Error');
+                        if(isErrorAddUnit == false){                        
+                            isErrorAddUnit = true;
+                        }
                     }
 
                     if( $('.vinCheck').text().length > 0){
@@ -2707,6 +2728,9 @@
                             e.preventDefault();
                         }
                         valid = false;
+                        if(isErrorAddUnit == false){                        
+                            isErrorAddUnit = true;
+                        }
 
 
                     }
@@ -2719,7 +2743,6 @@
                             //$('#vehicleyear span').fadeIn();
                             $('#vehicleyear span').text("Please select the vehicle year");
                             //$('#vehicleyear span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             if (vin == "" || cost =="" || advance == "" ) {
                             } else {
@@ -2727,14 +2750,19 @@
                                 e.preventDefault();
                             }
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                         }
                         if ($('#combobox1-2').next().children('input').val() == "") {
                             //$('#vehiclemake span').fadeIn();
                             $('#vehiclemake span').text("Please enter the vehicle Make");
                             // $('#vehiclemake span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
 
@@ -2746,8 +2774,10 @@
                             // $('#vehiclemodel span').fadeIn();
                             $('#vehiclemodel span').text("Please enter the vehicle Model");
                             //$('#vehiclemodel span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             valid = false;
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
@@ -2765,9 +2795,11 @@
                             //$('#rvyear span').fadeIn();
                             $('#rvyear span').text("Please select the rv year");
                             //$('#rvyear span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == ""  || cost =="" || advance == "" ) {
                             } else {
                                 e.preventDefault();
@@ -2778,9 +2810,11 @@
                             //$('#rvmake span').fadeIn();
                             $('#rvmake span').text("Please enter the rv Make");
                             //$('#rvmake span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == ""  || cost =="" || advance == "" ) {
                             } else {
                                 e.preventDefault();
@@ -2791,8 +2825,10 @@
                             //$('#rvmodel span').fadeIn();
                             $('#rvmodel span').text("Please enter the rv Model");
                             //$('#rvmodel span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             $('#btnSubmit').prop('disabled', false);
                             if (vin == ""  || cost =="" || advance == "" ) {
                             } else {
@@ -2812,9 +2848,11 @@
                             //$('#camperyear span').fadeIn();
                             $('#camperyear span').text("Please select the camper year");
                             //$('#camperyear span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == ""|| cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2825,8 +2863,10 @@
                             //$('#campermake span').fadeIn();
                             $('#campermake span').text("Please enter the camper Make");
                             //$('#campermake span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             $('#btnSubmit').prop('disabled', false);
                             if (vin == ""  || cost =="" || advance == "" ) {
                             } else {
@@ -2838,9 +2878,11 @@
                             //$('#campermodel span').fadeIn();
                             $('#campermodel span').text("Please enter the camper Model");
                             //$('#campermodel span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == "" || cost =="" || advance == "") {
                                 $('.centered span').text('Error');
                             } else {
@@ -2858,9 +2900,11 @@
                             //$('#atvyear span').fadeIn();
                             $('#atvyear span').text("Please select the atv year");
                             //$('#atvyear span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == "" || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2871,9 +2915,11 @@
                             //$('#atvmake span').fadeIn();
                             $('#atvmake span').text("Please enter the atv Make");
                             //$('#atvmake span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == "" || cost =="" || advance == "" ) {
                             } else {
                                 e.preventDefault();
@@ -2884,9 +2930,11 @@
                             //$('#atvmodel span').fadeIn();
                             $('#atvmodel span').text("Please enter the atv Model");
                             //$('#atvmodel span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == "" || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2902,11 +2950,13 @@
 
                         if ($('#combobox5-1').next().children('input').val() == "") {
                             //$('#boatyear span').fadeIn();
-                            $('#boatyear span').text("Please select the vehicle year");
+                            $('#boatyear span').text("Please select the boat year");
                             //$('#boatyear span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == "" || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2917,9 +2967,11 @@
                             //$('#boatmake span').fadeIn();
                             $('#boatmake span').text("Please enter the boat Make");
                             //$('#boatmake span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == "" || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2934,11 +2986,13 @@
 
                         if ($('#combobox6-1').next().children('input').val() == "") {
                             //$('#motorcycleyear span').fadeIn();
-                            $('#motorcycleyear span').text("Please select the vehicle year");
+                            $('#motorcycleyear span').text("Please select the motorcycle year");
                             //$('#motorcycleyear span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == "" || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2949,9 +3003,11 @@
                             //$('#motorcyclemake span').fadeIn();
                             $('#motorcyclemake span').text("Please enter the motorcycle Make");
                             //$('#motorcyclemake span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2962,9 +3018,11 @@
                             //$('#motorcyclemodel span').fadeIn();
                             $('#motorcyclemodel span').text("Please enter the motorcycle Model");
                             //$('#motorcyclemodel span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2977,11 +3035,13 @@
 
                         if ($('#combobox7-1').next().children('input').val() == "") {
                             //$('#snowmobileyear span').fadeIn();
-                            $('#snowmobileyear span').text("Please select the vehicle year");
+                            $('#snowmobileyear span').text("Please select the snowmobile year");
                             //$('#snowmobileyear span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -2992,9 +3052,11 @@
                             //$('#snowmobilemake span').fadeIn();
                             $('#snowmobilemake span').text("Please enter the snowmobile Make");
                             //$('#snowmobilemake span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -3005,9 +3067,11 @@
                             //$('#snowmobilemodel span').fadeIn();
                             $('#snowmobilemodel span').text("Please enter the snowmobile Model");
                             //$('#snowmobilemodel span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == ""  || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -3021,9 +3085,11 @@
                             //$('#heavyequipmentyear span').fadeIn();
                             $('#heavyequipmentyear span').text("Please select the heavyequipment year");
                             //$('#heavyequipmentyear span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == "" || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -3034,9 +3100,11 @@
                             //$('#heavyequipmentmake span').fadeIn();
                             $('#heavyequipmentmake span').text("Please enter the heavyequipment Make");
                             //$('#heavyequipmentmake span').delay(1000).fadeOut();
-                            $('.centered span').text('Error');
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                             if (vin == "" || cost =="" || advance == "") {
                             } else {
                                 e.preventDefault();
@@ -3054,7 +3122,9 @@
                     }else{
                         $('#btnSubmit').prop('disabled', false);
                         valid = false;
-                        $('.centered span').text('Error');
+                        if(isErrorAddUnit == false){                        
+                            isErrorAddUnit = true;
+                        }
                     }
                     </text>
                     }
@@ -3065,7 +3135,9 @@
                         }else{
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            $('.centered span').text('Error');
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                         }
                     }
 
@@ -3086,13 +3158,18 @@
                                         $('#btnSubmit').prop('disabled', false);
                                         valid = false;
                                         e.preventDefault();
+                                        if(isErrorAddUnit == false){                        
+                                            isErrorAddUnit = true;
+                                        }
                                     }
                                 }
 
                             }else{
                                 $('#btnSubmit').prop('disabled', false);
                                 valid = false;
-                                $('.centered span').text('Error');
+                                if(isErrorAddUnit == false){                        
+                                    isErrorAddUnit = true;
+                                }
                             }
                             </text>
                         }
@@ -3111,6 +3188,9 @@
                         $('#btnSubmit').prop('disabled', false);
                         valid = false;
                         e.preventDefault();
+                        if(isErrorAddUnit == false){                        
+                            isErrorAddUnit = true;
+                        }
 
                     } 
                     //else if (cost > maxCost) {
@@ -3138,6 +3218,9 @@
                             showPopup(10);
                             $('#btnSubmit').prop('disabled', false);
                             e.preventDefault();
+                            if(isErrorAddUnit == false){                        
+                                isErrorAddUnit = true;
+                            }
                         }
                         
                         //showPopup(10);
@@ -3145,9 +3228,19 @@
                     } else {
 
                     }
-                    middleSpanCheck();
+                    if (isErrorAddUnit === false)
+                        $('.centered span').text('');
+                    else
+                        $('.centered span').text('Error');
+
+                    //middleSpanCheck();
                 });
 
+
+                 $('input').blur(function(){
+                     middleSpanCheck();
+                    
+                });
 
                 //$('#Note').keyup(function(e) {
                 //    //alert(this.value.length);
@@ -3270,17 +3363,22 @@
                 function middleSpanCheck(){
                     if ($('input').next('span').children('span').text().length > 1 || $('.vinCheck').text()) {
 
-                        $('.centered span').text('Error');
+                        isErrorAddUnit = true;
                     }
                     else if($('input').closest("div").children("span").text().length > 1 ){
-                        $('.centered span').text('Error');
+                        isErrorAddUnit = true;
                     }
-                        //else if ($('.vinCheck').text().length > 0) {
-                        //    $('.centered span').text('Error');
-                        //}
+                    else if($('.y').text().length > 1 ||$('.ma').text().length > 1 ||$('.mo').text().length > 1 ){
+                        isErrorAddUnit = true;
+                    }
                     else{
-                        $('.centered span').text('');
+                        isErrorAddUnit = false;
                     }
+                    if (isErrorAddUnit === false)
+                        $('.centered span').text('');
+                    else
+                        $('.centered span').text('Error');
+
                 }
 
 

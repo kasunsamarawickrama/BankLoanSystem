@@ -6,6 +6,7 @@
 }
 @if (Model.Search.Count() != 0)
 {
+    <span class="icon-help_outline help-search-select" style="float:left;padding-left: 0px;"></span>
     <div id="searchGrid" @*style="overflow-x: hidden;overflow-y: scroll;height: 200px;"*@>
         @grid1.GetHtml(
                tableStyle: "gridtable",
@@ -42,6 +43,13 @@
             SetTextBoxValues(tr);
             ClearMainGrid();
         });
+    });
+
+    $('.help-search-select').click(function () {
+
+        $('.help-text h4').html("Select a Unit");
+        $('.help-text p').html(" &nbsp;&nbsp; You can select a single unit from this grid to advance.");
+
     });
     </script>
 
