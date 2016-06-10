@@ -23,6 +23,7 @@ else
 
 <div class="info-bar" id="checkableGridDiv" style="margin-top: 10px; padding: 1px 0px 30px 0px">
                             <div>
+                                <span class="icon-help_outline help-select" style="float:left"></span>
                                 @grid.GetHtml(
             tableStyle: "gridtable",
             headerStyle: "webgrid-header",
@@ -101,19 +102,20 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         });    
     });
 </script>
-
+@if (Model.CurtailmentScheduleInfoModel !=null && Model.CurtailmentScheduleInfoModel.Count > 0)
+{
 <form method="post">
     <div class="info-bar" style="margin-top:15px" id="payDateDiv">
         <div class="form-inline">
             <div style="text-align: left">
 
-                <label>Curtailmnet Payment Date : </label>
+                <label>Curtailment Payment Date  <span class="icon-help_outline help-date1"></span></label>
                 @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", @disabled = "disabled", maxlength = 10 } })
                 @*@Html.ValidationMessageFor(model => model.PayDate, "", new { @class = "text-danger"  , style="left:25%" })*@
                 <span class="text-danger field-validation-error" id="errorPayDate" style="left: 28%;margin-top: 35px;width: 14%;"></span>
                 
-                <div style="display: inline-table;margin-left: 13px;"><input type="checkbox" id="report" value="Report" style="margin-right:3px;width:16px;height:16px" /><label>Print a report of the transactions being submitted at this time</label><br />
-<input type="checkbox" id="emailReceipt" value="email" style="margin-right:3px;width:16px;height:16px"/><label>Email a report of the transactions being submitted at this time to the dealer</label>
+                <div style="display: inline-table;margin-left: 13px;"><input type="checkbox" id="report" value="Report" style="margin-right:3px;width:16px;height:16px" /><label>Print a report of the transactions being submitted at this time <span class="icon-help_outline help-print"></span></label><br />
+<input type="checkbox" id="emailReceipt" value="email" style="margin-right:3px;width:16px;height:16px"/><label>Email a report of the transactions being submitted at this time to the dealer <span class="icon-help_outline help-email"></span></label>
                 <div id="receiptEmail" hidden>
                     <label>email address</label> <input type="text" class="form-control" id="emailAdress" />
     <span class="text-danger field-validation-error" id="errorEmail" style="margin-top: 35px;margin-left:2px;"></span>
@@ -128,8 +130,8 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
 
 <div class="info-bar search-panel" style="margin-top:15px;" id="searchDiv">
+    <span class="icon-help_outline help-search" style="float:left;margin-left: -7px;"></span>
     
-
     <div class="row">
         <div class="col-xs-12" style="padding:unset;">
             <form>
@@ -190,7 +192,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                 modelList = modelList.OrderBy(s => s.Value).ToList();
                             }
 
-                                    @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel", @style= "width: 117%;" })
+                                    @Html.DropDownList("model2", modelList, "--select model--", new { @class = "form-control", @id = "cmbModel", @style = "width: 117%;" })
                                     @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
 
 
@@ -223,25 +225,25 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                     <div class="form-group row">
                     <div class="col-md-2" style="width: 15%;">
                             <label for="">Date Advanced </label>
-                        @Html.Editor("iDateAdvance", new {@id = "iDateAdvance", htmlAttributes = new {@class = "form-control", @disabled = "disabled"}})
+                        @Html.Editor("iDateAdvance", new { @id = "iDateAdvance", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                     <div class="col-md-2" style="width: 27%; padding-left: 29px;">
                             <label for="">Vin/HIN/Serial </label>
-                        @Html.Editor("iVin", new {@id = "iVin", htmlAttributes = new {@class = "form-control", @disabled = "disabled"}})
+                        @Html.Editor("iVin", new { @id = "iVin", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                     <div class="col-md-2" style="width: 10%;">
                             <label for="firstName">Year </label>
-                        @Html.Editor("iYear", new {@id = "iYear", htmlAttributes = new {@class = "form-control", @disabled = "disabled"}})
+                        @Html.Editor("iYear", new { @id = "iYear", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
                     <div class="col-md-2" style="width: 15%;">
                             <label for="">Make </label>
-                        @Html.Editor("iMake", new {@id = "iMake", htmlAttributes = new {@class = "form-control", @disabled = "disabled"}})
+                        @Html.Editor("iMake", new { @id = "iMake", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
                     <div class="col-md-2" style="width: 15%;">
                             <label for="firstName">Model </label>
-                        @Html.Editor("iModel", new {@id = "iModel", htmlAttributes = new {@class = "form-control", @disabled = "disabled"}})
+                        @Html.Editor("iModel", new { @id = "iModel", htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
 
                         
@@ -249,17 +251,17 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
                 <div class="form-group row" style="margin-top: 15px !important">
                         <div class="col-md-2"  style="width:20%;">
-                            <label for="">Curtailment Amount </label>
+                            <label for="">Curtailment Amount <span class="icon-help_outline help-curt-amount"></span></label>
                         @Html.Hidden("aCurtAmount", new {@id = "aCurtAmount"})
                         @Html.Editor("iCurtAmount", new {@id = "iCurtAmount", htmlAttributes = new {@class = "form-control", style = "text-align:right;"}})
                         <span class="text-danger field-validation-error" id="errorCurtAmount" style="left: 8%; width: 300%"></span>
                         </div>
                     <div class="col-md-2" style="width:25%;">
-                            <label for="">Curtailment Payment Date </label>
+                            <label for="">Curtailment Payment Date <span class="icon-help_outline help-date2"></span></label>
                         @Html.EditorFor(model => model.PayDate, new {htmlAttributes = new {@class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10}})
                         <span class="text-danger field-validation-error" id="errorCurtPayDate" style="margin-left: 95%; top: 50%; width: 125%"></span>
-                        @Html.Hidden("iCurtNumber", "", new {@id = "iCurtNumber"})
-                        @Html.Hidden("iUnitID", "", new {@id = "iUnitID"})
+                        @Html.Hidden("iCurtNumber", "", new { @id = "iCurtNumber" })
+                        @Html.Hidden("iUnitID", "", new { @id = "iUnitID" })
                         </div>
 
 
@@ -267,8 +269,8 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
 
                     <div class="form-group row" style="margin-top:25px !important;margin-left: 13px !important;text-align:left">
-                        <input type="checkbox" id="report2" value="Report" style="width:16px;height:16px" /><label>Print a report of the transaction being submitted at this time</label><br />
-                        <input type="checkbox" id="emailReceipt2" value="email" style="width:16px;height:16px" /><label>Email a report of the transaction being submitted at this time to the dealer</label>
+                        <input type="checkbox" id="report2" value="Report" style="width:16px;height:16px;margin-right:3px" /><label>Print a report of the transaction being submitted at this time <span class="icon-help_outline help-print"></span></label><br />
+                        <input type="checkbox" id="emailReceipt2" value="email" style="width:16px;height:16px;margin-right:3px" /><label>Email a report of the transaction being submitted at this time to the dealer <span class="icon-help_outline help-email"></span></label>
                         <div id="receiptEmail2" hidden>
                             <label style="margin-left: -315px;">
                                 email address</label>
@@ -290,7 +292,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
 
 
 </div>
-
+                                }
 <script src="~/scripts/CommonFunctions.js"></script>
 <script>
     
@@ -1997,6 +1999,59 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         payCurtPicker.setMinDate(new Date($('#iDateAdvance').val()));
     });
     /////////////////////////////////
+
+    //help
+
+    $('.help-select').click(function () {
+
+        $('.help-text h4').html("Select Unit(s)");
+        $('.help-text p').html(" &nbsp;&nbsp; Use these select boxes to check which unit(s) you are wanting to record curtailment payments for at this time.");
+
+    });
+
+    $('.help-date1').click(function () {
+
+        $('.help-text h4').html("Curtailment Payment Date");
+        $('.help-text p').html(" &nbsp;&nbsp; Select which date the curtailment payments for the unit(s) are being recorded.");
+
+    });
+
+    $('.help-email').click(function () {
+
+        $('.help-text h4').html("Email report to dealer");
+        $('.help-text p').html(" &nbsp;&nbsp; The report will be sent to the email address registered with the dealer branch in the setup. If you would like to specify a different email address for the reports to be sent to please go to your dashboard and update the dealer branch information. If no email address was specified during the initial setup then you will be asked to enter one now. That email address will then be recorded for all future report emails.");
+
+    });
+
+    $('.help-print').click(function () {
+
+        $('.help-text h4').html("Print a report");
+        $('.help-text p').html(" &nbsp;&nbsp; If you select this then a separate window will open which will allow you to print the report for the transaction(s) which were just completed. You will be able to go to the reports page at any time and create a report of these transactions to print whether or not you choose to print a copy now.");
+
+    });
+
+    $('.help-search').click(function () {
+
+        $('.help-text h4').html("Search for a Unit");
+        $('.help-text p').html(" &nbsp;&nbsp; Use these fields (you can enter details in just one field or any number of fields) to search for a specific unit. The more fields you select the more refined the search results will be.");
+
+    });
+
+    
+
+    $('.help-curt-amount').click(function () {
+
+        $('.help-text h4').html("Curtailment amount to be paid");
+        $('.help-text p').html(" &nbsp;&nbsp; This amount is automatically calculated based on the loan set up. You are able to change the amount of the curtailment payment - note that you can only decrease the payment amount, you cannot change the amount to be more than the current curtailment due. If you wish to record payment of more than the current curtailment then you will need to record this curtailment, search for the next curtailment due on the unit, adjust that curtailment amount accordingly and record the payment.");
+
+    });
+
+    $('.help-date2').click(function () {
+
+        $('.help-text h4').html("Curtailment Payment Date");
+        $('.help-text p').html(" &nbsp;&nbsp; Select which date the curtailment payment for the unit is being recorded.");
+
+    });
     </script>
 
 
