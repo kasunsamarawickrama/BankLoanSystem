@@ -67,7 +67,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 {
                     if (HttpContext.Request.IsAjaxRequest())
                     {
-                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+                        filterContext.Result = new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
                     }
                     else
                     {
@@ -178,7 +178,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
             }
 
-            return new HttpStatusCodeResult(404, "Your Session Expired.");
+            return new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
             //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
         }
 
@@ -198,7 +198,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (HttpContext.Request.IsAjaxRequest())
                 {
 
-                    return new HttpStatusCodeResult(404, "Session Expired");
+                    return new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
                 }
                 else
                 {
@@ -415,7 +415,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
         }
 
@@ -438,7 +438,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (HttpContext.Request.IsAjaxRequest())
                 {
 
-                    return new HttpStatusCodeResult(404, "Session Expired");
+                    return new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
                 }
                 else
                 {
@@ -556,7 +556,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (HttpContext.Request.IsAjaxRequest())
                 {
 
-                    return new HttpStatusCodeResult(404, "Session Expired");
+                    return new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
                 }
                 else
                 {
@@ -1285,7 +1285,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 if (HttpContext.Request.IsAjaxRequest())
                 {
 
-                    return new HttpStatusCodeResult(404, "Session Expired");
+                    return new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
                 }
                 else
                 {
@@ -1379,7 +1379,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 stepNo = Convert.ToInt32(Session["companyStep"]);
             }
 
-            if (stepNo < 5) return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            if (stepNo < 5) return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
 
             if (lbls != null && (lbls.Equals("Dealer branch is successfully created") || lbls.Equals("Lender branch is successfully created")))
             {
@@ -1792,7 +1792,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             catch (Exception)
             {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
             UserAccess ua = new UserAccess();
             //User curUser = ua.retreiveUserByUserId(userId);
@@ -2506,12 +2506,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
                 else
                 {
-                    return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                    return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
                 }
             }
             else
             {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
 
         }
@@ -2596,7 +2596,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
                 else
                 {
-                    return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                    return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
                 }
             }
             //    else if (reslt == 0)
@@ -2778,7 +2778,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     return View(curtailment);
                 }
             }
-            return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+            return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
         }
 
         /// <summary>

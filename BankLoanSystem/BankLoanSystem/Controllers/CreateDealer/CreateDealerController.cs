@@ -112,7 +112,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
             user.PhoneNumber = user.PhoneNumber2;
             user.CreatedBy = userData.UserId;
             user.IsDelete = false;
-            user.Status = false;
+            user.Status = true;
             user.Company_Id = userData.Company_Id;
             user.BranchId = userData.BranchId;
             user.RoleId = 4;
@@ -155,7 +155,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
                 string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
                               "<br /><br /> User name: " + user.UserName +
                                     "<br /> Password : <b>" + passwordTemp +
-                              "<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + newUserId + "&activationCode=" + user.ActivationCode + "'>here</a> to activate your account." +
+                              "<br />Click <a href='www.dfpso.com'>here</a> to activate your account." +
                               "<br /><br/> Thanks,<br /> Admin.";
 
                 Email email = new Email(user.Email);
