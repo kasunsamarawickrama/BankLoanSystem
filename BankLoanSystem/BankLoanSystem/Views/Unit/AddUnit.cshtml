@@ -918,7 +918,7 @@
 
 
 
-                            <div class="form-group">
+                            <div class="form-group" style="margin-top: 30px;">
                                 <label class="control-label col-md-2">
                                     Note
                                     <span class="optional">(Optional)</span>
@@ -1440,7 +1440,7 @@
                         var isnum = /^\d+$/.test(val);
                         if(isnum === false){
                             //$(span).fadeIn();
-                            $(span).text("Invalid : enter only numbers");
+                            $(span).text("Please enter the 4 digit year of the unit.");
                             $(varcombo).next().children('input').val("");
                             $(vareditor).val("");
                             //$(span).delay(3000).fadeOut();
@@ -1454,7 +1454,7 @@
                     }
                     else if(len > 4){
                         //$(span).fadeIn();
-                        $(span).text("Invalid : enter only 4 numbers");
+                        $(span).text("Please enter the 4 digit year of the unit.");
                         $(varcombo).next().children('input').val("");
                         $(vareditor).val("");
                         //$(span).delay(3000).fadeOut();
@@ -1470,7 +1470,7 @@
                     }
                     else{
                         //$(span).fadeIn();
-                        $(span).text("Invalid : need 4 numbers");
+                        $(span).text("Please enter the 4 digit year of the unit.");
                         $(varcombo).next().children('input').val("");
                         $(vareditor).val("");
                         //$(span).delay(3000).fadeOut();
@@ -1536,6 +1536,9 @@
                     $("#advanceDate").val("");
                     $('#advanceDate').attr("placeholder", "MM/DD/YYYY");
 
+                    $('input').next('span').children('span').text("");
+
+                    $('.radios').children("span").text("");
                 }
 
 
