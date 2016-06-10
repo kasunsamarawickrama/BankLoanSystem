@@ -225,7 +225,7 @@
 
                                             <div class="form-group new_form_group">
                                                 <div class="control-label col-sm-2 lable_style">
-                                                    <label>Select user to request advance units</label>
+                                                    <label>Select which of your users will receive the Dealer's advance requests</label>
                                                 </div>
                                                
                                                 @if (ViewBag.UserIdForSendReq!=null && ViewBag.UserIdForSendReq.Items.Count == 1)
@@ -260,7 +260,7 @@
 
                                                
                                                     <div class="control-label col-sm-2 lable_style">
-                                                        <label>Email address</label>
+                                                        <label>Specifiy which email address the advance request notices wlll be sent to</label>
                                                     </div>
                                                     <div class="col-xs-8 text_field">
                                                         @Html.EditorFor(model => model.UserEmailForSendReq, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtEmailForSendReq",@value= ViewBag.UserIdForSendReq.Items[0].NewEmail } })
@@ -276,7 +276,7 @@
                                             {
                                                 <div class="form-group new_form_group" id="DivEmailJD">
                                                     <div class="control-label col-sm-2 lable_style">
-                                                        <label>Email address</label>
+                                                        <label>Specifiy which email address the advance request notices wlll be sent to</label>
                                                     </div>
                                                     <div class="col-xs-8 text_field">
                                                         @Html.EditorFor(model => model.UserEmailForSendReq, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtEmailForSendReq" } })
@@ -336,7 +336,19 @@
         $('.nav li.user').addClass('active');
         $('.nav li.active ul').addClass('in');
     });
+    $(document).ready(function () {
+        
+        @if (ViewBag.UserIdForSendReq != null && ViewBag.UserIdForSendReq.Items.Count == 1)
+      {
+           <text> var ind =@ViewBag.UserIdForSendReq.Items[0].UserId;</text>
+           <text> GetEmail(ind);</text>
+      
+        
 
+
+
+      }
+    });
 
 </script>
 
@@ -370,13 +382,42 @@
 
                 // if session expires
                 if (jqXHR.status == "404") {
-                    window.location.href = '/Login/UserLogin?lbl=Session expired';
+                    window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
                 }
             }
         });
         }
         
     });
+    function GetEmail(ind) {
+        if (ind > 0) {
+            var url = "/CreateDealer/GetUserEmailByUserId/";
+            $.ajax({
+                url: url,
+                data: { userId: ind },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var email = data.NewEmail;
+                    if (email != "") {
+                        $('#txtEmailForSendReq').val(email);
+                    }
+                    //else{
+                    //   // $('#DivEmailJD').hide();
+                    //}
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Your handler here...
+
+                    // if session expires
+                    if (jqXHR.status == "404") {
+                        window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                    }
+                }
+            });
+        }
+    };
     $("#clear").click(function () {
         document.getElementsByTagName("form")[0].reset();
         $(".text-danger").html("");
