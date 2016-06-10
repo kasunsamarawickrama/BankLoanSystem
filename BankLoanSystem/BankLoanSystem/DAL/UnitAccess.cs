@@ -1607,7 +1607,8 @@ namespace BankLoanSystem.DAL
                         UnitDeleteModel unit = new UnitDeleteModel();
 
                         unit.LoanId = loanId;
-                        unit.UnitId = dataRow["unit_id"].ToString();
+                        unit.UnitId = dataRow["UnitId"].ToString();
+                        unit.UnitStaus = Convert.ToInt32(dataRow["unit_status"]);
                         //unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyyy");
                         unit.AdvanceDate = !dataRow.IsNull("advance_date") ? Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyy") : "";
                         unit.IdentificationNumber = dataRow["identification_number"].ToString();
@@ -1615,8 +1616,20 @@ namespace BankLoanSystem.DAL
                         unit.Make = dataRow["make"].ToString();
                         unit.Model = dataRow["model"].ToString();
                         unit.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
-                        unit.AdvanceAmount = Convert.ToDecimal(dataRow["advance_amount"]);
-                        unit.UnitStaus = Convert.ToInt32(dataRow["unit_status"]);
+
+                        switch (unit.UnitStaus)
+                        {
+                            case 1:
+                                unit.AdvanceAmount = Convert.ToDecimal(dataRow["advance_amount"]);
+                                unit.BalanceDue = Convert.ToDecimal(dataRow["Balance"]);
+                                unit.CrtailmentPaid = unit.AdvanceAmount - unit.BalanceDue;
+                                break;
+                            case 0:
+                                unit.AdvanceAmount = 0.00M;
+                                unit.BalanceDue = 0.00M;
+                                unit.CrtailmentPaid = 0.00M;
+                                break;
+                        }
                         units.Add(unit);
                     }
                 }
