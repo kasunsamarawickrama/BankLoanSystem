@@ -144,7 +144,7 @@
 
                                         @Html.DropDownList("year", yearlist, "", new { @class = "form-control", @id = "combobox1-1" })
                                         @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
-                                        <div id="vehicleyear" class="validation-error"><span id="vehicleyearspan" class="text-danger y"></span></div>
+                                        <div id="vehicleyear" class="validation-error"><span id="vehicleyearspan" class="text-danger y" style="font-weight: bold;"></span></div>
                                     </div>
 
                                     @Html.LabelFor(model => model.vehicle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -157,7 +157,7 @@
 
                                             @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
                                         </div>
-                                        <div id="vehiclemake" class="validation-error"><span class="text-danger ma"></span></div>
+                                        <div id="vehiclemake" class="validation-error"><span class="text-danger ma" style="font-weight: bold;"></span></div>
                                     </div>
                                 </div>
 
@@ -170,7 +170,7 @@
                                             @Html.DropDownList("model", new SelectList(""), "", new { @class = "form-control", @id = "combobox1-3" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
-                                        <div id="vehiclemodel" class="validation-error"><span class="text-danger mo"></span></div>
+                                        <div id="vehiclemodel" class="validation-error"><span class="text-danger mo" style="font-weight: bold;"></span></div>
                                     </div>
                                     <label class="control-label col-md-2">
                                         Trim <span class="icon-help_outline help-veh-trim"></span>
@@ -2339,7 +2339,7 @@
                 });
                 $("#rvlength").keypress(function(e){
                     //allowed . " ' as symbols
-                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9 && e.which != 39 && e.which != 34) {
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9 && e.which != 39 && e.which != 34 && e.which != 32) {
                         var val = $("#rvlength").val();
                         if($('#rvlength').val().length >= 15){
                             if(e.which != 8)
@@ -2354,7 +2354,7 @@
 
                 });
                 $("#camperlength").keypress(function(e){
-                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9 && e.which != 39 && e.which != 34) {
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9 && e.which != 39 && e.which != 34 && e.which != 32) {
                         var val = $("#camperlength").val();
                         if($('#camperlength').val().length >= 15){
                             if(e.which != 8)
