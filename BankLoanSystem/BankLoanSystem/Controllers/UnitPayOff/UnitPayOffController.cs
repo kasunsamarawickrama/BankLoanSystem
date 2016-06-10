@@ -27,7 +27,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                     {
 
                         //new HttpStatusCodeResult(404, "Failed to Setup company.");
-                        filterContext.Result = new HttpStatusCodeResult(404, "Session Expired");
+                        filterContext.Result = new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
                     }
                     else
                     {
@@ -70,7 +70,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             catch (Exception)
             {
                 //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }          
 
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
@@ -125,7 +125,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             catch (Exception)
             {
                 //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
             if (userData.RoleId == 3)
             {
@@ -343,7 +343,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
             }
             catch (Exception)
             {
-                return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
 
             LoanSetupStep1 loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);

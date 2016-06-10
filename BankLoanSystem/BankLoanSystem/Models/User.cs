@@ -14,13 +14,13 @@ namespace BankLoanSystem.Models
         [Display(Name = "Username")]
         public int UserId { get; set; }
 
-        [Required(ErrorMessage = "Please select.")]
+        [Required(ErrorMessage = "Please select the lender user.")]
         [Display(Name = "Username")]
         public int UserIdForSendReq { get; set; }
 
         public int NoOfUnitsAdded { get; set; }
 
-        [Required(ErrorMessage = "Please indicate email address to request advance.")]
+        [Required(ErrorMessage = "Please enter an email address for the user selected above.")]
         [EmailAddress(ErrorMessage = "Please enter a valid Email Address.")]
         public string UserEmailForSendReq { get; set; }
 
@@ -39,12 +39,12 @@ namespace BankLoanSystem.Models
 
         [Required(ErrorMessage = "Please enter the user's first name.")]
         [Display(Name = "First Name")]
-        [StringLength(30, ErrorMessage = "First Name cannot be more than 30 characters in length. Please use an abbreviation.", MinimumLength = 3)]
+        [StringLength(30, ErrorMessage = "First Name must be at least 2 characters but cannot be more than 30 characters in length.", MinimumLength = 2)]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Please enter the user's last name.")]
         [Display(Name = "Last Name")]
-        [StringLength(30, ErrorMessage = "Last Name cannot be more than 30 characters in length. Please use an abbreviation.", MinimumLength = 3)]
+        [StringLength(30, ErrorMessage = "Last Name must be at least 2 characters but cannot be more than 30 characters in length.", MinimumLength = 2)]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Please enter the user's email address.")]
