@@ -1068,6 +1068,8 @@
 
                 _previousMakeYear = "";
                 _previousMake     = "";
+                addUnitPopupActive = false;
+
 
                 $( "#div-combobox1-1" ).focusin(function(){
                     $('#vehicleyear').children('span').text("");
@@ -3213,12 +3215,15 @@
                         //$('#btnSubmit').prop('disabled', false);
                         if($('#btnSubmit').val() == 'Add' && valid == true){
                             showPopup(9);
+                            e.preventDefault();
+                            addUnitPopupActive = true;
                         }
                         if($('#btnSubmit').val() == 'Add and Advance' && valid == true){
                             showPopup(10);
                             $('#btnSubmit').prop('disabled', false);
                             e.preventDefault();
-                            if(isErrorAddUnit == false){                        
+                            
+                            if(isErrorAddUnit == false){                      
                                 isErrorAddUnit = true;
                             }
                         }
@@ -3744,6 +3749,9 @@
     // function to close our popups
     function closePopup() {
         $('.overlay-bg, .overlay-content').hide(); //hide the overlay
+        if(addUnitPopupActive == true){
+            $('#form').unbind('submit').submit();
+        }
     }
 
     // timer if we want to show a popup after a few seconds.
