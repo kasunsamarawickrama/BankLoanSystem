@@ -167,7 +167,7 @@
                    "Date Entered", style: "gridColumnOthers",
                    format: (item) => string.Format("{0:MM/dd/yyyy}", item.CreatedDate)
                ),
-           grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", canSort: false, style: "gridColumnVIN", format: @<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
+           grid.Column("VIN / HIN / Serial #", "VIN / HIN / Serial #", canSort: false, style: "gridColumnVIN", format: @<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label>}</text>),
                 grid.Column("Year", "Year", style: "gridColumnSmall", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
                 grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
                grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
@@ -333,7 +333,7 @@
                     <div class="form-group row" style="margin-top:15px !important">
 
                         <div class="col-md-2">
-                            <label>Price</label>
+                            <label>Cost</label>
                             @Html.Editor("iCost", new { @id = "iCost", htmlAttributes = new { @class = "form-control", @disabled = "disabled", style = "text-align:right;" } })
                         </div>
                         <div class="col-md-2" style="margin-left: 92px;">
