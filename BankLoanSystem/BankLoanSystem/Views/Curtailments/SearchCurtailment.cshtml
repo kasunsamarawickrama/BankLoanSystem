@@ -12,7 +12,9 @@
 
 @if (Model.Count() != 0)
 {
+   
      <div id="searchGrid" class="info-bar" style="margin-top:15px;padding-top:10px;padding-bottom:10px;" @*style="margin-top:15px;overflow-x: hidden;overflow-y: scroll;height: 200px;"*@>
+         <span class="icon-help_outline help-search-table" style="float:left;padding-left: 0px;"></span>
          @grid1.GetHtml(
             tableStyle: "gridtable",
                      headerStyle: "webgrid-header",
@@ -101,5 +103,14 @@ else {
         }
 
         
+    });
+
+
+    //help
+    $('.help-search-table').click(function () {
+
+        $('.help-text h4').html("Select a Unit");
+        $('.help-text p').html(" &nbsp;&nbsp; You can select a single unit from this grid to record the curtailment payment.");
+
     });
 </script>

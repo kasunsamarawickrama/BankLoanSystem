@@ -15,6 +15,7 @@
 @{
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     ViewBag.Title = "Pay Fees";
+    ViewBag.Page = 6;
     //WebGrid grid = new WebGrid(Model.CurtailmentScheduleInfoModel, defaultSort: "CreatedDate", canPage: false);
 }
 @using System.Threading;
@@ -117,21 +118,21 @@
     @if(ViewBag.loanSelected != null && ViewBag.loanSelected.AdvanceFee != null && ViewBag.loanSelected.AdvanceFee == 1) {
                 count++;
                 type = "adf";
-            <button type="button" id="adf" class="btn btn-info">Advance Fee</button>
+            <button type="button" id="adf" class="btn btn-info">Advance Fee <span class="icon-help_outline help-btn-advfee" style="color: #ded1d1;"></span></button>
     }
 
 @if (ViewBag.loanSelected != null && ViewBag.loanSelected.MonthlyLoanFee != null && ViewBag.loanSelected.MonthlyLoanFee == 1)
 {
     count++;
     type = "mfi";
-    <button type="button" id="mfi" class="btn btn-info">Monthly Fee </button>
+    <button type="button" id="mfi" class="btn btn-info">Monthly Fee <span class="icon-help_outline help-btn-mntfee" style="color: #ded1d1;"></span></button>
 }
 
     @if (ViewBag.loanSelected != null && ViewBag.loanSelected.LotInspectionFee != null && ViewBag.loanSelected.LotInspectionFee == 1)
     {
         count++;
         type = "lif";
-    <button type="button" id="lif" class="btn btn-info">Lot Inspection Fee</button>
+    <button type="button" id="lif" class="btn btn-info" >Lot Inspection Fee <span class="icon-help_outline help-btn-lotfee" style="color: #ded1d1;"></span></button>
     }
 </div>
 
@@ -164,7 +165,7 @@
         <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
             <div class="info-bar">
                 <div class="form-group row" style="margin-bottom: 0px;">
-                    <label for="" class="col-sm-2 form-control-label" style="width:18%;margin-top:5px">Fee Due Date @*- all curtailments due prior to and on this date will be displayed.*@</label>
+                    <label for="" class="col-sm-2 form-control-label" style="width:18%;margin-top:5px">Fee Due Date <span class="icon-help_outline help-due-date"></span> @*- all curtailments due prior to and on this date will be displayed.*@</label>
                     <div class="col-md-2">
 
 
@@ -289,27 +290,10 @@
 
             FilterFees();
 
-
-
-            //$.ajax({
-            //    url: '/Fee/PayFeesForSelectedDueDate/',
-            //    data: JSON.stringify({ dueDate: dueDate }),
-            //    type: 'POST',
-            //    contentType: 'application/json; charset=utf-8',
-
-            //    success: function (partialView) {
-            //        $('#advanceGrid').html(partialView);
-            //        $('#advanceGrid').show();
-            //        $('.centered span').text('');
-            //    }
-            //});
         }
     });
     startPicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
-    //startPicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));
-    @*$("#dueDate").val('@dateTime.ToString("d")');*@
-
-
+    
 
 
     $('#dueDate').click(function () {
@@ -411,6 +395,8 @@
         <text>
 
     $('#fee-tabs button').click(function () {
+
+        if (event.target.id == "adf" || event.target.id == "mfi" || event.target.id == "lif") { 
         $(this).addClass('activee').siblings().removeClass('activee');
 
 
@@ -462,6 +448,7 @@
             $("#hdnSelectedButton").val('lotInspectionFee');
             FilterFees();
 
+        }
         }
 
     });
@@ -532,6 +519,43 @@
     }
 
     // each
+
+
+    // help 
+    $('.title-help').click(function () {
+
+        $('.help-text h4').html("About this page");
+        $('.help-text p').html(" &nbsp;&nbsp; On the fees page you are able to record payment of any fees which were set up for this particular loan.");
+
+    });
+
+    $('.help-btn-advfee').click(function () {
+
+        $('.help-text h4').html("Advance fee payment");
+        $('.help-text p').html(" &nbsp;&nbsp; Select this button if you wish to record payment of advance fees.");
+
+    });
+
+    $('.help-btn-mntfee').click(function () {
+
+        $('.help-text h4').html("Monthly loan fee payment");
+        $('.help-text p').html(" &nbsp;&nbsp; Select this button if you wish to record payment of the monthly loan fees.");
+
+    });
+
+    $('.help-btn-lotfee').click(function () {
+
+        $('.help-text h4').html("Lot inspection fee payment");
+        $('.help-text p').html(" &nbsp;&nbsp; Select this button if you wish to record payment of the lot inspection fees.");
+
+    });
+
+    $('.help-due-date').click(function () {
+
+        $('.help-text h4').html("Fee due date");
+        $('.help-text p').html(" &nbsp;&nbsp; When you select a date, all fees (of the type selected above) which are due on or before the selected date will be displayed so you can choose which payments to record.");
+
+    });
 </script>
 
 

@@ -24,6 +24,7 @@ else {
         @if (Model.Type == "advanceFee")
         {
             <div>
+                <span class="icon-help_outline help-adv-grid" style="float:left"></span>
             <h4 id="gridHeader" style="font-weight: bold;">
                 Advance Fee
             </h4>
@@ -57,12 +58,13 @@ else {
 
             @if (Model.Type == "monthlyLoanFee")
             {
+                <span class="icon-help_outline help-mnt-grid" style="float:left"></span>
                 <h4 id="gridHeader" style="font-weight: bold;">
                     Monthly Loan Fee
                 </h4>
             }
             else {
-
+                <span class="icon-help_outline help-lot-grid" style="float:left"></span>
                 <h4 id="gridHeader" style="font-weight: bold;">
                     Lot Inspection Fee
                 </h4>
@@ -115,7 +117,7 @@ else {
         <div class="form-inline">
             <div class="form-group">
 
-                <label for="" style="margin-left: -160px;">Pay Date : </label>
+                <label for="" style="margin-left: -160px;">Pay Date <span class="icon-help_outline help-pay-date1"></span> </label>
                 @Html.EditorFor(model => model.FeePayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payDate", autocomplete = "off", style = "margin-left:15px;width:165px", @disabled = "disabled", maxlength = 10 } })
                  <span class="text-danger field-validation-error" id="errorPayDate" style="left: 36%;margin-top: 35px;"></span>
                 <input type="button" id="payAll" class="btn btn-primary m-b next_clear_button next_back" style="width: 245px;" value="Pay fees on all selected units" disabled />
@@ -127,7 +129,7 @@ else {
 
 if (Model.Type == "advanceFee") {
 <div class="info-bar search-panel" style="margin-top:15px;" id="searchDiv">
-
+    <span class="icon-help_outline help-adv-search" style="float:left;margin-left: -7px;"></span>
 
     <div class="row">
         <div class="col-xs-12" style="padding:unset;">
@@ -269,7 +271,7 @@ if (Model.Type == "advanceFee")
                     </div>
 
                     <div class="col-md-2" style="width:17%;">
-                        <label for="">Fee Pay Date </label>
+                        <label for="">Fee Pay Date <span class="icon-help_outline help-pay-date2"></span></label>
                         @Html.EditorFor(model => model.FeePayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @placeholder = "MM/DD/YYYY", @id = "payCurtDate", autocomplete = "off", maxlength = 10 } })
                         <span class="text-danger field-validation-error" id="errorFeesPayDate" style="margin-left:95%;top:50%;width:125%"></span>
                         @Html.Hidden("iCurtNumber", "", new { @id = "iCurtNumber" })
@@ -1322,6 +1324,50 @@ if (Model.Type == "advanceFee")
         table.find('thead tr').children().each(function(i, v) {
             $(v).outerWidth(colWidth[i]);
         });    
+    });
+
+    $('.help-pay-date1').click(function () {
+
+        $('.help-text h4').html("Payment date for fees");
+        $('.help-text p').html(" &nbsp;&nbsp; Select the date which you want the fee(s) payment to be recorded on.");
+
+    });
+
+    $('.help-pay-date2').click(function () {
+
+        $('.help-text h4').html("Fee Payment Date");
+        $('.help-text p').html(" &nbsp;&nbsp; Select which date the fee payment is being recorded.");
+
+    });
+
+    $('.help-adv-grid').click(function () {
+
+        $('.help-text h4').html("Select Unit(s)");
+        $('.help-text p').html(" &nbsp;&nbsp; Use these select boxes to check which unit(s) you are wanting to record the advanace fee payments for at this time.");
+
+    });
+
+    $('.help-adv-search').click(function () {
+
+        $('.help-text h4').html("Search for a Unit");
+        $('.help-text p').html(" &nbsp;&nbsp; Use these fields (you can enter details in just one field or any number of fields) to search for a specific unit. The more fields you select the more refined the search results will be.");
+
+    });
+
+   
+
+    $('.help-mnt-grid').click(function () {
+
+        $('.help-text h4').html("Select Unit(s)");
+        $('.help-text p').html(" &nbsp;&nbsp; Use these select boxes to check which month(s) you are wanting to record the monthly loan fee payments for at this time.");
+
+    });
+
+    $('.help-lot-grid').click(function () {
+
+        $('.help-text h4').html("Select Unit(s)");
+        $('.help-text p').html(" &nbsp;&nbsp; Use these select boxes to check which month(s) you are wanting to record the lot inspection fee payments for at this time.");
+
     });
     
 </script>
