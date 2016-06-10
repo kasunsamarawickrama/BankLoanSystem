@@ -63,17 +63,15 @@
                     $('#FeeDetails').html(View);
                     $('#FeeDetails').show();
 
-                    var feePaid = $("#hFeePaid").val();
+                    var feePaid = parseFloat($("#hFeePaid").val()).toFixed(2);
                     
-                    $('#feesPaid').val(feePaid);
-                    var unitStaus = tr.find("#unitStaus").val();
-                    if (unitStaus === '1') {
-                        //alert(unitStaus);
+                    if (!isNaN(parseFloat(feePaid))) {
+                        $('#feesPaid').val(feePaid);
                         $('#divfeesPaid').show();
-                    } else if (unitStaus === '0') {
-                        //alert('gfgfgf');
+                    } else {
                         $('#divfeesPaid').hide();
                     }
+                    
                     //.highlight { background-color: lightblue; }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
