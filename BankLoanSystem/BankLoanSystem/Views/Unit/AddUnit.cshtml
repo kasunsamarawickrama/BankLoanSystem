@@ -2282,7 +2282,7 @@
 
                 });
                 $("#vehiclemiles").keypress(function(e){
-                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9 && e.which != 44) {
                         if($('#vehiclemiles').val().length >= 10){
                             if(e.which != 8)
                                 e.preventDefault();
@@ -2296,7 +2296,7 @@
 
                 });
                 $("#rvmiles").keypress(function(e){
-                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9 && e.which != 44) {
                         if($('#rvmiles').val().length >= 10){
                             if(e.which != 8)
                                 e.preventDefault();
@@ -2310,7 +2310,7 @@
 
                 });
                 $("#atvmiles").keypress(function(e){
-                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9 && e.which != 44) {
                         if($('#atvmiles').val().length >= 10){
                             if(e.which != 8)
                                 e.preventDefault();
@@ -2324,7 +2324,7 @@
 
                 });
                 $("#motorcyclemiles").keypress(function(e){
-                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9 && e.which != 44) {
                         if($('#motorcyclemiles').val().length >= 10){
                             if(e.which != 8)
                                 e.preventDefault();
@@ -2337,6 +2337,22 @@
                     }
 
                 });
+
+                
+                $(".miles").focusout(function(e){
+                    var val = $(this).val();
+                    if(val != ""){
+                        val = val.replace(/,/g, '');
+                        if (!(isNaN(val)))
+                        {
+                            var num = parseFloat(val);
+                            num = num.toFixed(2);
+                            $(this).val(num);
+                        }   
+                    }
+                                  
+                });
+
                 $("#rvlength").keypress(function(e){
                     //allowed . " ' as symbols
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9 && e.which != 39 && e.which != 34 && e.which != 32) {
