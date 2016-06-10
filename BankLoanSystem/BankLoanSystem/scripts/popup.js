@@ -41,5 +41,9 @@ $(document).ready(function(){
         }
     });
 
+    $(document).on('click', '.close-btn', function () {
+        closePopup();
+    });
+
  
 });
