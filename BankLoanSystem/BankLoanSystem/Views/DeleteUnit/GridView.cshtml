@@ -34,7 +34,12 @@
                                                                                                                             }</text>),
                 grid.Column("Advance Amount ($)", "Advance Amount ($)", canSort: false, style: "gridColumn", format: @<text>@{
                                                                                                                                 <label id="aAmount" class="year">@Convert.ToDecimal(item.AdvanceAmount).ToString("#,##0.00")</label>
-                                                                                                                            }</text>)
+                                                                                                                            }</text>),
+                grid.Column("Balance Due ($)", "Balance Due ($)", canSort: false, style: "gridColumn", format: @<text>@{
+                    <label id="aBalanceDue" class="year">@Convert.ToDecimal(item.BalanceDue).ToString("#,##0.00")</label>
+                    <input type="hidden" value="@Convert.ToDecimal(item.CrtailmentPaid).ToString("#,##0.00")" name="CrtailmentPaid" class="CrtailmentPaid" id="gcrtailmentPaid"/>
+                    <input type="hidden" value="@item.UnitStaus" name="unitStaus" class="UnitStaus" id="unitStaus" />
+                }</text>)
                 )
             )
     </div>
@@ -58,6 +63,17 @@
                     $('#FeeDetails').html(View);
                     $('#FeeDetails').show();
 
+                    var feePaid = $("#hFeePaid").val();
+                    alert(feePaid);
+                    $('#feesPaid').val(feePaid);
+                    var unitStaus = tr.find("#unitStaus").val();
+                    if (unitStaus === '1') {
+                        //alert(unitStaus);
+                        $('#divfeesPaid').show();
+                    } else if (unitStaus === '0') {
+                        //alert('gfgfgf');
+                        $('#divfeesPaid').hide();
+                    }
                     //.highlight { background-color: lightblue; }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -80,6 +96,23 @@
             $('#unitModel').val(tr.find("#model").text());
             $('#purchasePrice').val(tr.find("#cost").text());
             $('#advanceAmount').val(tr.find("#aAmount").text());
+
+            var unitStaus = tr.find("#unitStaus").val();// divcurtailmentPaid
+
+            if (unitStaus === '1') {
+                //alert(unitStaus);
+                $('#divcurtailmentPaid').show();
+                //$('#divfeesPaid').show();
+                $('#divbalanceDue').show();
+            } else if (unitStaus === '0') {
+                //alert('gfgfgf');
+                $('#divcurtailmentPaid').hide();
+                //$('#divfeesPaid').hide();
+                $('#divbalanceDue').hide();
+            }
+
+            $('#curtailmentPaid').val(tr.find("#gcrtailmentPaid").val());
+            $('#balanceDue').val(tr.find("#aBalanceDue").text());
             $('#unitId').val(tr.find("#all").val());
         }
 
