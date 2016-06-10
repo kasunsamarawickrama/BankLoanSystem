@@ -189,7 +189,7 @@
                                     </label>
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.vehicle.Miles, new { htmlAttributes = new { @class = "form-control miles", @id = "vehiclemiles", @placeholder = "0", @Style = "width: 68%;text-align: right;" } })
-                                        @Html.ValidationMessageFor(model => model.vehicle.Miles, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.vehicle.Miles, "", new { @class = "text-danger" ,@style= "left: 0%;" })
                                     </div>
 
                                     <label class="control-label col-md-2">
@@ -2609,7 +2609,7 @@
                             if (cost === 0.00 || Number(advance) > Number(cost)) {
                                 //$("#tagscloudAdvance span").fadeIn();
                                 $(this).addClass('input-validation-error');
-                                $("#tagscloudAdvance span").text("Advance must be less than cost");
+                                $("#tagscloudAdvance span").text("Please specify an advance amount less than the cost of the unit.");
                                 //$("#tagscloudAdvance span").delay(1000).fadeOut();
                                 //$(this).removeClass('input-validation-error');
                                 e.preventDefault();

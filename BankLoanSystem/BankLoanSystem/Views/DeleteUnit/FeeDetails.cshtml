@@ -21,7 +21,7 @@
                 grid1.Column("Fee Amount", "Fee Amount($)", canSort: false, style: "gridColumn", format: @<text>@{
                                                                                                                     <label id="aAmount" class="year">@Convert.ToDecimal(item.PaidAmount).ToString("#,##0.00")</label>
                                                                                                                 }</text>),
-                grid1.Column("Date Advanced", "Date Advanced", canSort: false, style: "gridColumnOthers", format: (item) => string.Format("{0:MM/dd/yyyy}", item.PaidDate))
+                grid1.Column("Date Fee Paid", "Date Fee Paid", canSort: false, style: "gridColumnOthers", format: (item) => string.Format("{0:MM/dd/yyyy}", item.PaidDate))
                 )
             )
     </div>
