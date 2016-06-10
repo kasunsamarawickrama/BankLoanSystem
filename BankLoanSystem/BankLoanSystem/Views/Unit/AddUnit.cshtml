@@ -144,7 +144,7 @@
 
                                         @Html.DropDownList("year", yearlist, "", new { @class = "form-control", @id = "combobox1-1" })
                                         @Html.ValidationMessageFor(model => model.vehicle.Year, "", new { @class = "text-danger" })
-                                        <div id="vehicleyear" class="validation-error"><span id="vehicleyearspan" class="text-danger y"></span></div>
+                                        <div id="vehicleyear" class="validation-error"><span id="vehicleyearspan" class="text-danger y" style="font-weight: bold;"></span></div>
                                     </div>
 
                                     @Html.LabelFor(model => model.vehicle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -157,7 +157,7 @@
 
                                             @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
                                         </div>
-                                        <div id="vehiclemake" class="validation-error"><span class="text-danger ma"></span></div>
+                                        <div id="vehiclemake" class="validation-error"><span class="text-danger ma" style="font-weight: bold;"></span></div>
                                     </div>
                                 </div>
 
@@ -170,7 +170,7 @@
                                             @Html.DropDownList("model", new SelectList(""), "", new { @class = "form-control", @id = "combobox1-3" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.vehicle.Model, "", new { @class = "text-danger" })
-                                        <div id="vehiclemodel" class="validation-error"><span class="text-danger mo"></span></div>
+                                        <div id="vehiclemodel" class="validation-error"><span class="text-danger mo" style="font-weight: bold;"></span></div>
                                     </div>
                                     <label class="control-label col-md-2">
                                         Trim <span class="icon-help_outline help-veh-trim"></span>
@@ -918,7 +918,7 @@
 
 
 
-                            <div class="form-group">
+                            <div class="form-group" style="margin-top: 30px;">
                                 <label class="control-label col-md-2">
                                     Note
                                     <span class="optional">(Optional)</span>
@@ -1440,7 +1440,7 @@
                         var isnum = /^\d+$/.test(val);
                         if(isnum === false){
                             //$(span).fadeIn();
-                            $(span).text("Invalid : enter only numbers");
+                            $(span).text("Please enter the 4 digit year of the unit.");
                             $(varcombo).next().children('input').val("");
                             $(vareditor).val("");
                             //$(span).delay(3000).fadeOut();
@@ -1454,7 +1454,7 @@
                     }
                     else if(len > 4){
                         //$(span).fadeIn();
-                        $(span).text("Invalid : enter only 4 numbers");
+                        $(span).text("Please enter the 4 digit year of the unit.");
                         $(varcombo).next().children('input').val("");
                         $(vareditor).val("");
                         //$(span).delay(3000).fadeOut();
@@ -1470,7 +1470,7 @@
                     }
                     else{
                         //$(span).fadeIn();
-                        $(span).text("Invalid : need 4 numbers");
+                        $(span).text("Please enter the 4 digit year of the unit.");
                         $(varcombo).next().children('input').val("");
                         $(vareditor).val("");
                         //$(span).delay(3000).fadeOut();
@@ -1536,6 +1536,9 @@
                     $("#advanceDate").val("");
                     $('#advanceDate').attr("placeholder", "MM/DD/YYYY");
 
+                    $('input').next('span').children('span').text("");
+
+                    $('.radios').children("span").text("");
                 }
 
 
@@ -1571,9 +1574,11 @@
                                     //GetMakes($('#combobox1-1'),'#combobox1-2',1);
                                     yearx = year;
                                     $('.y').text("");
+                                    $('.ma').text("");
+                                    $('.mo').text("");
 
                                     CallVinDecode($('#vehicleVin').val());
-
+                                    middleSpanCheck();
                                     //$.ajax({
                                     //    url: '/Unit/GetMakeByVin',
                                     //    type: 'POST',
@@ -2333,13 +2338,14 @@
 
                 });
                 $("#rvlength").keypress(function(e){
-                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                    //allowed . " ' as symbols
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9 && e.which != 39 && e.which != 34 && e.which != 32) {
                         var val = $("#rvlength").val();
-                        if($('#rvlength').val().length >= 10){
+                        if($('#rvlength').val().length >= 15){
                             if(e.which != 8)
                                 e.preventDefault();
                         }
-                        else if(numericAllowDecimal(e,val)){
+                        else if(alphaNumericSymbolForLength(e,val)){
 
                         }else{
                             e.preventDefault();
@@ -2348,13 +2354,13 @@
 
                 });
                 $("#camperlength").keypress(function(e){
-                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                    if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9 && e.which != 39 && e.which != 34 && e.which != 32) {
                         var val = $("#camperlength").val();
-                        if($('#camperlength').val().length >= 10){
+                        if($('#camperlength').val().length >= 15){
                             if(e.which != 8)
                                 e.preventDefault();
                         }
-                        else if(numericAllowDecimal(e,val)){
+                        else if(alphaNumericSymbolForLength(e,val)){
 
                         }else{
                             e.preventDefault();
@@ -2375,6 +2381,14 @@
                     return 0;
                 }
                 function alphaNumericAllow(e){
+                    var ch = e.which;
+
+                    if ((ch >= 48 && ch <= 57)||(ch >= 65 && ch <= 90)||(ch >= 97 && ch <= 122) || ch == 8){
+                        return 1;
+                    }
+                    return 0;
+                }
+                function alphaNumericSymbolForLength(e){
                     var ch = e.which;
 
                     if ((ch >= 48 && ch <= 57)||(ch >= 65 && ch <= 90)||(ch >= 97 && ch <= 122) || ch == 8){
@@ -2576,7 +2590,7 @@
                     //    //$(this).removeClass('input-validation-error');
                     //}
                     if(Number(num)  > 0.009 && Number(num) <= maxCost){
-                        if($(this).next('span').text() == 'Out of range'|| $(this).next('span').text() == 'The field Cost must be a number.'){
+                        if($(this).next('span').text() == 'Please enter a cost of greater than zero.'){
                             $(this).next('span').text('');
                             middleSpanCheck();
                         }
@@ -2661,7 +2675,7 @@
                     else if (Number(num) > Number(cost)) {
                         //$("#tagscloudAdvance span").fadeIn();
                         $(this).addClass('input-validation-error');
-                        $("#tagscloudAdvance span").text("Advance  must be less than cost");
+                        $("#tagscloudAdvance span").text("Please specify an advance amount less than the cost of the unit.");
                     }
                     else if (Number(num) == "") {
                         //$("#tagscloudAdvance span").fadeIn();
@@ -2671,7 +2685,7 @@
                     else if (Number(num) <= 0) {
                         //$("#tagscloudAdvance span").fadeIn();
                         $(this).addClass('input-validation-error');
-                        $("#tagscloudAdvance span").text("Advance must be greater than zero");
+                        $("#tagscloudAdvance span").text("Please specify an advance amount greater than zero.");
                     }
                     else if (advance > maxAdvance) {
                         //$("#tagscloudAdvance span").fadeIn();
@@ -2694,7 +2708,7 @@
 
                     }
                     if(Number(num)  > 0.009){
-                        if($(this).next('span').text() == 'Out of range' || $(this).next('span').text() == 'The field Advance Amount must be a number.'){
+                        if($(this).next('span').text() == 'Out of range' || $(this).next('span').text() == 'Please enter a numerical value for the advance amount.'){
                             $(this).next('span').text('');
                             middleSpanCheck();
                         }
@@ -2743,7 +2757,7 @@
 
                         if ($('#combobox1-1').next().children('input').val() == "") {
                             //$('#vehicleyear span').fadeIn();
-                            $('#vehicleyear span').text("Please select the vehicle year");
+                            $('#vehicleyear span').text("Please enter or select the year of the unit.");
                             //$('#vehicleyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             if (vin == "" || cost =="" || advance == "" ) {
@@ -2758,7 +2772,7 @@
                         }
                         if ($('#combobox1-2').next().children('input').val() == "") {
                             //$('#vehiclemake span').fadeIn();
-                            $('#vehiclemake span').text("Please enter the vehicle Make");
+                            $('#vehiclemake span').text("Please enter or select the make of the unit.");
                             // $('#vehiclemake span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -2774,7 +2788,7 @@
                         }
                         if ($('#combobox1-3').next().children('input').val() == "") {
                             // $('#vehiclemodel span').fadeIn();
-                            $('#vehiclemodel span').text("Please enter the vehicle Model");
+                            $('#vehiclemodel span').text("Please enter or select the model of the unit.");
                             //$('#vehiclemodel span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             if(isErrorAddUnit == false){                        
@@ -2795,7 +2809,7 @@
 
                         if ($('#combobox2-1').next().children('input').val() == "") {
                             //$('#rvyear span').fadeIn();
-                            $('#rvyear span').text("Please select the rv year");
+                            $('#rvyear span').text("Please enter or select the year of the unit.");
                             //$('#rvyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -2810,7 +2824,7 @@
                         }
                         if ($('#combobox2-2').next().children('input').val() == "") {
                             //$('#rvmake span').fadeIn();
-                            $('#rvmake span').text("Please enter the rv Make");
+                            $('#rvmake span').text("Please enter or select the make of the unit.");
                             //$('#rvmake span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -2825,7 +2839,7 @@
                         }
                         if ($('#combobox2-3').next().children('input').val() == "") {
                             //$('#rvmodel span').fadeIn();
-                            $('#rvmodel span').text("Please enter the rv Model");
+                            $('#rvmodel span').text("Please enter or select the model of the unit.");
                             //$('#rvmodel span').delay(1000).fadeOut();
                             valid = false;
                             if(isErrorAddUnit == false){                        
@@ -2848,7 +2862,7 @@
 
                         if ($('#combobox3-1').next().children('input').val() == "") {
                             //$('#camperyear span').fadeIn();
-                            $('#camperyear span').text("Please select the camper year");
+                            $('#camperyear span').text("Please enter or select the year of the unit.");
                             //$('#camperyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -2863,7 +2877,7 @@
                         }
                         if ($('#combobox3-2').next().children('input').val() == "") {
                             //$('#campermake span').fadeIn();
-                            $('#campermake span').text("Please enter the camper Make");
+                            $('#campermake span').text("Please enter or select the make of the unit.");
                             //$('#campermake span').delay(1000).fadeOut();
                             valid = false;
                             if(isErrorAddUnit == false){                        
@@ -2878,7 +2892,7 @@
                         }
                         if ($('#combobox3-3').next().children('input').val() == "") {
                             //$('#campermodel span').fadeIn();
-                            $('#campermodel span').text("Please enter the camper Model");
+                            $('#campermodel span').text("Please enter or select the model of the unit.");
                             //$('#campermodel span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -2890,7 +2904,6 @@
                             } else {
                                 e.preventDefault();
                             }
-
                         }
 
                     } else if (unitType == "4") {
@@ -2900,7 +2913,7 @@
 
                         if ($('#combobox4-1').next().children('input').val() == "") {
                             //$('#atvyear span').fadeIn();
-                            $('#atvyear span').text("Please select the atv year");
+                            $('#atvyear span').text("Please enter or select the year of the unit.");
                             //$('#atvyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -2915,7 +2928,7 @@
                         }
                         if ($('#combobox4-2').next().children('input').val() == "") {
                             //$('#atvmake span').fadeIn();
-                            $('#atvmake span').text("Please enter the atv Make");
+                            $('#atvmake span').text("Please enter or select the make of the unit.");
                             //$('#atvmake span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -2930,7 +2943,7 @@
                         }
                         if ($('#combobox4-3').next().children('input').val() == "") {
                             //$('#atvmodel span').fadeIn();
-                            $('#atvmodel span').text("Please enter the atv Model");
+                            $('#atvmodel span').text("Please enter or select the model of the unit.");
                             //$('#atvmodel span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -2952,7 +2965,7 @@
 
                         if ($('#combobox5-1').next().children('input').val() == "") {
                             //$('#boatyear span').fadeIn();
-                            $('#boatyear span').text("Please select the boat year");
+                            $('#boatyear span').text("Please enter or select the year of the unit.");
                             //$('#boatyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -2967,7 +2980,7 @@
                         }
                         if ($('#combobox5-2').next().children('input').val() == "") {
                             //$('#boatmake span').fadeIn();
-                            $('#boatmake span').text("Please enter the boat Make");
+                            $('#boatmake span').text("Please enter or select the make of the unit.");
                             //$('#boatmake span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -2988,7 +3001,7 @@
 
                         if ($('#combobox6-1').next().children('input').val() == "") {
                             //$('#motorcycleyear span').fadeIn();
-                            $('#motorcycleyear span').text("Please select the motorcycle year");
+                            $('#motorcycleyear span').text("Please enter or select the year of the unit.");
                             //$('#motorcycleyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -3003,7 +3016,7 @@
                         }
                         if ($('#combobox6-2').next().children('input').val() == "") {
                             //$('#motorcyclemake span').fadeIn();
-                            $('#motorcyclemake span').text("Please enter the motorcycle Make");
+                            $('#motorcyclemake span').text("Please enter or select the make of the unit.");
                             //$('#motorcyclemake span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -3018,7 +3031,7 @@
                         }
                         if ($('#combobox6-3').next().children('input').val() == "") {
                             //$('#motorcyclemodel span').fadeIn();
-                            $('#motorcyclemodel span').text("Please enter the motorcycle Model");
+                            $('#motorcyclemodel span').text("Please enter or select the model of the unit.");
                             //$('#motorcyclemodel span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -3037,7 +3050,7 @@
 
                         if ($('#combobox7-1').next().children('input').val() == "") {
                             //$('#snowmobileyear span').fadeIn();
-                            $('#snowmobileyear span').text("Please select the snowmobile year");
+                            $('#snowmobileyear span').text("Please enter or select the year of the unit.");
                             //$('#snowmobileyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -3052,7 +3065,7 @@
                         }
                         if ($('#combobox7-2').next().children('input').val() == "") {
                             //$('#snowmobilemake span').fadeIn();
-                            $('#snowmobilemake span').text("Please enter the snowmobile Make");
+                            $('#snowmobilemake span').text("Please enter or select the make of the unit.");
                             //$('#snowmobilemake span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -3067,7 +3080,7 @@
                         }
                         if ($('#combobox7-3').next().children('input').val() == "") {
                             //$('#snowmobilemodel span').fadeIn();
-                            $('#snowmobilemodel span').text("Please enter the snowmobile Model");
+                            $('#snowmobilemodel span').text("Please enter or select the model of the unit.");
                             //$('#snowmobilemodel span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -3085,7 +3098,7 @@
 
                         if ($('#combobox8-1').next().children('input').val() == "") {
                             //$('#heavyequipmentyear span').fadeIn();
-                            $('#heavyequipmentyear span').text("Please select the heavyequipment year");
+                            $('#heavyequipmentyear span').text("Please enter or select the year of the unit.");
                             //$('#heavyequipmentyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -3100,7 +3113,7 @@
                         }
                         if ($('#combobox8-2').next().children('input').val() == "") {
                             //$('#heavyequipmentmake span').fadeIn();
-                            $('#heavyequipmentmake span').text("Please enter the heavyequipment Make");
+                            $('#heavyequipmentmake span').text("Please enter or select the make of the unit.");
                             //$('#heavyequipmentmake span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
@@ -3316,7 +3329,7 @@
                         }
                         else if (f.size > parseFloat(maxSize)) {
                             $('#tagscloudFileUpload span').fadeIn();
-                            $("#tagscloudFileUpload span").text("File size should be less than 3MB.");
+                            $("#tagscloudFileUpload span").text("Please limit the file size to less than 3MB.");
                             $('#tagscloudFileUpload span').delay(1000).fadeOut();
                             return;
                         }
@@ -3374,6 +3387,9 @@
                         isErrorAddUnit = true;
                     }
                     else if($('.y').text().length > 1 ||$('.ma').text().length > 1 ||$('.mo').text().length > 1 ){
+                        isErrorAddUnit = true;
+                    }
+                    else if($('.ad').text().length > 1 ||$('.co').text().length > 1){
                         isErrorAddUnit = true;
                     }
                     else{

@@ -336,7 +336,19 @@
         $('.nav li.user').addClass('active');
         $('.nav li.active ul').addClass('in');
     });
+    $(document).ready(function () {
+        
+        @if (ViewBag.UserIdForSendReq != null && ViewBag.UserIdForSendReq.Items.Count == 1)
+      {
+           <text> var ind =@ViewBag.UserIdForSendReq.Items[0].UserId;</text>
+           <text> GetEmail(ind);</text>
+      
+        
 
+
+
+      }
+    });
 
 </script>
 
@@ -377,6 +389,35 @@
         }
         
     });
+    function GetEmail(ind) {
+        if (ind > 0) {
+            var url = "/CreateDealer/GetUserEmailByUserId/";
+            $.ajax({
+                url: url,
+                data: { userId: ind },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var email = data.NewEmail;
+                    if (email != "") {
+                        $('#txtEmailForSendReq').val(email);
+                    }
+                    //else{
+                    //   // $('#DivEmailJD').hide();
+                    //}
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Your handler here...
+
+                    // if session expires
+                    if (jqXHR.status == "404") {
+                        window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                    }
+                }
+            });
+        }
+    };
     $("#clear").click(function () {
         document.getElementsByTagName("form")[0].reset();
         $(".text-danger").html("");
