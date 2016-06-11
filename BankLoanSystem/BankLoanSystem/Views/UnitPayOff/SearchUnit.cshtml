@@ -7,6 +7,7 @@
 @if (Model.SearchList.Count() != 0)
 {
     <div id="searchGrid" @*style="overflow-x: hidden;overflow-y: scroll;height: 200px;"*@>
+        <span class="icon-help_outline help-search-grid" style="float:left;"></span>
         @grid1.GetHtml(
                tableStyle: "gridtable",
                      headerStyle: "webgrid-header",
@@ -80,6 +81,14 @@
             }
         });
     });
+
+
+        $('.help-search-grid').click(function () {
+
+            $('.help-text h4').html("Select a Unit");
+            $('.help-text p').html(" &nbsp;&nbsp; You can select a single unit from this grid to record the pay off.");
+
+        });
     </script>
 
 }

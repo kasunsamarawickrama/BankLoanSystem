@@ -85,5 +85,43 @@
 </script>*@
 
 <script>
+
+    // help 
+    $('.title-help').click(function () {
+
+        $('.help-text h4').html("About this page");
+        $('.help-text p').html(" &nbsp;&nbsp; On the pay off page you are able to record the unit pay off. When you pay off a unit it will remove it from the loan. The program automatically calculates the balance due to pay off the unit taking into consideration the original advance amount, any curtailment payments which have been made on that unit and any fees which are due for that unit.");
+
+    });
+
+    $('.help-maingrid').click(function () {
+
+        $('.help-text h4').html("Select Unit(s)");
+        $('.help-text p').html(" &nbsp;&nbsp; Use these select boxes to check which unit(s) you are wanting to record pay off for at this time.");
+
+    });
+
+    $('.help-adv-fee').click(function () {
+
+        $('.help-text h4').html("Advance Fee");
+        $('.help-text p').html(" &nbsp;&nbsp; If the loan set up specified that the advance fee be paid at the time of the unit pay off then that amount will be added to the pay off amount here.");
+
+    });
+
+    $('.help-tit-stat').click(function () {
+
+        $('.help-text h4').html("Update title status");
+        $('.help-text p').html(" &nbsp;&nbsp; Select if the title will be returned to the dealer at this point. If the title is not being returned to the dealer now the title status can be updated from the title page of the dashboard at a later time.");
+
+    });
+
+    $('.help-search').click(function () {
+
+        $('.help-text h4').html("Search for a Unit");
+        $('.help-text p').html(" &nbsp;&nbsp; Use these fields (you can enter details in just one field or any number of fields) to search for a specific unit. The more fields you select the more refined the search results will be.");
+
+    });
+
+   
     $("#lkpoff").hide();
 </script>

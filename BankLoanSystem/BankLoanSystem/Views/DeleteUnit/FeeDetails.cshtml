@@ -7,22 +7,40 @@
 @if (Model.UnitFeeTypes.Count() != 0)
 {
     <div id="grid">
+        <span class="icon-help_outline help-pay-table" style="float:left"></span>
         @grid1.GetHtml(
             tableStyle: "gridtable",
             headerStyle: "webgrid-header",
 
             alternatingRowStyle: "webgrid-alternating-row",
             rowStyle: "webgrid-row-style",
-            htmlAttributes: new { id = "feeDetails" },
+            htmlAttributes: new {id = "feeDetails"},
             columns: grid1.Columns(
-                grid1.Column("Fee Type", "Fee Type", canSort: false, style: "gridColumnVIN", format: @<text>@{
-                        <label id="vin" class="vin">@item.FeeType</label>
-                }</text>),
+                grid1.Column("Payment Type", "Payment Type", canSort: false, style: "gridColumnVIN", format: @<text>@{
+                                                                                                                        <label id="vin" class="vin">@item.FeeType</label>
+                                                                                                                    }</text>),
                 grid1.Column("Fee Amount", "Fee Amount($)", canSort: false, style: "gridColumn", format: @<text>@{
-                            <label id="aAmount" class="year">@Convert.ToDecimal(item.PaidAmount).ToString("#,##0.00")</label>
-                }</text>),
-                grid1.Column("Date Advanced", "Date Advanced", canSort: false, style: "gridColumnOthers", format: (item) => string.Format("{0:MM/dd/yyyy}", item.PaidDate))
+                                                                                                                    <label id="aAmount" class="year">@Convert.ToDecimal(item.PaidAmount).ToString("#,##0.00")</label>
+                                                                                                                }</text>),
+                grid1.Column("Date Fee Paid", "Date Fee Paid", canSort: false, style: "gridColumnOthers", format: (item) => string.Format("{0:MM/dd/yyyy}", item.PaidDate))
                 )
             )
     </div>
-}
+                    foreach (var item in Model.UnitFeeTypes)
+                    {
+                        if (item.FeeType == "Advance")
+                        {
+                            <input type="hidden" value="@Convert.ToDecimal(item.PaidAmount).ToString("#,##0.00")" name="FeePaid" class="FeePaid" id="hFeePaid" />
+                            }
+                        }
+
+                    }
+                    <script>
+                        $('.help-pay-table').click(function () {
+
+                            $('.help-text h4').html("Payment Table");
+                            $('.help-text p').html("The breakdown of all payments which are associated with the selected unit are displayed in this table.");
+
+                        });
+
+                    </script>

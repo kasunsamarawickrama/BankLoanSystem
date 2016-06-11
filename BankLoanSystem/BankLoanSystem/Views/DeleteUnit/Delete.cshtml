@@ -116,7 +116,7 @@
             <div class="info-bar">
 
                 <div class="form-group row" style="text-align:left">
-                    <label for="" class="col-sm-3 form-control-label" style="padding-left: 15px;">View : </label>
+                    <label for="" class="col-sm-3 form-control-label" style="padding-left: 15px;">View : <span class="icon-help_outline help-view"></span></label>
 
 
                     <div class="col-md-8" style="display: inline-block;">
@@ -138,7 +138,7 @@
 
 
             <div class="info-bar search-panel" style="margin-top:15px;" id="searchDiv">
-
+                <span class="icon-help_outline help-search" style="float:left;margin-left: -7px;"></span>
 
                 <div class="row" >
                     <div class="col-xs-12" style="padding:unset;">
@@ -298,13 +298,31 @@
 
                                     </div>
 
-                                    <div class="col-md-2">
-                                        <label for="">Advance Amount</label>
-                                        @Html.Editor("AdvanceAmount", new { htmlAttributes = new { @class = "form-control", @id = "advanceAmount", @disabled = "disabled", @style= "text-align: right;" } })
+                                    <div class="col-md-2" style="padding-right: 6px;">
+                                        <label for="">Advance Amount <span class="icon-help_outline help-adv-amount" ></span></label>
+                                        @Html.Editor("AdvanceAmount", new {htmlAttributes = new {@class = "form-control", @id = "advanceAmount", @disabled = "disabled", @style = "text-align: right;"}})
 
                                     </div>
 
+                                    <div class="col-md-2" id="divcurtailmentPaid" style="padding-right: 0px;" hidden>
+                                        <label for="">Curtailments Paid  <span class="icon-help_outline help-curt-paid"></span></label>
+                                        @Html.Editor("CurtailmentPaid", new {htmlAttributes = new {@class = "form-control", @id = "curtailmentPaid", @disabled = "disabled", @style = "text-align: right;"}})
+
                                     </div>
+
+                                    <div class="col-md-2" id="divfeesPaid" hidden>
+                                        <label for="">Fees Paid <span class="icon-help_outline help-fee-paid"></span></label>
+                                        @Html.Editor("FeesPaid", new {htmlAttributes = new {@class = "form-control", @id = "feesPaid", @disabled = "disabled", @style = "text-align: right;"}})
+
+                                    </div>
+
+                                    <div class="col-md-2" id="divbalanceDue" hidden>
+                                        <label for="">Balance Due <span class="icon-help_outline help-blc-due"></span></label>
+                                        @Html.Editor("BalanceDue", new { htmlAttributes = new { @class = "form-control", @id = "balanceDue", @disabled = "disabled", @style = "text-align: right;"} })
+
+                                    </div>
+
+                                </div>
 
                                 <div class="info-bar" id="FeeDetails" style="margin-top:10px;padding:1px 0px 30px 0px">
 
@@ -725,10 +743,70 @@
         $('#unitModel').val('');
         $('#purchasePrice').val('');
         $('#advanceAmount').val('');
+        $('#curtailmentPaid').val('');
+        $('#balanceDue').val('');
+        $('#feesPaid').val('');
         $('#unitId').val('');
+
+        $('#divcurtailmentPaid').hide();
+        $('#divfeesPaid').hide();
+        $('#divbalanceDue').hide();
     }
 
     $("#lkdeluni").hide();
+
+    // help 
+    $('.title-help').click(function () {
+
+        $('.help-text h4').html("About this page");
+        $('.help-text p').html(" &nbsp;&nbsp; On the delete a unit page you are able to select a unit which was incorrectly added to the system and delete it. Once you choose to delete the unit all data associated with it will be erased so be sure you are selecting the proper unit as there will be no way to retreive any data on that specific unit it once it has been removed. All fees and payments that have been recorded which are associated with this specific unit will also be deleted from the system.");
+
+    });
+
+    $('.help-view').click(function () {
+
+        $('.help-text h4').html("Unit Status");
+        $('.help-text p').html("Select the status of the unit you would like to view. <br/><br/> All Units: This will display all units (both advanced and waiting to advance).<br/><br/> Active Units: This will display only the units which have already been advanced to the loan.<br/><br/> Pending Units: This will display only the units which have been added to the loan but not yet advanced. ");
+
+    });
+
+    $('.help-search').click(function () {
+
+        $('.help-text h4').html("Search for a Unit");
+        $('.help-text p').html("Use these fields (you can enter details in just one field or any number of fields) to search for a specific unit. The more fields you select the more refined the search results will be.");
+
+    });
+
+
+    $('.help-adv-amount').click(function () {
+
+        $('.help-text h4').html("Advanced Amount");
+        $('.help-text p').html("This is the initial amount which was advanced for the unit. If the unit is still pending (not yet advanced) then this amount should be zero.");
+
+    });
+
+    $('.help-curt-paid').click(function () {
+
+        $('.help-text h4').html("Curtailments Paid");
+        $('.help-text p').html("This is the total amount of curtailments which have been paid down on this unit. If there have been no curtailments paid then this amount should be zero.");
+
+    });
+
+    $('.help-fee-paid').click(function () {
+
+        $('.help-text h4').html("Fees Paid");
+        $('.help-text p').html("This is the amount of fees paid for this unit (such as advance fee). If no fees have been paid for this unit then this amount should be zero.");
+
+    });
+
+    $('.help-blc-due').click(function () {
+
+        $('.help-text h4').html("Balance Due");
+        $('.help-text p').html("This is the balance due for this unit (advance amount - curtailments paid). This is the amount which should be removed from the loan balance if you are deleting the unit. If the unit has not been advanced then this amount should be zero.");
+
+    });
+
+   
 
 
 </script>

@@ -1168,7 +1168,7 @@ namespace BankLoanSystem.Controllers
                     }
                 }
             }
-            Session["detail"] = "";
+            Session["detail"] = null;
             if ((string)Session["popUpSelectionType"] == "assignRights")
             {
                 return RedirectToAction("AssignRights");                

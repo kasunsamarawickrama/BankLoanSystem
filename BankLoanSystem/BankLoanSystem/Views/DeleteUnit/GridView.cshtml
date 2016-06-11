@@ -7,6 +7,7 @@
 @if (Model.DeleteUnits.Count() != 0)
 {
     <div id="grid">
+        <span class="icon-help_outline help-search-table" style="float:left"></span>
         @grid.GetHtml(
             tableStyle: "gridtable",
             headerStyle: "webgrid-header",
@@ -34,7 +35,12 @@
                                                                                                                             }</text>),
                 grid.Column("Advance Amount ($)", "Advance Amount ($)", canSort: false, style: "gridColumn", format: @<text>@{
                                                                                                                                 <label id="aAmount" class="year">@Convert.ToDecimal(item.AdvanceAmount).ToString("#,##0.00")</label>
-                                                                                                                            }</text>)
+                                                                                                                            }</text>),
+                grid.Column("Balance Due ($)", "Balance Due ($)", canSort: false, style: "gridColumn", format: @<text>@{
+                    <label id="aBalanceDue" class="year">@Convert.ToDecimal(item.BalanceDue).ToString("#,##0.00")</label>
+                    <input type="hidden" value="@Convert.ToDecimal(item.CrtailmentPaid).ToString("#,##0.00")" name="CrtailmentPaid" class="CrtailmentPaid" id="gcrtailmentPaid"/>
+                    <input type="hidden" value="@item.UnitStaus" name="unitStaus" class="UnitStaus" id="unitStaus" />
+                }</text>)
                 )
             )
     </div>
@@ -58,6 +64,15 @@
                     $('#FeeDetails').html(View);
                     $('#FeeDetails').show();
 
+                    var feePaid = parseFloat($("#hFeePaid").val()).toFixed(2);
+                    
+                    if (!isNaN(parseFloat(feePaid))) {
+                        $('#feesPaid').val(feePaid);
+                        $('#divfeesPaid').show();
+                    } else {
+                        $('#divfeesPaid').hide();
+                    }
+                    
                     //.highlight { background-color: lightblue; }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -72,6 +87,14 @@
 
         });
 
+
+        $('.help-search-table').click(function () {
+
+            $('.help-text h4').html("Select a Unit");
+            $('.help-text p').html("You can select a single unit from this grid to view all transaction and fee details before deleting the unit.");
+
+        });
+
         function SetTextBoxValues(tr) {
             $('#dateAdvanced').val(tr.find('td:eq(0)').text());
             $('#identificationNumber').val(tr.find("#vin").text());
@@ -80,6 +103,23 @@
             $('#unitModel').val(tr.find("#model").text());
             $('#purchasePrice').val(tr.find("#cost").text());
             $('#advanceAmount').val(tr.find("#aAmount").text());
+
+            var unitStaus = tr.find("#unitStaus").val();// divcurtailmentPaid
+
+            if (unitStaus === '1') {
+                //alert(unitStaus);
+                $('#divcurtailmentPaid').show();
+                //$('#divfeesPaid').show();
+                $('#divbalanceDue').show();
+            } else if (unitStaus === '0') {
+                //alert('gfgfgf');
+                $('#divcurtailmentPaid').hide();
+                //$('#divfeesPaid').hide();
+                $('#divbalanceDue').hide();
+            }
+
+            $('#curtailmentPaid').val(tr.find("#gcrtailmentPaid").val());
+            $('#balanceDue').val(tr.find("#aBalanceDue").text());
             $('#unitId').val(tr.find("#all").val());
         }
 
