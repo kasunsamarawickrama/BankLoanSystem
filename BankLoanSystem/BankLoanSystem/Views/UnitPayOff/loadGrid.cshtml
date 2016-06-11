@@ -1344,6 +1344,38 @@
             success: function (View) {
                 $('#searchGrid1').html(View);
                 $('#searchGrid1').show();
+
+                // Change the selector if needed
+                var table = $('#searchResultGrid'),
+                    bodyCells = table.find('tbody tr:first').children(),
+                    colWidth;
+
+                // Adjust the width of thead cells when window resizes
+                $(window).resize(function () {
+                    // Get the tbody columns width array
+                    colWidth = bodyCells.map(function () {
+                        return $(this)[0].getBoundingClientRect().width;
+                    }).get();
+
+                    // Set the width of thead columns
+                    table.find('thead tr').children().each(function (i, v) {
+                        $(v).outerWidth(colWidth[i]);
+                    });
+                }).resize(); // Trigger resize handler
+
+                $(window).bind("load", function () {
+
+                    // Get the tbody columns width array
+                    colWidth = bodyCells.map(function () {
+                        return $(this)[0].getBoundingClientRect().width;
+                    }).get();
+
+                    // Set the width of thead columns
+                    table.find('thead tr').children().each(function (i, v) {
+                        $(v).outerWidth(colWidth[i]);
+                    });
+                });
+
                 hideLoading();
                 //.highlight { background-color: lightblue; }
             },
