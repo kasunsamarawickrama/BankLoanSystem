@@ -2,7 +2,7 @@
 @model BankLoanSystem.Models.UnitPayOffViewModel
 
 @{
-    WebGrid grid1 = new WebGrid(Model.SearchList, defaultSort: "CreatedDate", selectionFieldName: "selectedRow");// grid with sorting and paging
+    WebGrid grid1 = new WebGrid(Model.SearchList, defaultSort: "CreatedDate", selectionFieldName: "selectedRow",canPage:false);// grid with sorting and paging
 }
 @if (Model.SearchList.Count() != 0)
 {
