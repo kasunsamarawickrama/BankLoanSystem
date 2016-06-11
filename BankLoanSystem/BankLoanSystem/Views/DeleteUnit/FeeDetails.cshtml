@@ -7,6 +7,7 @@
 @if (Model.UnitFeeTypes.Count() != 0)
 {
     <div id="grid">
+        <span class="icon-help_outline help-pay-table" style="float:left"></span>
         @grid1.GetHtml(
             tableStyle: "gridtable",
             headerStyle: "webgrid-header",
@@ -34,3 +35,12 @@
                         }
 
                     }
+                    <script>
+                        $('.help-pay-table').click(function () {
+
+                            $('.help-text h4').html("Payment Table");
+                            $('.help-text p').html("The breakdown of all payments which are associated with the selected unit are displayed in this table.");
+
+                        });
+
+                    </script>

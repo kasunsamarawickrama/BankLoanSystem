@@ -1112,11 +1112,12 @@ if (Model.Type == "advanceFee")
                 
                     if(View == 1){
                         $('.centered1 span').text('Successfully Updated');
-
+                        hideLoading();
                         window.scrollTo(0, 0);
                         FilterFees();
                         
                     }else if(View == 0){
+                        hideLoading();
                         $('.centered span').text('Error');
 
 

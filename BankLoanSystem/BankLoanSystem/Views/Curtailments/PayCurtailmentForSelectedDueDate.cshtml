@@ -1277,7 +1277,10 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                 //    });
                                 //});
 
-                            } else {
+                            } 
+                            
+                            
+                            else {
                                 hideLoading();
                                 $('.centered1 span').text('Successfully Updated');
                                 GetCurrentCurtailment($('#dueDate').val());
@@ -1288,7 +1291,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                             }
                         }
 
-                        if(View.length > 5){
+                        else if(View.length > 5){
 
                             if (ckbReport) {
                                 doConfirm1();
@@ -1358,6 +1361,8 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                     showPopup5(5 , array);
 
                             }
+                        }else{
+                            hideLoading();
                         }
 
                         //$('.centered1 span').text('Successfully Updated');
@@ -1375,6 +1380,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                         if (jqXHR.status == "404") {
                             window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
                         }
+                        hideLoading();
                     }
 
 
@@ -1709,12 +1715,17 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                 //    //});
                                 //});
 
-                            } else {
-                                $('.centered1 span').text('Successfully Updated');
-                                GetCurrentCurtailment($('#dueDate').val());
+                            } 
+                            
+                            else {
 
                                 hideLoading();
                                 window.scrollTo(0, 0);
+                                $('.centered1 span').text('Successfully Updated');
+                                GetCurrentCurtailment($('#dueDate').val());
+
+                                
+                                
                                 
 
                             }
@@ -1722,7 +1733,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                             //window.scrollTo(0, 0);
                         }
 
-                        if(View.length > 5){
+                        else if(View.length > 5){
 
                             if (ckbReport) {
                                 doConfirm1();
@@ -1795,6 +1806,11 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                 
 
                             }
+                        }
+
+                        else{
+
+                            hideLoading();
                         }
 
                         //$('.centered1 span').text('Successfully Updated');

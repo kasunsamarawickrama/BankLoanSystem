@@ -14,6 +14,7 @@
 
     <div class="info-bar" id="payOffGridDIv" style="margin-top:10px;padding:1px 0px 20px 0px">
         <!-- This is for Grid-->
+        <span class="icon-help_outline help-maingrid" style="float:left"></span>
         <input type="hidden" value="@ViewBag.loanId" id="loanId" />
         @grid.GetHtml(
                     tableStyle: "gridtable",
@@ -55,11 +56,11 @@
 
             @if (ViewBag.ComType == 1)
             {
-                <label style="text-align:left;width:40%;" for="" class="col-sm-5 form-control-label">Are the titles being returned to Dealer at this time?</label>
+                <label style="text-align:left;width:42%;" for="" class="col-sm-5 form-control-label">Are the titles being returned to Dealer at this time? <span class="icon-help_outline help-tit-stat"></span></label>
             }
             else
             {
-                <label style="text-align:left;width:40%;" for="" class="col-sm-5 form-control-label">Are the titles being returned from lender at this time?</label>
+                <label style="text-align:left;width:40%;" for="" class="col-sm-5 form-control-label">Are the titles being returned from lender at this time? </label>
             }
 
             <div class="col-md-2">
@@ -95,7 +96,7 @@
 
 
 <div class="info-unit" id="searchDiv" style="margin-top:10px;width:100%;padding-top:10px;padding-bottom: 18px;text-align:left">
-
+    <span class="icon-help_outline help-search" style="float:left;margin-left: -18px;"></span>
     <div class="row">
         <div class="col-xs-12" style="padding:unset;">
             <form>
@@ -257,7 +258,7 @@
                         <div class="form-group row" style="margin-top:15px !important">
                             @if (ViewBag.ComType == 1)
                             {
-                                <label style="text-align:left;width:40%;" for="" class="col-sm-5 form-control-label">Are the titles being returned to Dealer at this time?</label>
+                                <label style="text-align:left;width:42%;" for="" class="col-sm-5 form-control-label">Are the titles being returned to Dealer at this time?  <span class="icon-help_outline help-tit-stat"></span></label>
                             }
                             else
                             {
@@ -932,6 +933,7 @@
                     } else {
                         $('#btnPayAll').prop('disabled', false);
                         $('#btnPay').prop('disabled', false);
+                        hideLoading();
 
                     }
                     //location.reload();
@@ -946,6 +948,7 @@
                     if (jqXHR.status == "404") {
                         window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
                     }
+                    hideLoading();
                 }
             });
         }
@@ -1074,7 +1077,12 @@
                                 hideLoading();
                             }
                         });
-                    } else {
+                    } 
+                    
+                    
+                    else {
+
+                        hideLoading();
 
                     }
 
@@ -1087,6 +1095,8 @@
                     if (jqXHR.status == "404") {
                         window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
                     }
+
+                    hideLoading();
                 }
             });
         }
@@ -1334,6 +1344,38 @@
             success: function (View) {
                 $('#searchGrid1').html(View);
                 $('#searchGrid1').show();
+
+                // Change the selector if needed
+                var table = $('#searchResultGrid'),
+                    bodyCells = table.find('tbody tr:first').children(),
+                    colWidth;
+
+                // Adjust the width of thead cells when window resizes
+                $(window).resize(function () {
+                    // Get the tbody columns width array
+                    colWidth = bodyCells.map(function () {
+                        return $(this)[0].getBoundingClientRect().width;
+                    }).get();
+
+                    // Set the width of thead columns
+                    table.find('thead tr').children().each(function (i, v) {
+                        $(v).outerWidth(colWidth[i]);
+                    });
+                }).resize(); // Trigger resize handler
+
+                $(window).bind("load", function () {
+
+                    // Get the tbody columns width array
+                    colWidth = bodyCells.map(function () {
+                        return $(this)[0].getBoundingClientRect().width;
+                    }).get();
+
+                    // Set the width of thead columns
+                    table.find('thead tr').children().each(function (i, v) {
+                        $(v).outerWidth(colWidth[i]);
+                    });
+                });
+
                 hideLoading();
                 //.highlight { background-color: lightblue; }
             },
