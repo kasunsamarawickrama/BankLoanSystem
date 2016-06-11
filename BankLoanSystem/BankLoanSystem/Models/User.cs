@@ -68,7 +68,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Phone Number")]
         public string PhoneNumber2 { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the current password.")]
         [StringLength(30, ErrorMessage = "Please chose a Password at least 6 characters long", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Current Password")]
@@ -80,7 +80,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Please select")]
+        [Required(ErrorMessage = "Please select whether the current password will be changed at this time.")]
         public bool ChangePassword { get; set; }
 
         [Required(ErrorMessage = "Please confirm the Password")]
