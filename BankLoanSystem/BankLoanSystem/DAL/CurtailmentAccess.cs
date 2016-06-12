@@ -419,5 +419,22 @@ namespace BankLoanSystem.DAL
                 throw ex;
             }
         }
+
+        public int CheckAdvanceFeeAtPayOff(int loanId)
+        {
+            try
+            {
+                DataHandler dataHandler = new DataHandler();
+
+                List<object[]> paramertList1 = new List<object[]>();
+                paramertList1.Add(new object[] { "@loan_id", loanId });
+
+                return dataHandler.ExecuteSQLWithReturnVal("spCheckAdvanceFeeAtPayOff", paramertList1);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

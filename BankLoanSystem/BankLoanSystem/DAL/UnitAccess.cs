@@ -1575,6 +1575,7 @@ namespace BankLoanSystem.DAL
                     paramertList.Add(new object[] { "@bill_due_date", fee_billdate });
                     paramertList.Add(new object[] { "@user_id", userID });
 
+
                     dataHandler.ExecuteSQL("spInsertAdvanceFeeForPayoff", paramertList);
                 }
                 return 0;
