@@ -22,7 +22,7 @@ namespace BankLoanSystem.Models
         [Display(Name = "Recipt for Advance Paid")]
         public bool AdvanceNeedReceipt { get; set; }
 
-        [Required(ErrorMessage = "Please chose when the advance fee is due")]
+        [Required(ErrorMessage = "Please choose when the advance fee is due")]
         [Display(Name = "Advance Fee calculate")]
         public string AdvanceFeeCalculateType { get; set; }
         [Required(ErrorMessage = "Advance fee complete Remind email is required.")]
