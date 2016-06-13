@@ -279,7 +279,9 @@
 
                             <div class="info-unit" id="rv" hidden>
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.rv.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @*@Html.LabelFor(model => model.rv.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+                                    <label class="control-label col-md-2" for="rv_IdentificationNumber">VIN <span class="icon-help_outline help-rv-vin"></span></label>
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.rv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "rvVin", @style = "width: 225px;" } })
                                         @Html.ValidationMessageFor(model => model.rv.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
@@ -377,7 +379,9 @@
 
                             <div class="info-unit" id="camper" hidden>
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.camper.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @*@Html.LabelFor(model => model.camper.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+                                    <label class="control-label col-md-2" for="camper_IdentificationNumber">VIN <span class="icon-help_outline help-cam-vin"></span></label>
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.camper.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "camperVin", @style = "width: 225px;" } })
                                         @Html.ValidationMessageFor(model => model.camper.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
@@ -501,7 +505,9 @@
 
                             <div class="info-unit" id="atv" hidden>
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.atv.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @*@Html.LabelFor(model => model.atv.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+                                    <label class="control-label col-md-2" for="atv_IdentificationNumber">VIN <span class="icon-help_outline help-atv-vin"></span></label>
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.atv.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "atvVin", @style = "width: 225px;" } })
                                         @Html.ValidationMessageFor(model => model.atv.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
@@ -852,7 +858,9 @@
 
                             <div class="info-unit" id="heavyequipment" hidden>
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.heavyequipment.SerialNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @*@Html.LabelFor(model => model.heavyequipment.SerialNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+                                    <label class="control-label col-md-2" for="heavyequipment_SerialNumber">SN <span class="icon-help_outline help-hev-equ"></span></label>
                                     <div class="col-sm-4">
                                         @Html.EditorFor(model => model.heavyequipment.SerialNumber, new { htmlAttributes = new { @class = "form-control cap block_invalid_char vinUnique", @id = "heavyequipmentSerial", @maxlength = 17, @style = "width: 225px;" } })
                                         @Html.ValidationMessageFor(model => model.heavyequipment.SerialNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
@@ -3906,6 +3914,20 @@
 
         $('.help-text h4').html("Advance unit");
         $('.help-text p').html(" &nbsp;&nbsp; You can choose to advance the unit at this time. You will be asked to chose what date the unit is being added. If you choose not to advance the unit now  it will be added as a pending unit. You will then be able to view and advance it at a later time on the advance unit page.");
+
+    });
+
+    $('.help-cam-vin , .help-rv-vin, .help-atv-vin ').click(function () {
+
+        $('.help-text h4').html("VIN");
+        $('.help-text p').html(" &nbsp;&nbsp; The Vehicle Identification Number is a 17 character code which consists of numbers and letters. It is unique to each vehicle and the only way to uniquely identify the vehicle, therefore it is important to enter this number in correctly. It can be found on the top of the vehicle title. Multiple details of the vehicle are coded into the VIN.");
+
+    });
+
+    $('.help-hev-equ').click(function () {
+
+        $('.help-text h4').html("Serial Number");
+        $('.help-text p').html(" &nbsp;&nbsp; The serial number typically consists of numbers and letters. It is unique to each unit and the only way to uniquely identify the equipment therefore it is important to enter this number correctly. It can typically be found on purchase paperwork and an identification plate on the unit.");
 
     });
 
