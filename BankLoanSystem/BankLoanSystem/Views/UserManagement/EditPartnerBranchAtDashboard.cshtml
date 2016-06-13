@@ -95,19 +95,23 @@
                                         <div class="control-label col-sm-2 lable_style">
                                             <label>Branch Name</label>
                                         </div>
-                                        <div class="col-xs-8 text_field short_text_field">
+                                   
                                             @if (Enumerable.Count(ViewBag.RegBranchId) == 1)
                                             {
-                                                @Html.HiddenFor(model => model.RegBranchId, new {@Value = (int) ViewBag.RegBranchId.Items[0].BranchId})
-                                                @Html.LabelFor(model => model.RegBranchId, (string) ViewBag.RegBranchId.Items[0].BranchName, htmlAttributes: new {@class = "form-control text_field_input", style = "float:left;border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;"})
+                                                <div class="col-xs-8 text_field short_text_field" style="width:66.67%">
+                                                    @Html.HiddenFor(model => model.RegBranchId, new { @Value = (int)ViewBag.RegBranchId.Items[0].BranchId })
+                                                    @Html.LabelFor(model => model.RegBranchId, (string)ViewBag.RegBranchId.Items[0].BranchName, htmlAttributes: new { @class = "form-control text_field_input", style = "float:left;border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                                                </div>
                                             }
                                             else
                                             {
-                                                @Html.HiddenFor(model => model.RegBranchId, new { @id = "RegBranchId" })
-                                                @Html.DropDownListFor(model => model.RegBranchId, null, "--Select Branch--", htmlAttributes: new {@class = "form-control text_field_input", id = "RegBranchId2",@disabled="disabled"})
+                                                <div class="col-xs-8 text_field short_text_field">
+                                                    @Html.HiddenFor(model => model.RegBranchId, new { @id = "RegBranchId" })
+                                                    @Html.DropDownListFor(model => model.RegBranchId, null, "--Select Branch--", htmlAttributes: new { @class = "form-control text_field_input", id = "RegBranchId2", @disabled = "disabled" })
+                                                </div>
                                             }
 
-                                        </div>
+                                          
                                         <div class="err_msg_box">
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.RegBranchId, "", new {@class = "text-danger"})</p>
                                         </div>

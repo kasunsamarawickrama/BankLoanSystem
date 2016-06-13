@@ -13,12 +13,12 @@ namespace BankLoanSystem.Models
     {
         //public IList<UnitType> _allUnitTypes = (new LoanSetupAccess()).getAllUnitTypes();
 
-        [Required]
+        [Required(ErrorMessage = "Please select the branch which the loan associated with.")]
         [Display(Name = "NonRegistered Branch")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int nonRegisteredBranchId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select the branch which the loan associated with.")]
         [Display(Name = "Registered Branch")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         //[Remote("IsLoanNumberExists", "SetupProcess",
@@ -135,7 +135,7 @@ namespace BankLoanSystem.Models
         [Range(1, int.MaxValue, ErrorMessage = "Auto Reminder Period must be greater than zero")]
         public int autoReminderPeriod { get; set; }
 
-        [Required(ErrorMessage = "Please select")]
+        [Required(ErrorMessage = "Please select if you will allow the advance amount to be changed on this loan.")]
         [Display(Name = "Is Edit Allowable for an authorized user to change the loan Amount or Advanced percentage")]
         public bool isEditAllowable
         {
@@ -151,7 +151,7 @@ namespace BankLoanSystem.Models
 
         }
 
-        [Required(ErrorMessage = "Please select")]
+        [Required(ErrorMessage = "Please select if you would like a reminder emailed for the loan renewal.")]
         public bool autoReminder
         {
             get; set;

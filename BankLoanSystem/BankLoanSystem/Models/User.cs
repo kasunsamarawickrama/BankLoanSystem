@@ -69,13 +69,13 @@ namespace BankLoanSystem.Models
         public string PhoneNumber2 { get; set; }
 
         [Required(ErrorMessage = "Please enter the current password.")]
-        [StringLength(30, ErrorMessage = "Please chose a Password at least 6 characters long", MinimumLength = 6)]
+        [StringLength(30, ErrorMessage = "Please choose a Password at least 6 characters long", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Current Password")]
         public string CurrentPassword { get; set; }
 
         [Required(ErrorMessage = "Please create a Password")]
-        [StringLength(30, ErrorMessage = "Please chose a Password at least 6 characters long", MinimumLength = 6)]
+        [StringLength(30, ErrorMessage = "Please choose a Password at least 6 characters long", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
