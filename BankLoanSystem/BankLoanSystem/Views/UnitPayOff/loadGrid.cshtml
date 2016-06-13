@@ -43,7 +43,7 @@
         <div id="subtotal" style="text-align:right;font-weight:bold;margin-right: 25px;">Total Pay off Amount  : $ <span id="spnTotal">0.00</span></div>
         @if (ViewBag.AdvanceFee != 0)
         {
-            <div id="subtotal2" style="text-align:right;font-weight:bold;margin-right: 25px;margin-top: 10px;"> Advance Fee : $ <span id="spnAdvanceFee">0.00</span></div>
+            <div id="subtotal2" style="text-align:right;font-weight:bold;margin-right: 25px;margin-top: 10px;"><span class="icon-help_outline help-adv-fee"></span> Advance Fee : $ <span id="spnAdvanceFee">0.00</span></div>
 
             <div id="subtotal3" style="text-align:right;font-weight:bold;margin-right: 25px;margin-top: 10px;"> Current Total to pay : $ <span id="spnTotalFinal">0.00</span></div>
         }
@@ -79,7 +79,7 @@
 
     <div class="form-inline" style="text-align: left;padding-left: 16px;">
         <div class="form-group">
-            <label for="">Pay Date : </label>
+            <label for="">Pay Date : <span class="icon-help_outline help-pay-date"></span></label>
 
 
             @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidater", @id = "payDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", @disabled = "disabled" } })
@@ -247,7 +247,7 @@
                         }
 
                         <div class="col-md-2" style="margin-left:9%">
-                            <label for="">Pay Date </label>
+                            <label for="">Pay Date <span class="icon-help_outline help-pay-date"></span></label>
                             @Html.EditorFor(model => model.PayDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidater", @placeholder = "MM/DD/YYYY", Value = "", @id = "payDate2", autocomplete = "off", @disabled = "disabled" } })
                             <div id="customErrorPayDate2"><span class="text-danger field-validation-error" style="width: 185px"></span></div>
                         </div>

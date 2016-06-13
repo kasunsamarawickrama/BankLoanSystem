@@ -6,6 +6,7 @@
 @if ((Model.TitleList.Count() != 0)&&(Model.TitleList!=null))
 {
     <div id="searchGrid">
+        <span class="icon-help_outline help-search-table" style="float:left;padding-left: 0px;"></span>
         @grid.GetHtml(
             tableStyle: "gridtable",
             headerStyle: "webgrid-header",
@@ -16,7 +17,7 @@
                  grid.Column(
                    "AdvanceDate",
                    "Date Advanced", canSort: false, style: "gridColumnOthers",
-                   format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
+                   format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDateStr)
                ),
 
                 grid.Column("VIN/HIN/Serial #", "VIN/HIN/Serial #", canSort: false, style: "gridColumnVIN", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label><input type="hidden" name="IDHidden" value="@item.UnitId" id="uId" />}</text>),
@@ -103,5 +104,15 @@ else {
         table.find('thead tr').children().each(function(i, v) {
             $(v).outerWidth(colWidth[i]);
         });
+    });
+
+
+
+    //help
+    $('.help-search-table').click(function () {
+
+        $('.help-text h4').html("Select a Unit");
+        $('.help-text p').html(" &nbsp;&nbsp; You can select a single unit from this grid to update the title status.");
+
     });
 </script>

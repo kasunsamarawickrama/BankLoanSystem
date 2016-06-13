@@ -156,7 +156,7 @@ namespace BankLoanSystem.Controllers
                         Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "User Login", "User : " + userData.UserName + " was unable to login, Entered password did not match", DateTime.Now);
 
                         int islog = (new LogAccess()).InsertLog(log);
-                        return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit." });
+                        return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username & Password combination. Please confirm entry and resubmit." });
                     }
 
                     string passwordEncripted = PasswordEncryption.encryptPassword(user.password, split[1]);
@@ -552,7 +552,7 @@ namespace BankLoanSystem.Controllers
                         Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "User Login", "User : " + userData.UserName + " was unable to login, Entered password did not match ", DateTime.Now);
 
                         int islog = (new LogAccess()).InsertLog(log);
-                        return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit." });
+                        return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username & Password combination. Please confirm entry and resubmit." });
                     }
                 }
                 else
@@ -561,7 +561,7 @@ namespace BankLoanSystem.Controllers
                     Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "User Login", "User : " + userData.UserName + " was unable to login, Entered username did not exist ", DateTime.Now);
 
                     int islog = (new LogAccess()).InsertLog(log);
-                    return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit" });
+                    return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username & Password combination. Please confirm entry and resubmit." });
                 }     
             }
             catch(System.Exception ex)
@@ -592,7 +592,7 @@ namespace BankLoanSystem.Controllers
                 return RedirectToAction("EmployeeDetail", "EmployeeDashBoard");
             }
             else {
-                return RedirectToAction("EmployeeLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit" });
+                return RedirectToAction("EmployeeLogin", "Login", new { lbl = "Incorrect Username & Password combination. Please confirm entry and resubmit." });
             }
         }
 
@@ -623,7 +623,7 @@ namespace BankLoanSystem.Controllers
                 return RedirectToAction("SignUp", "SetupSignUp");
             }
 
-            TempData["lbl"] = "Incorrect Username or Password, please confirm and submit";
+            TempData["lbl"] = "Incorrect Username & Password combination. Please confirm entry and resubmit.";
             return RedirectToAction("EmpLogin", "Login");
         }
     }

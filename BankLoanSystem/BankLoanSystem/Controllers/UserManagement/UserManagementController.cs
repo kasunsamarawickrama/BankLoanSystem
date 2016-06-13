@@ -2359,7 +2359,16 @@ namespace BankLoanSystem.Controllers
                     Log log = new Log(userData.UserId, userData.Company_Id, user.BranchId, 0, "Edit User", "Edit User : " + user.UserName, DateTime.Now);
 
                     int islog = (new LogAccess()).InsertLog(log);
-                    TempData["UpdteReslt"] = 1;
+
+                    if ((user.UserId == userData.UserId) && (!user.Status))
+                    {
+                        Session["AuthenticatedUser"] = null;
+                    }
+                    else
+                    {
+                        TempData["UpdteReslt"] = 1;
+                    }
+                    
 
 
                 }
@@ -2367,6 +2376,7 @@ namespace BankLoanSystem.Controllers
                 {
                     TempData["UpdteReslt"] = 0;
                 }
+               
                 return RedirectToAction("EditUserAtDashboard");
             }
         else 
