@@ -17,7 +17,7 @@
                  grid.Column(
                    "AdvanceDate",
                    "Date Advanced", canSort: false, style: "gridColumnOthers",
-                   format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
+                   format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDateStr)
                ),
 
                 grid.Column("VIN/HIN/Serial #", "VIN/HIN/Serial #", canSort: false, style: "gridColumnVIN", format:@<text>@{<label id="vin" class="vin">@item.IdentificationNumber</label><input type="hidden" name="IDHidden" value="@item.UnitId" id="uId" />}</text>),

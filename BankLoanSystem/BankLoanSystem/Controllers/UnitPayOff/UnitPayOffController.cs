@@ -90,15 +90,16 @@ namespace BankLoanSystem.Controllers.UnitPayOff
 
             unitPayOffViewModel.UnitPayOffList = payoff.GetUnitPayOffList(loanDetails.loanId);
 
-            decimal advanceFee = payoff.AdvanceForPayOffUnits(loanDetails.loanId);
+            decimal advanceFee = 0;
+            advanceFee = payoff.AdvanceForPayOffUnits(loanDetails.loanId);
 
-            int advanceFeeAtPayoff = payoff.CheckAdvanceFeeAtPayOff(loanDetails.loanId);
+            //int advanceFeeAtPayoff = payoff.CheckAdvanceFeeAtPayOff(loanDetails.loanId);
 
-            if (advanceFeeAtPayoff == 1) {
-                foreach (var unit in unitPayOffViewModel.UnitPayOffList) {
-                    unit.IsAdvancePaid = false;
-                }
-            }
+            //if (advanceFeeAtPayoff == 1) {
+            //    foreach (var unit in unitPayOffViewModel.UnitPayOffList) {
+            //        unit.IsAdvancePaid = false;
+            //    }
+            //}
             ViewBag.AdvanceFee = advanceFee;
 
             var unitPayOffList = unitPayOffViewModel.UnitPayOffList;
