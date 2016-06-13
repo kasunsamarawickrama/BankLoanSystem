@@ -11,10 +11,10 @@ namespace BankLoanSystem.Reports
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["AuthenticatedUser"] == null)
-            {
-                return;
-            }
+            //if (Session["AuthenticatedUser"] == null)
+            //{
+            //    return;
+            //}
             if (!IsPostBack)
             {
                 int loanId = 0;
@@ -56,10 +56,10 @@ namespace BankLoanSystem.Reports
 
         public ReportViewer PrintPage(int loanId)
         {
-            if (Session["AuthenticatedUser"] == null)
-            {
-                return null;
-            }
+            //if (Session["AuthenticatedUser"] == null)
+            //{
+            //    return null;
+            //}
 
             ReportViewer rptViewerLotInspectionPrint = new ReportViewer();
             rptViewerLotInspectionPrint.ProcessingMode = ProcessingMode.Local;
