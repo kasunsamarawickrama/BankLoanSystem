@@ -168,58 +168,15 @@ namespace BankLoanSystem.Controllers.Curtailments
         /// <param name="selectedCurtailmentList"></param>
         /// <returns></returns>
         [HttpPost]
-        //public string PayCurtailments(SelectedCurtailmentList selectedCurtailmentList)
-        //{
-        //    if (Session["loanCode"] == null || Session["loanCode"].ToString() == "")
-        //        return null;
-
-        //    int userId = userData.UserId;
-        //    string loanCode;
-
-        //    loanCode = Session["loanCode"].ToString();            
-
-        //    LoanSetupStep1 loanDetails = new LoanSetupStep1();
-        //    loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
-
-
-        //    CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
-        //    string returnValue  = curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId);
-
-        //    if (returnValue!=null)
-        //    {
-        //        //insert to log
-        //        string[] arrList = new string[selectedCurtailmentList.SelectedCurtailmentSchedules.Count];
-        //        int i = 0;
-        //        foreach (var x in selectedCurtailmentList.SelectedCurtailmentSchedules)
-        //        {
-        //            if (!string.IsNullOrEmpty(x.UnitId))
-        //            {
-        //                arrList[i] = "Pay Curtailment(s) for unit(s): " + x.IDNumber +" ,Curtailment No: " +x.CurtNumber+" ,Curtailment Amount:"+x.CurtAmount+" ,Paid Date:"+x.PayDate;
-        //                i++;
-        //            }
-        //        }
-
-        //        //arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-        //        ////user.UserRights = arrList.ToString();
-        //        string units = string.Join(",", arrList);
-        //        Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Curtailments", units, DateTime.Now);
-
-        //        int islog = (new LogAccess()).InsertLog(log);
-        //    }
-        //    return returnValue;
-        //}
-        public string PayCurtailments(SelectedCurtailmentList selectedCurtailmentList, string needSend, string dealerEmail)
+        public string PayCurtailments(SelectedCurtailmentList selectedCurtailmentList, string needSend, string dealerEmail, string dueDate)
         {
             if (Session["loanCode"] == null || Session["loanCode"].ToString() == "")
                 return null;
 
-            int userId = userData.UserId;
-            string loanCode;
+            var loanCode = Session["loanCode"].ToString();
+            string paidDate = "";
 
-            loanCode = Session["loanCode"].ToString();
-
-            LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            var loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             string returnValue = curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId, dealerEmail);
@@ -233,6 +190,7 @@ namespace BankLoanSystem.Controllers.Curtailments
                 {
                     items.PaidDate = items.PayDate.ToString("MM/dd/yyyy");
                     totalpaid += items.CurtAmount;
+                    paidDate = items.PaidDate;
                 }
 
                 foreach (var items in selectedCurtailmentSchedules)
@@ -271,26 +229,26 @@ namespace BankLoanSystem.Controllers.Curtailments
                             string encoding;
                             string filenameExtension;
 
+                            //create pdf file
                             byte[] bytes = rptViewerCurtailmentReceiptDuringSession.LocalReport.Render(
                                 "PDF", null, out mimeType, out encoding, out filenameExtension,
                                 out streamids, out warnings);
 
-                            //string fileName = userData.UserName + loanDetails.loanId + DateTime.Now;
-                            //fileName = fileName.Replace('/', '-');
-                            //fileName = fileName.Replace(':', '.');
-                            //string filePath = "~/Reports/" + fileName + ".pdf";
-                            //using (FileStream fs = new FileStream(Server.MapPath(filePath), FileMode.Create))
-                            //{
-                            //    fs.Write(bytes, 0, bytes.Length);
-                            //}
-                            //string fullPath = System.Web.HttpContext.Current.Server.MapPath(filePath);
                             if (dealerEmail != "")
                             {
+                                string mailSubject = "Curtailment Paid Receipt - Loan " + loanDetails.loanNumber;
+                                string mailBody =
+                                    "Curtailments for Loan " + loanDetails.loanNumber + " which were due on or before " + dueDate  + " have been paid on " + paidDate + ". " +
+                                    "Please view the attached PDF file for full curtailment payment details. " +
+                                    Environment.NewLine + Environment.NewLine +
+                                    "Thank you," +
+                                    Environment.NewLine +
+                                    "Dealer Floor Plan Software Team";
+
                                 Thread thread = new Thread(delegate ()
                                 {
-                                    //SendEmail(to, from, password, subject, body, postedFile);
                                     Email email = new Email(dealerEmail);
-                                    email.SendMailWithAttachment("Report", "Curtailment receipt test mail", bytes);
+                                    email.SendMailWithAttachment(mailSubject, mailBody, bytes);
                                 });
 
                                 thread.IsBackground = true;
