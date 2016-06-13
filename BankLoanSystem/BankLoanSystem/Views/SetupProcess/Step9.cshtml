@@ -71,7 +71,7 @@ new { id = "form" }))
 
                                             <div style="" class="form-group new_form_group" id="TimeLimit">
                                                 <div class="control-label col-sm-2 longLable">
-                                                    <label>When is the title required?</label>
+                                                    <label>Please specify when the title is required</label>
                                                 </div>
                                                 <div class="col-xs-8 text_field short_text_field">
                                                     @Html.DropDownListFor(model => model.ReceivedTimeLimit, null, "-- Select --", htmlAttributes: new { @class = "form-control text-box single-line text_field_input valid", id = "timeLimit" })
@@ -156,7 +156,7 @@ new { id = "form" }))
                                             @Html.RadioButtonFor(model => model.NeedScanCopy, "true", new { @id = "rbYes" }) Yes
                                             @Html.RadioButtonFor(model => model.NeedScanCopy, "false", new { @id = "rbNo", @style = "margin-left:20px" }) No
                                         </div>
-                                        <div class="err_msg_box shortErrMsgBox" style="width:315px">
+                                        <div class="err_msg_box shortErrMsgBox" style="width:415px">
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.NeedScanCopy, "", new { @class = "text-danger" })</p>
                                         </div>
                                     </div>
