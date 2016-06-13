@@ -23,6 +23,12 @@
     width: 180px;
 }
 
+    .err_msg_box {
+
+    width: 375px;
+   
+}
+
 </style>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js?version=@((new Random()).Next(1,10000))."></script>
@@ -237,7 +243,7 @@
                                         <div class="col-xs-8 text_field short_text_field" style="width:43.5%">
                                             @Html.DropDownListFor(model => model.paymentMethod, new SelectList(ViewBag.paymentMethods), "--Select a Method--", htmlAttributes: new { @class = "form-control text_field_input" })
                                         </div>
-                                        <div class="err_msg_box">
+                                        <div class="err_msg_box" style="width:325px">
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.paymentMethod, "", new { @class = "text-danger" })</p>
                                         </div>
                                     </div>
@@ -346,7 +352,7 @@
                                             @Html.DropDownListFor(model => model.autoReminder, yesOrNoList3, htmlAttributes: new { @class = "form-control text_field_input", @id = "autoRem", @onchange = "javascript:showAutoReminderEmail(this.value)" })
 
                                         </div>
-                                        <div class="err_msg_box">
+                                        <div class="err_msg_box" style="width:132px">
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.autoReminder, "", new { @class = "text-danger" })</p>
                                         </div>
                                     </div>

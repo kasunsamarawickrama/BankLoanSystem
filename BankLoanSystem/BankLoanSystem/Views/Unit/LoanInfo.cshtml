@@ -10,75 +10,91 @@
 
 
 
-<div class="info" style="padding-left:10px;padding-right:10px;padding-bottom: 47px;">
-    @if (ViewBag.Title != "Pay Curtailments")
-            {
 
-        <div class="address">
-            <div style="float:left;width:40%;text-align:left;padding-left:5px;">
-                <strong>@ViewBag.loanCompanyType : </strong><span style="max-width:39%;display: inline-flex;
-    text-align: left;">@ViewBag.NonRegBranchName</span> - <span style="width:35%;display: inline-flex;
-    text-align: left;">@ViewBag.loanBranchAddress</span>
-</div>
+   @*////if (ViewBag.Title != "Pay Curtailments")*@
+            @*{*@
+        <div class="info" style="padding-left:10px;padding-right:10px;padding-bottom: 10px;">
 
-
-
-
-<div style="float:left;width:30%;text-align:left"><strong>Loan Number</strong> : @ViewBag.LoanNumber </div>
+            <div class="address" style="text-align:left">
+                <div style="display:inline-flex;width:40%;text-align:left;padding-left:5px;">
+                    <strong>@ViewBag.loanCompanyType : </strong>&nbsp;<span style="max-width:39%;display: inline-flex;
+    text-align: left;padding-right: 5px;">@ViewBag.NonRegBranchName  </span> - <span style="width:35%;display: inline-flex;
+    text-align: left;padding-left: 5px;">  @ViewBag.loanBranchAddress</span>
+        </div>
 
 
 
-@{
-    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
-    var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
-    var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
-
-}
-
-<div style="float:left;width:15%"></div>
-<div style="float:right;width:15%;text-align:left;"><strong>Date</strong> :  @dateTime.ToString("d")</div>
-
-
-</div>
-    }
-    else
-    {
-
-        <div class="address">
-            <div style="float:left;width:30%;text-align:left"><strong>@ViewBag.loanCompanyType : </strong><span style="max-width:39%;display: inline-flex;
-    text-align: left;"> @ViewBag.NonRegBranchName</span> - <span style = "width:39%;display: inline-flex;text-align: left; ">@ViewBag.loanBranchAddress</span></div>
-
-
-            
-
-            <div style="float:left;width:25%"><strong>Loan Number</strong> : @ViewBag.LoanNumber </div>
+        <div style="display:inline-flex;width:30%;text-align:left"><strong>Loan Number</strong> : @ViewBag.LoanNumber </div>
 
 
 
-            @{
-                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+        @{
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
-                var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
-                var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
+            var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+            var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
 
-            }
+        }
 
-            <div style="float:left;width:30%;padding-right:2%">
+        <div style="display:inline-flex;width:15%"></div>
+        <div style="display:inline;width:15%;text-align:left;"><strong>Date</strong> :  @dateTime.ToString("d")</div>
+
+
+
+
+
+        @*//}*@
+        @if (ViewBag.Title == "Pay Curtailments")
+        {
+            @*<div class="info" style="padding-left:10px;padding-right:10px;padding-bottom: 10px;">
+
+                    <div class="address" style="text-align:left">
+
+
+
+                        <div style="width:30%;text-align:left;display:inline-block">
+                            <strong>@ViewBag.loanCompanyType : </strong><br /><span style="max-width:39%;display: inline-flex;
+            text-align: left;">@ViewBag.NonRegBranchName</span> - <span style="width:60%;display: inline-flex;text-align: left; ">@ViewBag.loanBranchAddress</span>
+        </div>
+
+        <div style="width:25%;display:inline-block;"><strong>Loan Number :</strong><br /> @ViewBag.LoanNumber </div>*@
+
+
+
+
+            //Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+            //var timezone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+            //var dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
+
+
+
+            <div style="padding-right:2%;display:inline-block;width:50%;padding-left:5px;margin-top:12px">
                 <strong>
-                    Curtailment Due Date :
+                    Curtailment Due Date : &nbsp;
                 </strong> @if (ViewBag.CurtailmentDueDate == "EoM")
                 { <label>  @DateTime.DaysInMonth(dateTime.Year, dateTime.Month) </label> }
                 else { <label>@ViewBag.CurtailmentDueDate</label> }
 
             </div>
-            <span style="width:15%;text-align:left;"><strong>Date</strong> :  @dateTime.ToString("d")</span>
+
+            @*<span style="width:13%;text-align:left;display:inline-block"><strong>Date :</strong><br />  @dateTime.ToString("d")</span>
 
 
         </div>
 
-                }
+        </div>*@
+
+        }
+        </div>
+
 </div>
+
+
+
+
+
 
 
 <div class="centered">
