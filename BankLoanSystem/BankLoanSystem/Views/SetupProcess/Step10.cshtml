@@ -1148,7 +1148,7 @@
     //});
 
     $('#btnCreate').click(function() {
-
+        
         $('#customErrorTable').children('span').text("");
         var calBase = $('.payment').filter(':checked').val();
 
@@ -1205,6 +1205,9 @@
 
         if(remainingPt === 0 && (calBase === 'Full payment' || calBase === 'Advance') && (timeBase === 'Months' || timeBase === 'Days') && isErrorReminder === false && (loanStatus === 'Yes' || loanStatus === 'No') && isErrorTime === false && dueDate !== '')
         {
+            $(this).attr('disabled','disabled').css("cursor", "default");
+            $('body').css('cursor','wait');
+            
             var curtaiulmentModel = {
                 LoanStatus: loanStatus,
                 CalculationBase: calBase,
@@ -1234,6 +1237,9 @@
                     $('#changeContainer').html(partialView);
 
                     $('#changeContainer').show();
+
+                    $('body').css('cursor','default');
+                    $(this).removeAttr('disabled');
                 }
             });
         }
