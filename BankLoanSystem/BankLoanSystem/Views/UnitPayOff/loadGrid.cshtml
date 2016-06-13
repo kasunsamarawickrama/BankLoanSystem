@@ -492,9 +492,9 @@
             advanceFeeSelect = 0;
             $('table#checkableGrid > tbody > tr').each(function () {
                 $(this).css('background', 'lightblue');
-                if($(this).find('#isAdvancePaid').val() == 'False'){
+                //if($(this).find('#isAdvancePaid').val() == 'False'){
                     advanceFeeSelect ++;
-                }
+                //}
             });
             $("#btnPayAll").removeAttr("disabled");
             $("#payDate").removeAttr("disabled");
@@ -572,11 +572,11 @@
 
             SetTextBoxValues(tr);
 
-            if($(this).find('#isAdvancePaid').val() == 'False'){
+            //if($(this).find('#isAdvancePaid').val() == 'False'){
                 if($(this).find("#all").is(':checked')){
                     advanceFeeSelect ++;
                 }
-            }
+            //}
         }
 
         if (countSelect > 1) {
@@ -717,12 +717,12 @@
 
         $('#spnTotal').text(totalToPay.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         var advance = 0;
-        if($(this).parents('tr:first').find('#isAdvancePaid').val() == 'False'){
+        //if($(this).parents('tr:first').find('#isAdvancePaid').val() == 'False'){
             if (isChecked === false)
                 advanceFeeSelect --;
             else
                 advanceFeeSelect ++;
-        }
+        //}
         advance = (advanceFee * advanceFeeSelect);
         advance = advance.toFixed(2);
         @if (ViewBag.AdvanceFee != 0)
