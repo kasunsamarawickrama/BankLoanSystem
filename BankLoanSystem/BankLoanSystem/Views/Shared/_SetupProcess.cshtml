@@ -939,11 +939,11 @@
         }
 
         function Progress(step) {
-            //if (typeof (history.pushState) != "undefined") {
-            //    var obj = { Page: 'Step' + step, Url: 'Step' + step };
-            //    //alert(obj.Content);
-            //    history.pushState(obj, obj.Page, obj.Url);
-            //}
+            if (typeof (history.pushState) != "undefined") {
+                var obj = { Page: 'Step' + step, Url: 'Step' + step };
+                //alert(obj.Content);
+                history.pushState(obj, obj.Page, obj.Url);
+            }
 
 
 
