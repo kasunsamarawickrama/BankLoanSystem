@@ -23,7 +23,7 @@ namespace BankLoanSystem.Models
         public bool NeedPyhsical { get; set; }
 
         [Display(Name = "Need a scan copy")]
-        [Required(ErrorMessage = "Please select if you will accept a scanned copy of the title.")]
+        [Required(ErrorMessage = "Please select if you will allow files to be uploaded and stored in the program.")]
         public bool NeedScanCopy { get; set; }
 
         [Required(ErrorMessage = "Please select if the title will be tracked in the program.")]
