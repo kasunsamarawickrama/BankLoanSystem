@@ -55,7 +55,7 @@
                                                 <div class="button-panel" style="margin-left:15px">
                                                     <input type="button" id="createNewBranch" value="Create New Branch" class="btn btn-info left-button" />
                                                     <span style="color: grey; margin-left: 5px; margin-right: 5px;">or</span>
-                                                    <input type="button" id="step3" value="Next" class="btn btn-primary btn-next" style="left:30%" />
+                                                    <input type="button" value="Next" class="btn btn-primary btn-next" style="left:30%" onclick='window.location.href="/SetupProcess/Step3";' />
 
                                                 </div>
 
@@ -82,7 +82,7 @@
                                                                 $('#loadingDiv').hide();
                                                                 $('#changeContainer').html(partialView);
                                                                 $('#changeContainer').show();
-                                                                Progress(4);
+                                                                Progress(3);
                                                             },
                                                             error: function (request, status, error) {
                                                                 //handleErrorMsg(request.responseText);
