@@ -2799,12 +2799,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
             }
-            int index = 0;
-            //foreach (Curtailment curtailment in curtailmentList)
-            //{
-            //    curtailmentList[index].PaymentPercentage = Convert.ToDecimal((curtailment.Percentage*100)/_gCurtailment.AdvancePt);
-            //    index++;
-            //}
 
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             StepAccess sa = new StepAccess();
