@@ -89,7 +89,8 @@ namespace BankLoanSystem.Models
         public bool IsTitleReceived { get; set; }
 
         [Required(ErrorMessage = "Please confirm if the title has been received")]
-        [Display(Name = "Has the Title been received?")]
+        //[Display(Name = "Has the Title been received?")]
+        [Display(Name = "Has the title been delivered to the Lender?")]
         public string TitleReceived { get; set; }
 
         public string Note { get; set; }
