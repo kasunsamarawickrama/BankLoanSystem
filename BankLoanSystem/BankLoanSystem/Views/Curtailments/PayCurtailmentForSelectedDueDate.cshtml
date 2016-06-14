@@ -1169,8 +1169,8 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 }
             }
         }
-
-        data = { SelectedCurtailmentSchedules: [], needSend: needSend, dealerEmail: dealerEmail };
+        var dueDate = $('#dueDate').val();
+        data = { SelectedCurtailmentSchedules: [], needSend: needSend, dealerEmail: dealerEmail, dueDate: dueDate};
         if($("#payDate").val() == ""){
             if($('#payDate').next('span').children().length == 0 ){
 
@@ -1582,9 +1582,9 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 }
             }
         }
-
+        var dueDate = $('#dueDate').val();
         //data = { SelectedCurtailmentSchedules: [] };
-        data = { SelectedCurtailmentSchedules: [], needSend: needSend, dealerEmail: dealerEmail };
+        data = { SelectedCurtailmentSchedules: [], needSend: needSend, dealerEmail: dealerEmail, dueDate: dueDate };
 
         if ($('#iVin').val() != '') {
             var a = 1;
