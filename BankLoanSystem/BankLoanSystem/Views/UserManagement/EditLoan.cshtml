@@ -124,10 +124,18 @@
                                         </div>
                                         <div class="form-group new_form_group">
                                             <div class="control-label col-sm-2 lable_style">
-                                                <label>Created Date</label>
+                                                <label>Current Start date</label>
                                             </div>
                                             <div class="col-xs-8 text_field short_text_field">
-                                                @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtCreatedDate", @disabled = "disabled" } })
+                                                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtStartDate", @disabled = "disabled" } })
+                                            </div>
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Current Maturity date</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.MaturityDate, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "txtMaturityDate", @disabled = "disabled" } })
                                             </div>
                                         </div>
                                         <div class="form-group new_form_group">
@@ -147,6 +155,16 @@
                                             </div>
                                             }
                                             
+                                        </div>
+                                        <div class="form-group new_form_group">
+                                            <div class="control-label col-sm-2 lable_style">
+                                                <label>Active date</label>
+                                            </div>
+                                            <div class="col-xs-8 text_field short_text_field">
+                                                @Html.EditorFor(model => model.ActiveDate, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input dateKeyPressValidate", @id = "txtActiveDate",@maxlength=10} })
+                                                @Html.ValidationMessageFor(model => model.ActiveDate, "", new { @class = "text-danger", @style = "text-align: left; left: 0%; width: 208px; " })
+                                                <span class="text-danger field-validation-error" id="errortxtActiveDate" style="margin-left: -89px;"></span>
+                                            </div>
                                         </div>
                                         <div id="loanid" class="hidden"></div>
                                         <div id="loancode" class="hidden"></div>
@@ -198,32 +216,134 @@
 </div>
 
 <script>
+
+    $('#txtActiveDate').val("");
+    $('#txtActiveDate').attr('placeholder', 'MM/DD/YYYY');
+    startPicker = new Pikaday({
+        field: document.getElementById('txtActiveDate'),
+        format: 'l',
+
+        bound: true,
+        onSelect: function () {
+            var dueDate = this.getDate();
+        }
+    });
+    var Maxdate = document.getElementById('txtMaturityDate').value ;
+    //alert(Mdate);
+    //var startDate = new Date(Date.parse(Mdate));
+   // expDate = startDate;
+    //expDate.setDate(startDate.getDate() + 1);
+
+    startPicker.setMaxDate(new Date(Maxdate));
+    //startPicker.gotoDate(new Date(expDate));
+
+    $('#txtActiveDate').focusout(function () {
+        $(this).attr('placeholder', 'MM/DD/YYYY');
+    });
+
+    $('#txtActiveDate').focusout(function () {
+        if ($('#txtActiveDate').val() == "") {
+            $('#errortxtActiveDate').text("");
+        }
+        checkDate();
+    });
+
+    $('#txtActiveDate').focus(function () {
+        $('#successSpn').children('span').text("");
+        $('#errorSpn').children('span').text("");
+    });
+
+    function checkDate() {
+        
+        var valid = isValidDate($('#txtActiveDate').val());
+        if (valid) {
+            
+            var selectedDate = new Date($('#txtActiveDate').val());
+            var expDate =new Date(Date.parse(document.getElementById('txtMaturityDate').value));
+            if (selectedDate > expDate) {
+                // out off range error
+                //alert('e');
+                $('#errortxtActiveDate').text('Please enter a valid date');
+                $('#txtActiveDate').addClass('input-validation-error');
+                return false;
+            } else {
+                // delete error mssage
+                //alert('e1');
+                $('#errortxtActiveDate').text('');
+                $('#txtActiveDate').removeClass('input-validation-error');
+                return true;
+            }
+
+
+
+        } else if ($('#txtActiveDate').val() == "") {
+            return false;
+        }
+
+        else {
+
+            // not valid data error
+            $('#errortxtActiveDate').text('Please enter a valid date');
+            $('#txtActiveDate').addClass('input-validation-error');
+            return false;
+        }
+    }
     $('#btnActiveLoan').click(function () {
         var model = @Html.Raw(Json.Encode(Model));
        // alert(model.LoanId+model.LoanCode);
-       // document.getElementById('#btnActiveLoan').innerHTML = model.LoanId;
-        $.ajax({
-            url: '/UserManagement/UpdateLoanStatus/',
-            data: JSON.stringify({ slctdLoanId: model.LoanId,slctdLoanCode:model.LoanCode }),
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
+        // document.getElementById('#btnActiveLoan').innerHTML = model.LoanId;
+        var valid = isValidDate($('#txtActiveDate').val());
+        if (valid) {
+            var selectedDate = new Date($('#txtActiveDate').val());
+            var startDate = new Date(Date.parse(document.getElementById('txtMaturityDate').value));
+            if (selectedDate >startDate ) {
+                // out off range error
+                $('#errortxtActiveDate').text('Please enter a valid date');
+                $('#txtRenewalDate').addClass('input-validation-error');
+                e.preventDefault();
+            } else {
+                // delete error mssage
+                $('#errortxtActiveDate').text('');
+                $('#txtActiveDate').removeClass('input-validation-error');
+                var activateDate = $('#txtActiveDate').val();
+                $.ajax({
+                    url: '/UserManagement/UpdateLoanStatus/',
+                    data: JSON.stringify({ slctdLoanId: model.LoanId,slctdLoanCode:model.LoanCode,slctdActiveDate:activateDate }),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
 
-            success: function (View) {
-                $(location).attr('href', '/UserManagement/EditLoan');
+                    success: function (View) {
+                        $(location).attr('href', '/UserManagement/EditLoan');
 
-                //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                // Your handler here...
+                        //$(location).attr('href', '/AdvanceUnit/Advance?flag=' + View);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // Your handler here...
 
-                // if session expires
-                if (jqXHR.status == "404") {
-                    window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
-                }
+                        // if session expires
+                        if (jqXHR.status == "404") {
+                            window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                        }
+                    }
+            
+            
+                });
             }
-            
-            
-        });
+
+        } else if ($('#txtActiveDate').val() == "") {
+            $('#errortxtActiveDate').text('Please select the active date.');
+            $('#txtActiveDate').addClass('input-validation-error');
+            e.preventDefault();
+        }
+
+        else {
+
+            // not valid data error
+            $('#errortxtActiveDate').text('Please enter a valid date');
+            $('#txtActiveDate').addClass('input-validation-error');
+            e.preventDefault();
+        }
+
     });
 </script>
 

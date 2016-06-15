@@ -766,9 +766,9 @@ namespace BankLoanSystem.DAL
         /// <param name="slctdLoanId"></param>
         /// <param name="slctdLoanCode"></param>
         /// <returns></returns>
-        public int UpdateLoanStatus(int slctdLoanId, string slctdLoanCode)
+        public int UpdateLoanStatus(int slctdLoanId, string slctdLoanCode,string slctdActiveDate)
         {
-            if ((slctdLoanId > 0) && (!string.IsNullOrEmpty(slctdLoanCode)))
+            if ((slctdLoanId > 0) && (!string.IsNullOrEmpty(slctdLoanCode)) && (!string.IsNullOrEmpty(slctdActiveDate)))
             {
                 DataHandler dataHandler = new DataHandler();
                 List<object[]> paramertList = new List<object[]>();
@@ -777,7 +777,7 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@loan_id", slctdLoanId });
                 paramertList.Add(new object[] { "@loan_code", slctdLoanCode });
                 paramertList.Add(new object[] { "@loan_status", 1 });
-                paramertList.Add(new object[] { "@active_date", DateTime.Now });
+                paramertList.Add(new object[] { "@active_date", DateTime.Parse(slctdActiveDate) });
                 paramertList.Add(new object[] { "@modified_date", DateTime.Now });
                 try
                 {

@@ -1259,11 +1259,11 @@
                             //alert(data);
                             if(data == 0){
                                 // $('.centered span').text('Error');
-                                $('.vinCheck').text("This unit is already active in this loan, therefore cannot be added again at this time.");
+                                $('.vinCheck').text("This unit is already active in this loan therefore cannot be added at this time.");
                                 middleSpanCheck();
                             }else if(data == 1){
                                 //  $('.centered span').text('Error');
-                                $('.vinCheck').text("This unit is pending in this loan, therefore cannot be added again at this time.");
+                                $('.vinCheck').text("This unit is already pending in this loan therefore cannot be added at this time.");
                                 middleSpanCheck();
                             }
                             else if(data == 2){
@@ -3743,9 +3743,9 @@
 <div class="overlay-content popup8" style="width:491px;text-align:center;margin-left: 232px;top:314px !important">
 
 
-    <h3>VIN Exist</h3>
+    <h3>VIN Already Active</h3>
 
-    <span class="text-warning"> This unit is currently active in another loan on our system, would you still like to add it at this time?</span><br />
+    <span class="text-warning"> This unit is currently active on another loan within our system. Would you still like to add it to your loan at this time? (For additional details please contact our support team.)</span><br />
     <br />
     <button class="close-btn btn btn-info" style="width:70px">Yes</button>
     <button class="close-btn btn btn-info" style="width:70px" onclick="ClearVin();">No</button>

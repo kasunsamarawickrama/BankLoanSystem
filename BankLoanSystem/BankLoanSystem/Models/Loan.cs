@@ -45,6 +45,11 @@ namespace BankLoanSystem.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime RenewalDate { get; set; }
 
+        [Required(ErrorMessage = "Please enter the loan activate date")]
+        [Display(Name = "Renewal Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime ActiveDate { get; set; }
+
         [Display(Name = "Current Loan Status")]
         public bool CurrentLoanStatus { get; set; }
 
