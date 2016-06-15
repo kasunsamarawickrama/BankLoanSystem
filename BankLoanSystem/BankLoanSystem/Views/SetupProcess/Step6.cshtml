@@ -352,7 +352,7 @@
                                             @Html.DropDownListFor(model => model.autoReminder, yesOrNoList3, htmlAttributes: new { @class = "form-control text_field_input", @id = "autoRem", @onchange = "javascript:showAutoReminderEmail(this.value)" })
 
                                         </div>
-                                        <div class="err_msg_box" style="width:132px">
+                                        <div class="err_msg_box" style="width:400px">
                                             <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.autoReminder, "", new { @class = "text-danger" })</p>
                                         </div>
                                     </div>
