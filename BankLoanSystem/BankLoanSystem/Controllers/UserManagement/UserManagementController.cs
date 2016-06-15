@@ -2034,12 +2034,12 @@ namespace BankLoanSystem.Controllers
         /// <returns></returns>
         /// 
        
-        public void UpdateLoanStatus(int slctdLoanId,string slctdLoanCode)
+        public void UpdateLoanStatus(int slctdLoanId,string slctdLoanCode,string slctdActiveDate)
         {
-           if((slctdLoanId>0)&&(!string.IsNullOrEmpty(slctdLoanCode))) 
+           if((slctdLoanId>0)&&(!string.IsNullOrEmpty(slctdLoanCode)) && (!string.IsNullOrEmpty(slctdActiveDate))) 
            {
                 LoanSetupAccess ls = new LoanSetupAccess();
-                int reslt = ls.UpdateLoanStatus(slctdLoanId, slctdLoanCode);
+                int reslt = ls.UpdateLoanStatus(slctdLoanId, slctdLoanCode, slctdActiveDate);
                 if(reslt==1) 
                 {
                     Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "Edit Loan", "Loan Id : " + slctdLoanId+" ,Edited Status : Active", DateTime.Now);
