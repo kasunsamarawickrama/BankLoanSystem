@@ -54,14 +54,10 @@
     {
         <div class="form-group row" style="margin-bottom:10px !important;">
 
-            @if (ViewBag.ComType == 1)
-            {
-                <label style="text-align:left;width:42%;" for="" class="col-sm-5 form-control-label">Are the titles being returned to Dealer at this time? <span class="icon-help_outline help-tit-stat"></span></label>
-            }
-            else
-            {
-                <label style="text-align:left;width:40%;" for="" class="col-sm-5 form-control-label">Are the titles being returned from lender at this time? </label>
-            }
+          
+                <label style="text-align:left;width:42%;" for="" class="col-sm-5 form-control-label">Are the titles being returned from lender to the dealer at this time? <span class="icon-help_outline help-tit-stat"></span></label>
+            
+           
 
             <div class="col-md-2">
                 <label class="radio-inline">
@@ -1631,5 +1627,12 @@
         payDate2.setMinDate(new Date($('#iDateAiAdvance').val()));
     });
     /////////////////////////////////
+
+    $('.help-pay-date').click(function () {
+
+        $('.help-text h4').html("Fee Payment Date");
+        $('.help-text p').html(" &nbsp;&nbsp; Select which date the pay off is being recorded.");
+
+    });
 
 </script>
