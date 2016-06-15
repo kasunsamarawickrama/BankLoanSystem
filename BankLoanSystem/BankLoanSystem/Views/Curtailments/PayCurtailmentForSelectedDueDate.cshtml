@@ -655,41 +655,48 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
             var ColIndex = $td.parent().children().index($td);
             var table = document.getElementById("checkableGrid");
             var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
-            ClearLabelMessages();
 
-            if (ColIndex != 0) {
+           if (!isNaN(parseFloat(row.find("#am").text().replace(/,/g, "")))){
+            
+           
 
-                var checked = row.find("#all").prop('checked');
-                if (!checked) {
-                    row.find("#all").prop('checked', true);
-                    if (row.find("#curtailmentStatus").val() === '2' && row.find("#all").is(':checked')) {
-                        row.css('background', '#C18410');//checked color of partial payment
-                    }else{
-                        row.css('background', 'lightblue');
+                ClearLabelMessages();
+
+                if (ColIndex != 0) {
+
+                    var checked = row.find("#all").prop('checked');
+                    if (!checked) {
+                        row.find("#all").prop('checked', true);
+                        if (row.find("#curtailmentStatus").val() === '2' && row.find("#all").is(':checked')) {
+                            row.css('background', '#C18410');//checked color of partial payment
+                        }else{
+                            row.css('background', 'lightblue');
+                        }
+
+                        checkCount++;
+                        total = total + parseFloat(row.find("#am").text().replace(/,/g, ""));
+
+                        if (checkCount == 1) {ClearSearchGrid() ;
+                            SetTextBoxValues(row);
+                        }
+                        else {
+                            ClearTextBoxValues();
+                        }
+                        SetRadioBtnHeaderChecked();
+                        var t4 = roundNumber(total,2);
+                        document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t4.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
+                        //document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
+
+                        $("#payAll").removeAttr("disabled");
+                        $("#payDate").removeAttr("disabled");
                     }
-
-                    checkCount++;
-                    total = total + parseFloat(row.find("#am").text().replace(/,/g, ""));
-
-                    if (checkCount == 1) {ClearSearchGrid() ;
-                        SetTextBoxValues(row);
-                    }
-                    else {
-                        ClearTextBoxValues();
-                    }
+                } else {
                     SetRadioBtnHeaderChecked();
-                    var t4 = roundNumber(total,2);
-                    document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " +t4.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
-                    //document.getElementById("subtotal").innerHTML = "Current Curtailment Total : $ " + roundNumber(total,2);
-
-                    $("#payAll").removeAttr("disabled");
-                    $("#payDate").removeAttr("disabled");
                 }
-            } else {
-                SetRadioBtnHeaderChecked();
+                //changePartialPaymentRowColor();
+                SetMinDate();
+
             }
-            //changePartialPaymentRowColor();
-            SetMinDate();
         }
         
     }));
