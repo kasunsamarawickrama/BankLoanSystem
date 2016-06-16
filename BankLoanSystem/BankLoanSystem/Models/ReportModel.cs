@@ -140,4 +140,32 @@ namespace BankLoanSystem.Models
        
 
     }
+
+    public class RptLoanTerms
+    {
+        public string CompanyBranch { get; set; }
+        public string PartnerBranch { get; set; }
+        public int LoanId { get; set; }
+        public string LoanNumber { get; set; }
+        public string StartDate { get; set; }
+        public string MaturityDate { get; set; }
+        public decimal LoanAmount { get; set; }
+        public int AdvancePercentage { get; set; }
+        public string TitleRequired { get; set; }
+        public string DocumentAcceptance { get; set; }
+    }
+
+    public class RptFeeLoanTerm
+    {
+        public string FeeType { get; set; }
+        public decimal FeeAmount { get; set; }
+        public string DueDate { get; set; }
+    }
+
+    public class RptEmailReminder
+    {
+        public string ReminderName { get; set; }
+        public int TimeFrame { get; set; }
+        public string Email { get; set; }
+    }
 }

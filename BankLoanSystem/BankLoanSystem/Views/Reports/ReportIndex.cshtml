@@ -524,7 +524,7 @@
                 if (errorCount <= 0) {
 
                     if (new Date(startDate) >= new Date(endDate)) {
-                        $('#tagscloudEndDate').children('span').text("Start date must be greater than end date");
+                        $('#tagscloudEndDate').children('span').text("Please select an end date which falls after the start date selected.");
                         $("#startDate").addClass('input-validation-error');
                         $("#endDate").addClass('input-validation-error');
                         $('.centered h5 span').text("Error in Page");
@@ -637,7 +637,7 @@
 
             if (endDate !== '') {
                 if (new Date(this.value) >= new Date(endDate)) {
-                    $('#tagscloudEndDate').children('span').text("Start date must be greater than end date");
+                    $('#tagscloudEndDate').children('span').text("Please select an end date which falls after the start date selected.");
                     $("#startDate").addClass('input-validation-error');
                     $("#endDate").addClass('input-validation-error');
                     $('.centered h5 span').text("Error in Page");
@@ -672,7 +672,7 @@
             var startDate = $('#startDate').val();
 
             if (new Date(startDate) >= new Date(this.value)) {
-                $('#tagscloudEndDate').children('span').text("Start date must be greater than end date");
+                $('#tagscloudEndDate').children('span').text("Please select an end date which falls after the start date selected.");
                 $("#startDate").addClass('input-validation-error');
                 $("#endDate").addClass('input-validation-error');
                 $('.centered h5 span').text("Error in Page");
