@@ -236,6 +236,7 @@
     <Content Include="Reports\RptDivCUrtailmentReceiptDuringSession.aspx" />
     <Content Include="Reports\RPTDivFullInventory.aspx" />
     <Content Include="Reports\RptDivLoanSummary.aspx" />
+    <Content Include="Reports\RptDivLoanTerms.aspx" />
     <Content Include="Reports\RptDivLotInspection.aspx" />
     <Content Include="Reports\RptDivLotInspectionFeeInvoice.aspx" />
     <Content Include="Reports\RptDivLotInspectionFeeReceipt.aspx" />
@@ -443,6 +444,13 @@
     <Compile Include="Reports\RptDivLoanSummary.aspx.designer.cs">
       <DependentUpon>RptDivLoanSummary.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reports\RptDivLoanTerms.aspx.cs">
+      <DependentUpon>RptDivLoanTerms.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivLoanTerms.aspx.designer.cs">
+      <DependentUpon>RptDivLoanTerms.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reports\RptDivLotInspection.aspx.cs">
       <DependentUpon>RptDivLotInspection.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -644,6 +652,7 @@
     <EmbeddedResource Include="Reports\RptCurtailmentReceipt.rdlc" />
     <EmbeddedResource Include="Reports\RptFullInventory.rdlc" />
     <EmbeddedResource Include="Reports\RptLoanSummary.rdlc" />
+    <EmbeddedResource Include="Reports\RptLoanTerms.rdlc" />
     <EmbeddedResource Include="Reports\RptLotInspection.rdlc" />
     <EmbeddedResource Include="Reports\RptLotInspectionFeeInvoice.rdlc" />
     <EmbeddedResource Include="Reports\RptLotInspectionFeeReceipt.rdlc" />

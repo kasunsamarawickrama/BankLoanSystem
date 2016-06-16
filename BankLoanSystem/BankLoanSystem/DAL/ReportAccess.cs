@@ -821,5 +821,103 @@ namespace BankLoanSystem.DAL
             return lstCurtailmentShedule;
         }
 
+        #region Loan Term report
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <returns></returns>
+        public List<RptLoanTerms> RptLoanTermsDetails(int loanId)
+        {
+            List<RptLoanTerms> loanTerms = new List<RptLoanTerms>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetLoanDetailForLoanTerms", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    RptLoanTerms loanTerm = new RptLoanTerms();
+
+                    loanTerm.CompanyBranch = dataRow["branch_name"].ToString();
+                    loanTerm.PartnerBranch = dataRow["non_reg_branch_name"].ToString();
+                    loanTerm.LoanNumber = dataRow["loan_number"].ToString();
+                    loanTerm.StartDate = Convert.ToDateTime(dataRow["start_date"].ToString()).ToString("MM/dd/yyyy");
+                    loanTerm.MaturityDate = Convert.ToDateTime(dataRow["maturity_date"].ToString()).ToString("MM/dd/yyyy");
+                    loanTerm.LoanAmount = Convert.ToDecimal(dataRow["loan_amount"]);
+                    loanTerm.AdvancePercentage = Convert.ToInt32(dataRow["advance"]);
+                    loanTerm.TitleRequired = Convert.ToInt32(dataRow["is_title_tracked"]) == 1 ? "Yes" : "No";
+                    loanTerm.DocumentAcceptance = dataRow["receipt_required_method"].ToString();
+
+                    loanTerms.Add(loanTerm);
+                }
+            }
+
+            return loanTerms;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <returns></returns>
+        public List<RptFeeLoanTerm> RptLoanTermsFeeDetails(int loanId)
+        {
+            List<RptFeeLoanTerm> loanFees = new List<RptFeeLoanTerm>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetFeesDetailForLoanTerms ", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    RptFeeLoanTerm loanFee = new RptFeeLoanTerm();
+
+                    loanFee.FeeType = dataRow["FeeType"].ToString();
+                    loanFee.FeeAmount = Convert.ToDecimal(dataRow["FeeAmount"]);
+                    loanFee.DueDate = dataRow["payment_due_date"].ToString();
+
+                    loanFees.Add(loanFee);
+                }
+            }
+
+            return loanFees;
+        }
+
+        public List<RptEmailReminder> RptLoanTermsEmailReminders(int loanId)
+        {
+            List<RptEmailReminder> emailReminders = new List<RptEmailReminder>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetAutoReminderDetailForLoanTerms ", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    RptEmailReminder emailReminder = new RptEmailReminder();
+
+                    emailReminder.ReminderName = dataRow["ReminderType"].ToString();
+                    emailReminder.TimeFrame = Convert.ToInt32(dataRow["TimeFrame"]);
+                    emailReminder.Email = dataRow["email"].ToString();
+
+                    emailReminders.Add(emailReminder);
+                }
+            }
+
+            return emailReminders;
+        }
+
+        #endregion
+
     }
 }
