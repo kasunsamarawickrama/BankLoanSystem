@@ -1205,7 +1205,10 @@
                     </span>
                 </div>
 
-                @if ( Session["dashboard"] != null && Convert.ToInt32(Session["dashboard"])  == 1)
+
+                
+
+                @if ( (Session["dashboard"] != null && Convert.ToInt32(Session["dashboard"])  == 1) || ((User)Session["AuthenticatedUser"]).step_status > 0)
                 {
                 <div>
                     <span class="tooltip icon-home3" onclick="window.location.href = '/UserManagement/UserDetails'">
