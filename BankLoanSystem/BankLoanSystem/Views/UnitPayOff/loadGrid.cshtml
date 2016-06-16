@@ -768,13 +768,17 @@
         <text>
         var pay = tr.find("#balance").text().replace(/,/g, "")
         var tot = 0;
-        if(tr.find('#isAdvancePaid').val() != 'False'){
-            $('#iAdvanceFee').val('0.00');
-            tot = parseFloat(pay);
-        }else{
-            $('#iAdvanceFee').val(advanceFee);
-            tot = parseFloat(advanceFee) + parseFloat(pay);
-        }
+
+        //if(tr.find('#isAdvancePaid').val() != 'False'){
+        //    $('#iAdvanceFee').val('0.00');
+        //    tot = parseFloat(pay);
+        //}else{
+        //    $('#iAdvanceFee').val(advanceFee);
+        //    tot = parseFloat(advanceFee) + parseFloat(pay);
+        //}
+
+        $('#iAdvanceFee').val(advanceFee.toFixed(2));
+        tot = parseFloat(advanceFee) + parseFloat(pay);
 
         tot = tot.toFixed(2);
         $('#iTotal').val(tot);

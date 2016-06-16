@@ -9,7 +9,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Loan Summary</Value>
+                <Value>Transaction History</Value>
                 <Style>
                   <FontSize>20pt</FontSize>
                 </Style>
@@ -432,7 +432,7 @@
               <Width>1.94131in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.52955in</Width>
+              <Width>0.89099in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.28692in</Width>
@@ -486,7 +486,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -926,7 +925,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!TransactionAmount.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -950,8 +951,10 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -984,7 +987,7 @@
         <Top>1.44966in</Top>
         <Left>0.19653in</Left>
         <Height>0.67708in</Height>
-        <Width>10.89155in</Width>
+        <Width>10.25299in</Width>
         <ZIndex>13</ZIndex>
         <Style>
           <Border>
