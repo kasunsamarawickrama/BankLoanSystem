@@ -406,7 +406,7 @@
               <Width>1.33929in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.33929in</Width>
+              <Width>1.80312in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.49554in</Width>
@@ -415,7 +415,7 @@
               <Width>1.82887in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.67262in</Width>
+              <Width>1.21429in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -454,7 +454,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -822,7 +821,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!PurchasePrice.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -843,9 +844,10 @@
                           <Style>None</Style>
                         </RightBorder>
                         <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingRight>5pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -878,7 +880,7 @@
                         <RightBorder>
                           <Style>None</Style>
                         </RightBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingLeft>5pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
@@ -896,7 +898,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!AdvanceAmount.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -920,6 +924,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -954,7 +959,7 @@
         <Top>1.57166in</Top>
         <Left>0.1066in</Left>
         <Height>0.5in</Height>
-        <Width>10.98471in</Width>
+        <Width>10.99021in</Width>
         <ZIndex>12</ZIndex>
         <Style>
           <Border>
@@ -1002,7 +1007,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!TotalAdvanceAmount.Value, "DataSet2")</Value>
-                <Style />
+                <Style>
+                  <Format>'$'0.00;('$'0.00)</Format>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -1022,6 +1029,7 @@
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
           <PaddingBottom>2pt</PaddingBottom>
+          <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
         </Style>
       </Textbox>
       <Textbox Name="Textbox2">

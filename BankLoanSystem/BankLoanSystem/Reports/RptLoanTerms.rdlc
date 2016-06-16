@@ -263,7 +263,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Loan Amount</Value>
+                <Value>Loan Amount($)</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -417,12 +417,14 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
         <Top>8.71423cm</Top>
-        <Left>8.68065cm</Left>
+        <Left>8.70711cm</Left>
         <Height>0.6cm</Height>
         <Width>3.79646cm</Width>
         <ZIndex>13</ZIndex>
@@ -447,12 +449,14 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
         <Top>10.10618cm</Top>
-        <Left>8.68065cm</Left>
+        <Left>8.70711cm</Left>
         <Height>0.6cm</Height>
         <Width>3.79646cm</Width>
         <ZIndex>14</ZIndex>
@@ -1000,7 +1004,7 @@
         <Top>15.21037cm</Top>
         <Left>3.62162cm</Left>
         <Height>1.2cm</Height>
-        <Width>11.81882cm</Width>
+        <Width>11.81883cm</Width>
         <ZIndex>18</ZIndex>
         <Style>
           <Border>
@@ -1397,7 +1401,7 @@
         <Top>25.7175cm</Top>
         <Left>3.62163cm</Left>
         <Height>1.2cm</Height>
-        <Width>11.81882cm</Width>
+        <Width>11.81883cm</Width>
         <ZIndex>24</ZIndex>
         <Style>
           <Border>
