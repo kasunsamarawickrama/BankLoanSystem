@@ -639,6 +639,8 @@ if (Model.Type == "advanceFee")
                     var ColIndex = $td.parent().children().index($td);
                     var table = document.getElementById("checkableGrid");
                     var row = $("tr:eq(" + rowIndex + ")", '#checkableGrid');
+
+                    if (!isNaN(parseFloat(row.find("#am").text().replace(/,/g, "")))){
                     ClearLabelMessages();
                   
                     
@@ -677,7 +679,9 @@ if (Model.Type == "advanceFee")
                     }
 
                     SetMinDate();
-                    //changePartialPaymentRowColor();
+                        //changePartialPaymentRowColor();
+
+                    }
                 }
             }));
 

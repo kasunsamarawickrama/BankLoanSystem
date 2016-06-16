@@ -115,14 +115,7 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@title_received_time_period", title.ReceivedTimeLimit });
                 paramertList.Add(new object[] { "@auto_remind_period", title.RemindPeriod });
                 paramertList.Add(new object[] { "@auto_remind_email", title.RemindEmail });
-                if (title.NeedScanCopy)
-                {
-                    paramertList.Add(new object[] { "@need_scan_copy", 1 });
-                }
-                else
-                {
-                    paramertList.Add(new object[] { "@need_scan_copy", 0 });
-                }
+                
                
             }
             else
@@ -131,7 +124,7 @@ namespace BankLoanSystem.DAL
                 paramertList.Add(new object[] { "@title_received_time_period", null });
                 paramertList.Add(new object[] { "@auto_remind_period", null });
                 paramertList.Add(new object[] { "@auto_remind_email", null});
-                paramertList.Add(new object[] { "@need_scan_copy", 0 });
+                //paramertList.Add(new object[] { "@need_scan_copy", 0 });
             }
 
             paramertList.Add(new object[] { "@is_receipt_required", title.IsReceipRequired });
@@ -143,6 +136,14 @@ namespace BankLoanSystem.DAL
             else
             {
                 paramertList.Add(new object[] { "receipt_required_method",null});
+            }
+            if (title.NeedScanCopy)
+            {
+                paramertList.Add(new object[] { "@need_scan_copy", 1 });
+            }
+            else
+            {
+                paramertList.Add(new object[] { "@need_scan_copy", 0 });
             }
             paramertList.Add(new object[] { "@loan_id", title.LoanId });
 

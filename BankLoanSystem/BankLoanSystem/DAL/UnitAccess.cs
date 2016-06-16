@@ -1764,6 +1764,8 @@ namespace BankLoanSystem.DAL
                         loan.loanCode = dataRow["loan_code"].ToString();
                         loan.loanAmount = decimal.Parse(dataRow["loan_amount"].ToString());
                         loan.CreatedDate = DateTime.Parse(dataRow["created_date"].ToString());
+                        loan.startDate = DateTime.Parse(dataRow["start_date"].ToString());
+                        loan.maturityDate = DateTime.Parse(dataRow["maturity_date"].ToString());
                         loan.CurrentLoanStatus = bool.Parse(dataRow["loan_status"].ToString());
 
                         loan.nonRegisteredBranchId = nonRegBranch.NonRegBranchId;
