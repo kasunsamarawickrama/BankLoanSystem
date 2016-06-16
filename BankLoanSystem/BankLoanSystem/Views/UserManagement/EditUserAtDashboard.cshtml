@@ -172,8 +172,10 @@
                                                @Html.HiddenFor(model => model.UserName, htmlAttributes: new { id = "hdnUserName3" })
                                             
                                             <div class="err_msg_box">
-                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger", @id = "RoleIdValidate" })</p>
+                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger", @id = "UserIdValidate" })</p>
+                                                <span class="text-danger field-validation-error" id="errortxtUserId"></span>
                                             </div>
+                                            
                                         </div>
                                    
                                     @*else if (ViewBag.UserRole == 2)
@@ -423,9 +425,17 @@
         if($('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text() != ""){
             e.preventDefault();
         }
-        if($('#txtUserId2').text()==='No users found'){
-            $('#errSpn2').text('Failed to update');
-            e.preventDefault();
+        //if($('#txtUserId2').text()==='No users found'){
+        //    $('#errSpn2').text('Failed to update');
+        //    e.preventDefault();
+        //}
+        
+        if( $('#UserIdSA').val()==null || $('#UserIdSA').val()==""||$('#UserIdSA').val()==0){
+            //$('#UserIdSA').closest("div").siblings('div').children("p").children("span").text("Please indicate the username.");
+            //alert( $('#UserIdValidate').text());
+            $('#errortxtUserId').text("Please indicate the username.");
+            $('#UserIdSA').addClass('input-validation-error');
+            
         }
        
     });
@@ -524,6 +534,7 @@
         $('#UserIdSA').closest("div").siblings('div').children("p").children("span").text("");
         $('#UserIdSA').next("div").children("p").children("span").text("");
         $('#UserIdSA').removeClass('input-validation-error');
+        $('#errortxtUserId').text("");
         $('#RoleIdSlct').val('');
         $('#BranchId').val('');
         $('#BranchId2Lbl').text('');
@@ -563,6 +574,7 @@
         $('#UserIdSA').removeClass('input-validation-error');
         $('#UserIdSA').show();
         $('#UserIdSA').val(0);
+        $('#errortxtUserId').text("");
         //$('#divUserId').hide();
         $('#txtUserId2').text('');
         $('#txtUserId3').text('');
@@ -583,6 +595,7 @@
         $('#rbStatusN').prop('checked', false);
         $('#rbYes').prop('checked', false);
         $('#rbNo').prop('checked', false);
+        $('#btnUpdateUser').removeAttr('disabled','disabled');
         //alert($('#BranchId').val()+$('#RoleIdSlct').val());
         if(($('#BranchId').val()>0)&&($('#RoleIdSlct').val()>1))
         {
@@ -600,6 +613,14 @@
             $("#UserIdSA").html(markup).show();
         }
     });
+
+    $('#UserIdSA').change(function () {
+        ClearErrorMsgs();
+        $('#UserIdSA').closest("div").siblings('div').children("p").children("span").text("");
+        $('#UserIdSA').next("div").children("p").children("span").text("");
+        $('#UserIdSA').removeClass('input-validation-error');
+        $('#errortxtUserId').text("");
+    });
     function RoleOnChange(_rId)
     {
         var markup = "<option value='0'>--Select User--</option>";
@@ -614,6 +635,7 @@
         $('#UserIdSA').closest("div").siblings('div').children("p").children("span").text("");
         $('#UserIdSA').next("div").children("p").children("span").text("");
         $('#UserIdSA').removeClass('input-validation-error');
+        $('#errortxtUserId').text("");
         $('#BranchId').val('');
         //$('#BranchId2Lbl').text('');
         $('#txtBranchId2').val('');
@@ -641,6 +663,8 @@
         $('#rbStatusN').prop('checked', false);
         $('#rbYes').prop('checked', false);
         $('#rbNo').prop('checked', false);
+
+        $('#btnUpdateUser').removeAttr('disabled','disabled');
 
         if((_rId==1)&&(@ViewBag.UserRole==1))
         {
@@ -706,6 +730,7 @@
                         $('#lblUserName').show();
                         $('#divSAPhone').hide();
                         $('#divPhone').show();
+                        $('#btnUpdateUser').attr('disabled','disabled');
                     }
                     else if(data.UserList.length==1){
                         //alert("1");
@@ -734,6 +759,8 @@
                         }
                         $("#divSingleUser2").show();
                         $("#UserIdSA").hide();
+
+                        $('#btnUpdateUser').removeAttr('disabled','disabled');
                     }
                     else if(data.UserList.length>1){
                         //alert("2");
@@ -747,6 +774,8 @@
                         $('#lblUserName').show();
                         $('#divSAPhone').hide();
                         $('#divPhone').show();
+
+                        $('#btnUpdateUser').removeAttr('disabled','disabled');
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -799,6 +828,7 @@
                         $('#lblUserName').show();
                         $('#divSAPhone').show();
                         $('#divPhone').hide();
+                        $('#btnUpdateUser').attr('disabled','disabled');
                     }
                     else if(data.UserList.length==1){
                         //alert("1");
@@ -826,6 +856,8 @@
                         $('#lblUserName').show();
                         $('#divSAPhone').show();
                         $('#divPhone').hide();
+
+                        $('#btnUpdateUser').removeAttr('disabled','disabled');
                     }
                     else if(data.UserList.length>1){
                         //alert("2");
@@ -839,6 +871,8 @@
                         $('#lblUserName').show();
                         $('#divSAPhone').show();
                         $('#divPhone').hide();
+
+                        $('#btnUpdateUser').removeAttr('disabled','disabled');
                     }
 
                 },
@@ -882,6 +916,7 @@
                         $('#lblUserName').show();
                         $('#divSAPhone').hide();
                         $('#divPhone').show();
+                        $('#btnUpdateUser').attr('disabled','disabled');
                     }
                     else if(data.UserList.length==1){
                         //alert("1");
@@ -909,7 +944,8 @@
                             $('#rbStatusN').prop('checked',true);
                         }
                         $("#divSingleUser2").show();
-                       $("#UserIdSA").hide();
+                        $("#UserIdSA").hide();
+                        $('#btnUpdateUser').removeAttr('disabled','disabled');
                     }
                     else if(data.UserList.length>1){
                         //alert("2");
@@ -923,6 +959,7 @@
                         $('#lblUserName').show();
                         $('#divSAPhone').hide();
                         $('#divPhone').show();
+                        $('#btnUpdateUser').removeAttr('disabled','disabled');
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
