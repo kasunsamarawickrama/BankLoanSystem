@@ -297,7 +297,7 @@
                                     @Html.EditorFor(model => model.rv.Year, new { htmlAttributes = new { @id = "editor2-1", @Style = "display: none;" } })
                                     <div class="col-sm-4 allow_numeric max_length4" id="div-combobox2-1">
 
-                                        @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox2-1" })
+                                        @Html.DropDownList("year", yearlist, "", new { @class = "form-control", @id = "combobox2-1" })
                                         @Html.ValidationMessageFor(model => model.rv.Year, "", new { @class = "text-danger" })
                                         <div id="rvyear" class="validation-error"><span class="text-danger y"></span></div>
                                     </div>
@@ -308,7 +308,7 @@
                                         @*<div onmouseover="GetMakes($('#combobox2-1'),'#combobox2-2',2);" onmouseout="GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);" id="div-combobox2-2">*@
                                         <div id="div-combobox2-2">
 
-                                            @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox2-2" })
+                                            @Html.DropDownList("make", new SelectList(""), "", new { @class = "form-control", @id = "combobox2-2" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.rv.Make, "", new { @class = "text-danger" })
                                         <div id="rvmake" class="validation-error"><span class="text-danger"></span></div>
@@ -322,7 +322,7 @@
                                         @*<div onmouseover="GetModels($('#combobox2-1'),$('#combobox2-2'),'#combobox2-3',2);" id="div-combobox2-3">*@
                                         <div id="div-combobox2-3">
 
-                                            @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox2-3" })
+                                            @Html.DropDownList("model", new SelectList(""), "", new { @class = "form-control", @id = "combobox2-3" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.rv.Model, "", new { @class = "text-danger" })
                                         <div id="rvmodel" class="validation-error"><span class="text-danger"></span></div>
@@ -408,7 +408,7 @@
                                         @*<div onmouseover="GetMakes($('#combobox3-1'),'#combobox3-2',3);" onmouseout="GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',3);" id="div-combobox3-2">*@
                                         <div id="div-combobox3-2">
 
-                                            @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox3-2" })
+                                            @Html.DropDownList("make", new SelectList(""), "", new { @class = "form-control", @id = "combobox3-2" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.camper.Make, "", new { @class = "text-danger" })
                                         <div id="campermake" class="validation-error"><span class="text-danger"></span></div>
@@ -422,7 +422,7 @@
                                         @*<div onmouseover="GetModels($('#combobox3-1'),$('#combobox3-2'),'#combobox3-3',3);" id="div-combobox3-3">*@
                                         <div id="div-combobox3-3">
 
-                                            @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox3-3" })
+                                            @Html.DropDownList("model", new SelectList(""), "", new { @class = "form-control", @id = "combobox3-3" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.camper.Model, "", new { @class = "text-danger" })
                                         <div id="campermodel" class="validation-error"><span class="text-danger"></span></div>
@@ -613,7 +613,7 @@
                                     @Html.EditorFor(model => model.boat.Year, new { htmlAttributes = new { @id = "editor5-1", @Style = "display: none;" } })
                                     <div class="col-sm-4 allow_numeric max_length4" id="div-combobox5-1">
 
-                                        @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox5-1" })
+                                        @Html.DropDownList("year", yearlist, "", new { @class = "form-control", @id = "combobox5-1" })
                                         @Html.ValidationMessageFor(model => model.boat.Year, "", new { @class = "text-danger" })
                                         <div id="boatyear" class="validation-error"><span class="text-danger y"></span></div>
                                     </div>
@@ -624,7 +624,7 @@
                                         @*<div onmouseover="GetMakes($('#combobox5-1'),'#combobox5-2',5);" id="div-combobox5-2">*@
                                         <div id="div-combobox5-2">
 
-                                            @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox5-2" })
+                                            @Html.DropDownList("make", new SelectList(""), "", new { @class = "form-control", @id = "combobox5-2" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.boat.Make, "", new { @class = "text-danger" })
                                         <div id="boatmake" class="validation-error"><span class="text-danger"></span></div>
@@ -697,7 +697,7 @@
                                     @Html.EditorFor(model => model.motorcycle.Year, new { htmlAttributes = new { @id = "editor6-1", @Style = "display: none;" } })
                                     <div class="col-sm-4 allow_numeric max_length4" id="div-combobox6-1">
 
-                                        @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox6-1" })
+                                        @Html.DropDownList("year", yearlist, "", new { @class = "form-control", @id = "combobox6-1" })
                                         @Html.ValidationMessageFor(model => model.motorcycle.Year, "", new { @class = "text-danger" })
                                         <div id="motorcycleyear" class="validation-error"><span class="text-danger y"></span></div>
                                     </div>
@@ -708,7 +708,7 @@
                                         @*<div class="block_invalid" onmouseover="GetMakes($('#combobox6-1'),'#combobox6-2',6);" onmouseout="GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',5);" id="div-combobox6-2">*@
                                         <div class="block_invalid" id="div-combobox6-2">
 
-                                            @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox6-2" })
+                                            @Html.DropDownList("make", new SelectList(""), "", new { @class = "form-control", @id = "combobox6-2" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.motorcycle.Make, "", new { @class = "text-danger" })
                                         <div id="motorcyclemake" class="validation-error"><span class="text-danger"></span></div>
@@ -722,7 +722,7 @@
                                         @*<div class="block_invalid" onmouseover="GetModels($('#combobox6-1'),$('#combobox6-2'),'#combobox6-3',5);" id="div-combobox6-3">*@
                                         <div class="block_invalid" id="div-combobox6-3">
 
-                                            @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox6-3" })
+                                            @Html.DropDownList("model", new SelectList(""), "", new { @class = "form-control", @id = "combobox6-3" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.motorcycle.Model, "", new { @class = "text-danger" })
                                         <div id="motorcyclemodel" class="validation-error"><span class="text-danger"></span></div>
@@ -745,7 +745,7 @@
                                     </label>
                                     @Html.EditorFor(model => model.motorcycle.Color, new { htmlAttributes = new { @id = "editor6-4", @Style = "display: none;" } })
                                     <div class="col-sm-4 block_invalid">
-                                        @Html.DropDownList("color", Colourlist, "-- select type --", new { @class = "form-control", @id = "combobox6-4" })
+                                        @Html.DropDownList("color", Colourlist, "", new { @class = "form-control", @id = "combobox6-4" })
                                         @Html.ValidationMessageFor(model => model.motorcycle.Color, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -797,7 +797,7 @@
                                     @Html.EditorFor(model => model.snowmobile.Year, new { htmlAttributes = new { @id = "editor7-1", @Style = "display: none;" } })
                                     <div class="col-sm-4 allow_numeric max_length4" id="div-combobox7-1">
 
-                                        @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox7-1" })
+                                        @Html.DropDownList("year", yearlist, "", new { @class = "form-control", @id = "combobox7-1" })
                                         @Html.ValidationMessageFor(model => model.snowmobile.Year, "", new { @class = "text-danger" })
                                         <div id="snowmobileyear" class="validation-error"><span class="text-danger y"></span></div>
                                     </div>
@@ -808,7 +808,7 @@
                                         @*<div class="block_invalid" onmouseover="GetMakes($('#combobox7-1'),'#combobox7-2',7);" onmouseout="GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);" id="div-combobox7-2">*@
                                         <div class="block_invalid" id="div-combobox7-2">
 
-                                            @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox7-2" })
+                                            @Html.DropDownList("make", new SelectList(""), "", new { @class = "form-control", @id = "combobox7-2" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.snowmobile.Make, "", new { @class = "text-danger" })
                                         <div id="snowmobilemake" class="validation-error"><span class="text-danger"></span></div>
@@ -821,7 +821,7 @@
                                     <div class="col-sm-4">
                                         @*<div class="block_invalid" onmouseover="GetModels($('#combobox7-1'),$('#combobox7-2'),'#combobox7-3',7);" id="div-combobox7-3">*@
                                         <div class="block_invalid" id="div-combobox7-3">
-                                            @Html.DropDownList("model", new SelectList(""), "-- select a model --", new { @class = "form-control", @id = "combobox7-3" })
+                                            @Html.DropDownList("model", new SelectList(""), "", new { @class = "form-control", @id = "combobox7-3" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.snowmobile.Model, "", new { @class = "text-danger" })
                                         <div id="snowmobilemodel" class="validation-error"><span class="text-danger"></span></div>
@@ -876,7 +876,7 @@
 
                                     <div class="col-sm-4 allow_numeric max_length4" id="div-combobox8-1">
 
-                                        @Html.DropDownList("year", yearlist, "-- select a date --", new { @class = "form-control", @id = "combobox8-1" })
+                                        @Html.DropDownList("year", yearlist, "", new { @class = "form-control", @id = "combobox8-1" })
                                         @Html.ValidationMessageFor(model => model.heavyequipment.Year, "", new { @class = "text-danger" })
                                         <div id="heavyequipmentyear" class="validation-error"><span class="text-danger y"></span></div>
                                     </div>
@@ -886,7 +886,7 @@
                                     <div class="col-sm-4">
                                         @*<div class="block_invalid" onmouseover="GetMakes($('#combobox8-1'),'#combobox8-2',8);" id="div-combobox8-2">*@
                                         <div class="block_invalid" id="div-combobox8-2">
-                                            @Html.DropDownList("make", new SelectList(""), "-- select model make --", new { @class = "form-control", @id = "combobox8-2" })
+                                            @Html.DropDownList("make", new SelectList(""), "", new { @class = "form-control", @id = "combobox8-2" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.heavyequipment.Make, "", new { @class = "text-danger" })
                                         <div id="heavyequipmentmake" class="validation-error"><span class="text-danger"></span></div>
@@ -2354,7 +2354,9 @@
                         if (!(isNaN(val)))
                         {
                             var num = parseFloat(val);
-                            num = num.toFixed(2);
+                            if(num % 1 != 0)
+                                num = num.toFixed(2);
+
                             $(this).val(num);
                         }   
                     }
