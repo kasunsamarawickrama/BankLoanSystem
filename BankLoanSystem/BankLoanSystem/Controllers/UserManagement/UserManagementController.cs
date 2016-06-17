@@ -1753,11 +1753,28 @@ namespace BankLoanSystem.Controllers
                     tempRoleList.Add(tempRole);
                 }
                 ViewBag.userSelectList = tempRoleList;
-            //ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
-                User user = new Models.User();
-                user.UserRightsList = new List<Right>();
 
-                user.UserRightsList = (new UserRightsAccess()).getRights();
+                User user = new Models.User();
+                List<Right> list = new List<Right>();
+
+                user.UserRightsList = new List<Right>();
+                list = (new UserRightsAccess()).getRights();
+
+                if (loan.IsTitleTrack == 1)
+                {
+                    foreach (var x in list)
+                    {
+                        if (x.rightId != "U002")
+                        {
+                            user.UserRightsList.Add(x);
+                        }
+                    }
+                }
+                else {
+                    user.UserRightsList = list;
+                }
+                //user.UserRightsList = (new UserRightsAccess()).getRights();
+
                 if (HttpContext.Request.IsAjaxRequest())
                 {
                     ViewBag.AjaxRequest = 1;
