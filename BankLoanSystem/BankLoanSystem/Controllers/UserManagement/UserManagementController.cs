@@ -1760,7 +1760,7 @@ namespace BankLoanSystem.Controllers
                 user.UserRightsList = new List<Right>();
                 list = (new UserRightsAccess()).getRights();
 
-                if (loan.IsTitleTrack != 1)
+                if ( loan.IsTitleTrack !=  1)
                 {
                     foreach (var x in list)
                     {
