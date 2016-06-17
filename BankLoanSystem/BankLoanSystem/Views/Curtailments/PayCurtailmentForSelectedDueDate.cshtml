@@ -730,7 +730,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
         $('.gridtable thead tr th:first').html(chkText.prepend(ctrl));
     }
 
-
+   
     $("#btnSearch").click(function () {
 
         ClearTextBoxValues();
@@ -888,8 +888,11 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
             advDatePicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
             advDatePicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));*@
 
-
+    isSearch = false;
     function Search(para1, para2, para3, para4) {
+
+        if (!isSearch) {
+            isSearch = true;
 
         var curtList = @Html.Raw(Json.Encode(Model));
         showSearching();
@@ -916,6 +919,7 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 table.find('thead tr').children().each(function (i, v) {
                     $(v).outerWidth(colWidth[i]);
                 });
+                isSearch = false;
                 hideLoading();
             },
 
@@ -926,9 +930,11 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                 if (jqXHR.status == "404") {
                     window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
                 }
+                isSearch = false;
                 hideLoading()
             }
         });
+            }
     }
 
     $("#btnClear").click(function () {

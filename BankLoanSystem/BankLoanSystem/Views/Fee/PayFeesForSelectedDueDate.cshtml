@@ -872,50 +872,56 @@ if (Model.Type == "advanceFee")
             advDatePicker.setMinDate(new Date("@ViewBag.loanDetails.startDate.Date"));
             advDatePicker.setMaxDate(new Date("@ViewBag.loanDetails.maturityDate.Date"));*@
 
-
+    isSearch = false;
             function Search(para1, para2, para3, para4) {
 
-                var curtList = @Html.Raw(Json.Encode(Model));
-                showSearching();
-                //alert(curtList);
-                $.ajax({
-                    url: '/Fee/SearchFee',
-                    type: 'POST',
-                    contentType: 'application/json;',
-                    data: JSON.stringify({ identificationNumber: para1, year: para2, make: para3, vehicleModel: para4, CurtailmentList: curtList }),
-                    success: function (View) {
-                        $('#searchGrid1').html(View);
-                        $('#searchGrid1').removeAttr('hidden');
-                        $('#searchGrid1').show();
-                        //changePartialPaymentRowColor();
-                        // Change the selector if needed
-                        var table = $('table'),
-                             bodyCells = table.find('tbody tr:first').children(),
-                             colWidth;
+                if (!isSearch) {
+                    isSearch = true;
 
-                        colWidth = bodyCells.map(function () {
-                            return $(this)[0].getBoundingClientRect().width;
-                        }).get();
+                    var curtList = @Html.Raw(Json.Encode(Model));
+                    showSearching();
+                    //alert(curtList);
+                    $.ajax({
+                        url: '/Fee/SearchFee',
+                        type: 'POST',
+                        contentType: 'application/json;',
+                        data: JSON.stringify({ identificationNumber: para1, year: para2, make: para3, vehicleModel: para4, CurtailmentList: curtList }),
+                        success: function (View) {
+                            $('#searchGrid1').html(View);
+                            $('#searchGrid1').removeAttr('hidden');
+                            $('#searchGrid1').show();
+                            //changePartialPaymentRowColor();
+                            // Change the selector if needed
+                            var table = $('table'),
+                                 bodyCells = table.find('tbody tr:first').children(),
+                                 colWidth;
 
-                        // Set the width of thead columns
-                        table.find('thead tr').children().each(function (i, v) {
-                            $(v).outerWidth(colWidth[i]);
-                        });
+                            colWidth = bodyCells.map(function () {
+                                return $(this)[0].getBoundingClientRect().width;
+                            }).get();
 
-                        hideLoading();
+                            // Set the width of thead columns
+                            table.find('thead tr').children().each(function (i, v) {
+                                $(v).outerWidth(colWidth[i]);
+                            });
+                            isSearch = false;
+                            hideLoading();
 
-                    },
-                    error: function (jqXHR, textStatus, errorThrown){
-                        // Your handler here...
+                        },
+                        error: function (jqXHR, textStatus, errorThrown){
+                            // Your handler here...
                         
-                        $('#searchGrid1').hide();
-                        hideLoading();
-                        // if session expires
-                        if(jqXHR.status == "404"){
-                            window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                            $('#searchGrid1').hide();
+                            isSearch = false;
+                            hideLoading();
+                            // if session expires
+                            if(jqXHR.status == "404"){
+                                window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                            }
                         }
-                    }
-                });
+                    });
+
+                }
             }
 
     $("#btnClear").click(function () {
