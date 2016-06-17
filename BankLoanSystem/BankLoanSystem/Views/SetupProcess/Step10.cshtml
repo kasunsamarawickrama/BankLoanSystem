@@ -756,13 +756,29 @@
         }
     });
 
-    var isErrorTime = false;
-    $(document).on('blur', '.clstimePeriod', function (e) {
+    $(document).on('keypress', '.clstimePeriod', function (e) {
+        if(e.keyCode === 13) {
+            var res = TimeValidation(this.value);
+            //if (res === true) {
+            //alert(res);
+                var tr = $(this).parents('tr:first');
+                tr.find("#percentage").focus();
+            //}
 
+        }
+    });
+
+    $(document).on('keypress', '.clsaddCuirtailment', function (e) {
+        if(e.keyCode === 13){
+            CurtailmentAdd(this);
+        }
+    });
+
+    function TimeValidation(val) {
         //alert(tblLength);
-        if (this.value === '0') {
+        if (val === '0') {
             $('#spnremainTimeError').children('span').text("Time must be greater than 0");
-            return;
+            return false;
         }
         var index = 0;
 
@@ -790,7 +806,7 @@
 
                 $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
                 isErrorTime = true;
-                return;
+                return false;
             }
             else {
                 isErrorTime = false;
@@ -802,12 +818,18 @@
         //for (var j = 0; j < currentListLenght; j++) {
         //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
         //}
+        return true;
+    }
+
+    var isErrorTime = false;
+    $(document).on('blur', '.clstimePeriod', function (e) {
+        TimeValidation(this.value);
     });
 
-    $(document).on('blur', '.clsaddCuirtailment', function(e) {
-
+    function CurtailmentAdd(t) {
+        
         //if (isErrorTime === false) {
-        var tr = $(this).parents('tr:first');
+        var tr = $(t).parents('tr:first');
 
         var curid = tr.find("#lblCur").html();
         var timePeriod = tr.find("#timePeriod").val();
@@ -904,6 +926,13 @@
                 $('#spnremainPtError').text('Error percentage found');
             }
         }
+
+    }
+
+    $(document).on('blur', '.clsaddCuirtailment', function(e) {
+
+        CurtailmentAdd(this);
+
     });
 
     //$('.clsaddCuirtailment').bind('enterKey', function(e) {
