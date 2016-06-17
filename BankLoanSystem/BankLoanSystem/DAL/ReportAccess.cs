@@ -748,49 +748,47 @@ namespace BankLoanSystem.DAL
         /// <summary>
         /// CreatedBy:Piyumi
         /// CreatedDate:5/9/2016
+        /// 
+        /// EditedBy: Kanishka
+        /// EditedDate:6/17/2016
+        /// 
         /// Get all transaction details by date range
         /// </summary>
         /// <param name="loanId"></param>
         /// <param name="dueDateStart"></param>
         /// <param name="dueDateEnd"></param>
         /// <returns></returns>
-        public List<ReportLoanSummary> GetLoanSummaryByDateRange(int loanId,DateTime dueDateStart, DateTime dueDateEnd)
+        public List<ReportTransactionHistory> GetTransactionHistoryByDateRange(int loanId,DateTime dueDateStart, DateTime dueDateEnd)
         {
-            List<ReportLoanSummary> loanData = new List<ReportLoanSummary>();
+            List<ReportTransactionHistory> loanhiHistories = new List<ReportTransactionHistory>();
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@loan_id", loanId });
-            //paramertList.Add(new object[] { "@type", type });
             paramertList.Add(new object[] { "@due_date_start", dueDateStart });
             paramertList.Add(new object[] { "@due_date_end", dueDateEnd });
 
-            //decimal totalDue = 0.00M;
-
-            DataSet dataSet = dataHandler.GetDataSet("spGetLoanSummary", paramertList);
+            //DataSet dataSet = dataHandler.GetDataSet("spGetLoanSummary", paramertList);
+            DataSet dataSet = dataHandler.GetDataSet("spGetTransactionHistory", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0)
             {
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    ReportLoanSummary loanSummary = new ReportLoanSummary();
-                    loanSummary.IdentificationNumber = dataRow["identification_number"].ToString();
-                    loanSummary.Year = (dataRow["year"]) != DBNull.Value ? (Int32)dataRow["year"] : 0000;//Convert.ToInt32(dataRow["year"]);
-                    loanSummary.Make = dataRow["make"].ToString();
-                    loanSummary.Model = dataRow["model"].ToString();
-                    loanSummary.TransactionDate = Convert.ToDateTime(dataRow["transaction_date"].ToString()).ToString("MM/dd/yyyy");
-                    loanSummary.TransactionAmount = (dataRow["transaction_amount"]) != DBNull.Value ? (Decimal)dataRow["transaction_amount"] : (Decimal)0.00M;//Convert.ToDecimal(dataRow["cost"]);
-                    loanSummary.TransactionType = dataRow["type"].ToString();
-                    //totalDue = totalDue + Convert.ToDecimal(dataRow["amount"]);
-                    loanData.Add(loanSummary);
-                }
-                //if (loanData.Count > 0)
-                //    feeInvoiceData[0].TotalAdvanceAmount = totalDue;
+                    ReportTransactionHistory loanHistory = new ReportTransactionHistory();
+                    loanHistory.IdentificationNumber = dataRow["identification_number"].ToString();
+                    loanHistory.Year = (dataRow["year"]) != DBNull.Value ? (Int32)dataRow["year"] : 0000;
+                    loanHistory.Make = dataRow["make"].ToString();
+                    loanHistory.Model = dataRow["model"].ToString();
+                    loanHistory.TransactionDate = Convert.ToDateTime(dataRow["transac_date"].ToString()).ToString("MM/dd/yyyy");
+                    loanHistory.TransactionType = dataRow["transac_Type"].ToString();
+                    loanHistory.TransactionAdvanced = (dataRow["debit_amount"]) != DBNull.Value ? (Decimal)dataRow["debit_amount"] : (Decimal)0.00M;
+                    loanHistory.TransactionDeducted = (dataRow["credit_amount"]) != DBNull.Value ? (Decimal)dataRow["credit_amount"] : (Decimal)0.00M;
 
-                return loanData;
+                    loanhiHistories.Add(loanHistory);
+                }
+
+                return loanhiHistories;
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         /// <summary>
@@ -850,8 +848,13 @@ namespace BankLoanSystem.DAL
                     loanTerm.MaturityDate = Convert.ToDateTime(dataRow["maturity_date"].ToString()).ToString("MM/dd/yyyy");
                     loanTerm.LoanAmount = Convert.ToDecimal(dataRow["loan_amount"]);
                     loanTerm.AdvancePercentage = Convert.ToInt32(dataRow["advance"]);
-                    loanTerm.TitleRequired = Convert.ToInt32(dataRow["is_title_tracked"]) == 1 ? "Yes" : "No";
-                    loanTerm.DocumentAcceptance = dataRow["receipt_required_method"].ToString();
+
+                    if (dataRow["is_title_tracked"] != DBNull.Value)
+                        loanTerm.TitleRequired = Convert.ToInt32(dataRow["is_title_tracked"]) == 1 ? "Yes" : "No";
+                    else
+                        loanTerm.TitleRequired = "No";
+
+                    loanTerm.DocumentAcceptance = dataRow["receipt_required_method"] != DBNull.Value ? dataRow["receipt_required_method"].ToString() : "No";
 
                     loanTerms.Add(loanTerm);
                 }
@@ -882,7 +885,21 @@ namespace BankLoanSystem.DAL
 
                     loanFee.FeeType = dataRow["FeeType"].ToString();
                     loanFee.FeeAmount = Convert.ToDecimal(dataRow["FeeAmount"]);
-                    loanFee.DueDate = dataRow["payment_due_date"].ToString();
+
+                    if (String.Equals(dataRow["payment_due_date"].ToString(), "VP", StringComparison.CurrentCultureIgnoreCase))
+                        loanFee.DueDate = "Vehicle Payoff";
+                    else if(String.Equals(dataRow["payment_due_date"].ToString(), "ToA", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        loanFee.DueDate = "Time of Advance";
+                    }
+                    else if (String.Equals(dataRow["payment_due_date"].ToString(), "EoM", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        loanFee.DueDate = "End of Month";
+                    }
+                    else
+                    {
+                        loanFee.DueDate = dataRow["payment_due_date"].ToString();
+                    }
 
                     loanFees.Add(loanFee);
                 }
@@ -891,30 +908,64 @@ namespace BankLoanSystem.DAL
             return loanFees;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <returns></returns>
         public List<RptEmailReminder> RptLoanTermsEmailReminders(int loanId)
         {
             List<RptEmailReminder> emailReminders = new List<RptEmailReminder>();
 
             DataHandler dataHandler = new DataHandler();
-            List<object[]> paramertList = new List<object[]>();
-            paramertList.Add(new object[] { "@loan_id", loanId });
+            List<object[]> paramertList = new List<object[]> {new object[] {"@loan_id", loanId}};
 
             DataSet dataSet = dataHandler.GetDataSet("spGetAutoReminderDetailForLoanTerms ", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0)
             {
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    RptEmailReminder emailReminder = new RptEmailReminder();
+                    RptEmailReminder emailReminder = new RptEmailReminder
+                    {
+                        ReminderName = dataRow["ReminderType"].ToString(),
+                        TimeFrame = Convert.ToInt32(dataRow["TimeFrame"]),
+                        Email = dataRow["email"].ToString()
+                    };
 
-                    emailReminder.ReminderName = dataRow["ReminderType"].ToString();
-                    emailReminder.TimeFrame = Convert.ToInt32(dataRow["TimeFrame"]);
-                    emailReminder.Email = dataRow["email"].ToString();
 
                     emailReminders.Add(emailReminder);
                 }
             }
 
             return emailReminders;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <returns></returns>
+        public IList<UnitType> RptGetUnitTypes(int loanId)
+        {
+            IList<UnitType> unittypes = new List<UnitType>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]> { new object[] { "@loan_id", loanId } };
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetLoanUnitTypesByLoanId ", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    UnitType unitType = new UnitType();
+                    unitType.unitTypeId = Convert.ToInt32((dataRow["unit_type_id"]));
+                    unitType.unitTypeName = dataRow["unit_type_name"].ToString();
+
+                    unittypes.Add(unitType);
+                }
+            }
+
+            return unittypes;
         }
 
         #endregion

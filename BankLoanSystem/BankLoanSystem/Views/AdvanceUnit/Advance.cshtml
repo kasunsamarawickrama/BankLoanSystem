@@ -669,8 +669,11 @@
         $('#startDate').removeClass('input-validation-error');
     }
                         
+     isSearch = false;
+     function Search(para1, para2, para3, para4) {
 
-    function Search(para1, para2, para3, para4) {
+         if (!isSearch) {
+             isSearch = true;
 
         showSearching();
 
@@ -714,13 +717,14 @@
                     });
                 });
 
-
+                isSearch = false;
                 hideLoading();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#loadingSpan').hide();
                 //alert("error : " + reponse);
                 $('#searchGrid1').hide();
+                isSearch = false;
                 hideLoading();
                 // if session expires
                 if (jqXHR.status == "404") {
@@ -728,6 +732,8 @@
                 }
             }
         });
+
+         }
     }
     $(document).ready(function () {
 

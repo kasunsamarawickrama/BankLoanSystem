@@ -56,7 +56,8 @@
         <button type="button" id="btnLotInsFeeInv" class="btn btn-info">Lot Inspection Fee Invoice</button>
         <button type="button" id="btnLotInspectionFeeReceipt" class="btn btn-info">Lot Inspection Fee Receipt</button>
         <button type="button" id="btnPayOff" class="btn btn-info">Pay Off</button>
-        <button type="button" id="btnLoanSumm" class="btn btn-info">Loan Summary</button>
+        <button type="button" id="btnTransactionHistory" class="btn btn-info">Transaction History</button>
+        <button type="button" id="btnLoanTerms" class="btn btn-info">Loan Terms</button>
         @*<div id="2" href="#">
                 <p style="color: white">advance a unit</p>
             </div>
@@ -389,14 +390,25 @@
         $('#titleStatus').removeClass('input-validation-error');
     });
 
-    $('#btnLoanSumm').click(function () {
+    $('#btnTransactionHistory').click(function () {
         ChangeButtonColor(this);
-        $('#hdnSelectedButton').val('LoanSummary');
+        $('#hdnSelectedButton').val('TransactionHistory');
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
         $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
         $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
+
+    $('#btnLoanTerms').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('LoanTerms');
+        $('#lnum').siblings('.hf').hide();
+        $('#lnum').siblings('.hf').children('input').val('');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
@@ -466,12 +478,16 @@
             else if (rptType === 'LotInspectionFeeReceipt') {
                 urlPrefix = "../Reports/RptDivLotInspectionFeeReceipt.aspx?loanId=";
             }
-            else if (rptType === 'LoanSummary') {
-                urlPrefix = "../Reports/RptDivLoanSummary.aspx?loanId=";
+            else if (rptType === 'TransactionHistory') {
+                urlPrefix = "../Reports/RptDivTransactionHistory.aspx?loanId=";
             }
             else if (rptType === 'AdvanceUnit') {
                 urlPrefix = "../Reports/RptAdvanceUnitReport.aspx?loanId=";
             }
+            else if (rptType === 'LoanTerms') {
+                urlPrefix = "../Reports/RptDivLoanTerms.aspx?loanId=";
+            }
+
             var selectedIndex;
             if (input.attr('type') !== 'hidden') {
                 selectedIndex = $("#LoanId option:selected").index();
@@ -493,7 +509,7 @@
             var frameDoc;
 
             if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice' || rptType === 'PayOff' || rptType === 'AdvanceFeeReceipt' ||
-                rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt' || rptType === 'LoanSummary' || rptType === 'AdvanceUnit') {
+                rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt' || rptType === 'TransactionHistory' || rptType === 'AdvanceUnit') {
                 
                 var startDate = $('#startDate').val();
                 if (startDate === '') {
@@ -544,7 +560,7 @@
                     urlPrefix = urlPrefix + val + "&startDate=" + formatDate(startDate) + "&endDate=" + formatDate(endDate);
                     ReportCurtailmentInvoice(val, urlPrefix);
                 }
-            } else if (rptType === 'LotInspection') {
+            } else if (rptType === 'LotInspection' || rptType === 'LoanTerms') {
                 if (errorCount <= 0) {
                     myFrame = document.getElementById('ifrmReportViewer');
                     frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;

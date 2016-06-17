@@ -32,7 +32,7 @@ color:#545454;
         }
         else {
         <div class="col-xs-8 text_field short_text_field">
-            @Html.DropDownListFor(model => model.LoanId, null, "--Select Loan--", htmlAttributes: new { @class = "form-control", id = "LoanIdUser2" })
+            @Html.DropDownListFor(model => model.LoanId, null, "--Select Loan--", htmlAttributes: new { @class = "form-control", id = "LoanIdUser2", @onchange = "javascript:CheckLoanTitle(this.value);" })
         </div>
         <div id="loanIdMessage" class="text-danger" style="margin-top:35px;margin-left:-155px;"><span></span></div>
         }
@@ -62,12 +62,11 @@ color:#545454;
                     <br />
                     @for (var i = 0; i < Model.UserRightsList.Count; i++)
                     {
-
-                        @Html.HiddenFor(x => x.UserRightsList[i].rightId)
-                        @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = i+1 })
-                        @Html.DisplayFor(x => x.UserRightsList[i].description)
-                        <br />
-
+                        <div id="rights">
+                            @Html.HiddenFor(x => x.UserRightsList[i].rightId)
+                            @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = i + 1 })
+                            @Html.Label(Model.UserRightsList[i].description)
+                        </div>
 
                     }
                 </div>
@@ -81,7 +80,26 @@ color:#545454;
 
 
 <script type="text/javascript">
+    function CheckLoanTitle(loanId){
+        //alert(loanId);
+        var model = @Html.Raw(Json.Encode(Model));
+        var len = model.BranchList.length;
+        var count =0;
+        for (var j = 0 ; j < model.BranchList.length; j++){
+            if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==0){
+                $('#4').hide();
+                $('[for="Update_Title_Status"]').hide();
+                
+            }
+            else{
+                $('#4').show();
+                $('[for="Update_Title_Status"]').show();
+            }
+            }
+        
 
+
+    };
 
     $(function () {
         $('#CheckAll').on('change', function () {

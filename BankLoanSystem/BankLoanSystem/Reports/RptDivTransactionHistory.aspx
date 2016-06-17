@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RptDivLoanSummary.aspx.cs" Inherits="BankLoanSystem.Reports.RptDivLoanSummary" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RptDivTransactionHistory.aspx.cs" Inherits="BankLoanSystem.Reports.RptDivTransactionHistory" %>
 
 <%@ Register TagPrefix="rsweb" Namespace="Microsoft.Reporting.WebForms" Assembly="Microsoft.ReportViewer.WebForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" %>
 

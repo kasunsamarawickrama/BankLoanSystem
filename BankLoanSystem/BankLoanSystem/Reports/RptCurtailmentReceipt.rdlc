@@ -896,7 +896,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!PurchasePrice.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -920,6 +922,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1010,7 +1013,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!PaidCurtAmount.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1034,6 +1039,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1088,6 +1094,7 @@
                 <Value>=First(Fields!TotalAmountPaid.Value, "DataSet2")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
+                  <Format>'$'0.00;('$'0.00)</Format>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -1110,6 +1117,7 @@
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
           <PaddingBottom>2pt</PaddingBottom>
+          <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
         </Style>
       </Textbox>
       <Textbox Name="Textbox50">

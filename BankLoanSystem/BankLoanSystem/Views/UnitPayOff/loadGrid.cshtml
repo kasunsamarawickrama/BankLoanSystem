@@ -1334,62 +1334,71 @@
 
 
     });
+
+    isSearch = false;
     function Search(para1, para2, para3, para4) {
-        showSearching();
-        $.ajax({
-            url: '/UnitPayOff/SearchUnit',
-            type: 'POST',
-            contentType: 'application/json;',
-            data: JSON.stringify({ identificationNumber: para1, year: para2, make: para3, vehicleModel: para4 }),
-            success: function (View) {
-                $('#searchGrid1').html(View);
-                $('#searchGrid1').show();
 
-                // Change the selector if needed
-                var table = $('#searchResultGrid'),
-                    bodyCells = table.find('tbody tr:first').children(),
-                    colWidth;
+        if (!isSearch) {
+            isSearch = true;
+            showSearching();
+            $.ajax({
+                url: '/UnitPayOff/SearchUnit',
+                type: 'POST',
+                contentType: 'application/json;',
+                data: JSON.stringify({ identificationNumber: para1, year: para2, make: para3, vehicleModel: para4 }),
+                success: function (View) {
+                    $('#searchGrid1').html(View);
+                    $('#searchGrid1').show();
 
-                // Adjust the width of thead cells when window resizes
-                $(window).resize(function () {
-                    // Get the tbody columns width array
-                    colWidth = bodyCells.map(function () {
-                        return $(this)[0].getBoundingClientRect().width;
-                    }).get();
+                    // Change the selector if needed
+                    var table = $('#searchResultGrid'),
+                        bodyCells = table.find('tbody tr:first').children(),
+                        colWidth;
 
-                    // Set the width of thead columns
-                    table.find('thead tr').children().each(function (i, v) {
-                        $(v).outerWidth(colWidth[i]);
+                    // Adjust the width of thead cells when window resizes
+                    $(window).resize(function () {
+                        // Get the tbody columns width array
+                        colWidth = bodyCells.map(function () {
+                            return $(this)[0].getBoundingClientRect().width;
+                        }).get();
+
+                        // Set the width of thead columns
+                        table.find('thead tr').children().each(function (i, v) {
+                            $(v).outerWidth(colWidth[i]);
+                        });
+                    }).resize(); // Trigger resize handler
+
+                    $(window).bind("load", function () {
+
+                        // Get the tbody columns width array
+                        colWidth = bodyCells.map(function () {
+                            return $(this)[0].getBoundingClientRect().width;
+                        }).get();
+
+                        // Set the width of thead columns
+                        table.find('thead tr').children().each(function (i, v) {
+                            $(v).outerWidth(colWidth[i]);
+                        });
                     });
-                }).resize(); // Trigger resize handler
+                    isSearch = false;
+                    hideLoading();
+                    //.highlight { background-color: lightblue; }
+                },
 
-                $(window).bind("load", function () {
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Your handler here...
 
-                    // Get the tbody columns width array
-                    colWidth = bodyCells.map(function () {
-                        return $(this)[0].getBoundingClientRect().width;
-                    }).get();
+                    // if session expires
+                    if (jqXHR.status == "404") {
+                        window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                    }
 
-                    // Set the width of thead columns
-                    table.find('thead tr').children().each(function (i, v) {
-                        $(v).outerWidth(colWidth[i]);
-                    });
-                });
-
-                hideLoading();
-                //.highlight { background-color: lightblue; }
-            },
-
-            error: function (jqXHR, textStatus, errorThrown) {
-                // Your handler here...
-
-                // if session expires
-                if (jqXHR.status == "404") {
-                    window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                    isSearch = false;
+                    hideLoading();
                 }
-                hideLoading();
-            }
-        });
+            });
+
+        }
     }
     function SetRadioBtnHeaderChecked() {
         var totalRows = $("#checkableGrid td :checkbox").length;

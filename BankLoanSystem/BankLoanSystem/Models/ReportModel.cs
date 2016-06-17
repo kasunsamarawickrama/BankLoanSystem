@@ -127,18 +127,16 @@ namespace BankLoanSystem.Models
         
     }
 
-    public class ReportLoanSummary
+    public class ReportTransactionHistory
     {
-
         public string IdentificationNumber { get; set; }
         public int Year { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
         public string TransactionDate { get; set; }
         public string TransactionType { get; set; }
-        public decimal TransactionAmount { get; set; }
-       
-
+        public decimal TransactionAdvanced { get; set; }
+        public decimal TransactionDeducted { get; set; }
     }
 
     public class RptLoanTerms

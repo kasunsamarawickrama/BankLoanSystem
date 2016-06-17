@@ -9,7 +9,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Loan Summary</Value>
+                <Value>Transaction History</Value>
                 <Style>
                   <FontSize>20pt</FontSize>
                 </Style>
@@ -432,7 +432,7 @@
               <Width>1.94131in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.52955in</Width>
+              <Width>0.57849in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.28692in</Width>
@@ -447,7 +447,10 @@
               <Width>1.50219in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.6272in</Width>
+              <Width>1.30428in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.27399in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -486,7 +489,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -634,7 +636,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Transaction Type</Value>
+                              <Value>Transaction</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -668,7 +670,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Transaction Amount</Value>
+                              <Value>Amount Advanced</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -680,6 +682,40 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox38</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Amount Deducted</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox2</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -893,7 +929,9 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>TransactionType</rd:DefaultName>
@@ -925,8 +963,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TransactionAmount.Value</Value>
-                              <Style />
+                              <Value>=Fields!TransactionAdvanced.Value</Value>
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -950,8 +990,51 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TransactionDeducted">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!TransactionDeducted.Value</Value>
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>TransactionDeducted</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <LeftBorder>
+                          <Style>None</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>None</Style>
+                        </RightBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
+                      </Style>
+                    </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -960,6 +1043,7 @@
         </TablixBody>
         <TablixColumnHierarchy>
           <TablixMembers>
+            <TablixMember />
             <TablixMember />
             <TablixMember />
             <TablixMember />
@@ -984,7 +1068,7 @@
         <Top>1.44966in</Top>
         <Left>0.19653in</Left>
         <Height>0.67708in</Height>
-        <Width>10.89155in</Width>
+        <Width>10.89156in</Width>
         <ZIndex>13</ZIndex>
         <Style>
           <Border>
@@ -1068,6 +1152,13 @@
       </ConnectionProperties>
       <rd:DataSourceID>75d535be-d9ae-4e52-8c6e-d32b2c2c6f39</rd:DataSourceID>
     </DataSource>
+    <DataSource Name="BankLoanSystemDAL2">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>ea4e6f5c-5e5d-47e2-ae49-440f4c77f273</rd:DataSourceID>
+    </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="DataSet1">
@@ -1115,7 +1206,7 @@
     </DataSet>
     <DataSet Name="DataSet2">
       <Query>
-        <DataSourceName>BankLoanSystemDAL1</DataSourceName>
+        <DataSourceName>BankLoanSystemDAL2</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -1143,16 +1234,20 @@
           <DataField>TransactionType</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="TransactionAmount">
-          <DataField>TransactionAmount</DataField>
+        <Field Name="TransactionAdvanced">
+          <DataField>TransactionAdvanced</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="TransactionDeducted">
+          <DataField>TransactionDeducted</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>BankLoanSystem.DAL</rd:DataSetName>
         <rd:TableName>ReportAccess</rd:TableName>
-        <rd:ObjectDataSourceSelectMethod>GetLoanSummaryByDateRange</rd:ObjectDataSourceSelectMethod>
-        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[BankLoanSystem.Models.ReportLoanSummary] GetLoanSummaryByDateRange(Int32, System.DateTime, System.DateTime)</rd:ObjectDataSourceSelectMethodSignature>
+        <rd:ObjectDataSourceSelectMethod>GetTransactionHistoryByDateRange</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[BankLoanSystem.Models.ReportTransactionHistory] GetTransactionHistoryByDateRange(Int32, System.DateTime, System.DateTime)</rd:ObjectDataSourceSelectMethodSignature>
         <rd:ObjectDataSourceType>BankLoanSystem.DAL.ReportAccess, BankLoanSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
