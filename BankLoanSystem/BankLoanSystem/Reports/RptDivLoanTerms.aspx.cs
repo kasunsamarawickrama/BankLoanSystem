@@ -13,12 +13,12 @@ namespace BankLoanSystem.Reports
         {
             if (!IsPostBack)
             {
-                //int loanId = 0;
+                int loanId = 0;
 
-                //if (Request.QueryString["loanId"] != "")
-                //    loanId = Convert.ToInt32(Request.QueryString["loanId"]);
+                if (Request.QueryString["loanId"] != "")
+                    loanId = Convert.ToInt32(Request.QueryString["loanId"]);
 
-                int loanId = 2499;
+                //int loanId = 3519;
 
                 RenderReport(loanId);
             }
@@ -54,6 +54,9 @@ namespace BankLoanSystem.Reports
 
             List<RptEmailReminder> loanTermsEmailReminders = ra.RptLoanTermsEmailReminders(loanId);
             rptViewerLoanTerms.LocalReport.DataSources.Add(new ReportDataSource("DataSet4", loanTermsEmailReminders));
+
+            IList<UnitType> unitTypes = ra.RptGetUnitTypes(loanId);
+            rptViewerLoanTerms.LocalReport.DataSources.Add(new ReportDataSource("DataSet5", unitTypes));
         }
     
     }

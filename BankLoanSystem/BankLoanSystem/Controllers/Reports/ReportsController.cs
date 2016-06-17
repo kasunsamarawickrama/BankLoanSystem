@@ -146,17 +146,21 @@ namespace BankLoanSystem.Controllers.Reports
             return View();
         }
 
-        /// <summary>
-        /// Print reports
-        /// </summary>
-        /// <param name="rptType"></param>
-        /// <param name="loanId"></param>
-        /// <param name="range1"></param>
-        /// <param name="range2"></param>
-        /// <param name="titleStatus"></param>
+        // <summary>
+        // Print reports
+        // </summary>
+        // <param name="rptType"></param>
+        // <param name="loanId"></param>
+        // <param name="range1"></param>
+        // <param name="range2"></param>
+        // <param name="titleStatus"></param>
         //[HttpPost]
         //public int PrintPage(string rptType, int loanId, string range1, string range2, string titleStatus)
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public FileResult PrintPage()
         {
             Warning[] warnings;
@@ -264,12 +268,12 @@ namespace BankLoanSystem.Controllers.Reports
                 RptDivCurtailmentReceipt crReceipt = new RptDivCurtailmentReceipt();
                 rptViewerPrint = crReceipt.PrintPage(loanId, startDate, endtDate);
             }
-            else if (rptType == "LoanSummary")
+            else if (rptType == "TransactionHistory")
             {
                 DateTime startDate = Convert.ToDateTime(range1);
                 DateTime endtDate = Convert.ToDateTime(range2);
 
-                RptDivLoanSummary loanSmmry = new RptDivLoanSummary();
+                RptDivTransactionHistory loanSmmry = new RptDivTransactionHistory();
                 rptViewerPrint = loanSmmry.PrintPage(loanId, startDate, endtDate);
             }
             else if (rptType == "TitlesStatus")
@@ -290,8 +294,10 @@ namespace BankLoanSystem.Controllers.Reports
                 RptAdvanceUnitReport advanceUnit = new RptAdvanceUnitReport();
                 rptViewerPrint = advanceUnit.PrintPage(loanId, startDate, endtDate);
             }
-
-            //return -1;
+            else
+            {
+                return null;
+            }
 
             var bytes = rptViewerPrint.LocalReport.Render(
                 "PDF", null, out mimeType, out encoding, out filenameExtension,

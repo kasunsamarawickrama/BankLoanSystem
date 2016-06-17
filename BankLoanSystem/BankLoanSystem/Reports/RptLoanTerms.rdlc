@@ -53,7 +53,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Company Branch</Value>
+                <Value>Company Branch:</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -83,7 +83,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Partner Branch</Value>
+                <Value>Partner Branch:</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -122,9 +122,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
         <Top>1.50495cm</Top>
-        <Left>8.68065cm</Left>
+        <Left>5.3469cm</Left>
         <Height>0.6cm</Height>
-        <Width>3.79646cm</Width>
+        <Width>9.32625cm</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -152,9 +152,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
         <Top>2.95438cm</Top>
-        <Left>8.68065cm</Left>
+        <Left>5.3469cm</Left>
         <Height>0.6cm</Height>
-        <Width>3.79646cm</Width>
+        <Width>9.32625cm</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
@@ -173,7 +173,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Loan #</Value>
+                <Value>Loan #:</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -203,7 +203,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Start Date</Value>
+                <Value>Start Date:</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -233,7 +233,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Maturity Date</Value>
+                <Value>Maturity Date:</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -263,7 +263,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Loan Amount($)</Value>
+                <Value>Loan Amount:</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -293,7 +293,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Advance %</Value>
+                <Value>Advance %:</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -332,9 +332,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
         <Top>4.34633cm</Top>
-        <Left>8.68065cm</Left>
+        <Left>5.3469cm</Left>
         <Height>0.6cm</Height>
-        <Width>3.79646cm</Width>
+        <Width>9.32625cm</Width>
         <ZIndex>10</ZIndex>
         <Style>
           <Border>
@@ -362,7 +362,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
         <Top>5.79576cm</Top>
-        <Left>8.68065cm</Left>
+        <Left>5.3469cm</Left>
         <Height>0.6cm</Height>
         <Width>3.79646cm</Width>
         <ZIndex>11</ZIndex>
@@ -392,7 +392,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
         <Top>7.2648cm</Top>
-        <Left>8.68065cm</Left>
+        <Left>5.3469cm</Left>
         <Height>0.6cm</Height>
         <Width>3.79646cm</Width>
         <ZIndex>12</ZIndex>
@@ -414,7 +414,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!LoanAmount.Value, "DataSet1")</Value>
-                <Style />
+                <Style>
+                  <Format>'$'0.00;('$'0.00)</Format>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style>
@@ -424,7 +426,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
         <Top>8.71423cm</Top>
-        <Left>8.70711cm</Left>
+        <Left>5.37336cm</Left>
         <Height>0.6cm</Height>
         <Width>3.79646cm</Width>
         <ZIndex>13</ZIndex>
@@ -436,6 +438,7 @@
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
           <PaddingBottom>2pt</PaddingBottom>
+          <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
         </Style>
       </Textbox>
       <Textbox Name="Textbox19">
@@ -456,9 +459,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
         <Top>10.10618cm</Top>
-        <Left>8.70711cm</Left>
+        <Left>5.37336cm</Left>
         <Height>0.6cm</Height>
-        <Width>3.79646cm</Width>
+        <Width>6.57931cm</Width>
         <ZIndex>14</ZIndex>
         <Style>
           <Border>
@@ -477,7 +480,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Curtailment Schedule</Value>
+                <Value>Curtailment Schedule:</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -526,7 +529,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Curt #</Value>
+                              <Value>Curtailment Number</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -560,7 +563,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Curt %</Value>
+                              <Value>Curtailment Percentage</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -594,7 +597,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Curt Time</Value>
+                              <Value>Curtailment Time</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -754,7 +757,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Fees</Value>
+                <Value>Fees:</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -804,10 +807,14 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Fee Type</Value>
-                              <Style />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox36</rd:DefaultName>
@@ -834,10 +841,14 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Fee Amount</Value>
-                              <Style />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox38</rd:DefaultName>
@@ -864,10 +875,14 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Due Date</Value>
-                              <Style />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox40</rd:DefaultName>
@@ -929,7 +944,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!FeeAmount.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -945,6 +962,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -962,7 +980,9 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>DueDate</rd:DefaultName>
@@ -1019,7 +1039,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Title Required</Value>
+                <Value>Title Required:</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1049,7 +1069,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Document Acceptance</Value>
+                <Value>Document Acceptance:</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1088,9 +1108,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
         <Top>17.04055cm</Top>
-        <Left>8.68065cm</Left>
+        <Left>5.37336cm</Left>
         <Height>0.6cm</Height>
-        <Width>3.79646cm</Width>
+        <Width>6.57931cm</Width>
         <ZIndex>21</ZIndex>
         <Style>
           <Border>
@@ -1118,9 +1138,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
         <Top>18.4325cm</Top>
-        <Left>8.68065cm</Left>
+        <Left>5.37336cm</Left>
         <Height>0.6cm</Height>
-        <Width>3.79646cm</Width>
+        <Width>6.57931cm</Width>
         <ZIndex>22</ZIndex>
         <Style>
           <Border>
@@ -1139,7 +1159,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Email reminders</Value>
+                <Value>Email reminders:</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1147,8 +1167,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
-        <Top>24.22729cm</Top>
-        <Left>1.10807cm</Left>
+        <Top>22.40166cm</Top>
+        <Left>1.10806cm</Left>
         <Height>0.6cm</Height>
         <Width>3.79646cm</Width>
         <ZIndex>23</ZIndex>
@@ -1398,11 +1418,109 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet4</DataSetName>
-        <Top>25.7175cm</Top>
-        <Left>3.62163cm</Left>
+        <Top>23.89188cm</Top>
+        <Left>3.62162cm</Left>
         <Height>1.2cm</Height>
         <Width>11.81883cm</Width>
         <ZIndex>24</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Tablix>
+      <Textbox Name="Textbox30">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Unit Types:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox6</rd:DefaultName>
+        <Top>20.03792cm</Top>
+        <Left>1.10807cm</Left>
+        <Height>0.6cm</Height>
+        <Width>3.79646cm</Width>
+        <ZIndex>25</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Tablix Name="Tablix6">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>2.5cm</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.6cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="unitTypeName">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!unitTypeName.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>unitTypeName</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="Details3" />
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DataSet5</DataSetName>
+        <Top>20.95183cm</Top>
+        <Left>3.62163cm</Left>
+        <Height>0.6cm</Height>
+        <Width>2.5cm</Width>
+        <ZIndex>26</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1498,6 +1616,13 @@
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
       <rd:DataSourceID>0c1df43d-e68b-4dcb-b30d-84ef33504b84</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="BankLoanSystemDAL4">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>df04dec8-c485-4055-9803-eacb87c49da5</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -1654,6 +1779,33 @@
         <rd:TableName>ReportAccess</rd:TableName>
         <rd:ObjectDataSourceSelectMethod>RptLoanTermsEmailReminders</rd:ObjectDataSourceSelectMethod>
         <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[BankLoanSystem.Models.RptEmailReminder] RptLoanTermsEmailReminders(Int32)</rd:ObjectDataSourceSelectMethodSignature>
+        <rd:ObjectDataSourceType>BankLoanSystem.DAL.ReportAccess, BankLoanSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="DataSet5">
+      <Query>
+        <DataSourceName>BankLoanSystemDAL4</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="unitTypeId">
+          <DataField>unitTypeId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="unitTypeName">
+          <DataField>unitTypeName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="isSelected">
+          <DataField>isSelected</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>BankLoanSystem.DAL</rd:DataSetName>
+        <rd:TableName>ReportAccess</rd:TableName>
+        <rd:ObjectDataSourceSelectMethod>RptGetUnitTypes</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.IList`1[BankLoanSystem.Models.UnitType] RptGetUnitTypes(Int32)</rd:ObjectDataSourceSelectMethodSignature>
         <rd:ObjectDataSourceType>BankLoanSystem.DAL.ReportAccess, BankLoanSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>

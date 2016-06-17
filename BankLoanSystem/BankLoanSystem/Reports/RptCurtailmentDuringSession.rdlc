@@ -768,7 +768,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!PurchasePrice.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -789,9 +791,10 @@
                           <Style>None</Style>
                         </RightBorder>
                         <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingRight>5pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -826,7 +829,7 @@
                         <RightBorder>
                           <Style>None</Style>
                         </RightBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingLeft>5pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
@@ -882,7 +885,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!CurtAmount.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -906,6 +911,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -960,6 +966,7 @@
                 <Value>=First(Fields!TotalAmountPaid.Value, "DataSet2")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
+                  <Format>'$'0.00;('$'0.00)</Format>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -970,9 +977,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox49</rd:DefaultName>
         <Top>1.95139in</Top>
-        <Left>10.06742in</Left>
+        <Left>9.8695in</Left>
         <Height>0.25in</Height>
-        <Width>1in</Width>
+        <Width>1.19792in</Width>
         <ZIndex>10</ZIndex>
         <Style>
           <Border>
@@ -982,6 +989,7 @@
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
           <PaddingBottom>2pt</PaddingBottom>
+          <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
         </Style>
       </Textbox>
       <Textbox Name="Textbox50">
@@ -1002,9 +1010,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox49</rd:DefaultName>
         <Top>1.95139in</Top>
-        <Left>8.74246in</Left>
+        <Left>8.2018in</Left>
         <Height>0.25in</Height>
-        <Width>1.25552in</Width>
+        <Width>1.55393in</Width>
         <ZIndex>11</ZIndex>
         <Style>
           <Border>
