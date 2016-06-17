@@ -955,6 +955,15 @@ namespace BankLoanSystem.DAL
                         branch.BranchName = dataRow["branch_name"].ToString();
                         branch.LoanId = int.Parse(dataRow["loan_id"].ToString());
                         branch.LoanNumber = dataRow["loan_number"].ToString();
+                        if (!string.IsNullOrEmpty(dataRow["is_title_tracked"].ToString()))
+                        {
+                            branch.IsTitleTrack = bool.Parse(dataRow["is_title_tracked"].ToString());
+                        }
+                        else
+                        {
+                            branch.IsTitleTrack = false;
+                        }
+                        
                         branchesLists.Add(branch);
                     }
 
