@@ -1394,6 +1394,11 @@ namespace BankLoanSystem.Controllers
             List<Branch> listLoan = new List<Branch>();
             List<Branch> listLoan2 = new List<Branch>();
             listLoan = (new BranchAccess()).GetLoansByBranches(BranchIdL);
+
+            if(listLoan!=null && listLoan.Count > 0)
+            {
+                us.BranchList = listLoan;
+            }
             ViewBag.LoanId = new SelectList(listLoan,"LoanId","LoanNumber");
             List<Right> rightLists = new List<Right>();
 
