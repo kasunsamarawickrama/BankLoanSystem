@@ -1,18 +1,13 @@
-﻿using BankLoanSystem.Code;
-using BankLoanSystem.DAL;
+﻿using BankLoanSystem.DAL;
 using BankLoanSystem.Models;
 using Microsoft.Reporting.WebForms;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace BankLoanSystem.Reports
 {
-    public partial class RptDivLoanSummary : System.Web.UI.Page
+    public partial class RptDivTransactionHistory : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -38,7 +33,7 @@ namespace BankLoanSystem.Reports
             rptViewerLoanSummary.ProcessingMode = ProcessingMode.Local;
             rptViewerLoanSummary.Reset();
             rptViewerLoanSummary.LocalReport.EnableExternalImages = true;
-            rptViewerLoanSummary.LocalReport.ReportPath = Server.MapPath("~/Reports/RptLoanSummary.rdlc");
+            rptViewerLoanSummary.LocalReport.ReportPath = Server.MapPath("~/Reports/RptTransactionHistory.rdlc");
             rptViewerLoanSummary.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
@@ -52,7 +47,7 @@ namespace BankLoanSystem.Reports
             }
 
 
-            List<ReportLoanSummary> loanSumm = ra.GetLoanSummaryByDateRange(loanId,startDate, endDate);
+            List<ReportTransactionHistory> loanSumm = ra.GetTransactionHistoryByDateRange(loanId,startDate, endDate);
 
             rptViewerLoanSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerLoanSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", loanSumm));
@@ -64,7 +59,7 @@ namespace BankLoanSystem.Reports
             rptViewerLoanSummaryPrint.ProcessingMode = ProcessingMode.Local;
             rptViewerLoanSummaryPrint.Reset();
             rptViewerLoanSummaryPrint.LocalReport.EnableExternalImages = true;
-            rptViewerLoanSummaryPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptLoanSummary.rdlc");
+            rptViewerLoanSummaryPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptTransactionHistory.rdlc");
 
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
@@ -77,7 +72,7 @@ namespace BankLoanSystem.Reports
             }
 
 
-            List<ReportLoanSummary> loanSumm = ra.GetLoanSummaryByDateRange(loanId, startDate, endDate);
+            List<ReportTransactionHistory> loanSumm = ra.GetTransactionHistoryByDateRange(loanId, startDate, endDate);
 
             rptViewerLoanSummaryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerLoanSummaryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", loanSumm));

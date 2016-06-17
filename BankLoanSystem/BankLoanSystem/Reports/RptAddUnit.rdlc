@@ -466,7 +466,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -844,7 +843,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!PurchasePrice.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -865,9 +866,10 @@
                           <Style>None</Style>
                         </RightBorder>
                         <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingRight>5pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -902,7 +904,7 @@
                         <RightBorder>
                           <Style>None</Style>
                         </RightBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingLeft>5pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
@@ -920,7 +922,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!AdvanceAmount.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -941,9 +945,10 @@
                           <Style>None</Style>
                         </RightBorder>
                         <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingRight>5pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -978,12 +983,13 @@
                         <RightBorder>
                           <Style>None</Style>
                         </RightBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingLeft>5pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>

@@ -10,7 +10,7 @@
 namespace BankLoanSystem.Reports {
     
     
-    public partial class RptDivLoanSummary {
+    public partial class RptDivTransactionHistory {
         
         /// <summary>
         /// form1 control.
