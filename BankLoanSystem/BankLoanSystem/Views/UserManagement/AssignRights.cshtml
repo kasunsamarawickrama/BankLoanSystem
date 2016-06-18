@@ -248,6 +248,9 @@
             var model = @Html.Raw(Json.Encode(Model));
             $('.All').prop('checked', false);
             $('.All').attr('disabled', true);
+
+            if(selectedUser > 0 ){
+            
             $.ajax({
                 url: '/UserManagement/ExistingUserRights',
                 type: 'POST',
@@ -283,7 +286,8 @@
                     }
                 }
             });
-            
+
+            }
         }
 
         $(function () {
