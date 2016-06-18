@@ -80,23 +80,35 @@ color:#545454;
 
 
 <script type="text/javascript">
+
+
+    var title = 0;
+    @if(ViewBag.LoanId!=null && ViewBag.LoanId.Items.Count == 1)
+    {
+
+        <text>var loanId = @ViewBag.LoanId.Items[0].LoanId;</text>
+         
+    <text> CheckLoanTitle(loanId);</text>
+    };
     function CheckLoanTitle(loanId){
-        //alert(loanId);
+
         var model = @Html.Raw(Json.Encode(Model));
         var len = model.BranchList.length;
         var count =0;
         for (var j = 0 ; j < model.BranchList.length; j++){
             if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==0){
+                title = 0;
                 $('#4').hide();
                 $('[for="Update_Title_Status"]').hide();
-                
+
             }
             else{
+                title = 1;
                 $('#4').show();
                 $('[for="Update_Title_Status"]').show();
             }
-            }
-        
+        }
+
 
 
     };
@@ -148,9 +160,13 @@ color:#545454;
                 count++;
             }
         }
-        if(count === len){
+        if( title != 1 && count === (len-1)){
             $('#CheckAll').prop('checked', true);
-        }else{
+        }
+        else if( count === len){
+            $('#CheckAll').prop('checked', true);
+        }
+        else{
             $('#CheckAll').prop('checked', false);
         }
         $('#successSpn span').text("");
@@ -159,10 +175,12 @@ color:#545454;
     function modcheck(){
         var model = @Html.Raw(Json.Encode(Model));
         //console.log(model);
+        //alert('f');
         var arr = new Array();
         for(var j=0,k=0; j< model.UserRightsList.length ;j++){
             var ids = '#'+ j.toString();
             if($(ids).is(':checked')){
+
                 arr[k] = model.UserRightsList[j].rightId;
                 k++;
             }
