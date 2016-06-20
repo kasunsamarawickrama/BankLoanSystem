@@ -558,6 +558,8 @@
         });
     });
 
+
+    isSearch = false;
     $('#btnSearch').click(function () {
         $('.centered span').text('');
         var viewType = 5;
@@ -574,34 +576,25 @@
         ClearTextBoxText();
         $('#feeDetails').hide();
 
-        showSearching();
-        $.ajax({
-            url: '/DeleteUnit/GridView',
-            type: 'POST',
-            contentType: 'application/json;',
-            data: JSON.stringify({ viewType: viewType, id: id, year: year, make: make, model: model }),
-            success: function (View) {
-                $('#checkableGridDiv').html(View);
-                $('#checkableGridDiv').show();
+        if (!isSearch) {
+            isSearch = true;
+
+            showSearching();
+            $.ajax({
+                url: '/DeleteUnit/GridView',
+                type: 'POST',
+                contentType: 'application/json;',
+                data: JSON.stringify({ viewType: viewType, id: id, year: year, make: make, model: model }),
+                success: function (View) {
+                    $('#checkableGridDiv').html(View);
+                    $('#checkableGridDiv').show();
 
 
-                // Change the selector if needed
-                var table = $('table'),
-                    bodyCells = table.find('tbody tr:first').children(),
-                    colWidth;
-              
-                // Get the tbody columns width array
-                colWidth = bodyCells.map(function () {
-                    return $(this)[0].getBoundingClientRect().width;
-                }).get();
+                    // Change the selector if needed
+                    var table = $('table'),
+                        bodyCells = table.find('tbody tr:first').children(),
+                        colWidth;
 
-                // Set the width of thead columns
-                table.find('thead tr').children().each(function (i, v) {
-                    $(v).outerWidth(colWidth[i]);
-                });
-
-                // Adjust the width of thead cells when window resizes
-                $(window).resize(function () {
                     // Get the tbody columns width array
                     colWidth = bodyCells.map(function () {
                         return $(this)[0].getBoundingClientRect().width;
@@ -611,22 +604,37 @@
                     table.find('thead tr').children().each(function (i, v) {
                         $(v).outerWidth(colWidth[i]);
                     });
-                }).resize(); // Trigger resize handler
 
+                    // Adjust the width of thead cells when window resizes
+                    $(window).resize(function () {
+                        // Get the tbody columns width array
+                        colWidth = bodyCells.map(function () {
+                            return $(this)[0].getBoundingClientRect().width;
+                        }).get();
 
-                hideLoading();
-                //.highlight { background-color: lightblue; }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                // Your handler here...
+                        // Set the width of thead columns
+                        table.find('thead tr').children().each(function (i, v) {
+                            $(v).outerWidth(colWidth[i]);
+                        });
+                    }).resize(); // Trigger resize handler
 
-                // if session expires
-                if (jqXHR.status == "404") {
-                    window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                    isSearch = false;
+                    hideLoading();
+                    //.highlight { background-color: lightblue; }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Your handler here...
+
+                    // if session expires
+                    if (jqXHR.status == "404") {
+                        window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                    }
+                    isSearch = false;
+                    hideLoading();
                 }
-                hideLoading();
-            }
-        });
+            });
+
+        }
     });
 
     $("#identificationNumberSearch").blur(function () {

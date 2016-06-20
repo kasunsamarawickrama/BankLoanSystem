@@ -264,19 +264,20 @@ namespace BankLoanSystem.Controllers
 
                         if (userData.RoleId == 3)
                         {
-                            if (Session["CurrentLoanRights"] != null)
+                            if ((string)Session["CurrentLoanRights"] != "")
                             {
                                 //string[] charactors = loanSelected.Rights.Split(',');
 
-                                List<Right> rgts = (List<Right>)((Session["CurrentLoanRights"]));
+                                string rgts = (string)(Session["CurrentLoanRights"]);
+                                string[] rightsStringList = rgts.Split(',');
+
                                 List<string> rightList = new List<string>();
-                                foreach (var rgt in rgts) {
-                                    rightList.Add(rgt.rightId);
+                                for (int i= 0; i < rightsStringList.Length; i++ ) {
+                                    rightList.Add(rightsStringList[i]);
                                 }
 
                                 //List<string> rightList = new List<string>(charactors);
                                 ViewBag.RightList = rightList;
-                                Session["CurrentLoanRights"] = loanSelected.Rights;
                             }
 
                         }
@@ -1105,7 +1106,16 @@ namespace BankLoanSystem.Controllers
                 {
                     if (userData.RoleId == 3)
                     {
-                        Session["CurrentLoanRights"] = PermissionList(userData.UserId,l.loanId);
+                        string permission = "";
+                        List<Right> permissionString = (new UserRightsAccess()).getRightsString(userData.UserId, l.loanId);
+                        if (permissionString.Count >= 1)
+                        {
+                            permission = permissionString[0].rightsPermissionString;
+                            Session["CurrentLoanRights"] = permission;
+                        }
+                        else {
+                            Session["CurrentLoanRights"] = "";
+                        }
                     }
                     finalSelectedLoan.NonRegBranchId = l.nonRegisteredBranchId;
                     finalSelectedLoan.LoanId = l.loanId;
@@ -1394,6 +1404,12 @@ namespace BankLoanSystem.Controllers
             List<Branch> listLoan = new List<Branch>();
             List<Branch> listLoan2 = new List<Branch>();
             listLoan = (new BranchAccess()).GetLoansByBranches(BranchIdL);
+
+            if(listLoan!=null && listLoan.Count > 0)
+            {
+                us.BranchList = listLoan;
+                Session["LoanTitle"] = listLoan;
+            }
             ViewBag.LoanId = new SelectList(listLoan,"LoanId","LoanNumber");
             List<Right> rightLists = new List<Right>();
 
@@ -1467,6 +1483,20 @@ namespace BankLoanSystem.Controllers
             }
             else if (userObj.RoleId == 3)
             {
+                if (Session["LoanTitle"] != null)
+                {
+                    List<Branch> loanList = (List<Branch>)Session["LoanTitle"];
+                    for (var j = 0; j < loanList.Count; j++)
+                    {
+                        if (loanList[j].LoanId == userObj.LoanId)
+                        {
+                            if (!loanList[j].IsTitleTrack)
+                            {
+                                userObj.UserRightsList[3].active = false;
+                            }
+                        }
+                    }
+                }
                 userObj.step_status= 1;
                 userObj.BranchId = userObj.BranchIdUser;
                 string[] arrList = new string[userObj.UserRightsList.Count];
@@ -1550,6 +1580,7 @@ namespace BankLoanSystem.Controllers
                 int islog = (new LogAccess()).InsertLog(log);
                 TempData["createUserResult"] = 1;
                 //return RedirectToAction("CreateDashboardUser");
+                Session["LoanTitle"] = null;
 
             }
             else
@@ -1738,11 +1769,28 @@ namespace BankLoanSystem.Controllers
                     tempRoleList.Add(tempRole);
                 }
                 ViewBag.userSelectList = tempRoleList;
-            //ViewBag.RoleId = new SelectList(userList, "RoleId", "RoleName");
-                User user = new Models.User();
-                user.UserRightsList = new List<Right>();
 
-                user.UserRightsList = (new UserRightsAccess()).getRights();
+                User user = new Models.User();
+                List<Right> list = new List<Right>();
+
+                user.UserRightsList = new List<Right>();
+                list = (new UserRightsAccess()).getRights();
+
+                if ( loan.IsTitleTrack !=  1)
+                {
+                    foreach (var x in list)
+                    {
+                        if (x.rightId != "U002")
+                        {
+                            user.UserRightsList.Add(x);
+                        }
+                    }
+                }
+                else {
+                    user.UserRightsList = list;
+                }
+                //user.UserRightsList = (new UserRightsAccess()).getRights();
+
                 if (HttpContext.Request.IsAjaxRequest())
                 {
                     ViewBag.AjaxRequest = 1;

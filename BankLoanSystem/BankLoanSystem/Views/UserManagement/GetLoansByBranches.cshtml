@@ -32,7 +32,7 @@ color:#545454;
         }
         else {
         <div class="col-xs-8 text_field short_text_field">
-            @Html.DropDownListFor(model => model.LoanId, null, "--Select Loan--", htmlAttributes: new { @class = "form-control", id = "LoanIdUser2" })
+            @Html.DropDownListFor(model => model.LoanId, null, "--Select Loan--", htmlAttributes: new { @class = "form-control", id = "LoanIdUser2", @onchange = "javascript:CheckLoanTitle(this.value);" })
         </div>
         <div id="loanIdMessage" class="text-danger" style="margin-top:35px;margin-left:-155px;"><span></span></div>
         }
@@ -62,12 +62,11 @@ color:#545454;
                     <br />
                     @for (var i = 0; i < Model.UserRightsList.Count; i++)
                     {
-
-                        @Html.HiddenFor(x => x.UserRightsList[i].rightId)
-                        @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = i+1 })
-                        @Html.DisplayFor(x => x.UserRightsList[i].description)
-                        <br />
-
+                        <div id="rights">
+                            @Html.HiddenFor(x => x.UserRightsList[i].rightId)
+                            @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = i + 1 })
+                            @Html.Label(Model.UserRightsList[i].description)
+                        </div>
 
                     }
                 </div>
@@ -82,6 +81,37 @@ color:#545454;
 
 <script type="text/javascript">
 
+
+    var title = 0;
+    @if(ViewBag.LoanId!=null && ViewBag.LoanId.Items.Count == 1)
+    {
+
+        <text>var loanId = @ViewBag.LoanId.Items[0].LoanId;</text>
+         
+    <text> CheckLoanTitle(loanId);</text>
+    };
+    function CheckLoanTitle(loanId){
+
+        var model = @Html.Raw(Json.Encode(Model));
+        var len = model.BranchList.length;
+        var count =0;
+        for (var j = 0 ; j < model.BranchList.length; j++){
+            if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==0){
+                title = 0;
+                $('#4').hide();
+                $('[for="Update_Title_Status"]').hide();
+
+            }
+            else{
+                title = 1;
+                $('#4').show();
+                $('[for="Update_Title_Status"]').show();
+            }
+        }
+
+
+
+    };
 
     $(function () {
         $('#CheckAll').on('change', function () {
@@ -130,9 +160,13 @@ color:#545454;
                 count++;
             }
         }
-        if(count === len){
+        if( title != 1 && count === (len-1)){
             $('#CheckAll').prop('checked', true);
-        }else{
+        }
+        else if( count === len){
+            $('#CheckAll').prop('checked', true);
+        }
+        else{
             $('#CheckAll').prop('checked', false);
         }
         $('#successSpn span').text("");
@@ -141,10 +175,12 @@ color:#545454;
     function modcheck(){
         var model = @Html.Raw(Json.Encode(Model));
         //console.log(model);
+        //alert('f');
         var arr = new Array();
         for(var j=0,k=0; j< model.UserRightsList.length ;j++){
             var ids = '#'+ j.toString();
             if($(ids).is(':checked')){
+
                 arr[k] = model.UserRightsList[j].rightId;
                 k++;
             }
