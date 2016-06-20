@@ -58,6 +58,44 @@ namespace BankLoanSystem.Reports
             IList<UnitType> unitTypes = ra.RptGetUnitTypes(loanId);
             rptViewerLoanTerms.LocalReport.DataSources.Add(new ReportDataSource("DataSet5", unitTypes));
         }
-    
+
+        public ReportViewer PrintPage(int loanId)
+        {
+            ReportViewer rptViewerLoanTermsPrint = new ReportViewer();
+
+            rptViewerLoanTermsPrint.ProcessingMode = ProcessingMode.Local;
+            rptViewerLoanTermsPrint.Reset();
+            rptViewerLoanTermsPrint.LocalReport.EnableExternalImages = true;
+            rptViewerLoanTermsPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptLoanTerms.rdlc");
+            rptViewerLoanTermsPrint.ZoomMode = ZoomMode.PageWidth;
+
+            ReportAccess ra = new ReportAccess();
+            List<RptLoanTerms> loanTermsDetails = ra.RptLoanTermsDetails(loanId);
+
+            rptViewerLoanTermsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", loanTermsDetails));
+
+            CurtailmentAccess ca = new CurtailmentAccess();
+            List<Curtailment> curtailments = ca.retreiveCurtailmentByLoanId(loanId);
+
+            if (curtailments != null && curtailments.Count > 0)
+            {
+                for (int i = 0; i < curtailments.Count; i++)
+                {
+                    curtailments[i].CurtailmentId = i + 1;
+                }
+            }
+            rptViewerLoanTermsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
+
+            List<RptFeeLoanTerm> loanTermsFeeDetails = ra.RptLoanTermsFeeDetails(loanId);
+            rptViewerLoanTermsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet3", loanTermsFeeDetails));
+
+            List<RptEmailReminder> loanTermsEmailReminders = ra.RptLoanTermsEmailReminders(loanId);
+            rptViewerLoanTermsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet4", loanTermsEmailReminders));
+
+            IList<UnitType> unitTypes = ra.RptGetUnitTypes(loanId);
+            rptViewerLoanTermsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet5", unitTypes));
+
+            return rptViewerLoanTermsPrint;
+        }
     }
 }
