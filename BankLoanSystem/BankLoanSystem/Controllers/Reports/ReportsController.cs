@@ -294,6 +294,11 @@ namespace BankLoanSystem.Controllers.Reports
                 RptAdvanceUnitReport advanceUnit = new RptAdvanceUnitReport();
                 rptViewerPrint = advanceUnit.PrintPage(loanId, startDate, endtDate);
             }
+            else if (rptType == "LoanTerms")
+            {
+                RptDivLoanTerms loanTerms = new RptDivLoanTerms();
+                rptViewerPrint = loanTerms.PrintPage(loanId);
+            }
             else
             {
                 return null;
