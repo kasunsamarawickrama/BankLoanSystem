@@ -230,6 +230,8 @@
     <Content Include="Images\usernameIco.png" />
     <Content Include="Images\usersetupIco.png" />
     <Content Include="Images\UserSetupImage.png" />
+    <Content Include="Images\user_icon.jpg" />
+    <Content Include="Images\user_icon2.png" />
     <Content Include="Images\xls.png" />
     <Content Include="Reports\RptAdvanceUnitReport.aspx" />
     <Content Include="Reports\RptDivAddUnit.aspx" />
@@ -514,8 +516,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Login\EmployeeLogin.cshtml" />
-    <Content Include="Views\Login\UserLogin.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -632,6 +632,8 @@
     <Content Include="Views\UserManagement\EditProfile.cshtml" />
     <Content Include="Views\UserManagement\EditPartnerCompanyAtDashboard.cshtml" />
     <Content Include="Views\Login\EmpLogin.cshtml" />
+    <Content Include="Views\Login\EmployeeLogin.cshtml" />
+    <Content Include="Views\Login\UserLogin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -643,6 +645,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\SAM01\" />
     <Folder Include="Views\Dealer\" />
+    <Folder Include="Views\ErrorPage\Login\" />
     <Folder Include="Views\Home\" />
     <Folder Include="Views\TestMultipaleSubmitButton\" />
   </ItemGroup>
