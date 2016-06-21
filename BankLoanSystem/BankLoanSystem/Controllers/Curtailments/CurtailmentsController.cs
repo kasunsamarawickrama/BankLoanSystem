@@ -39,13 +39,15 @@ namespace BankLoanSystem.Controllers.Curtailments
                     else
                     {
 
-                        filterContext.Result = new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
+                        filterContext.Result = new RedirectResult("/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.");
+                        
+
                     }
                 }
             }
             catch
             {
-                filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                filterContext.Result = new RedirectResult("~/Exceptions/Index");
             }
         }
         
