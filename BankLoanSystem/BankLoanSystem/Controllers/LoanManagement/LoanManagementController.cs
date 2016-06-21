@@ -35,7 +35,7 @@ namespace BankLoanSystem.Controllers
                     }
                     else
                     {
-                        filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                        filterContext.Result = new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
 
                     }
                     //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
