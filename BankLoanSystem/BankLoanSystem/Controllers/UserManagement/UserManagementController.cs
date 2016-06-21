@@ -43,7 +43,7 @@ namespace BankLoanSystem.Controllers
 
                     }else
                     {
-                        filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                        filterContext.Result = new RedirectResult("/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.");
 
                     }
                     //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
@@ -53,7 +53,7 @@ namespace BankLoanSystem.Controllers
             catch
             {
                 //filterContext.Result = new RedirectResult("~/Login/UserLogin");
-                filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                filterContext.Result = new RedirectResult("~/Exceptions/Index");
             }
         }
 
@@ -1408,6 +1408,7 @@ namespace BankLoanSystem.Controllers
             if(listLoan!=null && listLoan.Count > 0)
             {
                 us.BranchList = listLoan;
+                Session["LoanTitle"] = listLoan;
             }
             ViewBag.LoanId = new SelectList(listLoan,"LoanId","LoanNumber");
             List<Right> rightLists = new List<Right>();
@@ -1482,6 +1483,20 @@ namespace BankLoanSystem.Controllers
             }
             else if (userObj.RoleId == 3)
             {
+                if (Session["LoanTitle"] != null)
+                {
+                    List<Branch> loanList = (List<Branch>)Session["LoanTitle"];
+                    for (var j = 0; j < loanList.Count; j++)
+                    {
+                        if (loanList[j].LoanId == userObj.LoanId)
+                        {
+                            if (!loanList[j].IsTitleTrack)
+                            {
+                                userObj.UserRightsList[3].active = false;
+                            }
+                        }
+                    }
+                }
                 userObj.step_status= 1;
                 userObj.BranchId = userObj.BranchIdUser;
                 string[] arrList = new string[userObj.UserRightsList.Count];
@@ -1565,6 +1580,7 @@ namespace BankLoanSystem.Controllers
                 int islog = (new LogAccess()).InsertLog(log);
                 TempData["createUserResult"] = 1;
                 //return RedirectToAction("CreateDashboardUser");
+                Session["LoanTitle"] = null;
 
             }
             else
@@ -1760,7 +1776,7 @@ namespace BankLoanSystem.Controllers
                 user.UserRightsList = new List<Right>();
                 list = (new UserRightsAccess()).getRights();
 
-                if (loan.IsTitleTrack != 1)
+                if ( loan.IsTitleTrack !=  1)
                 {
                     foreach (var x in list)
                     {

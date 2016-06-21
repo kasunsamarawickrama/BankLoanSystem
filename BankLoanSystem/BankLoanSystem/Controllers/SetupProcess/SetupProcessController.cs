@@ -72,13 +72,13 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     else
                     {
 
-                        filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                        filterContext.Result = new RedirectResult("/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.");
                     }
                 }
             }
             catch(Exception e)
             {
-                filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                filterContext.Result = new RedirectResult("~/Exceptions/Index");
             }
         }
 
