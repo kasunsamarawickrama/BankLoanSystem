@@ -96,9 +96,9 @@ namespace BankLoanSystem.Models
         public string Note { get; set; }
 
 
-        [Required]
-        [Display(Name = "Advance Date")]
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        [Required(ErrorMessage = "Please select the Advance Date")]
+        [Display(Name = "Advance Date" )]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]    
         public DateTime AdvanceDate { get; set; }
 
         public string AdvanceDateStr { get; set; }
