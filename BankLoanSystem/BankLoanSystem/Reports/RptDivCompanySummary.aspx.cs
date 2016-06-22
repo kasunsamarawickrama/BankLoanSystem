@@ -36,7 +36,7 @@ namespace BankLoanSystem.Reports
             rptViewerCompanySummary.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
-            List<RptLoanSummary> loanSumaList = ra.RptGetCompanySummary(companyId);
+            List<RptCompanySummary> loanSumaList = ra.RptGetCompanySummary(companyId);
 
             rptViewerCompanySummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", loanSumaList));
         }
