@@ -977,9 +977,9 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="companyId"></param>
         /// <returns></returns>
-        public List<RptLoanSummary> RptGetCompanySummary(int companyId)
+        public List<RptCompanySummary> RptGetCompanySummary(int companyId)
         {
-            List<RptLoanSummary> loanSumaList = new List<RptLoanSummary>();
+            List<RptCompanySummary> companySummaryList = new List<RptCompanySummary>();
 
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]> { new object[] { "@company_id", companyId } };
@@ -990,23 +990,22 @@ namespace BankLoanSystem.DAL
             {
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    RptLoanSummary loanSummary = new RptLoanSummary();
+                    RptCompanySummary companySummary = new RptCompanySummary();
 
-                    loanSummary.BranchName = dataRow["branchName"].ToString();
-                    loanSummary.NoOfPartnerBranches = Convert.ToInt32(dataRow["noOfPartnerBranch"]);
-                    loanSummary.NoOfActiveLoans = Convert.ToInt32(dataRow["NoOfActiveLoans"]);
-                    loanSummary.TotalActiveUnits = Convert.ToInt32(dataRow["noOfActiveUnits"]);
-                    loanSummary.TotalLoanBalance = Convert.ToDecimal(dataRow["totalLoanBalance"]);
-                    loanSummary.TotalLoanAmount = Convert.ToDecimal(dataRow["totalLoanAmount"]);
+                    companySummary.BranchName = dataRow["branchName"].ToString();
+                    companySummary.NoOfPartnerBranches = Convert.ToInt32(dataRow["noOfPartnerBranch"]);
+                    companySummary.NoOfActiveLoans = Convert.ToInt32(dataRow["NoOfActiveLoans"]);
+                    companySummary.TotalActiveUnits = Convert.ToInt32(dataRow["noOfActiveUnits"]);
+                    companySummary.TotalLoanBalance = Convert.ToDecimal(dataRow["totalLoanBalance"]);
+                    companySummary.TotalLoanAmount = Convert.ToDecimal(dataRow["totalLoanAmount"]);
 
-                    loanSumaList.Add(loanSummary);
+                    companySummaryList.Add(companySummary);
                 }
             }
 
-            return loanSumaList;
-        } 
+            return companySummaryList;
+        }
 
-        #endregion
         /// <summary>
         /// 
         /// </summary>
@@ -1028,7 +1027,7 @@ namespace BankLoanSystem.DAL
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     RptBranchSummary loan = new RptBranchSummary();
-                    if(string.IsNullOrEmpty(dataRow["loanId"].ToString()) && !string.IsNullOrEmpty(dataRow["iloanId"].ToString()))
+                    if (string.IsNullOrEmpty(dataRow["loanId"].ToString()) && !string.IsNullOrEmpty(dataRow["iloanId"].ToString()))
                     {
                         loan.LoanNumber = dataRow["iloanNumber"].ToString();
                         loan.PartnerBranch = dataRow["inonRegBranchName"].ToString();
@@ -1078,6 +1077,9 @@ namespace BankLoanSystem.DAL
 
             return branchLoans;
         }
+
+        #endregion
+
 
     }
 }

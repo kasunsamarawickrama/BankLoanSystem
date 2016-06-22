@@ -169,7 +169,7 @@ namespace BankLoanSystem.Models
 
     #region Summary Report
 
-    public class RptLoanSummary
+    public class RptCompanySummary
     {
         public string BranchName { get; set; }
         public int NoOfPartnerBranches { get; set; }
@@ -178,8 +178,6 @@ namespace BankLoanSystem.Models
         public decimal TotalLoanBalance { get; set; }
         public decimal TotalLoanAmount { get; set; }
     }
-
-    #endregion
 
     public class RptBranchSummary
     {
@@ -195,4 +193,8 @@ namespace BankLoanSystem.Models
         public int InActiveUnits { get; set; }
        
     }
+
+    #endregion
+
+    
 }
