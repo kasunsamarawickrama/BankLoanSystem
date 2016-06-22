@@ -970,5 +970,42 @@ namespace BankLoanSystem.DAL
 
         #endregion
 
+        #region Summary Report
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        public List<RptLoanSummary> RptGetCompanySummary(int companyId)
+        {
+            List<RptLoanSummary> loanSumaList = new List<RptLoanSummary>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]> { new object[] { "@company_id", companyId } };
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetCompanySummary ", paramertList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    RptLoanSummary loanSummary = new RptLoanSummary();
+
+                    loanSummary.BranchName = dataRow["branchName"].ToString();
+                    loanSummary.NoOfPartnerBranches = Convert.ToInt32(dataRow["noOfPartnerBranch"]);
+                    loanSummary.NoOfActiveLoans = Convert.ToInt32(dataRow["NoOfActiveLoans"]);
+                    loanSummary.TotalActiveUnits = Convert.ToInt32(dataRow["noOfActiveUnits"]);
+                    loanSummary.TotalLoanBalance = Convert.ToDecimal(dataRow["totalLoanBalance"]);
+                    loanSummary.TotalLoanAmount = Convert.ToDecimal(dataRow["totalLoanAmount"]);
+
+                    loanSumaList.Add(loanSummary);
+                }
+            }
+
+            return loanSumaList;
+        } 
+
+        #endregion
     }
 }

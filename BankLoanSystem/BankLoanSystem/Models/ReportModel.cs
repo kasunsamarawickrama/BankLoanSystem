@@ -166,4 +166,18 @@ namespace BankLoanSystem.Models
         public int TimeFrame { get; set; }
         public string Email { get; set; }
     }
+
+    #region Summary Report
+
+    public class RptLoanSummary
+    {
+        public string BranchName { get; set; }
+        public int NoOfPartnerBranches { get; set; }
+        public int NoOfActiveLoans { get; set; }
+        public int TotalActiveUnits { get; set; }
+        public decimal TotalLoanBalance { get; set; }
+        public decimal TotalLoanAmount { get; set; }
+    }
+
+    #endregion
 }
