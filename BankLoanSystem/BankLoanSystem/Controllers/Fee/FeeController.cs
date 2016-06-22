@@ -46,7 +46,7 @@ namespace BankLoanSystem.Controllers.Fee
                     else
                     {
 
-                        filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                        filterContext.Result = new RedirectResult("/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.");
                     }
                     //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
                     //filterContext.Controller.TempData.Add("UserLogin", "Login");
@@ -57,7 +57,7 @@ namespace BankLoanSystem.Controllers.Fee
             {
                 //filterContext.Result = new RedirectResult("~/Login/UserLogin");
                 //filterContext.Controller.TempData.Add("UserLogin", "Login");
-                filterContext.Result = new RedirectResult("~/Login/UserLogin");
+                filterContext.Result = new RedirectResult("~/Exceptions/Index");
             }
         }
 

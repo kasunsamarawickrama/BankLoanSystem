@@ -41,7 +41,7 @@ htmlAttributes: new { id = "checkableGrid" },
             //     format: (item) => string.Format("{0:MM/dd/yyyy}", item.AdvanceDate)
             //),
             grid.Column("AdvanceDate", "Date Advanced", style: "gridColumnOthers", format:@<text>@{<label id="dateAdvance" class="dateAdvance">@item.AdvanceDate</label>}</text>),
-            grid.Column("VIN/HIN/serial #", "VIN/HIN/serial #", style: "gridColumnVIN", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label>}</text>),
+            grid.Column("VIN/HIN/serial #", "VIN / HIN / Serial #", style: "gridColumnVIN", canSort: false, format:@<text>@{<label id="vin" class="vin">@item.IDNumber</label>}</text>),
             grid.Column("Year", "Year", style: "gridColumnOthers", format:@<text>@{<label id="year" class="year">@item.Year</label>}</text>),
             grid.Column("Make", "Make", style: "gridColumnOthers", format:@<text>@{<label id="make" class="make">@item.Make</label>}</text>),
             grid.Column("Model", "Model", style: "gridColumnOthers", format:@<text>@{<label id="model" class="model">@item.Model</label>}</text>),
@@ -1374,7 +1374,10 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                                     showPopup5(5 , array);
 
                             }
-                        }else{
+                        }
+                        else{
+                            $("#btnPay").attr("disabled", false);
+                            $("#payAll").attr("disabled", false);
                             hideLoading();
                         }
 
@@ -1393,6 +1396,8 @@ grid.Column("CurtAmount", "Curt-Amount ($)", canSort: false, style: "gridColumn"
                         if (jqXHR.status == "404") {
                             window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
                         }
+                        $("#btnPay").attr("disabled", false);
+                        $("#payAll").attr("disabled", false);
                         hideLoading();
                     }
 

@@ -1007,5 +1007,77 @@ namespace BankLoanSystem.DAL
         } 
 
         #endregion
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="branchId"></param>
+        /// <returns></returns>
+        public List<RptBranchSummary> GetBranchSummarRptDetails(int branchId)
+        {
+            List<RptBranchSummary> branchLoans = new List<RptBranchSummary>();
+
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]> { new object[] { "@branch_id", branchId } };
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetLoanDetailsByBranchId ", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                decimal totalAmount = 0.00M;
+                decimal totalBalance = 0.00M;
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    RptBranchSummary loan = new RptBranchSummary();
+                    if(string.IsNullOrEmpty(dataRow["loanId"].ToString()) && !string.IsNullOrEmpty(dataRow["iloanId"].ToString()))
+                    {
+                        loan.LoanNumber = dataRow["iloanNumber"].ToString();
+                        loan.PartnerBranch = dataRow["inonRegBranchName"].ToString();
+                        loan.ActiveUnits = 0;
+                        loan.InActiveUnits = int.Parse(dataRow["inactiveUnits"].ToString());
+                        loan.LoanBalance = decimal.Parse(dataRow["iusedAmount"].ToString());
+                        loan.PendingBalance = decimal.Parse(dataRow["ipendingAmount"].ToString());
+                        loan.LoanAmount = decimal.Parse(dataRow["iloanAmount"].ToString());
+                        totalAmount = totalAmount + loan.LoanAmount;
+                        totalBalance = totalBalance + loan.LoanBalance;
+                        branchLoans.Add(loan);
+                    }
+                    else if (!string.IsNullOrEmpty(dataRow["loanId"].ToString()) && string.IsNullOrEmpty(dataRow["iloanId"].ToString()))
+                    {
+                        loan.LoanNumber = dataRow["loanNumber"].ToString();
+                        loan.PartnerBranch = dataRow["nonRegBranchName"].ToString();
+                        loan.ActiveUnits = int.Parse(dataRow["activeUnits"].ToString());
+                        loan.InActiveUnits = 0;
+                        loan.LoanBalance = decimal.Parse(dataRow["usedAmount"].ToString());
+                        loan.PendingBalance = decimal.Parse(dataRow["pendingAmount"].ToString());
+                        loan.LoanAmount = decimal.Parse(dataRow["loanAmount"].ToString());
+                        totalAmount = totalAmount + loan.LoanAmount;
+                        totalBalance = totalBalance + loan.LoanBalance;
+                        branchLoans.Add(loan);
+                    }
+                    else if (!string.IsNullOrEmpty(dataRow["loanId"].ToString()) && !string.IsNullOrEmpty(dataRow["iloanId"].ToString()))
+                    {
+                        loan.LoanNumber = dataRow["loanNumber"].ToString();
+                        loan.PartnerBranch = dataRow["nonRegBranchName"].ToString();
+                        loan.ActiveUnits = int.Parse(dataRow["activeUnits"].ToString());
+                        loan.InActiveUnits = int.Parse(dataRow["inactiveUnits"].ToString());
+                        loan.LoanBalance = decimal.Parse(dataRow["usedAmount"].ToString());
+                        loan.PendingBalance = decimal.Parse(dataRow["pendingAmount"].ToString());
+                        loan.LoanAmount = decimal.Parse(dataRow["loanAmount"].ToString());
+                        totalAmount = totalAmount + loan.LoanAmount;
+                        totalBalance = totalBalance + loan.LoanBalance;
+                        branchLoans.Add(loan);
+                    }
+
+                }
+                if (branchLoans.Count > 0)
+                {
+                    branchLoans[0].TotalLoanAmounts = totalAmount;
+                    branchLoans[0].TotalLoanBalances = totalBalance;
+                }
+            }
+
+            return branchLoans;
+        }
+
     }
 }

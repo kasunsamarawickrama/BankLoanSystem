@@ -180,4 +180,19 @@ namespace BankLoanSystem.Models
     }
 
     #endregion
+
+    public class RptBranchSummary
+    {
+        public string PartnerBranch { get; set; }
+        public int LoanId { get; set; }
+        public string LoanNumber { get; set; }
+        public decimal LoanAmount { get; set; }
+        public decimal LoanBalance { get; set; }
+        public decimal TotalLoanAmounts { get; set; }
+        public decimal TotalLoanBalances { get; set; }
+        public decimal PendingBalance { get; set; }
+        public int ActiveUnits { get; set; }
+        public int InActiveUnits { get; set; }
+       
+    }
 }
