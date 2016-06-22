@@ -380,20 +380,24 @@
 
                                 <div style="margin-top:10px">
                                     @{
-                                    int role = ((User)Session["AuthenticatedUser"]).RoleId;
+                                        int role = ((User)Session["AuthenticatedUser"]).RoleId;
 
-                                    string roleName = null;
+                                        string roleName = null;
 
-                                    if(role == 1)
-                                    {
-                                        roleName = "Super Admin";
-                                    }else if (role == 2)
-                                    {
-                                        roleName = "Admin";
-                                    }else if (role == 3)
-                                    {
-                                        roleName = "User";
-                                    }
+                                        if(role == 1)
+                                        {
+                                            roleName = "Super Admin";
+                                        }else if (role == 2)
+                                        {
+                                            roleName = "Admin";
+                                        }else if (role == 3)
+                                        {
+                                            roleName = "User";
+                                        }
+                                        else if (role == 4)
+                                        {
+                                            roleName = "Dealer User";
+                                        }
                                     }
                                     <span>@*@ViewBag.Position*@ @roleName</span>
 
