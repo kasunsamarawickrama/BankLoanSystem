@@ -83,6 +83,7 @@ color:#545454;
 
 
     var title = 0;
+    var hasFee = 0;
     @if(ViewBag.LoanId!=null && ViewBag.LoanId.Items.Count == 1)
     {
 
@@ -96,23 +97,53 @@ color:#545454;
         var len = model.BranchList.length;
         var count =0;
         for (var j = 0 ; j < model.BranchList.length; j++){
-            if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==0){
+            if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==0 && model.BranchList[j].HasFee==0){
                 title = 0;
+                hasFee = 0;
+                $('#6').hide();
+                $('[for="Pay_Fees"]').hide();
                 $('#4').hide();
                 $('[for="Update_Title_Status"]').hide();
 
             }
-            else{
+            else if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==0 && model.BranchList[j].HasFee==1){
+                title = 0;
+                hasFee = 1;
+                $('#6').show();
+                $('[for="Pay_Fees"]').show();
+                $('#4').hide();
+                $('[for="Update_Title_Status"]').hide();
+
+            }
+            else if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==1 && model.BranchList[j].HasFee==1){
                 title = 1;
+                hasFee = 1;
+                $('#6').show();
+                $('[for="Pay_Fees"]').show();
                 $('#4').show();
                 $('[for="Update_Title_Status"]').show();
+
             }
+            else if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==1 && model.BranchList[j].HasFee==0){
+                title = 1;
+                hasFee = 0;
+                $('#6').hide();
+                $('[for="Pay_Fees"]').hide();
+                $('#4').show();
+                $('[for="Update_Title_Status"]').show();
+
+            }
+            //else{
+            //    title = 1;
+            //    $('#4').show();
+            //    $('[for="Update_Title_Status"]').show();
+            //}
         }
 
 
 
     };
-
+    
     $(function () {
         $('#CheckAll').on('change', function () {
             $('#checkBoxMessage span').text("");
@@ -160,7 +191,13 @@ color:#545454;
                 count++;
             }
         }
-        if( title != 1 && count === (len-1)){
+        if( title != 1 && hasFee === 1 && count === (len-1)){
+            $('#CheckAll').prop('checked', true);
+        }
+        else if( title == 1 && hasFee != 1 && count === (len-1)){
+            $('#CheckAll').prop('checked', true);
+        }
+        else if( title != 1 && hasFee != 1 && count === (len-2)){
             $('#CheckAll').prop('checked', true);
         }
         else if( count === len){

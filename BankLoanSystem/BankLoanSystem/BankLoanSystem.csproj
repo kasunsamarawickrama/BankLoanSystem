@@ -239,6 +239,7 @@
     <Content Include="Reports\RptDivAdvanceFeeReceipt.aspx" />
     <Content Include="Reports\RptDivAdvanceUnit.aspx" />
     <Content Include="Reports\RptDivCompanySummary.aspx" />
+    <Content Include="Reports\RptDivBranchSummary.aspx" />
     <Content Include="Reports\RptDivCurtailmentInvoice.aspx" />
     <Content Include="Reports\RptDivCurtailmentReceipt.aspx" />
     <Content Include="Reports\RptDivCUrtailmentReceiptDuringSession.aspx" />
@@ -424,6 +425,13 @@
     </Compile>
     <Compile Include="Reports\RptDivCompanySummary.aspx.designer.cs">
       <DependentUpon>RptDivCompanySummary.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivBranchSummary.aspx.cs">
+      <DependentUpon>RptDivBranchSummary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivBranchSummary.aspx.designer.cs">
+      <DependentUpon>RptDivBranchSummary.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\RptDivCurtailmentInvoice.aspx.cs">
       <DependentUpon>RptDivCurtailmentInvoice.aspx</DependentUpon>
@@ -672,6 +680,7 @@
     <EmbeddedResource Include="Reports\RptAdvanceReport.rdlc" />
     <EmbeddedResource Include="Reports\RptAdvanceUnit.rdlc" />
     <EmbeddedResource Include="Reports\RptCompanySummary.rdlc" />
+    <EmbeddedResource Include="Reports\RptBranchSummary.rdlc" />
     <EmbeddedResource Include="Reports\RptCurtailmentDuringSession.rdlc" />
     <EmbeddedResource Include="Reports\RptCurtailmentInvoice.rdlc" />
     <EmbeddedResource Include="Reports\RptCurtailmentReceipt.rdlc" />

@@ -22,6 +22,8 @@ namespace BankLoanSystem.Models
         [Display(Name = "Description")]
         public string description { get; set; }
 
+        public string name { get; set; }
+
         public int userId { get; set; }
 
         public string rightsPermissionString { get; set; }
