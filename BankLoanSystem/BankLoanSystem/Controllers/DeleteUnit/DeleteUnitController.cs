@@ -128,7 +128,6 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                     unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.UnitStaus == 0).ToList();
                 else if (viewType == 5)
                 {
-                    //unitModel.DeleteUnits = unitModel.DeleteUnits.Where( x => ( year != "" && x.Year == year) && (make != "" && x.Make == make)).ToList();
                     if (id != "" && year != "" && make != "" && model != "")
                     {
                         unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.IdentificationNumber.Substring(x.IdentificationNumber.Length - 6) == id && x.Year == year && x.Make == make && x.Model == model).ToList();

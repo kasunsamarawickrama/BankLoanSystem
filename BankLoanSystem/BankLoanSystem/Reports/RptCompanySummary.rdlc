@@ -40,7 +40,7 @@
               <Width>2.83514cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.83514cm</Width>
+              <Width>3.09972cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>2.83514cm</Width>
@@ -102,7 +102,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>No Of Partner Branches</Value>
+                              <Value>Number Of Partner Branches</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -136,7 +136,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>No Of Active Loans</Value>
+                              <Value>Number Of Active Loans</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -204,7 +204,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Total Loan Balance</Value>
+                              <Value>Total Loan Balances</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -238,7 +238,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Total Loan Amount</Value>
+                              <Value>Total Loan Amounts</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -526,7 +526,7 @@
         <Top>3.14536cm</Top>
         <Left>1.55787cm</Left>
         <Height>1.2cm</Height>
-        <Width>17.01083cm</Width>
+        <Width>17.27542cm</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -575,7 +575,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!LenderBrnchName.Value, "DataSet2")</Value>
+                <Value>=First(Fields!CompanyName.Value, "DataSet2")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -667,7 +667,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>5.08cm</Height>
+    <Height>6.29708cm</Height>
     <Style />
   </Body>
   <Width>19.99358cm</Width>
@@ -789,6 +789,10 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="LenderBrnchName">
           <DataField>LenderBrnchName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
