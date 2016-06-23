@@ -1424,7 +1424,7 @@ namespace BankLoanSystem.Controllers
             rightLists = (new UserRightsAccess()).getRights();
 
             us.UserRightsList = rightLists;
-            //us.ReportRightsList = (new UserRightsAccess()).getReportRights();
+            us.ReportRightsList = (new UserRightsAccess()).getReportRights();
             //return PartialView(userViewModel);
 
             if (HttpContext.Request.IsAjaxRequest())
@@ -1520,6 +1520,7 @@ namespace BankLoanSystem.Controllers
                 userObj.step_status= 1;
                 userObj.BranchId = userObj.BranchIdUser;
                 string[] arrList = new string[userObj.UserRightsList.Count];
+                string[] arrList2 = new string[userObj.ReportRightsList.Count];
                 int i = 0;
                 foreach (var x in userObj.UserRightsList)
                 {
@@ -1529,18 +1530,22 @@ namespace BankLoanSystem.Controllers
                         i++;
                     }
                 }
-
+                foreach (var x in userObj.ReportRightsList)
+                {
+                    if (x.active)
+                    {
+                        arrList2[i] = x.rightId;
+                        i++;
+                    }
+                }
                 arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
                 //user.UserRights = arrList.ToString();
                 userObj.UserRights = string.Join(",", arrList);
+                //add report rights
+                arrList2 = arrList2.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                userObj.ReportRights = string.Join(",", arrList2);
             }
-           
-            //for(int i=0;i<userObj.UserRightsList.Count();i++) {
-            //if(userObj.UserRightsList[i].active) {
-            //        userObj.UserRights = userObj.UserRightsList[i].rightId + ",";
-            //}
-
-            //}
+         
             //Insert user
             int res = da.InsertUserInDashboard(userObj);
 
@@ -2402,7 +2407,7 @@ namespace BankLoanSystem.Controllers
 
                     if (passwordFromDB == null || (checkCharHave == false))
                     {
-                        return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username or Password, please confirm and submit." });
+                        return RedirectToAction("UserLogin", "Login");
                     }
 
                     string passwordEncripted = PasswordEncryption.encryptPassword(user.CurrentPassword, split[1]);

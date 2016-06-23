@@ -149,6 +149,8 @@ namespace BankLoanSystem.Models
 
         public string UserRights { get; set; }
 
+        public string ReportRights { get; set; }
+
         public int step_status { get; set; }
 
         public List<Right> UserRightsList { get; set; }

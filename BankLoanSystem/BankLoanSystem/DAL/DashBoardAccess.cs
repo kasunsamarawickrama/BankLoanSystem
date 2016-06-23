@@ -207,11 +207,13 @@ namespace BankLoanSystem.DAL
                 if (user.RoleId == 3)
                 {
                     paramertList.Add(new object[] { "@rights", user.UserRights });
+                    paramertList.Add(new object[] { "@report_rights", user.ReportRights });
                     paramertList.Add(new object[] { "@loan_id", user.LoanId });
                 }
                 else
                 {
                     paramertList.Add(new object[] { "@rights",""});
+                    paramertList.Add(new object[] { "@report_rights", "" });
                     paramertList.Add(new object[] { "@loan_id", 0 });
                 }
                 paramertList.Add(new object[] { "@step_status", user.step_status });

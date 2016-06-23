@@ -195,6 +195,18 @@ namespace BankLoanSystem.Models
        
     }
 
+    public class RptLoanSummary
+    {
+        public int TotalUnitsAdded { get; set; }
+        public int TotalUnitsAdvanced { get; set; }
+        public decimal TotalAmountAdvanced { get; set; }
+        public decimal TotalAdvanceFees { get; set; }
+        public decimal TotalCurtailmentsRecieved { get; set; }
+        public int TotalUnitsPaidOff { get; set; }
+        public decimal TotalAmountPaidOff { get; set; } 
+        public int TotalUnitsDeleted { get; set; }
+    }
+
     #endregion
 
     public class RptDeletedUnit
