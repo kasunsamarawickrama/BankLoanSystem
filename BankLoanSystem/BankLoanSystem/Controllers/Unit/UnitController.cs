@@ -43,8 +43,6 @@ namespace BankLoanSystem.Controllers.Unit
             }
             catch
             {
-                //filterContext.Result = new RedirectResult("~/Login/UserLogin");
-                //filterContext.Controller.TempData.Add("UserLogin", "Login");
                 filterContext.Result = new RedirectResult("~/Exceptions/Index");
             }
         }
@@ -55,8 +53,20 @@ namespace BankLoanSystem.Controllers.Unit
             return RedirectToAction("AddUnit");
         }
 
+        /*
+
+        Frontend page   : Add Unit 
+        Title           : Add or Advance Units
+        Designed        : Kasun Samarawickrama
+        User story      : 
+        Developed       : Kasun Samarawickrama
+        Date created    : 02/24/2016
+
+        */
         public ActionResult AddUnit()
         {
+            // Handle Record successfully update or Error message
+
             int Flag = 0;
             if (TempData["Msg"] != null)
             {
@@ -79,11 +89,14 @@ namespace BankLoanSystem.Controllers.Unit
             int userId = userData.UserId;
             ViewBag.Role = userData.RoleId; ;
 
+            //Check loan is null or not
             if (Session["loanCode"] == null || Session["loanCode"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Failed find loan" });
 
+            // for role id3 - user section
             if (userData.RoleId == 3)
             {
+                // check user has rights to access this loan - if not redirect to dashboard
                 if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
                 {
                     return RedirectToAction("UserDetails", "UserManagement");
@@ -92,9 +105,11 @@ namespace BankLoanSystem.Controllers.Unit
                     var checkPermission = false;
                     var checkAdvance = false;
 
+                    // check user permission to the site
                     string rgts = "";
                     rgts = (string)Session["CurrentLoanRights"];
                     string[] rgtList =null;
+                    //spit the permission string
                     if (rgts != "") {
                         rgtList = rgts.Split(',');
                     }
@@ -102,10 +117,12 @@ namespace BankLoanSystem.Controllers.Unit
                     {
                         foreach (var x in rgtList)
                         {
+                            //check user have rights to add unit page
                             if (x == "U004")
                             {
                                 checkPermission = true;
                             }
+                            // check user have right to advance units in this page
                             if (x == "U001")
                             {
                                 checkAdvance = true;
@@ -130,7 +147,7 @@ namespace BankLoanSystem.Controllers.Unit
                 }
             }
             string loanCode = Session["loanCode"].ToString();
-
+            // retrive loan details
             LoanSetupStep1 loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
             int loanId = loan.loanId;
@@ -138,23 +155,13 @@ namespace BankLoanSystem.Controllers.Unit
 
 
             ViewBag.loanDetails = loan;
+            //set default unit type for add unit page
             if (loan.selectedUnitTypes.Count == 1) {
                 ViewBag.UnitTypeId = loan.selectedUnitTypes[0].unitTypeName;
             }
 
             Models.Unit unit = new Models.Unit();
 
-            //int userRole = (new UserManageAccess()).getUserRole(userId);
-            //if (userRole == 3)
-            //{
-            //    var access = new UserRightsAccess();
-            //    List<Right> permission = access.getRightsString(userId);
-            //    if (permission.Count >= 1)
-            //    {
-            //        string permissionString = permission[0].rightsPermissionString;
-            //    }
-            //}
-            
             unit.AdvancePt = loan.advancePercentage;
             unit.LoanId = loanId;
             unit.LoanAmount = loan.loanAmount;
@@ -174,7 +181,7 @@ namespace BankLoanSystem.Controllers.Unit
             //Check title 
             TitleAccess ta = new TitleAccess();
             Title title = ta.getTitleDetails(loan.loanId);
-
+            // check title track allow or not
             if (title != null)
             {
                 bool isTitleTrack = title.IsTitleTrack;
@@ -186,12 +193,12 @@ namespace BankLoanSystem.Controllers.Unit
                     ViewBag.Upload = "Yes";
 
             }
-
+            // loan Details for (loan Detail box) in the page 
             UnitAccess ua = new UnitAccess();
             LoanPaymentDetails loanPaymentDetails = ua.GetLoanPaymentDetailsByLoanId(loanId);
 
             unit.Balance = loanPaymentDetails.BalanceAmount;
-
+            // check balane field is editable or not for this loan
             ViewBag.Editable = loan.isEditAllowable ? "Yes" : "No";
 
             
@@ -201,16 +208,23 @@ namespace BankLoanSystem.Controllers.Unit
             return PartialView(unit);
         }
 
+        /*
 
+        Frontend page   : Add Unit
+        Title           : Add or Advance Units Post method
+        Designed        : Kasun Samarawickrama
+        User story      : 
+        Developed       : Kasun Samarawickrama
+        Date created    : 02/24/2016
+
+        */
         [HttpPost]
         [ActionName("AddUnit")]
         public ActionResult AddUnitPost(Models.Unit unit, List<HttpPostedFileBase> fileUpload)
         {
-            int flag = 0;
-           
 
            int userId = userData.UserId;
-
+            // check this is an advance or add unit
             switch (unit.AdvanceNow)
             {
                 case "No":
@@ -223,13 +237,12 @@ namespace BankLoanSystem.Controllers.Unit
                     break;
             }
 
-            GeneratesCode gc = new GeneratesCode();
-
             if (Session["loanCode"] == null) {
                 return RedirectToAction("UserLogin", "Login", null);
             }
             string loanCode = Session["loanCode"].ToString();
-            //check vin unique
+            
+            //check this posted vin unique in database
 
             int num = 0;
             if (unit.UnitTypeId == 1)
@@ -265,14 +278,14 @@ namespace BankLoanSystem.Controllers.Unit
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.heavyequipment.SerialNumber, unit.LoanId);
             }
+
+            //only allow to add if and only if vin already not existing in this loan
             if (num != 0 && num != 1)
             {
-                //unit.UnitId = gc.GenerateUnitId(loanCode, unit.LoanId);
 
-                //unit.UnitId = "LEN11_01-56454-78-676-000003";
-                //if()
                 string IDNumber;
                 UnitAccess ua = new UnitAccess();
+                //inserting the unit to the database
                 string res = ua.InsertUnit(unit, userId, loanCode, out IDNumber);
 
                 //if mention advance fee, then insert in to fee table
@@ -299,10 +312,7 @@ namespace BankLoanSystem.Controllers.Unit
                         }
                     }
                 }
-
-
-
-                flag = 1;
+                
                 if (!string.IsNullOrEmpty(res))
                 {
                     if (Session["addUnitloan"] == null)
@@ -326,6 +336,7 @@ namespace BankLoanSystem.Controllers.Unit
                     List<TitleUpload> titleList = new List<TitleUpload>();
 
                     int imageNo = 1;
+                    // if unit successfully updated then upload files
                     if (unit.FileName != null && fileUpload != null)
                     {
                         foreach (var file in fileUpload)
@@ -373,7 +384,6 @@ namespace BankLoanSystem.Controllers.Unit
                         }
                         catch (Exception ex)
                         {
-                            flag = 0;
                             throw ex;
                         }
                     }
@@ -384,62 +394,59 @@ namespace BankLoanSystem.Controllers.Unit
             }
             TempData["Msg"] = 2;
             return RedirectToAction("AddUnit", unit);
-
-            //return Json(new { flag = 0 }, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Auther: kasun
-        /// get the models accrding to the vehicle model year and make
-        /// </summary>
-        /// <param name="make"></param>
-        /// <param name="year"></param>
-        /// <returns></returns>
+        /*
+
+        Frontend page   : Add Unit
+        Title           : Get the models according to the vehicle model year and make
+        Designed        : Kasun Samarawickrama
+        User story      : 
+        Developed       : Kasun Samarawickrama
+        Date created    : 2016/2/25
+
+        */
         [HttpPost]
         public ActionResult GetModels(string make, int year,int unitId)
         {
             List <UnitYearMakeModel> modelList = (new UnitAccess()).GetVehicleModelsByMakeYear(make, year, unitId);
 
             SelectList modelSelectList = new SelectList(modelList, "VehicleModel", "VehicleModel");
-            //var obj = new
-            //{
-            //    modelSelectList = modelSelectList
-            //};
+
             return Json(modelSelectList);
         }
 
-        
-        //[HttpPost]
-        //public void StoreMakeModels(IList<VehicleUnit> List)
-        //{
-        //    (new UnitAccess()).StoreMakeModels(List);
-        //}
 
-        /// <summary>
-        /// Auther: kasun
-        /// get the mskes accrding to the vehicle model year
-        /// </summary>
-        /// <param name="year"></param>
-        /// <returns></returns>
+        /*
+
+        Frontend page   : Add Unit
+        Title           : Get the makes according to the vehicle model year
+        Designed        : Kasun Samarawickrama
+        User story      : 
+        Developed       : Kasun Samarawickrama
+        Date created    : 2016/2/25
+
+        */
         [HttpPost]
         public ActionResult GetMakes(int year,int unitId)
         {
             List<UnitYearMakeModel> makeList = (new UnitAccess()).GetVehicleMakesByYear(year,unitId);
 
             SelectList makeSelectList = new SelectList(makeList, "VehicleMake", "VehicleMake");
-            //var obj = new
-            //{
-            //    modelSelectList = modelSelectList
-            //};
+
             return Json(makeSelectList);
         }
 
-        /// <summary>
-        /// Auther: kasun
-        /// get year accrding to the vehicle vin number
-        /// </summary>
-        /// <param name="vin"></param>
-        /// <returns>year</returns>
+        /*
+
+        Frontend page   : Add Unit
+        Title           : Get year accrding to the vehicle vin number
+        Designed        : Kasun Samarawickrama
+        User story      : 
+        Developed       : Kasun Samarawickrama
+        Date created    : 2016/2/25
+
+        */
         [HttpPost]
         public ActionResult GetYearByVin(string vin)
         {
@@ -448,12 +455,16 @@ namespace BankLoanSystem.Controllers.Unit
             return Json(year);
         }
 
-        /// <summary>
-        /// Auther: kasun
-        /// get make accrding to the vehicle vin number
-        /// </summary>
-        /// <param name="vin"></param>
-        /// <returns>year</returns>
+        /*
+
+        Frontend page   : Add Unit
+        Title           : Get make accrding to the vehicle vin number
+        Designed        : Kasun Samarawickrama
+        User story      : 
+        Developed       : Kasun Samarawickrama
+        Date created    : 2016/2/25
+
+        */
         [HttpPost]
         public ActionResult GetMakeByVin(string vin)
         {
@@ -462,7 +473,16 @@ namespace BankLoanSystem.Controllers.Unit
             return Json(make);
         }
 
+        /*
 
+        Frontend page   : Add Unit
+        Title           : Get model accrding to the vehicle vin number
+        Designed        : Kasun Samarawickrama
+        User story      : 
+        Developed       : Kasun Samarawickrama
+        Date created    : 2016/2/25
+
+        */
         [HttpPost]
         public ActionResult GetModelByVin(string makex, int yearx)
         {
@@ -582,58 +602,7 @@ namespace BankLoanSystem.Controllers.Unit
                 rights = access.GetUserRightsByLoanCode(loanCode, userId);
             }
             ViewBag.Role = userRole;
-            //if (userRole == 3)
-            //{
-            //    ///get permission string for the relevent user
-            //    List<Right> permissionString = access.getRightsString(userId,0);
-            //    if (permissionString.Count == 1)
-            //    {
 
-
-            //        string permission = permissionString[0].rightsPermissionString;
-            //        if (permission != "")
-            //        {
-            //            string[] charactors = permission.Split(',');
-
-            //            List<Right> temprights = new List<Right>();
-
-            //            foreach (var charactor in charactors)
-            //            {
-            //                foreach (var obj in rights)
-            //                {
-            //                    if (string.Compare(obj.rightId, charactor) == 0)
-            //                    {
-            //                        temprights.Add(obj);
-            //                        break;
-
-            //                    }
-
-            //                }
-            //            }
-
-            //            rights = temprights;
-
-
-            //        }
-            //        else
-            //        {
-            //            rights = new List<Right>();
-            //        }
-
-
-            //    }
-
-            //    else if (permissionString.Count == 0)
-            //    {
-
-            //        rights = new List<Right>();
-            //    }
-
-
-
-            //}
-
-            //string loanCode = Session["loanCode"].ToString();
 
             if (Session["addUnitloan"] == null)
             {
@@ -737,11 +706,17 @@ namespace BankLoanSystem.Controllers.Unit
             ViewBag.UserId = userData.UserId;
             return View();
         }
-        /// <summary>
-        /// check Vin already wxist on loan 
-        /// </summary>
-        /// <param name="vin"></param>
-        /// <returns></returns>
+
+        /*
+
+        Frontend page   : Add Unit
+        Title           : Check Vin already wxist on loan 
+        Designed        : Kasun Samarawickrama
+        User story      : 
+        Developed       : Kasun Samarawickrama
+        Date created    : 
+
+        */
         [HttpPost]
         public JsonResult IsVinExists(string identificationNumber)
         {
