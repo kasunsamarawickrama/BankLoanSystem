@@ -217,21 +217,7 @@ namespace BankLoanSystem.Controllers
                     ViewBag.LoanCount = 1;
                     ViewBag.loanSelected = 1;
                     Loan loanSelected = (Loan)Session["loanDashboard"];
-                    if (userData.RoleId == 2)
-                    {
-                        //loan = da.GetLoanDetails(userData.BranchId, 2);
-
-                    }
-                    else if (userData.RoleId == 1)
-                    {
-                        //loan = da.GetLoanDetails(userData.Company_Id, 1);
-
-                    }
-                    else if (userData.RoleId == 3)
-                    {
-                        //loan = da.GetLoanDetails(userData.UserId, 3);
-
-                    }
+                  
                     if (loanSelected != null)
                     {
                         if (userData.RoleId == 1)

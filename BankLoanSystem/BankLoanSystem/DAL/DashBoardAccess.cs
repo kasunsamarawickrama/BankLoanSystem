@@ -58,6 +58,47 @@ namespace BankLoanSystem.DAL
 
 
         }
+
+
+
+        /// <summary>
+        /// Associated page:    dashboard page
+        /// title:              checking is atleast one permission for report access
+        /// designed:           irfan mam
+        /// developed:          irfan mam
+        /// date creaed:        6/23/2016
+        /// 
+        /// </summary>
+        /// 
+        /// <returns>
+        /// if there is no loan has user rights -> false
+        ///  if there is atleast one user right for any loan -> true
+        /// </returns>
+        public bool IsAtleastOnePermissionForReport( int userId)
+        {
+
+            bool ret = false;
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+           
+            paramertList.Add(new object[] { "@user_id", userId });
+            try
+            {
+                if( dataHandler.ExecuteSQLReturn("isAtleastOnePermissionForReport", paramertList)== 1)
+                {
+                    ret = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ret;
+
+
+        }
+
+
         /// <summary>
         /// CreatedBy: Piyumi
         /// CreatedDate: 3/30/2016

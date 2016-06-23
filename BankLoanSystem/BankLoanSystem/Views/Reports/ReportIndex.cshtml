@@ -6,21 +6,24 @@
 }
 
 
-@*Date picker*@
-@*<link href="~/Content/pikaday.css" rel="stylesheet" />
-<link href="~/Content/theme.css" rel="stylesheet" />
-<link href="~/Content/triangle.css" rel="stylesheet" />*@
+
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>
-
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 <script src="~/scripts/bootstrap.min.js"></script>
-
-@*<link rel="stylesheet" href="~/Content/commonActions.css">
-    <link href="~/Content/commonActions.css" rel="stylesheet" />*@
 <script src="~/scripts/bootstrap.min.js"></script>
 
-@*<link href="~/Content/overlaypopup.css" rel="stylesheet" />*@
+
+<!-- This is for jqGrid-->
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+
+<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+@*<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>*@
+<script src="~/Scripts/jquery-ui-1.10.0.min.js"></script> 
+<script src="~/Scripts/i18n/grid.locale-en.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.jqGrid.min.js" type="text/javascript"></script>  
+
 @section AddToHead{
 <style>
     .btns-clm > button {
@@ -35,6 +38,23 @@
 
 @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
 }
+
+
+
+    @if (ViewBag.LoanId.Items.Count == 1)
+    {
+
+    }
+    else
+    {
+        <div style="padding-left:12px;padding-right:12px;padding-bottom: 10px;">
+            <table id="grid"></table>
+            <div id="pager2"></div>
+        </div>
+    }
+
+
+
 <div class="container" id="container" style="padding-top:20px !important">
     <div id="errPage" class="field-validation-error"><span class="text-danger"></span></div>
     <div class="btns-clm" id="divRptType">
@@ -58,12 +78,7 @@
         <button type="button" id="btnPayOff" class="btn btn-info">Pay Off</button>
         <button type="button" id="btnTransactionHistory" class="btn btn-info">Transaction History</button>
         <button type="button" id="btnLoanTerms" class="btn btn-info">Loan Terms</button>
-        @*<div id="2" href="#">
-                <p style="color: white">advance a unit</p>
-            </div>
-            <div id="3" href="#">
-                <p style="color: white">unit curtailments</p>
-            </div>*@
+       
     </div>
 
     <hr />
@@ -72,21 +87,26 @@
     <div style="margin-top:15px;" id="liFilteringSection">
         <div class="form-inline" style="text-align:left;width:70%;display: inline-block;
     float: left;padding-left: 10px;">
-            <div id="lnum" class="form-group" style="width:50%;">
-                <label for="">Account Detail</label><br/>
+                        
+    @if (ViewBag.LoanId.Items.Count == 1)
+    {
+    <div id="lnum" class="form-group" style="width:50%;">
+    <label for="">Account Detail</label><br/>
 
-                @if (Enumerable.Count(ViewBag.LoanId) == 1)
-                {
-                    @Html.HiddenFor(model => model.LoanId, new { @Value = (int)ViewBag.LoanId.Items[0].LoanId, })
-                    @Html.LabelFor(model => model.LoanId, (string)ViewBag.LoanId.Items[0].LoanNumberB, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
-                }
-                else
-                {
-                    @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" , @style="width:100%" })
-                    @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
-                    <div id="tagscloudLoanId" class="field-validation-error"><span class="text-danger"></span></div>
-                }
-            </div>
+
+        @Html.HiddenFor(model => model.LoanId, new { @Value = (int)ViewBag.LoanId.Items[0].LoanId, })
+        @Html.LabelFor(model => model.LoanId, (string)ViewBag.LoanId.Items[0].LoanNumberB, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                    </div>
+            }
+            else
+            {
+
+        <input type="hidden"  id="loanId" value=""/>
+               @*// @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" , @style="width:100%" })
+               // @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
+               // <div id="tagscloudLoanId" class="field-validation-error"><span class="text-danger"></span></div>*@
+            }
+        
 
             <div id="strdate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
                 <label for="">Start Date</label>
@@ -156,10 +176,6 @@
 
 <div class="link-bar" style="margin-bottom:15px;">
 
-
-    @{
-        //Html.RenderAction("GetLinkBar", "Unit");
-    }
 
     <button class="a_demo_three icon-home3" onclick="window.location.href = '/UserManagement/UserDetails'">
 
@@ -441,7 +457,7 @@
         var rptType = $('#hdnSelectedButton').val();
         
         if (rptType !== '') {
-            var input = $("#LoanId");
+            var input = $("#loanId");
 
             var urlPrefix = "";
 
@@ -492,9 +508,11 @@
             }
 
             var selectedIndex;
-            if (input.attr('type') !== 'hidden') {
-                selectedIndex = $("#LoanId option:selected").index();
-                if (selectedIndex === 0) {
+           // if (input.attr('type') !== 'hidden') {
+            //selectedIndex = $("#LoanId option:selected").index
+
+            selectedIndex = $("#loanId").val();
+                if (selectedIndex === '') {
                     $('#tagscloudLoanId').children('span').text("Please select a loan");
                     $("#LoanId").addClass('input-validation-error');
                     $('.centered h5 span').text("Error in Page");
@@ -504,9 +522,9 @@
                     $("#LoanId").removeClass('input-validation-error');
                     $('.centered h5 span').text("");
                 }
-            }
+         //   }
 
-            var val = $('#LoanId').val();
+                var val = selectedIndex;
 
             var myFrame;
             var frameDoc;
@@ -557,8 +575,7 @@
                     myFrame = document.getElementById('ifrmReportViewer');
                     frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
                     frameDoc.removeChild(frameDoc.documentElement);
-                    //var startDate1 = moment(startDate, "MM/dd/yyyy");
-                    //var endDate1 = moment(endDate, "MM/dd/yyyy");
+                    
 
                     urlPrefix = urlPrefix + val + "&startDate=" + formatDate(startDate) + "&endDate=" + formatDate(endDate);
                     ReportCurtailmentInvoice(val, urlPrefix);
@@ -717,19 +734,19 @@
 
     });
 
-    $('#LoanId').change(function () {
-        $('#tagscloudLoanId').children('span').text('');
-        $(this).removeClass('input-validation-error');
+    //$('#LoanId').change(function () {
+    //    $('#tagscloudLoanId').children('span').text('');
+    //    $(this).removeClass('input-validation-error');
 
-        var rptType = $('#hdnSelectedButton').val();
+    //    var rptType = $('#hdnSelectedButton').val();
 
-        if (rptType === 'FullInventory' || rptType === 'LotInspection')
-            $('.centered h5 span').text("");
-        else if (rptType === 'TitlesStatus') {
-            if (this.value !== '' && $("#titleStatus option:selected").index() !== 0)
-                $('.centered h5 span').text("");
-        }
-    });
+    //    if (rptType === 'FullInventory' || rptType === 'LotInspection')
+    //        $('.centered h5 span').text("");
+    //    else if (rptType === 'TitlesStatus') {
+    //        if (this.value !== '' && $("#titleStatus option:selected").index() !== 0)
+    //            $('.centered h5 span').text("");
+    //    }
+    //});
 
     $('#titleStatus').change(function () {
         $('#tagscloudTitleStatus').children('span').text('');
@@ -749,47 +766,11 @@
         var range2 = $('#endDate').val();
         var titleStatus=$('#titleStatus').val();
 
-        //window.location.blank = true;
+        
         var url = '/Reports/PrintPage?rptType='+ rptType + '&loanId=' + loanId + '&range1=' + range1+ '&range2=' + range2 + '&titleStatus=' + titleStatus;
 
         var win = window.open(url, '_blank');
         win.focus();
-
-        //$.ajax({
-        //    url: '/Reports/PrintPage',
-        //    type: 'POST',
-        //    contentType: 'application/json;',
-        //    data: JSON.stringify({ 'rptType': rptType, 'loanId': loanId, 'range1': range1, 'range2': range2, 'titleStatus': titleStatus }),
-        //    success: function (view) {
-        //        //alert(view);
-        //    },
-        //    error: function (jqXHR, textStatus, errorThrown) {
-        //        // Your handler here...
-
-        //        // if session expires
-        //        if (jqXHR.status == "404") {
-        //            window.location.href = '/Login/UserLogin?lbl=Session expired';
-        //        } else {
-        //            $('#errPage span').text('No printers are installed.');
-        //        }
-        //    }
-        //});
-
-        ////Code for adding HTML content to report viwer
-        //var headstr = "<html><head><title></title></head><body>";
-        ////End of body tag
-        //var footstr = "</body></html>";
-        ////This the main content to get the all the html content inside the report viewer control
-        ////"ReportViewer1_ctl10" is the main div inside the report viewer
-        ////controls who helds all the tables and divs where our report contents or data is available
-        //var newstr = $("#rptViewerLotInspection_ctl09").html();
-        ////open blank html for printing
-        //var popupWin = window.open('', '_blank');
-        ////paste data of printing in blank html page
-        //popupWin.document.write(headstr + newstr + footstr);
-        ////print the page and see is what you see is what you get
-        //popupWin.print();
-        //return false;
     });
 
     var startDate = new Pikaday({
@@ -806,3 +787,64 @@
     $("#lkrep").hide();
 
 </script>
+
+
+<script language="javascript">
+
+$(document).ready(function () {
+    $("#grid").jqGrid({
+        url: '@Href("~/Reports/GetActiveLoans")',
+        datatype: "json",
+        contentType: "application/json; charset-utf-8",
+        mtype: 'GET',
+        colNames: ['Branch Name', 'Partner Branch Name', 'Loan Number', 
+         'Loan Amount', 'Used Amount'],
+        colModel: [
+             { name: 'BranchName', index: 'BranchName', width: 220 },
+
+              { name: 'PatBranchName', index: 'PatBranchName', width: 220 },
+            //{ name: 'LoanId', index: 'LoanId', width: 55},
+            { name: 'LoanNumber', index: 'LoanNumber', width: 200 },
+            //{ name: 'BranchId', index: 'BranchId', width: 100 },
+           
+            {
+                name: 'LoanAmount', index: 'LoanAmount', width: 160,
+                align: "right", sorttype: 'float'
+            },
+             {
+                 name: 'UsedAmount', index: 'UsedAmount', width: 160,
+                 align: "right", sorttype: 'float'
+             }
+           
+        ],
+        rowNum: 5,
+        rowList: [5, 10, 15],
+        pager: '#pager2',
+        sortname: 'id',
+        loadonce:true,
+        viewrecords: true,
+        sortorder: "asc",
+        caption: "Active Loans",
+
+        loadComplete: function () {
+            var grid = $("#grid"),
+                ids = grid.getDataIDs();
+
+            for (var i = 0; i < ids.length; i++) {
+                grid.setRowData(ids[i], false, { height: 27 });
+            }
+        }
+    });
+    jQuery("#grid").jqGrid('navGrid', '#pager2',
+        { edit: false, add: false, del: false });
+});
+
+
+    $(document).on('click', '.ui-row-ltr', function () {
+
+        var id = jQuery("#grid").jqGrid('getGridParam', 'selrow');
+        $("#loanId").val(id);
+
+        
+    });
+</script>  
