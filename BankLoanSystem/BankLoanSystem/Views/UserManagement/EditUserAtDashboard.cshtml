@@ -388,38 +388,45 @@
 
 
     $('#txtCurrentPassword').change(function(){
+        CheckCurrentPwd();
+    });
+    $('#txtCurrentPassword').focusout(function(){
+        CheckCurrentPwd();
+    });
+    function CheckCurrentPwd(){
         var uid = $("#hdnUserId3").val();
         var pwd = $("#txtCurrentPassword").val();
+        if(uid>0){
+            $.ajax({
+                url: '/UserManagement/CheckPasswd/',
+                type: 'POST',
+                contentType: 'application/json;',
+                data: JSON.stringify({userId:uid,Cpwd:pwd }),
+                success: function (data) {
+                    //alert(data);
+                    if(data==0){
+                        $('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text("Current password does not match with the selected user");
+                        $('#txtCurrentPassword').next("div").children("p").children("span").text("");
+                        $('#txtCurrentPassword').addClass('input-validation-error');
+                    }
+                    if(data==1){
+                        $('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text("");
+                        $('#txtCurrentPassword').next("div").children("p").children("span").text("");
+                        $('#txtCurrentPassword').removeClass('input-validation-error');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Your handler here...
 
-        $.ajax({
-            url: '/UserManagement/CheckPasswd/',
-            type: 'POST',
-            contentType: 'application/json;',
-            data: JSON.stringify({userId:uid,Cpwd:pwd }),
-            success: function (data) {
-                //alert(data);
-                if(data==0){
-                    $('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text("Current password does not match with the selected user");
-                    $('#txtCurrentPassword').next("div").children("p").children("span").text("");
-                    $('#txtCurrentPassword').addClass('input-validation-error');
+                    // if session expires
+                    if (jqXHR.status == "404") {
+                        window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
+                    }
                 }
-                if(data==1){
-                    $('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text("");
-                    $('#txtCurrentPassword').next("div").children("p").children("span").text("");
-                    $('#txtCurrentPassword').removeClass('input-validation-error');
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                // Your handler here...
-
-                // if session expires
-                if (jqXHR.status == "404") {
-                    window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
-                }
-            }
-        });
-    });
-
+            });
+        }
+      
+    };
     $('#btnUpdateUser').click(function(e){
         //$('#txtUserId2').text("for");
         if($('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text() != ""){
