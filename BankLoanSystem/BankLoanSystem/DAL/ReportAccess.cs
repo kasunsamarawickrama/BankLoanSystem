@@ -1050,9 +1050,9 @@ namespace BankLoanSystem.DAL
         /// <param name="dueDateStart">start date</param>
         /// <param name="dueDateEnd">end date</param>
         /// <returns></returns>
-        public RptLoanSummary GetLoanSummaryReport(int loanId, DateTime dueDateStart, DateTime dueDateEnd) {
+        public List<RptLoanSummary> GetLoanSummaryReport(int loanId, DateTime dueDateStart, DateTime dueDateEnd) {
 
-            RptLoanSummary loanSummary = new RptLoanSummary();
+            List<RptLoanSummary> loanSummaryList = new List<RptLoanSummary>();
             DataHandler dataHandler = new DataHandler();
 
             List<object[]> paramertList = new List<object[]>();
@@ -1063,24 +1063,24 @@ namespace BankLoanSystem.DAL
             DataSet dataSet = dataHandler.GetDataSet("spGetLoanSummaryReport", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0)
             {
-                DataRow dataRow = dataSet.Tables[0].Rows[0];
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    RptLoanSummary loanSummary = new RptLoanSummary();
+                    loanSummary.TotalUnitsAdded = int.Parse(dataRow["TotalUnitsAdded"].ToString());
+                    loanSummary.TotalUnitsAdvanced = int.Parse(dataRow["TotalUnitsAdvanced"].ToString());
+                    loanSummary.TotalAmountAdvanced = decimal.Parse(dataRow["TotalAmountAdvanced"].ToString());
+                    loanSummary.TotalAdvanceFees = decimal.Parse(dataRow["TotalAdvanceFees"].ToString());
+                    loanSummary.TotalCurtailmentsRecieved =
+                        decimal.Parse(dataRow["TotalCurtailmentsRecieved"].ToString());
+                    loanSummary.TotalUnitsPaidOff = int.Parse(dataRow["TotalUnitsPaidOff"].ToString());
+                    loanSummary.TotalAmountPaidOff = decimal.Parse(dataRow["TotalAmountPaidOff"].ToString());
+                    loanSummary.TotalUnitsDeleted = int.Parse(dataRow["TotalUnitsDeleted"].ToString());
 
-                loanSummary.TotalUnitsAdded = int.Parse(dataRow["TotalUnitsAdded"].ToString());
-                loanSummary.TotalUnitsAdvanced = int.Parse(dataRow["TotalUnitsAdvanced"].ToString());
-                loanSummary.TotalAmountAdvanced = decimal.Parse(dataRow["TotalAmountAdvanced"].ToString());
-                loanSummary.TotalAdvanceFees = decimal.Parse(dataRow["TotalAdvanceFees"].ToString());
-                loanSummary.TotalCurtailmentsRecieved = decimal.Parse(dataRow["TotalCurtailmentsRecieved"].ToString());
-                loanSummary.TotalUnitsPaidOff = int.Parse(dataRow["TotalUnitsPaidOff"].ToString());
-                loanSummary.TotalAmountPaidOff = decimal.Parse(dataRow["TotalAmountPaidOff"].ToString());
-                loanSummary.TotalUnitsDeleted = int.Parse(dataRow["TotalUnitsDeleted"].ToString());
+                    loanSummaryList.Add(loanSummary);
+                }
+            }
 
-                return loanSummary;
-            }
-            else
-            {
-                return null;
-            }
-            
+            return loanSummaryList;
         }
 
         #endregion
