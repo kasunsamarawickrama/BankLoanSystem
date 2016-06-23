@@ -82,7 +82,7 @@
         <button type="button" id="btnBranchSummary" class="btn btn-info">Branch Summary</button>
         <button type="button" id="btnDeletedUnits" class="btn btn-info">Deleted Units</button>
         @*<div id="2" href="#">
-                <p style="color: white">advance a unit</p>
+    <p style="color: white">advance a unit</p>*@
             </div>
 
     <hr />
@@ -91,6 +91,8 @@
     <div style="margin-top:15px;" id="liFilteringSection">
         <div class="form-inline" style="text-align:left;width:70%;display: inline-block;
     float: left;padding-left: 10px;">
+@if (ViewBag.LoanId.Items.Count == 1)
+{
             <div id="lnum" class="form-group" style="width:50%;">
                 <label for="">Account Detail</label><br/>
 

@@ -226,48 +226,55 @@ namespace BankLoanSystem.Controllers.UnitTitle
             }
             
         }
-        /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate: 03/17/2016
-        /// search titles by identification number
-        /// 0=>NotReceived
-        /// 1=>Received
-        /// 2=>Returned to Dealer
-        /// 3=>Sent to Bank
-        /// </summary>
-        /// <param name="unitTitle"></param>
-        /// <returns></returns>
+            /*
+        Frontend page: Update Titles
+        Title: Update title status
+        Designed: Piyumi
+        User story:
+        Developed: Piyumi
+        Date created: 03/17/2016
+        */
         public int UpdateTitleStatus(Models.Unit unitTitle)
         {
             string loanCode = null;
+            //Check Session["loanCode"] is null or empty
             if (!string.IsNullOrEmpty(Session["loanCode"].ToString()))
             {
+            //if not null or empty convert session to string variable
                 loanCode = Session["loanCode"].ToString();
             }
             TitleAccess titleObj = new TitleAccess();
+            //update title status
             bool reslt = titleObj.UpdateTitle(unitTitle, loanCode,userData.UserId);
+            //Check result of update title
             if (reslt)
             {
+            //if result is true get loan details by loan code
                 LoanSetupStep1 loanDetails = new LoanSetupStep1();
                 loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
                 string status = "";
-
+                //Check title status
+                //TitleStatus 0 - Not received
                 if (unitTitle.TitleStatus == 0)
                 {
                     status = "Not Received";
                 }
+                //TitleStatus 1 - Received
                 else if (unitTitle.TitleStatus == 1)
                 {
                     status = "Received";
                 }
+                //TitleStatus 2 - Returned to Dealer
                 else if (unitTitle.TitleStatus == 2)
                 {
                     status = "Returned to Dealer";
                 }
+                //TitleStatus 3 - Sent to Bank
                 else if (unitTitle.TitleStatus == 3)
                 {
                     status = "Sent to Bank";
                 }
+                //insert log entry 
                 Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId,loanDetails.loanId, "Title Status Update", "Update title status of unit:" + unitTitle.IdentificationNumber +" ,Updated status:"+status+",Updated date:"+ DateTime.Now, DateTime.Now);
 
                 int islog = (new LogAccess()).InsertLog(log);
