@@ -22,7 +22,7 @@ namespace BankLoanSystem.Reports
                     companyId = Convert.ToInt32(Request.QueryString["companyId"]);
 
                 //hard coded
-                companyId = 1151;
+                //companyId = 1151;
                 RenderReport(companyId);
             }
         }
@@ -39,6 +39,15 @@ namespace BankLoanSystem.Reports
             List<RptCompanySummary> loanSumaList = ra.RptGetCompanySummary(companyId);
 
             rptViewerCompanySummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", loanSumaList));
+
+            User userData = ((User)Session["AuthenticatedUser"]);
+            //company name and report date
+            List<LoanDetailsRpt> details = new List<LoanDetailsRpt>();
+            LoanDetailsRpt detail = new LoanDetailsRpt();
+            detail.CompanyName = userData.CompanyName;
+            detail.ReportDate = DateTime.Now.ToString("MM/dd/yyyy"); ;
+            details.Add(detail);
+            rptViewerCompanySummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", details));
         }
     }
 }

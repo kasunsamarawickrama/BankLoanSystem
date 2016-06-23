@@ -60,9 +60,13 @@ namespace BankLoanSystem.Controllers.Reports
 
             List<Account> userLoanNumbers = new List<Account>();
 
+           
+            ViewBag.RoleId = _userData.RoleId;
+            ViewBag.BranchId = _userData.BranchId;
             if (_userData.RoleId == 1)
             {
                 userLoanNumbers = loanNumbers;
+                ViewBag.ComId = _userData.Company_Id;
             }
             else if (_userData.RoleId == 2 || _userData.RoleId == 3)
             {
@@ -388,6 +392,22 @@ namespace BankLoanSystem.Controllers.Reports
             {
                 RptDivLoanTerms loanTerms = new RptDivLoanTerms();
                 rptViewerPrint = loanTerms.PrintPage(loanId);
+            }
+            else if(rptType == "CompanySummary")
+            {
+                
+            }
+            else if (rptType == "BranchSummary")
+            {
+
+            }
+            else if (rptType == "DeletedUnits")
+            {
+                DateTime startDate = Convert.ToDateTime(range1);
+                DateTime endtDate = Convert.ToDateTime(range2);
+
+                RptDivDeletedUnits deleteUnits = new RptDivDeletedUnits();
+                rptViewerPrint = deleteUnits.PrintPage(loanId, startDate, endtDate);
             }
             else
             {

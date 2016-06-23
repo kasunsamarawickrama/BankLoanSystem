@@ -189,10 +189,15 @@ namespace BankLoanSystem.DAL
         }
 
         /// <summary>
+        /// Insert unit to database
+        /// 
         /// CreatedBy:  Kanishka 
         /// CreatedDate:02/24/2016
         /// 
-        /// Insert unit to database
+        /// EditedBy: Kasun
+        /// EditedDate: 03/09/2016
+        /// Add seperate code for units for passing as object list
+        /// 
         /// EditedBy: Piyumi
         /// EditedDate: 03/16/2016
         /// add isActive field to parameter list
@@ -200,6 +205,10 @@ namespace BankLoanSystem.DAL
         /// EditedBy: Irfan
         /// EditedDate: 4/25/2016
         /// adding output value IDNumber for logging purpose
+        /// 
+        /// EditedBy: Kasun
+        /// EditedDate: 6/15/2016
+        /// Roleback SP for add unit
         /// </summary>
         /// <param name="unit"></param>
         /// <param name="userId"></param>
@@ -926,21 +935,7 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        //        private bool ValidateAdvanceAmount()
-        //        {
-        //            var advancePt = model.AdvancePt;
-        //            //var maxCost = model.LoanAmount * 100 / advancePt;
-        //            var maxCost = model.Balance * 100 / advancePt;
-        //            var maxAdvance = model.Balance;
-
-        //            if (cost <= maxCost)
-        //            {
-        //                var advanceAmount = (advancePt * val) / 100;
-
-
-        //else
-        //  $("#tagscloud span").text("Cost must be less than balance");
-        //            }
+      
 
         /// <summary>
         /// CreatedBy : Nadeeka
@@ -1679,13 +1674,22 @@ namespace BankLoanSystem.DAL
             return unitFeeTypes;
         }
 
-        public int DeleteUnit(int loanId, string unitId, decimal paidAmount)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <param name="unitId"></param>
+        /// <param name="paidAmount"></param>
+        /// <returns></returns>
+        public int DeleteUnit(int loanId, string unitId, decimal paidAmount, string reason)
         {
             DataHandler dataHandler = new DataHandler();
 
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@loan_id", loanId });
             paramertList.Add(new object[] { "@unit_id", unitId });
+            paramertList.Add(new object[] { "@reason", reason });
             paramertList.Add(new object[] { "@paid_amount", paidAmount });
 
             try

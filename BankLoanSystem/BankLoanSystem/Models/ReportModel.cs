@@ -67,6 +67,7 @@ namespace BankLoanSystem.Models
 
     public class LoanDetailsRpt
     {
+        public string CompanyName { get; set; }
         public string LenderBrnchName { get; set; }
         public string DealerBrnchName { get; set; }
         public string LoanNumber { get; set; }
@@ -205,7 +206,35 @@ namespace BankLoanSystem.Models
        
     }
 
+    public class RptLoanSummary
+    {
+        public int TotalUnitsAdded { get; set; }
+        public int TotalUnitsAdvanced { get; set; }
+        public decimal TotalAmountAdvanced { get; set; }
+        public decimal TotalAdvanceFees { get; set; }
+        public decimal TotalCurtailmentsRecieved { get; set; }
+        public int TotalUnitsPaidOff { get; set; }
+        public decimal TotalAmountPaidOff { get; set; } 
+        public int TotalUnitsDeleted { get; set; }
+    }
+
     #endregion
 
-    
+    public class RptDeletedUnit
+    {
+        public int LoanId { get; set; }
+        public string UnitId { get; set; }
+        public string IdentificationNumber { get; set; }
+        public int Year { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public string AdvanceDate { get; set; }
+        public decimal PurchasePrice { get; set; }
+        public decimal AdvanceAmount { get; set; }
+        public decimal TotalCurtPaid { get; set; }
+        public decimal BalanceDue { get; set; }
+        public string TitleStatus { get; set; }
+        public string DeletedDate { get; set; }
+        public string ReasonForDeletion { get; set; }
+    }
 }

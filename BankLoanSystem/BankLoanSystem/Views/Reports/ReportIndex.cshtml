@@ -29,7 +29,7 @@
     .btns-clm > button {
         width: 180px;
         height: 40px;
-        margin-bottom:10px;
+            margin-bottom: 10px;
         margin-left: 5px;
         margin-right: 5px;
         font-size: 13px;
@@ -78,8 +78,12 @@
         <button type="button" id="btnPayOff" class="btn btn-info">Pay Off</button>
         <button type="button" id="btnTransactionHistory" class="btn btn-info">Transaction History</button>
         <button type="button" id="btnLoanTerms" class="btn btn-info">Loan Terms</button>
-       
-    </div>
+        <button type="button" id="btnCompanySummary" class="btn btn-info">Company Summary</button>
+        <button type="button" id="btnBranchSummary" class="btn btn-info">Branch Summary</button>
+        <button type="button" id="btnDeletedUnits" class="btn btn-info">Deleted Units</button>
+        @*<div id="2" href="#">
+                <p style="color: white">advance a unit</p>
+            </div>
 
     <hr />
 
@@ -87,26 +91,23 @@
     <div style="margin-top:15px;" id="liFilteringSection">
         <div class="form-inline" style="text-align:left;width:70%;display: inline-block;
     float: left;padding-left: 10px;">
-                        
-    @if (ViewBag.LoanId.Items.Count == 1)
-    {
-    <div id="lnum" class="form-group" style="width:50%;">
-    <label for="">Account Detail</label><br/>
+            <div id="lnum" class="form-group" style="width:50%;">
+                <label for="">Account Detail</label><br/>
 
 
-        @Html.HiddenFor(model => model.LoanId, new { @Value = (int)ViewBag.LoanId.Items[0].LoanId, })
-        @Html.LabelFor(model => model.LoanId, (string)ViewBag.LoanId.Items[0].LoanNumberB, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                    @Html.HiddenFor(model => model.LoanId, new { @Value = (int)ViewBag.LoanId.Items[0].LoanId, })
+                    @Html.LabelFor(model => model.LoanId, (string)ViewBag.LoanId.Items[0].LoanNumberB, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
                     </div>
-            }
-            else
-            {
+                }
+                else
+                {
 
         <input type="hidden"  id="loanId" value=""/>
                @*// @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" , @style="width:100%" })
                // @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
                // <div id="tagscloudLoanId" class="field-validation-error"><span class="text-danger"></span></div>*@
-            }
-        
+                }
+
 
             <div id="strdate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
                 <label for="">Start Date</label>
@@ -115,14 +116,14 @@
                 <div id="tagscloudStartDate" class="field-validation-error"><span class="text-danger"></span></div>
             </div>
 
-            <div id="enddate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
+            <div id="enddate" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
                 <label for="">End Date</label>
                 @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "endDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", style = "width:100%" } })
                 @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger", style = "left:25%" })
                 <div id="tagscloudEndDate" class="field-validation-error"><span class="text-danger"></span></div>
             </div>
 
-            <div id="ttlsts" class="form-group hf" style="margin-left:20px;display:none;width:20%">
+            <div id="ttlsts" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
                 <label for="">Title Status</label>
                 @{
                     List<SelectListItem> titleStatus = new List<SelectListItem>();
@@ -201,6 +202,8 @@
     $('#btnLotInspection').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspection');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#lnum').siblings('.hf').hide();
         $('#lnum').siblings('.hf').children('input').val('');
 
@@ -212,6 +215,8 @@
     $('#btnCurtailmentInvoice').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentInvoice');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -226,6 +231,8 @@
     $('#btnCurtailmentReceipt').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentReceipt');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -239,6 +246,8 @@
     $('#btnAdvanceFeeReceipt').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeReceipt');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -252,6 +261,8 @@
     $('#btnMonthlyLoanFeeReceipt').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('MonthlyLoanFeeReceipt');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -265,6 +276,8 @@
     $('#btnLotInspectionFeeReceipt').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeReceipt');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -279,6 +292,8 @@
     $('#btnTitlesStatus').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('TitlesStatus');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#ttlsts').show().siblings('.hf').hide();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -289,6 +304,8 @@
     $('#btnFullInventory').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('FullInventory');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#lnum').siblings('.hf').hide();
         $('#lnum').siblings('.hf').children('input').val('');
 
@@ -300,6 +317,8 @@
     $('#btnAdvanceUnit').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceUnit');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -314,6 +333,8 @@
     $('#btnAdvFeeInv').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeInvoice');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -328,6 +349,8 @@
     $('#btnAdvFeeRec').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeReciept');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -342,6 +365,8 @@
     $('#btnLoanFeeInv').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanFeeInvoice');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -356,6 +381,7 @@
     $('#btnLoanFeeRec').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanFeeReciept');
+        $('#divBranch').hide();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -370,6 +396,8 @@
     $('#btnLotInsFeeInv').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeInvoice');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -384,6 +412,8 @@
     $('#btnLotInsFeeRec').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeReciept');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -398,6 +428,8 @@
     $('#btnPayOff').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('PayOff');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -412,6 +444,8 @@
     $('#btnTransactionHistory').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('TransactionHistory');
+        $('#divBranch').hide();
+        $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -426,8 +460,41 @@
     $('#btnLoanTerms').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanTerms');
+        $('#divBranch').hide();
         $('#lnum').siblings('.hf').hide();
         $('#lnum').siblings('.hf').children('input').val('');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
+
+    $('#btnCompanySummary').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('CompanySummary');
+        $('#divBranch').hide();
+        $('#lnum').hide();
+        $('#lnum').siblings('.hf').hide();
+    });
+
+    $('#btnBranchSummary').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('BranchSummary');
+        $('#divBranch').show();
+        $('#lnum').hide();
+        $('#lnum').siblings('.hf').hide();
+    });
+
+    $('#btnDeletedUnits').click(function () {
+        ChangeButtonColor(this);
+        $('#lnum').show();
+        $('#hdnSelectedButton').val('DeletedUnits');
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#divBranch').hide();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
@@ -453,6 +520,7 @@
     }
 
     $('#btnDisplay').click(function () {
+
         errorCount = 0;
         var rptType = $('#hdnSelectedButton').val();
         
@@ -506,6 +574,15 @@
             else if (rptType === 'LoanTerms') {
                 urlPrefix = "../Reports/RptDivLoanTerms.aspx?loanId=";
             }
+            else if (rptType === 'CompanySummary') {
+                urlPrefix = "../Reports/RptDivCompanySummary.aspx?companyId=";//
+            }
+            else if (rptType === 'BranchSummary') {
+                urlPrefix = "../Reports/RptDivBranchSummary.aspx?branchId=";
+            }
+            else if (rptType === 'DeletedUnits') {
+                urlPrefix = "../Reports/RptDivDeletedUnits.aspx?loanId=";
+            }
 
             var selectedIndex;
            // if (input.attr('type') !== 'hidden') {
@@ -530,7 +607,7 @@
             var frameDoc;
 
             if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice' || rptType === 'PayOff' || rptType === 'AdvanceFeeReceipt' ||
-                rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt' || rptType === 'TransactionHistory' || rptType === 'AdvanceUnit') {
+                rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt' || rptType === 'TransactionHistory' || rptType === 'AdvanceUnit' || rptType === 'DeletedUnits') {
                 
                 var startDate = $('#startDate').val();
                 if (startDate === '') {
@@ -575,7 +652,7 @@
                     myFrame = document.getElementById('ifrmReportViewer');
                     frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
                     frameDoc.removeChild(frameDoc.documentElement);
-                    
+
 
                     urlPrefix = urlPrefix + val + "&startDate=" + formatDate(startDate) + "&endDate=" + formatDate(endDate);
                     ReportCurtailmentInvoice(val, urlPrefix);
@@ -620,6 +697,25 @@
                     urlPrefix = urlPrefix + val;
                     ReportCurtailmentInvoice(val, urlPrefix);
                 }
+            }
+            else if (rptType === 'CompanySummary' && '@ViewBag.RoleId' === '1') {
+                var comId = '@ViewBag.ComId';
+
+                myFrame = document.getElementById('ifrmReportViewer');
+                frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                frameDoc.removeChild(frameDoc.documentElement);
+
+                urlPrefix = urlPrefix + comId;
+                ReportCurtailmentInvoice(val, urlPrefix);
+            }
+            else if (rptType === 'BranchSummary') {
+                var branchId = '@ViewBag.BranchId';
+                myFrame = document.getElementById('ifrmReportViewer');
+                frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                frameDoc.removeChild(frameDoc.documentElement);
+
+                urlPrefix = urlPrefix + branchId;
+                ReportCurtailmentInvoice(val, urlPrefix);
             }
         } else {
             $('.centered h5 span').text("Please select report type");
@@ -764,10 +860,9 @@
         var loanId = $('#LoanId').val();
         var range1 = $('#startDate').val();
         var range2 = $('#endDate').val();
-        var titleStatus=$('#titleStatus').val();
+        var titleStatus = $('#titleStatus').val();
 
-        
-        var url = '/Reports/PrintPage?rptType='+ rptType + '&loanId=' + loanId + '&range1=' + range1+ '&range2=' + range2 + '&titleStatus=' + titleStatus;
+        var url = '/Reports/PrintPage?rptType=' + rptType + '&loanId=' + loanId + '&range1=' + range1 + '&range2=' + range2 + '&titleStatus=' + titleStatus;
 
         var win = window.open(url, '_blank');
         win.focus();
@@ -847,4 +942,4 @@ $(document).ready(function () {
 
         
     });
-</script>  
+</script>

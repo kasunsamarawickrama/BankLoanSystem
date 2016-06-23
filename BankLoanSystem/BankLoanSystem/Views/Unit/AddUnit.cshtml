@@ -22,11 +22,7 @@
 <script src="~/scripts/edmunds.api.sdk.js"></script>
 
 <script src="~/scripts/CommonFunctions.js"></script>
-@*<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>*@
 
-@*<script src="//code.jquery.com/jquery-1.10.2.js"></script>*@
-@*<script src="~/scripts/jquery-1.10.2.js"></script>*@
-@*<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
 <script src="~/scripts/jquery-ui.js"></script>
 
 <script src="~/scripts/combo.js"></script>
@@ -1587,65 +1583,7 @@
 
                                     CallVinDecode($('#vehicleVin').val());
                                     middleSpanCheck();
-                                    //$.ajax({
-                                    //    url: '/Unit/GetMakeByVin',
-                                    //    type: 'POST',
-                                    //    contentType: 'application/json;',
-                                    //    data: JSON.stringify({vin: vin }),
-                                    //    success: function (data) {
-                                    //        var make = data;
-                                    //        if(make != ""){
-                                    //            $('#combobox1-2').next().children('input').val(make);
-                                    //            document.getElementById('editor1-2').value = make;
-                                    //            //GetMakes($('#combobox1-1'),'#combobox1-2',1);
-                                    //            makex = make;
-                                    //            //alert(makex);
-                                    //            $('.ma').text("");
-                                    //        }else{
-                                    //            $('#combobox1-2').next().children('input').val("");
-                                    //            document.getElementById('editor1-2').value = "";
-                                    //            //GetMakes($('#combobox1-1'),'#combobox1-2',1);
-                                    //            makex = "";
-                                    //        }
-                                    //        //alert(yearx);
-                                    //        $.ajax({
-                                    //            url: '/Unit/GetModelByVin',
-                                    //            type: 'POST',
-                                    //            contentType: 'application/json;',
-                                    //            data: JSON.stringify({ makex: makex, yearx: yearx }),
-                                    //            success: function (data) {
-                                    //                var model = data;
-                                    //                //alert(model);
-                                    //                if(model != ""){
-                                    //                    $('#combobox1-3').next().children('input').val(model);
-                                    //                    document.getElementById('editor1-3').value = model;
-                                    //                    //GetMakes($('#combobox1-1'),'#combobox1-2',1);
-                                    //                    $('.mo').text("");
-                                    //                }else{
-                                    //                    $('#combobox1-3').next().children('input').val("");
-                                    //                    document.getElementById('editor1-3').value = "";
-                                    //                }
-                                    //            },
-                                    //            error: function (jqXHR, textStatus, errorThrown){
-                                    //                // Your handler here...
-
-                                    //                // if session expires
-                                    //                if(jqXHR.status == "404"){
-                                    //                    window.location.href='/Login/UserLogin?lbl="Session expired"';
-                                    //                }
-                                    //            }
-                                    //        });
-
-                                    //    },
-                                    //    error: function (jqXHR, textStatus, errorThrown){
-                                    //        // Your handler here...
-
-                                    //        // if session expires
-                                    //        if(jqXHR.status == "404"){
-                                    //            window.location.href='/Login/UserLogin?lbl=Session expired';
-                                    //        }
-                                    //    }
-                                    //});
+                                   
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown){
@@ -1661,24 +1599,6 @@
 
 
                     }
-                    else if($('#vehicleVin').val().length == 0){
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#vehicleVIN span').text("");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-                    }
-                    else if($('#vehicleVin').val().length < 17){
-                        // var vinlen = $('#vehicleVin').val().length ;
-                        //$('#vehicleVIN span').fadeIn();
-                        // $('#vehicleVIN span').text(17 - vinlen + " charactors remaining");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-                    }
-                    else{
-                        var vinlen = $('#vehicleVin').val().length ;
-                        //$('#vehicleVIN span').fadeIn();
-                        // $('#vehicleVIN span').text("charactors exceeded");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-
-                    }
 
                 });
 
@@ -1690,50 +1610,9 @@
                     if($('#rvVin').val().length == 17){
                         $("#rvVin").val(($("#rvVin").val()).toUpperCase());
                         $('#rvVIN span').text("");
-                        //var vin =document.getElementById('rvVin').value;
-                        //$.ajax({
-                        //    url: '/Unit/GetYearByVin',
-                        //    type: 'POST',
-                        //    contentType: 'application/json;',
-                        //    data: JSON.stringify({vin: vin }),
-                        //    success: function (data) {
-                        //        var year = data;
-                        //        if(year != 0){
-                        //            $('#combobox2-1').next().children('input').val(year);
-                        //            document.getElementById('editor2-1').value = year;
-                        //            //GetMakes($('#combobox2-1'),'#combobox2-2',2);
-                        //            $('.y').text("");
-                        //        }
-
-                        //    },
-                        //    error: function (jqXHR, textStatus, errorThrown){
-                        //        // Your handler here...
-
-                        //        // if session expires
-                        //        if(jqXHR.status == "404"){
-                        //            window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
-                        //        }
-                        //    }
-                        //});
-                    }
-                    else if($('#rvVin').val().length == 0){
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#rvVIN span').text("");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-                    }
-                    else if($('#rvVin').val().length < 17){
-                        var vinlen = $('#rvVin').val().length ;
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#rvVIN span').text(17 - vinlen + " charactors remaining");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-                    }
-                    else{
-                        var vinlen = $('#rvVin').val().length ;
-                        //$('#vehicleVIN span').fadeIn();
-                        // $('#rvVIN span').text("charactors exceeded");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
 
                     }
+
                 });
 
                 $('#camperVin').change(function () {
@@ -1744,47 +1623,6 @@
                     if($('#camperVin').val().length == 17){
                         $("#camperVin").val(($("#camperVin").val()).toUpperCase());
                         $('#camperVIN span').text("");
-                        //var vin =document.getElementById('camperVin').value;
-                        //$.ajax({
-                        //    url: '/Unit/GetYearByVin',
-                        //    type: 'POST',
-                        //    contentType: 'application/json;',
-                        //    data: JSON.stringify({vin: vin }),
-                        //    success: function (data) {
-                        //        var year = data;
-                        //        if(year != 0){
-                        //            $('#combobox3-1').next().children('input').val(year);
-                        //            document.getElementById('editor3-1').value = year;
-                        //            //GetMakes($('#combobox3-1'),'#combobox3-2',3);
-                        //            $('.y').text("");
-                        //        }
-
-                        //    },
-                        //    error: function (jqXHR, textStatus, errorThrown){
-                        //        // Your handler here...
-
-                        //        // if session expires
-                        //        if(jqXHR.status == "404"){
-                        //            window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
-                        //        }
-                        //    }
-                        //});
-                    }else if($('#camperVin').val().length == 0){
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#camperVIN span').text("");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-                    }
-                    else if($('#camperVin').val().length < 17){
-                        var vinlen = $('#camperVin').val().length ;
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#camperVIN span').text(17 - vinlen + " charactors remaining");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-                    }
-                    else{
-                        var vinlen = $('#camperVin').val().length ;
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#camperVIN span').text("charactors exceeded");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
 
                     }
                 });
@@ -1797,48 +1635,7 @@
                     if($('#atvVin').val().length == 17){
                         $("#atvVin").val(($("#atvVin").val()).toUpperCase());
                         $('#atvVIN span').text("");
-                        //var vin =document.getElementById('atvVin').value;
-                        //$.ajax({
-                        //    url: '/Unit/GetYearByVin',
-                        //    type: 'POST',
-                        //    contentType: 'application/json;',
-                        //    data: JSON.stringify({vin: vin }),
-                        //    success: function (data) {
-                        //        var year = data;
-                        //        if(year != 0){
-                        //            $('#combobox4-1').next().children('input').val(year);
-                        //            document.getElementById('editor4-1').value = year;
-                        //            //GetMakes($('#combobox4-1'),'#combobox4-2',4);
-                        //            $('.y').text("");
-                        //        }
-
-                        //    },
-                        //    error: function (jqXHR, textStatus, errorThrown){
-                        //        // Your handler here...
-
-                        //        // if session expires
-                        //        if(jqXHR.status == "404"){
-                        //            window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
-                        //        }
-                        //    }
-                        //});
-                    }else if($('#atvVin').val().length == 0){
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#atvVIN span').text("");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-                    }
-                    else if($('#atvVin').val().length < 17){
-                        //var vinlen = $('#atvVin').val().length ;
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#atvVIN span').text(17 - vinlen + " charactors remaining");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-                    }
-                    else{
-                        var vinlen = $('#atvVin').val().length ;
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#atvVIN span').text("charactors exceeded");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-
+             
                     }
                 });
 
@@ -1850,47 +1647,6 @@
                     if($('#boatVin').val().length == 12){
                         $("#boatVin").val(($("#boatVin").val()).toUpperCase());
                         $('#boatVIN span').text("");
-                        //var vin =document.getElementById('boatVin').value;
-                        //$.ajax({
-                        //    url: '/Unit/GetYearByVin',
-                        //    type: 'POST',
-                        //    contentType: 'application/json;',
-                        //    data: JSON.stringify({vin: vin }),
-                        //    success: function (data) {
-                        //        var year = data;
-                        //        if(year != 0){
-                        //            $('#combobox5-1').next().children('input').val(year);
-                        //            document.getElementById('editor5-1').value = year;
-                        //            //GetMakes($('#combobox5-1'),'#combobox5-2',5);
-                        //            $('.y').text("");
-                        //        }
-
-                        //    },
-                        //    error: function (jqXHR, textStatus, errorThrown){
-                        //        // Your handler here...
-
-                        //        // if session expires
-                        //        if(jqXHR.status == "404"){
-                        //            window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
-                        //        }
-                        //    }
-                        //});
-                    }else if($('#boatVin').val().length == 0){
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#boatVIN span').text("");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-                    }
-                    else if($('#boatVin').val().length < 12){
-                        //var vinlen = $('#boatVin').val().length ;
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#boatVIN span').text(12 - vinlen + " charactors remaining");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-                    }
-                    else{
-                        //var vinlen = $('#boatVin').val().length ;
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#boatVIN span').text("charactors exceeded");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
 
                     }
 
@@ -1904,47 +1660,6 @@
                     if($('#motorcycleVin').val().length == 17){
                         $("#motorcycleVin").val(($("#motorcycleVin").val()).toUpperCase());
                         $('#motorcycleVIN span').text("");
-                        //var vin =document.getElementById('motorcycleVin').value;
-                        //$.ajax({
-                        //    url: '/Unit/GetYearByVin',
-                        //    type: 'POST',
-                        //    contentType: 'application/json;',
-                        //    data: JSON.stringify({vin: vin }),
-                        //    success: function (data) {
-                        //        var year = data;
-                        //        if(year != 0){
-                        //            $('#combobox6-1').next().children('input').val(year);
-                        //            document.getElementById('editor6-1').value = year;
-                        //            //GetMakes($('#combobox6-1'),'#combobox6-2',6);
-                        //            $('.y').text("");
-                        //        }
-
-                        //    },
-                        //    error: function (jqXHR, textStatus, errorThrown){
-                        //        // Your handler here...
-
-                        //        // if session expires
-                        //        if(jqXHR.status == "404"){
-                        //            window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
-                        //        }
-                        //    }
-                        //});
-                    }else if($('#motorcycleVin').val().length == 0){
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#motorcycleVIN span').text("");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-                    }
-                    else if($('#motorcycleVin').val().length < 17){
-                        //var vinlen = $('#motorcycleVin').val().length ;
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#motorcycleVIN span').text(17 - vinlen + " charactors remaining");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-                    }
-                    else{
-                        var vinlen = $('#motorcycleVin').val().length ;
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#motorcycleVIN span').text("charactors exceeded");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
 
                     }
                 });
@@ -1957,47 +1672,6 @@
                     if($('#snowmobileVin').val().length == 17){
                         $("#snowmobileVin").val(($("#snowmobileVin").val()).toUpperCase());
                         $('#snowmobileVIN span').text("");
-                        //var vin =document.getElementById('snowmobileVin').value;
-                        //$.ajax({
-                        //    url: '/Unit/GetYearByVin',
-                        //    type: 'POST',
-                        //    contentType: 'application/json;',
-                        //    data: JSON.stringify({vin: vin }),
-                        //    success: function (data) {
-                        //        var year = data;
-                        //        if(year != 0){
-                        //            $('#combobox7-1').next().children('input').val(year);
-                        //            document.getElementById('editor7-1').value = year;
-                        //            //GetMakes($('#combobox7-1'),'#combobox7-2',7);
-                        //            $('.y').text("");
-                        //        }
-
-                        //    },
-                        //    error: function (jqXHR, textStatus, errorThrown){
-                        //        // Your handler here...
-
-                        //        // if session expires
-                        //        if(jqXHR.status == "404"){
-                        //            window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
-                        //        }
-                        //    }
-                        //});
-                    }else if($('#snowmobileVin').val().length == 0){
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#snowmobileVIN span').text("");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-                    }
-                    else if($('#snowmobileVin').val().length < 17){
-                        //var vinlen = $('#snowmobileVin').val().length ;
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#snowmobileVIN span').text(17 - vinlen + " charactors remaining");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
-                    }
-                    else{
-                        //var vinlen = $('#snowmobileVin').val().length ;
-                        //$('#vehicleVIN span').fadeIn();
-                        //$('#snowmobileVIN span').text("charactors exceeded");
-                        //$('#vehicleVIN span').delay(100).fadeOut();
 
                     }
                 });
@@ -2493,36 +2167,8 @@
                         e.preventDefault();
                     }
                     else if ((e.which >= 48 && e.which <= 57) || e.which === 46 || e.which === 8 ||e.keyCode === 9) {
-                        //var val = this.value + (e.which - 48);
-                        var cost = document.getElementById('txtCost').value;
-                        if (e.which !== 46 && e.which !== 8) {
-                            //if (cost <= maxCost) {
-                            //    //$("#tagscloudAdvance span").fadeOut();
-                            //    $('#txtLoanAdvanceAmount').removeClass('input-validation-error');
-                            //    //$("#tagscloudAdvance span").text("");
-                            //    $('#txtLoanAdvanceAmount').next('span').children('span').text('');
-                            //} else {
-                            //    //$("#tagscloud span").fadeIn();
-                            //    $(this).addClass('input-validation-error');
-                            //    $("#tagscloud span").text("Cost must be less than balance");
-                            //    //$("#tagscloud span").delay(1000).fadeOut();
-                            //    $(this).removeClass('input-validation-error');
-                            //    $("#tagscloud span");
-                            //    e.preventDefault();
-                            //}
-                        }
-
                     } else {
-                        //$("#tagscloud span").fadeIn();
-                        //$(this).addClass('input-validation-error');
-                        //$("#tagscloud span").text("Invalid character");
-                        //$("#tagscloud span").delay(1000).fadeOut();
-                        //$(this).removeClass('input-validation-error');
-                        //$("#tagscloud span");
-
                         e.preventDefault();
-
-
                     }
                 });
 
@@ -2557,25 +2203,14 @@
                         //$("#tagscloud span").text("Cost must be a positive number");
 
                     }
-                    //else if (Number(num) > Number(maxCost)) {
-                        //$("#tagscloud span").fadeIn();
-                        //$(this).addClass('input-validation-error');
-                        //$("#tagscloud span").text("Cost must be less than balance");
-                    //}
                     else if (Number(num) == "") {
-                        //$("#tagscloudAdvance span").fadeIn();
-                        //$(this).addClass('input-validation-error');
                         $("#tagscloud span").text("");
                         $(this).attr('placeholder', '0.00');
                         $('#txtLoanAdvanceAmount').val("");
                         $('#txtLoanAdvanceAmount').attr('placeholder', '0.00');
-                        //$(this).val("0.00");
-                        //$('#txtAdvanceAmount').val("0.00");
                     }
                     else if (Number(num) <= 0) {
-                        //$("#tagscloud span").fadeIn();
-                        //$(this).addClass('input-validation-error');
-                        //$("#tagscloud span").text("Cost must be greater than zero");
+
                     }
                     else{
                         //$("#tagscloud span").fadeOut();
@@ -2607,14 +2242,6 @@
                         middleSpanCheck();
                     }
 
-
-                    //if(advanceAmount > maxCost){
-                    //    //$("#tagscloudAdvance span").fadeIn();
-                    //    //$(this).addClass('input-validation-error');
-                    //    //$("#tagscloudAdvance span").text("Advance must be less than balance");
-                    //    //$("#tagscloudAdvance span").delay(1000).fadeOut();
-                    //    //$(this).removeClass('input-validation-error');
-                    //}
                     if(Number(num)  > 0.009 && Number(num) <= maxCost){
                         if($(this).next('span').text() == 'Please enter a cost of greater than zero.'){
                             $(this).next('span').text('');
@@ -2640,22 +2267,9 @@
                                 //$(this).removeClass('input-validation-error');
                                 e.preventDefault();
                             }
-                            if (advance > maxAdvance) {
-                                //$("#tagscloudAdvance span").fadeIn();
-                                //$(this).addClass('input-validation-error');
-                                //$("#tagscloudAdvance span").text("Advance must be less than balance");
-                                //$("#tagscloudAdvance span").delay(1000).fadeOut();
-                                //$(this).removeClass('input-validation-error');
-                                //e.preventDefault();
-                            }
                         }
                     }
                     else {
-                        ////$("#tagscloudAdvance span").fadeIn();
-                        //$(this).addClass('input-validation-error');
-                        //$("#tagscloudAdvance span").text("Invalid character");
-                        ////$("#tagscloudAdvance span").delay(1000).fadeOut();
-                        //$(this).removeClass('input-validation-error');
                         e.preventDefault();
                     }
                 });
@@ -2714,12 +2328,7 @@
                         $("#tagscloudAdvance span").text("Please specify an advance amount greater than zero.");
                     }
                     else if (advance > maxAdvance) {
-                        //$("#tagscloudAdvance span").fadeIn();
-                        //$(this).addClass('input-validation-error');
-                        //$("#tagscloudAdvance span").text("Advance must be less than balance");
-                        //$("#tagscloudAdvance span").delay(1000).fadeOut();
-                        //$(this).removeClass('input-validation-error');
-                        //e.preventDefault();
+
                     }
                     else {
                         //$("#tagscloudAdvance span").fadeOut();
@@ -3221,11 +2830,7 @@
                     var cost = parseFloat(document.getElementById('txtCost').value);
                     var advance = parseFloat(document.getElementById('txtLoanAdvanceAmount').value);
                     if (advance > cost) {
-                        //$("#tagscloudAdvance span").fadeIn();
-                        //$("#tagscloudAdvance span").addClass('input-validation-error');
-                        //$("#tagscloudAdvance span").text("Advance must be less than cost");
-                        //$("#tagscloudAdvance span").delay(1000).fadeOut();
-                        //$(this).removeClass('input-validation-error');
+
                         $('#btnSubmit').prop('disabled', false);
                         valid = false;
                         e.preventDefault();
@@ -3234,24 +2839,9 @@
                         }
 
                     } 
-                    //else if (cost > maxCost) {
-                    //    //$("#tagscloudAdvance span").fadeIn();
-                    //    //$("#tagscloudAdvance span").addClass('input-validation-error');
-                    //    //$("#tagscloudAdvance span").text("Advance must be less than balance");
-                    //    //$("#tagscloudAdvance span").delay(1000).fadeOut();
-                    //    //$(this).removeClass('input-validation-error');
-                    //    $('#btnSubmit').prop('disabled', false);
-                    //    e.preventDefault();
 
-                    //} 
                     else if (advance > maxAdvance) {
-                        //$("#tagscloudAdvance span").fadeIn();
-                        //$("#tagscloudAdvance span").addClass('input-validation-error');
-                        //$("#tagscloudAdvance span").text("Advance must be less than balance");
-                        //$("#tagscloudAdvance span").delay(1000).fadeOut();
-                        //$(this).removeClass('input-validation-error');
-                        
-                        //$('#btnSubmit').prop('disabled', false);
+
                         if($('#btnSubmit').val() == 'Add' && valid == true){
                             showPopup(9);
                             e.preventDefault();
@@ -3266,8 +2856,6 @@
                                 isErrorAddUnit = true;
                             }
                         }
-                        
-                        //showPopup(10);
 
                     } else {
 
@@ -3286,13 +2874,6 @@
                     
                 });
 
-                //$('#Note').keyup(function(e) {
-                //    //alert(this.value.length);
-                //    if (this.value.length === 1) {
-                //        //alert(this.value.length);
-                //        document.getElementById('Note').value = this.value.toUpperCase();
-                //    }
-                //});
                 $('#Note').keypress(function(e) {
                     //alert(this.value.length);
                     if (this.value.length === 0) {
@@ -3449,20 +3030,7 @@
 
 
                 } );
-                //$(document).on('keypress','.block_invalid span input' , function(e){
-                //    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
-                //    res = InvalidCharacters(this, array, e.which);
 
-                //    if (res === 1) {
-                //        e.preventDefault();
-                //        return;
-                //    }
-                //    else if (e.which === 92 || e.which === 39) {
-                //        //$(this).siblings('div').children('span').text("Invalid character.");
-                //        e.preventDefault();
-                //        return;
-                //    }
-                //} );
                 $(document).on('keypress','.block_invalid_allow_dash' , function(e){
                     if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
                         var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '', ' ', ',','@@','&','_','.'];
@@ -3637,6 +3205,8 @@
                     // Additional initialization code such as adding Event Listeners goes here
                 };
 
+    /// Dont remove this below commented one.
+
                 //function CallMakes() {
                 //    // Instantiate the SDK
                 //    var res = new EDMUNDSAPI('3jbs6wjrsbyuwvz783y8jgmf');
@@ -3714,25 +3284,10 @@
         // if advance page
         @if(ViewBag.Title == "Advance Unit") {
 
-        @*<text>$("#lkadv").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');</text>
-            <text>$("#lkadv").click(function (e) { e.preventDefault(); });</text>
-              <text>$("#lkadv").siblings().click(function (e) {
-            return true;
-
-        });</text>*@
 
             <text>$("#lkadv").hide();</text>
         }else if(ViewBag.Title == "Add Unit Page")
         {
-                @*<text>
-
-        //if unit page
-        $("#lkuni").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');</text>
-            <text>$("#lkuni").click(function (e) { e.preventDefault(); });</text>
-            <text>$("#lkuni").siblings().click(function (e) {
-            return true;
-
-        });</text>*@
 
             <text>$("#lkuni").hide();</text>
         }

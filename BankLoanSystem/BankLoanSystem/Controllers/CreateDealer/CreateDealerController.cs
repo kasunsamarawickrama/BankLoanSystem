@@ -77,6 +77,23 @@ namespace BankLoanSystem.Controllers.CreateDealer
             userList = (new UserAccess()).GetUserListByCompany(userData.Company_Id);
             userList = userList.FindAll(t => t.BranchId == loan.BranchId || (t.BranchId ==0 && t.RoleId==1));
             ViewBag.UserIdForSendReq = new SelectList(userList, "UserId", "UserName");
+
+            //get report list for dealer user
+            List<Right> ReportRightsList = new List<Right>();
+            User us = new User();
+            us.ReportRightsList = new List<Right>();
+            ReportRightsList = (new UserRightsAccess()).getReportRights();
+            if(ReportRightsList!=null && ReportRightsList.Count > 0)
+            {
+                foreach (Right rgt in ReportRightsList)
+                {
+                    if((rgt.rightId=="RP001")|| (rgt.rightId == "RP017") || (rgt.rightId == "RP018") || (rgt.rightId == "RP018"))
+                    {
+                        continue;
+                    }
+                    us.ReportRightsList.Add(rgt);
+                }
+            }
             if (userData.RoleId == 1)
             {
                 //ViewBag.UserIdForSendReq = new SelectList(userList, "UserId", "UserName");
@@ -92,7 +109,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
             {
                 return RedirectToAction("UserDetails", "UserManagement");
             }
-            return View();
+            return View(us);
         }
 
        

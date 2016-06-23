@@ -158,5 +158,43 @@ namespace BankLoanSystem.DAL
                 throw ex;
             }
         }
+        /// <summary>
+        /// CreatedBy:Piyumi
+        /// CreatedDate:6/22/2016
+        /// Get all report details
+        /// </summary>
+        /// <returns></returns>
+        public List<Right> getReportRights()
+        {
+            List<Right> RightsLists = new List<Right>();
+            DataHandler dataHandler = new DataHandler();
+            try
+            {
+                DataSet dataSet = dataHandler.GetDataSet("spGetReportRights");
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        Right right = new Right();
+                        right.rightId = dataRow["report_id"].ToString();
+                        right.active = false;
+                        right.description = dataRow["report_description"].ToString();
+                        right.name = dataRow["report_name"].ToString();
+                        RightsLists.Add(right);
+                    }
+
+                    return RightsLists;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

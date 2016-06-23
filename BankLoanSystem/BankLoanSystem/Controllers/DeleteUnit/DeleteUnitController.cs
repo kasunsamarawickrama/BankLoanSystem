@@ -128,7 +128,6 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                     unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.UnitStaus == 0).ToList();
                 else if (viewType == 5)
                 {
-                    //unitModel.DeleteUnits = unitModel.DeleteUnits.Where( x => ( year != "" && x.Year == year) && (make != "" && x.Make == make)).ToList();
                     if (id != "" && year != "" && make != "" && model != "")
                     {
                         unitModel.DeleteUnits = unitModel.DeleteUnits.Where(x => x.IdentificationNumber.Substring(x.IdentificationNumber.Length - 6) == id && x.Year == year && x.Make == make && x.Model == model).ToList();
@@ -260,7 +259,7 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             return PartialView(feeDetailsModelNew);
         }
 
-        public ActionResult DeleteUnitPost(string unitId,string identificationNo)
+        public ActionResult DeleteUnitPost(string unitId,string identificationNo, string reason)
         {
             decimal paidCurtAmount = 0.00M;
             if (Session["PaidCurtAmount"] != null)
@@ -272,7 +271,7 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             int loanId = (int) Session["deleteUnitloanId"];
             UnitAccess ua = new UnitAccess();
             UnitDeleteViewModel unitModel = new UnitDeleteViewModel();
-            int res = ua.DeleteUnit(loanId, unitId, paidCurtAmount);
+            int res = ua.DeleteUnit(loanId, unitId, paidCurtAmount, reason);
             
             if (res == 1)
             {
