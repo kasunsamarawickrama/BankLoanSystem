@@ -1078,6 +1078,43 @@ namespace BankLoanSystem.DAL
             return branchLoans;
         }
 
+        /// <summary>
+        /// Created By: Kasun Samarawickrama
+        /// Loan Summary report - for a loan need to retrive all informations about it
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <param name="dueDateStart">start date</param>
+        /// <param name="dueDateEnd">end date</param>
+        /// <returns></returns>
+        public RptLoanSummary GetLoanSummaryReport(int loanId, DateTime dueDateStart, DateTime dueDateEnd) {
+
+            RptLoanSummary loanSummary = new RptLoanSummary();
+            DataHandler dataHandler = new DataHandler();
+
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            paramertList.Add(new object[] { "@due_date_start", dueDateStart });
+            paramertList.Add(new object[] { "@due_date_end", dueDateEnd });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetLoanSummaryReport", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                DataRow dataRow = dataSet.Tables[0].Rows[0];
+
+                loanSummary.TotalUnitsAdded = int.Parse(dataRow["TotalUnitsAdded"].ToString());
+                loanSummary.TotalUnitsAdvanced = int.Parse(dataRow["TotalUnitsAdvanced"].ToString());
+                loanSummary.TotalAmountAdvanced = decimal.Parse(dataRow["TotalAmountAdvanced"].ToString());
+                loanSummary.TotalAdvanceFees = decimal.Parse(dataRow["TotalAdvanceFees"].ToString());
+                loanSummary.TotalCurtailmentsRecieved = decimal.Parse(dataRow["TotalCurtailmentsRecieved"].ToString());
+                loanSummary.TotalUnitsPaidOff = int.Parse(dataRow["TotalUnitsPaidOff"].ToString());
+                loanSummary.TotalAmountPaidOff = decimal.Parse(dataRow["TotalAmountPaidOff"].ToString());
+                loanSummary.TotalUnitsDeleted = int.Parse(dataRow["TotalUnitsDeleted"].ToString());
+
+                return loanSummary;
+            }
+            return null;
+        }
+
         #endregion
 
 
