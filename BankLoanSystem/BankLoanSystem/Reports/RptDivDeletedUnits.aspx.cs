@@ -55,5 +55,33 @@ namespace BankLoanSystem.Reports
             List<RptDeletedUnit> deletedUnits = ra.RptGetDeletedUnitByLoanIdDateRange(loanId, startDate, endDate);
             rptViewerDeletedUnits.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", deletedUnits));
         }
+
+        public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
+        {
+            ReportViewer rptViewerDeletedUnitsPrint = new ReportViewer();
+
+            rptViewerDeletedUnitsPrint.ProcessingMode = ProcessingMode.Local;
+            rptViewerDeletedUnitsPrint.Reset();
+            rptViewerDeletedUnitsPrint.LocalReport.EnableExternalImages = true;
+            rptViewerDeletedUnitsPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptDeletedUnits.rdlc");
+            rptViewerDeletedUnitsPrint.ZoomMode = ZoomMode.PageWidth;
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+
+            foreach (var dates in details)
+            {
+                dates.StartRange = startDate.ToString("MM/dd/yyyy");
+                dates.EndRange = endDate.ToString("MM/dd/yyyy");
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+
+            rptViewerDeletedUnitsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+
+            List<RptDeletedUnit> deletedUnits = ra.RptGetDeletedUnitByLoanIdDateRange(loanId, startDate, endDate);
+            rptViewerDeletedUnitsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", deletedUnits));
+
+            return rptViewerDeletedUnitsPrint;
+        }
     }
 }

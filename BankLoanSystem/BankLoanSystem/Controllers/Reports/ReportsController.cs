@@ -301,6 +301,22 @@ namespace BankLoanSystem.Controllers.Reports
                 RptDivLoanTerms loanTerms = new RptDivLoanTerms();
                 rptViewerPrint = loanTerms.PrintPage(loanId);
             }
+            else if(rptType == "CompanySummary")
+            {
+                
+            }
+            else if (rptType == "BranchSummary")
+            {
+
+            }
+            else if (rptType == "DeletedUnits")
+            {
+                DateTime startDate = Convert.ToDateTime(range1);
+                DateTime endtDate = Convert.ToDateTime(range2);
+
+                RptDivDeletedUnits deleteUnits = new RptDivDeletedUnits();
+                rptViewerPrint = deleteUnits.PrintPage(loanId, startDate, endtDate);
+            }
             else
             {
                 return null;
