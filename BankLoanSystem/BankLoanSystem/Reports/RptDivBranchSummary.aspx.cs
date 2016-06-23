@@ -16,10 +16,10 @@ namespace BankLoanSystem.Reports
         {
             if (!IsPostBack)
             {
-                int branchId = 3258;
+                int branchId = 0;
 
-                //if (Request.QueryString["branchId"] != "")
-                //    branchId = Convert.ToInt32(Request.QueryString["branchId"]);
+                if (Request.QueryString["branchId"] != "")
+                    branchId = Convert.ToInt32(Request.QueryString["branchId"]);
 
                 RenderReport(branchId);
             }
@@ -32,19 +32,25 @@ namespace BankLoanSystem.Reports
             rptViewerBranchSummary.LocalReport.EnableExternalImages = true;
             rptViewerBranchSummary.LocalReport.ReportPath = Server.MapPath("~/Reports/RptBranchSummary.rdlc");
             rptViewerBranchSummary.ZoomMode = ZoomMode.PageWidth;
-            
 
+            User userData = ((User)Session["AuthenticatedUser"]);
             ReportAccess ra = new ReportAccess();
-            //List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = new List<LoanDetailsRpt>();
+            LoanDetailsRpt detail = new LoanDetailsRpt();
+            detail.CompanyName = userData.CompanyName;
+            detail.LenderBrnchName = userData.BranchName;
+            detail.ReportDate = DateTime.Now.ToString("MM/dd/yyyy"); ;
+            details.Add(detail);
+            rptViewerBranchSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", details));
 
-            //foreach (var dates in details)
-            //{
-            //    dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
-            //}
+            foreach (var dates in details)
+            {
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
             List<RptBranchSummary> branchSummary = ra.GetBranchSummarRptDetails(branchId);
 
             // rptViewerLotInspectionFeeInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-            rptViewerBranchSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", branchSummary));
+            rptViewerBranchSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", branchSummary));
             //rptViewerAdvanceUnit.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
 
            

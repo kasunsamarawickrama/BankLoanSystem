@@ -15,6 +15,19 @@ font-size:14px;
 font-weight:normal;
 color:#545454;
 }
+#DivRptRights{
+text-align:left;
+font-size:14px;
+font-weight:normal;
+color:#545454;
+}
+#DivRptRights > input{
+ float:unset;
+ margin-right:10px;
+
+ width:17px;
+ height:17px;
+}
 </style>
 <script src="~/scripts/CommonFunctions.js"></script>
 <div id="branchDivLoan">
@@ -66,6 +79,21 @@ color:#545454;
                             @Html.HiddenFor(x => x.UserRightsList[i].rightId)
                             @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = i + 1 })
                             @Html.Label(Model.UserRightsList[i].description)
+                            @if (i == 6)
+                            {
+                                if (Model.ReportRightsList!=null && Model.ReportRightsList.Count > 0)
+                                {
+                                <div id="DivRptRights" hidden>
+                                    @for (var j = 0; j < Model.ReportRightsList.Count; j++)
+                                    {
+                                        @Html.HiddenFor(x => x.ReportRightsList[j].rightId)
+                                        @Html.CheckBoxFor(x => x.ReportRightsList[j].active, new { @class = "All", @id = "rpt" + (j + 1) })
+                                        @Html.Label(Model.ReportRightsList[j].name)
+                                        <br />
+                                    }
+                                </div>
+                                    }
+                                }
                         </div>
 
                     }
@@ -225,6 +253,18 @@ color:#545454;
         return arr;
         //console.log(arr);
     }
+
+    $('#7').change(function(){
+        if($(this).is(":checked")) {
+            //alert('checked');
+            $('#DivRptRights').show();
+           
+        }
+        else{
+            $('#DivRptRights').hide();
+        }
+    });
+    
     </script>
 
 
