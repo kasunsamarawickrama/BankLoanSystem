@@ -56,9 +56,11 @@ namespace BankLoanSystem.Controllers.Reports
         public ActionResult ReportIndex()
         {
             ReportAccess ra = new ReportAccess();
-            List<LoanIdNumber> loanNumbers = ra.GetLoanNumbersWithBranch(_userData.Company_Id);
+            List<Account> loanNumbers = ra.GetAccountDetails(_userData.Company_Id, _userData.RoleId);
 
-            List<LoanIdNumber> userLoanNumbers = new List<LoanIdNumber>();
+            List<Account> userLoanNumbers = new List<Account>();
+
+           
             ViewBag.RoleId = _userData.RoleId;
             ViewBag.BranchId = _userData.BranchId;
             if (_userData.RoleId == 1)
@@ -106,17 +108,17 @@ namespace BankLoanSystem.Controllers.Reports
                         else if (Session["oneLoanDashboard"] != null)
                         {
                             Loan loan = (Loan) Session["oneLoanDashboard"];
-                            userLoanNumbers = new List<LoanIdNumber>();
-                            LoanIdNumber uLoans = new LoanIdNumber();
+                            userLoanNumbers = new List<Account>();
+                            Account uLoans = new Account();
                             uLoans.LoanId = loan.LoanId;
-                            uLoans.LoanNumberB = loan.LoanNumber;
+                            uLoans.LoanNumber = loan.LoanNumber;
                             uLoans.BranchId = loan.BranchId;
                             userLoanNumbers.Add(uLoans);
                         }
                         else if (checkPermission && Session["oneLoanDashboard"] == null)
                         {
                             List<UserRights> userLoanRights = ra.GeUserRightsForReporting(_userData.UserId);
-                            List<LoanIdNumber> loanNumbersUsers = new List<LoanIdNumber>();
+                            List<Account> loanNumbersUsers = new List<Account>();
                             foreach (var item in userLoanRights)
                             {
                                 string[] tokens = null;
@@ -146,6 +148,96 @@ namespace BankLoanSystem.Controllers.Reports
             ViewBag.LoanId = new SelectList(userLoanNumbers, "LoanId", "LoanNumberB");
 
             return View();
+        }
+
+
+        /*
+
+        Frontend page: Report
+        Title: Get active loans
+        Designed: Irfan MAM
+        User story: DFP-
+        Developed: Irfan MAM
+        Date created: 06/23/2016
+
+*/
+
+            public JsonResult GetActiveLoans(string sidx, string sord, int page, int rows, bool _search)
+        {
+            ReportAccess ra = new ReportAccess();
+
+            List<Account> loanNumbers;
+
+            if (_userData.RoleId == 1) {
+                 loanNumbers = ra.GetAccountDetails(_userData.Company_Id, _userData.RoleId);
+
+            }
+            else
+            {
+                loanNumbers = ra.GetAccountDetails(_userData.BranchId, _userData.RoleId);
+            }
+
+            //List<Account> loanNumbers = new List<Account>();
+            //loanNumbers.Add(new Account() {
+            //    LoanId = 12,
+            //    BranchId =123,
+            //    BranchName ="asd",
+            //    LoanAmount = 123,
+            //    LoanNumber = "asd",
+            //    PatBranchName = "addf",
+            //    UsedAmount = 234
+
+            //});
+
+
+
+
+            var count = loanNumbers.Count();
+            int pageIndex = page;
+            int pageSize = rows;
+            int startRow = (pageIndex * pageSize) + 1;
+            int totalRecords = count;
+            int totalPages = (int)Math.Ceiling((float)totalRecords / (float)pageSize);
+            var result = new
+            {
+                total = totalPages,
+                page = pageIndex,
+                records = count,
+                rows = loanNumbers.Select(x => new
+                {
+                    x.LoanId,
+                    //x.BranchId,
+                    x.BranchName,
+                    x.PatBranchName,
+                    x.LoanNumber,
+                   
+                    x.LoanAmount,
+                   
+                   
+                    x.UsedAmount
+                }
+                                         ).ToArray().Select(x => new
+                                         {
+                                             id = x.LoanId.ToString(),
+                                             cell = new string[] { /*x.LoanId.ToString(),*/
+                                                        //x.BranchId.ToString(),
+                                                        x.BranchName,
+                                                        x.PatBranchName,
+                                                        x.LoanNumber.ToString(),
+                                                        x.LoanAmount.ToString(),
+                                                        x.UsedAmount.ToString()
+                                                      }
+                                         }
+                      ).ToArray()
+
+                //rows = new[] { new { id = 1, cell = new[] { "LoanId", "BranchId", "BranchName", "LoanAmount", "LoanNumber", "PatBranchName" , "UsedAmount" } } }
+
+                //rows = Json(loanNumbers, JsonRequestBehavior.AllowGet).ToString().ToArray()
+
+            };
+            
+            return Json(result, JsonRequestBehavior.AllowGet);
+
         }
 
         // <summary>
