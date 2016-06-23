@@ -1076,7 +1076,11 @@ namespace BankLoanSystem.DAL
 
                 return loanSummary;
             }
-            return null;
+            else
+            {
+                return null;
+            }
+            
         }
 
         #endregion
