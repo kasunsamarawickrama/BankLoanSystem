@@ -1080,6 +1080,7 @@ namespace BankLoanSystem.DAL
 
         #endregion
 
+        public static string SubStrDeletion = "Delete reason";
         public List<RptDeletedUnit> RptGetDeletedUnitByLoanIdDateRange(int loanId, DateTime startDate, DateTime endDate)
         {
             List<RptDeletedUnit> deletedUnits = new List<RptDeletedUnit>();
@@ -1126,7 +1127,16 @@ namespace BankLoanSystem.DAL
                     }
 
                     unit.DeletedDate = Convert.ToDateTime(dataRow["deleted_date"].ToString()).ToString("MM/dd/yyyy");
+                    string note = dataRow["Note"].ToString();
+                    string[] words = note.Split(';');
+                    string getFirst = words[0];
                     unit.ReasonForDeletion = "";
+                    if (getFirst.Contains(SubStrDeletion))
+                    {
+                        string[] reason = getFirst.Split(':');
+                        if (!string.IsNullOrEmpty(reason[1]))
+                            unit.ReasonForDeletion = reason[1];
+                    }
 
                     deletedUnits.Add(unit);
                 }
