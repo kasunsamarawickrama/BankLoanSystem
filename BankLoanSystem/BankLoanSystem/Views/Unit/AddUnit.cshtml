@@ -115,8 +115,8 @@
                                 <div class="form-group">
                                     @*@Html.LabelFor(model => model.vehicle.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })*@
                                     <label class="control-label col-md-2" for="vehicle_IdentificationNumber">VIN <span class="icon-help_outline help-veh-vin"></span></label>
-
-                                    <div class="col-sm-4">
+                                    <img src="../Images/2.gif" id="loading" hidden style="height: 23px;margin-left: -640px;margin-top: 2px;">
+                                    <div class="col-sm-4">                                       
                                         @Html.EditorFor(model => model.vehicle.IdentificationNumber, new { htmlAttributes = new { @class = "form-control cap vinUnique", @id = "vehicleVin", @style = "width: 225px;" } })
                                         @Html.ValidationMessageFor(model => model.vehicle.IdentificationNumber, "", new { @class = "text-danger", @style = "width: 300px; left: 0%;" })
                                         <div id="vehicleVIN" class="validation-error"><span class="text-danger"></span></div>
@@ -146,9 +146,9 @@
                                     @Html.LabelFor(model => model.vehicle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                                     @Html.EditorFor(model => model.vehicle.Make, new { htmlAttributes = new { @id = "editor1-2", @Style = "display: none;" } })
                                     @*<div class="col-sm-2 block_invalid" onmouseover="GetMakes($('#combobox1-1'),'#combobox1-2',1);" onmouseout="GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);" id="div-combobox1-2">*@
-                                    <div class="col-sm-4 block_invalid" id="div-combobox1-2">
+                                    <div class="col-sm-1 block_invalid" id="div-combobox1-2">
 
-                                        <div style="margin-left: -45px;">
+                                        <div >
                                             @Html.DropDownList("make", new SelectList(""), "", new { @class = "form-control", @id = "combobox1-2" })
 
                                             @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
@@ -1565,6 +1565,7 @@
                         var vin =document.getElementById('vehicleVin').value;
                         $('#vehicleVIN span').text("");
 
+                        $('#loading').show();
                         $.ajax({
                             url: '/Unit/GetYearByVin',
                             type: 'POST',
@@ -1583,12 +1584,12 @@
 
                                     CallVinDecode($('#vehicleVin').val());
                                     middleSpanCheck();
-                                   
+                                    
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown){
                                 // Your handler here...
-
+                                $('#loading').hide();
                                 // if session expires
                                 if(jqXHR.status == "404"){
                                     window.location.href='/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
@@ -3195,10 +3196,12 @@
                             document.getElementById('editor1-3').value = res.model.name;
                             $('#combobox1-3').next().children('input').val(res.model.name);
                         }
+                        $('#loading').hide();
                     }
                     // Oops, Houston we have a problem!
                     function fail(data) {
                         //console.log(data);
+                        $('#loading').hide();
                     }
                     // Fire the API call
                     res.api('/api/vehicle/v2/vins/'+ vin, '', success, fail);
