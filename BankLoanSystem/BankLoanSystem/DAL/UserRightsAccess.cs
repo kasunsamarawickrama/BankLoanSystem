@@ -170,7 +170,7 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             try
             {
-                DataSet dataSet = dataHandler.GetDataSet("spGetRights");
+                DataSet dataSet = dataHandler.GetDataSet("spGetReportRights");
                 if (dataSet != null && dataSet.Tables.Count != 0)
                 {
                     foreach (DataRow dataRow in dataSet.Tables[0].Rows)
