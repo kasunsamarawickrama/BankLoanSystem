@@ -1080,6 +1080,69 @@ namespace BankLoanSystem.DAL
 
         #endregion
 
+        public static string SubStrDeletion = "Delete reason";
+        public List<RptDeletedUnit> RptGetDeletedUnitByLoanIdDateRange(int loanId, DateTime startDate, DateTime endDate)
+        {
+            List<RptDeletedUnit> deletedUnits = new List<RptDeletedUnit>();
 
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            paramertList.Add(new object[] { "@date_start", startDate });
+            paramertList.Add(new object[] { "@date_end", endDate });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetDeletedUnitDetails ", paramertList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    RptDeletedUnit unit = new RptDeletedUnit();
+
+                    unit.LoanId = Convert.ToInt32(dataRow["loan_id"]);
+                    unit.UnitId = dataRow["unit_id"].ToString();
+                    unit.IdentificationNumber = dataRow["identification_number"].ToString();
+                    unit.Year = (dataRow["year"]) != DBNull.Value ? (int)dataRow["year"] : 0000;
+                    unit.Make = dataRow["make"].ToString();
+                    unit.Model = dataRow["model"].ToString();
+                    unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString()).ToString("MM/dd/yyyy");
+                    unit.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
+                    unit.AdvanceAmount = Convert.ToDecimal(dataRow["advance_amount"]);
+                    unit.TotalCurtPaid = Convert.ToDecimal(dataRow["CurtailmentPaid"]);
+                    unit.BalanceDue = Convert.ToDecimal(dataRow["BalanceDue"]);
+
+                    int status = Convert.ToInt32(dataRow["title_status"]);
+
+                    if (status == 0)
+                    {
+                        unit.TitleStatus = "Not Received";
+                    }
+                    else if (status == 1)
+                    {
+                        unit.TitleStatus = "Received";
+                    }
+                    else if (status == 2)
+                    {
+                        unit.TitleStatus = "Returned to Dealer";
+                    }
+
+                    unit.DeletedDate = Convert.ToDateTime(dataRow["deleted_date"].ToString()).ToString("MM/dd/yyyy");
+                    string note = dataRow["Note"].ToString();
+                    string[] words = note.Split(';');
+                    string getFirst = words[0];
+                    unit.ReasonForDeletion = "";
+                    if (getFirst.Contains(SubStrDeletion))
+                    {
+                        string[] reason = getFirst.Split(':');
+                        if (!string.IsNullOrEmpty(reason[1]))
+                            unit.ReasonForDeletion = reason[1];
+                    }
+
+                    deletedUnits.Add(unit);
+                }
+            }
+
+            return deletedUnits;
+        }
     }
 }
