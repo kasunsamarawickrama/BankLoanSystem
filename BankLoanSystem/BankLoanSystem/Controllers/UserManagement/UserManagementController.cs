@@ -1398,6 +1398,13 @@ namespace BankLoanSystem.Controllers
 
         }
 
+        /// <summary>
+        /// CreatedBy: Piyumi
+        /// CreatedDate: 4/1/2016
+        /// Get Loans for selected branch
+        /// </summary>
+        /// <param name="BranchIdL"></param>
+        /// <returns></returns>
         public ActionResult GetLoansByBranches(int BranchIdL) 
         {
             User us = new User();
@@ -1417,7 +1424,7 @@ namespace BankLoanSystem.Controllers
             rightLists = (new UserRightsAccess()).getRights();
 
             us.UserRightsList = rightLists;
-
+            //us.ReportRightsList = (new UserRightsAccess()).getReportRights();
             //return PartialView(userViewModel);
 
             if (HttpContext.Request.IsAjaxRequest())
@@ -1432,6 +1439,14 @@ namespace BankLoanSystem.Controllers
             }
             //return View();
         }
+
+        /// <summary>
+        /// CreatedBy: Piyumi
+        /// CreatedDate: 4/1/2016
+        /// Insert new user details
+        /// </summary>
+        /// <param name="userObj"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult CreateDashboardUser(User userObj)
         {
@@ -1493,6 +1508,11 @@ namespace BankLoanSystem.Controllers
                             if (!loanList[j].IsTitleTrack)
                             {
                                 userObj.UserRightsList[3].active = false;
+                            }
+
+                            if (!loanList[j].HasFee)
+                            {
+                                userObj.UserRightsList[5].active = false;
                             }
                         }
                     }
@@ -1791,6 +1811,7 @@ namespace BankLoanSystem.Controllers
                         }
                     }
                 }
+
                 else {
                     user.UserRightsList = list;
                 }

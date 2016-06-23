@@ -1679,13 +1679,22 @@ namespace BankLoanSystem.DAL
             return unitFeeTypes;
         }
 
-        public int DeleteUnit(int loanId, string unitId, decimal paidAmount)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <param name="unitId"></param>
+        /// <param name="paidAmount"></param>
+        /// <returns></returns>
+        public int DeleteUnit(int loanId, string unitId, decimal paidAmount, string reason)
         {
             DataHandler dataHandler = new DataHandler();
 
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@loan_id", loanId });
             paramertList.Add(new object[] { "@unit_id", unitId });
+            paramertList.Add(new object[] { "@reason", reason });
             paramertList.Add(new object[] { "@paid_amount", paidAmount });
 
             try

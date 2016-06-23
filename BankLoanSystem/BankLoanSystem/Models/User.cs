@@ -153,6 +153,8 @@ namespace BankLoanSystem.Models
 
         public List<Right> UserRightsList { get; set; }
 
+        public List<Right> ReportRightsList { get; set; }
+
         public string ActivationCode { get; set; }
 
         public List<Branch> BranchList { get; set; }

@@ -484,15 +484,19 @@ namespace BankLoanSystem.Controllers.Unit
         {
             ViewBag.Msg = msg;
             int userId;
-            string loanCode;
+            string loanCode = null;
             try {
                 userId = userData.UserId;
 
-                loanCode = Session["loanCode"].ToString();
+                
             }
             catch (Exception)
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
+            }
+
+            if(Session["loanCode"] != null) { 
+            loanCode = Session["loanCode"].ToString();
             }
 
             ViewBag.Title = title;
@@ -507,6 +511,8 @@ namespace BankLoanSystem.Controllers.Unit
             int comType = ba.getCompanyTypeByUserId(userId);
             ViewBag.loanCompanyType = (comType == 1) ? "Dealer" : "Lender";
 
+
+            if(loanCode != null) {
             LoanSetupStep1 loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
             Session["addUnitloan"] = loan;
             NonRegBranch nonRegBranch = ba.getNonRegBranchByNonRegBranchId(loan.nonRegisteredBranchId);
@@ -521,6 +527,8 @@ namespace BankLoanSystem.Controllers.Unit
             ViewBag.CurtailmentDueDate = loan.CurtailmentDueDate;
 
             ViewBag.LoanNumber = loan.loanNumber;
+
+            }
 
             return View();
         }
