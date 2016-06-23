@@ -242,6 +242,7 @@
     <Content Include="Reports\RptDivCurtailmentInvoice.aspx" />
     <Content Include="Reports\RptDivCurtailmentReceipt.aspx" />
     <Content Include="Reports\RptDivCUrtailmentReceiptDuringSession.aspx" />
+    <Content Include="Reports\RptDivDeletedUnits.aspx" />
     <Content Include="Reports\RPTDivFullInventory.aspx" />
     <Content Include="Reports\RptDivTransactionHistory.aspx" />
     <Content Include="Reports\RptDivLoanTerms.aspx" />
@@ -444,6 +445,13 @@
     </Compile>
     <Compile Include="Reports\RptDivCUrtailmentReceiptDuringSession.aspx.designer.cs">
       <DependentUpon>RptDivCUrtailmentReceiptDuringSession.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivDeletedUnits.aspx.cs">
+      <DependentUpon>RptDivDeletedUnits.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivDeletedUnits.aspx.designer.cs">
+      <DependentUpon>RptDivDeletedUnits.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\RptDivFullInventory.aspx.cs">
       <DependentUpon>RPTDivFullInventory.aspx</DependentUpon>
@@ -667,6 +675,7 @@
     <EmbeddedResource Include="Reports\RptCurtailmentDuringSession.rdlc" />
     <EmbeddedResource Include="Reports\RptCurtailmentInvoice.rdlc" />
     <EmbeddedResource Include="Reports\RptCurtailmentReceipt.rdlc" />
+    <EmbeddedResource Include="Reports\RptDeletedUnits.rdlc" />
     <EmbeddedResource Include="Reports\RptFullInventory.rdlc" />
     <EmbeddedResource Include="Reports\RptTransactionHistory.rdlc" />
     <EmbeddedResource Include="Reports\RptLoanTerms.rdlc" />

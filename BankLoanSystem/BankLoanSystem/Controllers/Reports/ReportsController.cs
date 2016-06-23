@@ -59,10 +59,11 @@ namespace BankLoanSystem.Controllers.Reports
             List<LoanIdNumber> loanNumbers = ra.GetLoanNumbersWithBranch(_userData.Company_Id);
 
             List<LoanIdNumber> userLoanNumbers = new List<LoanIdNumber>();
-
+            ViewBag.RoleId = _userData.RoleId;
             if (_userData.RoleId == 1)
             {
                 userLoanNumbers = loanNumbers;
+                ViewBag.ComId = _userData.Company_Id;
             }
             else if (_userData.RoleId == 2 || _userData.RoleId == 3)
             {

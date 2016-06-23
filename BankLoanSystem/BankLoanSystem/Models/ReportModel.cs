@@ -196,5 +196,21 @@ namespace BankLoanSystem.Models
 
     #endregion
 
-    
+    public class RptDeletedUnit
+    {
+        public int LoanId { get; set; }
+        public string UnitId { get; set; }
+        public string IdentificationNumber { get; set; }
+        public int Year { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public string AdvanceDate { get; set; }
+        public decimal PurchasePrice { get; set; }
+        public decimal AdvanceAmount { get; set; }
+        public decimal TotalCurtPaid { get; set; }
+        public decimal BalanceDue { get; set; }
+        public string TitleStatus { get; set; }
+        public string DeletedDate { get; set; }
+        public string ReasonForDeletion { get; set; }
+    }
 }
