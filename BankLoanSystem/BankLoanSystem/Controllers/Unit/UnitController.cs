@@ -455,50 +455,6 @@ namespace BankLoanSystem.Controllers.Unit
             return Json(year);
         }
 
-        /*
-
-        Frontend page   : Add Unit
-        Title           : Get make accrding to the vehicle vin number
-        Designed        : Kasun Samarawickrama
-        User story      : 
-        Developed       : Kasun Samarawickrama
-        Date created    : 2016/2/25
-
-        */
-        [HttpPost]
-        public ActionResult GetMakeByVin(string vin)
-        {
-            string make = (new UnitAccess()).DecodeVINMake(vin);
-
-            return Json(make);
-        }
-
-        /*
-
-        Frontend page   : Add Unit
-        Title           : Get model accrding to the vehicle vin number
-        Designed        : Kasun Samarawickrama
-        User story      : 
-        Developed       : Kasun Samarawickrama
-        Date created    : 2016/2/25
-
-        */
-        [HttpPost]
-        public ActionResult GetModelByVin(string makex, int yearx)
-        {
-            string str = "";
-            List<UnitYearMakeModel> modelList = (new UnitAccess()).GetVehicleModelsByMakeYear(makex, yearx, 1);
-            if (modelList != null && modelList.Count > 0) {
-                if (modelList.Count == 1)
-                {
-                    str = modelList[0].VehicleModel;
-                }
-                else {
-                    str = "";
-                }
-            }           
-            return Json(str);
-        }
 
         public ActionResult LoanInfo(string title, string msg)
         {
