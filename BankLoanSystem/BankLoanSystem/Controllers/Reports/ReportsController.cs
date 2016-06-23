@@ -60,6 +60,7 @@ namespace BankLoanSystem.Controllers.Reports
 
             List<LoanIdNumber> userLoanNumbers = new List<LoanIdNumber>();
             ViewBag.RoleId = _userData.RoleId;
+            ViewBag.BranchId = _userData.BranchId;
             if (_userData.RoleId == 1)
             {
                 userLoanNumbers = loanNumbers;

@@ -291,7 +291,7 @@
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
     });
-    
+
     $('#btnAdvanceUnit').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceUnit');
@@ -503,9 +503,10 @@
     }
 
     $('#btnDisplay').click(function () {
+        
         errorCount = 0;
         var rptType = $('#hdnSelectedButton').val();
-        
+
         if (rptType !== '') {
             var input = $("#LoanId");
 
@@ -560,7 +561,7 @@
                 urlPrefix = "../Reports/RptDivCompanySummary.aspx?companyId=";//
             }
             else if (rptType === 'BranchSummary') {
-                urlPrefix = "../Reports/RptDivBranchSummary.aspx";
+                urlPrefix = "../Reports/RptDivBranchSummary.aspx?branchId=";
             }
             else if (rptType === 'DeletedUnits') {
                 urlPrefix = "../Reports/RptDivDeletedUnits.aspx?loanId=";
@@ -580,7 +581,7 @@
                     $('.centered h5 span').text("");
                 }
             }
-
+            
             var val = $('#LoanId').val();
 
             var myFrame;
@@ -588,7 +589,7 @@
 
             if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice' || rptType === 'PayOff' || rptType === 'AdvanceFeeReceipt' ||
                 rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt' || rptType === 'TransactionHistory' || rptType === 'AdvanceUnit' || rptType === 'DeletedUnits') {
-                
+
                 var startDate = $('#startDate').val();
                 if (startDate === '') {
                     $('#tagscloudStartDate').children('span').text("Please select start date");
@@ -657,9 +658,9 @@
                 } else {
 
                     if (errorCount <= 0) {
-                    $('#tagscloudTitleStatus').children('span').text("");
-                    $("#titleStatus").removeClass('input-validation-error');
-                    $('.centered h5 span').text("");
+                        $('#tagscloudTitleStatus').children('span').text("");
+                        $("#titleStatus").removeClass('input-validation-error');
+                        $('.centered h5 span').text("");
                         myFrame = document.getElementById('ifrmReportViewer');
                         frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
                         frameDoc.removeChild(frameDoc.documentElement);
@@ -681,12 +682,23 @@
             }
             else if (rptType === 'CompanySummary' && '@ViewBag.RoleId' === '1') {
                 var comId = '@ViewBag.ComId';
-                //alert(comId);
+                
                 myFrame = document.getElementById('ifrmReportViewer');
                 frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
                 frameDoc.removeChild(frameDoc.documentElement);
 
                 urlPrefix = urlPrefix + comId;
+                //alert(urlPrefix);
+                ReportCurtailmentInvoice(val, urlPrefix);
+            }
+            else if (rptType === 'BranchSummary') {
+                var branchId = '@ViewBag.BranchId';
+                //alert(comId);
+                myFrame = document.getElementById('ifrmReportViewer');
+                frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                frameDoc.removeChild(frameDoc.documentElement);
+
+                urlPrefix = urlPrefix + branchId;
                 //alert(urlPrefix);
                 ReportCurtailmentInvoice(val, urlPrefix);
             }
@@ -833,10 +845,10 @@
         var loanId = $('#LoanId').val();
         var range1 = $('#startDate').val();
         var range2 = $('#endDate').val();
-        var titleStatus=$('#titleStatus').val();
+        var titleStatus = $('#titleStatus').val();
 
         //window.location.blank = true;
-        var url = '/Reports/PrintPage?rptType='+ rptType + '&loanId=' + loanId + '&range1=' + range1+ '&range2=' + range2 + '&titleStatus=' + titleStatus;
+        var url = '/Reports/PrintPage?rptType=' + rptType + '&loanId=' + loanId + '&range1=' + range1 + '&range2=' + range2 + '&titleStatus=' + titleStatus;
 
         var win = window.open(url, '_blank');
         win.focus();
