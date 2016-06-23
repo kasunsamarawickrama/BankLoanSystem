@@ -267,7 +267,7 @@ namespace BankLoanSystem.Controllers
                             }
                         }
                         // Complete cycle and no start new cycle
-                        else if (userData.step_status == 1)
+                        else if (userData.step_status == 1 || userData.step_status == 2)
                         {
                             //delete just added unit if exists
                             UnitAccess ua = new UnitAccess();
@@ -281,104 +281,104 @@ namespace BankLoanSystem.Controllers
                             return RedirectToAction("UserDetails", "UserManagement");
                         }
                         // atleast one cycle complete and Start new cycle 
-                        else if (userData.step_status == 2)
-                        {
+                        //else if (userData.step_status == 2)
+                        //{
 
-                            //delete just added unit if exists
-                            UnitAccess ua = new UnitAccess();
-                            ua.DeleteJustAddedUnits(userData.UserId);
-                            //insert log
-                            Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "User Login", "User : " + userData.UserName + " has logged successfully", DateTime.Now);
+                        //    //delete just added unit if exists
+                        //    UnitAccess ua = new UnitAccess();
+                        //    ua.DeleteJustAddedUnits(userData.UserId);
+                        //    //insert log
+                        //    Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "User Login", "User : " + userData.UserName + " has logged successfully", DateTime.Now);
 
-                            int islog = (new LogAccess()).InsertLog(log);
-                            if (userData.RoleId == 1)
-                            {
-                                DataSet dsStepNo = new DataSet();
-                                dsStepNo = step.checkSuperAdminLoginWhileCompanySetup(userData);
-                                if (dsStepNo.Tables[0].Rows.Count > 0)
-                                {
-                                    Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
-                                    Session["isNotCompleteStep"] = 1;
-                                    //return RedirectToAction("Index", "SetupProcess");
-                                    return RedirectToAction("UserLogin", "Login");
-                                }
-                                else
-                                {
-                                    LoanSetupStep loanStep = new LoanSetupStep();
-                                    DataSet dsLoanStepNo = new DataSet();
-                                    dsLoanStepNo = step.checkUserLoginWhileLoanSetup(userData);
-                                    if (dsLoanStepNo.Tables[0].Rows.Count > 0)
-                                    {
-                                        loanStep.CompanyId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["company_id"].ToString());
-                                        loanStep.BranchId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["branch_id"].ToString());
-                                        loanStep.stepId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["step_number"].ToString());
-                                        loanStep.nonRegisteredBranchId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["non_registered_branch_id"].ToString());
-                                        if (dsLoanStepNo.Tables[0].Rows[0]["loan_id"].ToString() != "")
-                                        {
-                                            loanStep.loanId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["loan_id"].ToString());
-                                        }
-                                        else
-                                        {
-                                            loanStep.loanId = 0;
-                                        }
-                                        Session["isNotCompleteStep"] = 1;
-                                        Session["loanStep"] = loanStep;
-                                        if (userData.RoleId == 1)
-                                        {
-                                            //return RedirectToAction("Step" + (loanStep.stepId + 5), "SetupProcess");
-                                            return RedirectToAction("UserLogin", "Login");
-                                        }
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                //if step table has record pass(company id and branch id)
-                                DataSet dsStepNo = new DataSet();
-                                dsStepNo = step.checkUserLoginWhileCompanySetup(userData);
-                                if (dsStepNo.Tables[0].Rows.Count > 0)
-                                {
-                                    Session["isNotCompleteStep"] = 1;
-                                    Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
-                                    return RedirectToAction("UserLogin", "Login");
-                                }
-                                else
-                                {
-                                    //No Step recor in relavent Company and branch
-                                    LoanSetupStep loanStep = new LoanSetupStep();
-                                    DataSet dsLoanStepNo = new DataSet();
-                                    dsLoanStepNo = step.checkUserLoginWhileLoanSetup(userData);
-                                    if (dsLoanStepNo.Tables[0].Rows.Count > 0)
-                                    {
-                                        loanStep.CompanyId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["company_id"].ToString());
-                                        loanStep.BranchId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["branch_id"].ToString());
-                                        loanStep.stepId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["step_number"].ToString());
-                                        loanStep.nonRegisteredBranchId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["non_registered_branch_id"].ToString());
-                                        if (dsLoanStepNo.Tables[0].Rows[0]["loan_id"].ToString() != "")
-                                        {
-                                            loanStep.loanId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["loan_id"].ToString());
-                                        }
-                                        else
-                                        {
-                                            loanStep.loanId = 0;
-                                        }
+                        //    int islog = (new LogAccess()).InsertLog(log);
+                        //    if (userData.RoleId == 1)
+                        //    {
+                        //        DataSet dsStepNo = new DataSet();
+                        //        dsStepNo = step.checkSuperAdminLoginWhileCompanySetup(userData);
+                        //        if (dsStepNo.Tables[0].Rows.Count > 0)
+                        //        {
+                        //            Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
+                        //            Session["isNotCompleteStep"] = 1;
+                        //            //return RedirectToAction("Index", "SetupProcess");
+                        //            return RedirectToAction("UserLogin", "Login");
+                        //        }
+                        //        else
+                        //        {
+                        //            LoanSetupStep loanStep = new LoanSetupStep();
+                        //            DataSet dsLoanStepNo = new DataSet();
+                        //            dsLoanStepNo = step.checkUserLoginWhileLoanSetup(userData);
+                        //            if (dsLoanStepNo.Tables[0].Rows.Count > 0)
+                        //            {
+                        //                loanStep.CompanyId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["company_id"].ToString());
+                        //                loanStep.BranchId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["branch_id"].ToString());
+                        //                loanStep.stepId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["step_number"].ToString());
+                        //                loanStep.nonRegisteredBranchId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["non_registered_branch_id"].ToString());
+                        //                if (dsLoanStepNo.Tables[0].Rows[0]["loan_id"].ToString() != "")
+                        //                {
+                        //                    loanStep.loanId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["loan_id"].ToString());
+                        //                }
+                        //                else
+                        //                {
+                        //                    loanStep.loanId = 0;
+                        //                }
+                        //                Session["isNotCompleteStep"] = 1;
+                        //                Session["loanStep"] = loanStep;
+                        //                if (userData.RoleId == 1)
+                        //                {
+                        //                    //return RedirectToAction("Step" + (loanStep.stepId + 5), "SetupProcess");
+                        //                    return RedirectToAction("UserLogin", "Login");
+                        //                }
+                        //            }
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        //if step table has record pass(company id and branch id)
+                        //        DataSet dsStepNo = new DataSet();
+                        //        dsStepNo = step.checkUserLoginWhileCompanySetup(userData);
+                        //        if (dsStepNo.Tables[0].Rows.Count > 0)
+                        //        {
+                        //            Session["isNotCompleteStep"] = 1;
+                        //            Session["companyStep"] = int.Parse(dsStepNo.Tables[0].Rows[0]["step_number"].ToString());
+                        //            return RedirectToAction("UserLogin", "Login");
+                        //        }
+                        //        else
+                        //        {
+                        //            //No Step recor in relavent Company and branch
+                        //            LoanSetupStep loanStep = new LoanSetupStep();
+                        //            DataSet dsLoanStepNo = new DataSet();
+                        //            dsLoanStepNo = step.checkUserLoginWhileLoanSetup(userData);
+                        //            if (dsLoanStepNo.Tables[0].Rows.Count > 0)
+                        //            {
+                        //                loanStep.CompanyId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["company_id"].ToString());
+                        //                loanStep.BranchId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["branch_id"].ToString());
+                        //                loanStep.stepId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["step_number"].ToString());
+                        //                loanStep.nonRegisteredBranchId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["non_registered_branch_id"].ToString());
+                        //                if (dsLoanStepNo.Tables[0].Rows[0]["loan_id"].ToString() != "")
+                        //                {
+                        //                    loanStep.loanId = int.Parse(dsLoanStepNo.Tables[0].Rows[0]["loan_id"].ToString());
+                        //                }
+                        //                else
+                        //                {
+                        //                    loanStep.loanId = 0;
+                        //                }
 
-                                        Session["isNotCompleteStep"] = 1;
-                                        Session["loanStep"] = loanStep;
+                        //                Session["isNotCompleteStep"] = 1;
+                        //                Session["loanStep"] = loanStep;
 
-                                        //return RedirectToAction("Step" + (loanStep.stepId + 5), "SetupProcess");
-                                        return RedirectToAction("UserLogin", "Login");
-                                    }
-                                    //if SA stepstatus 2 and no records in loan setup and companysetup
-                                    else
-                                    {
-                                        return RedirectToAction("UserDetails", "Usermanagement");
-                                    }
-                                }
+                        //                //return RedirectToAction("Step" + (loanStep.stepId + 5), "SetupProcess");
+                        //                return RedirectToAction("UserLogin", "Login");
+                        //            }
+                        //            //if SA stepstatus 2 and no records in loan setup and companysetup
+                        //            else
+                        //            {
+                        //                return RedirectToAction("UserDetails", "Usermanagement");
+                        //            }
+                        //        }
 
 
-                            }
-                        }
+                        //    }
+                        //}
                         else
                         {
                             //insert log

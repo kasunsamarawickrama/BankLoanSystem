@@ -8,8 +8,8 @@
 
 @*Date picker*@
 @*<link href="~/Content/pikaday.css" rel="stylesheet" />
-<link href="~/Content/theme.css" rel="stylesheet" />
-<link href="~/Content/triangle.css" rel="stylesheet" />*@
+    <link href="~/Content/theme.css" rel="stylesheet" />
+    <link href="~/Content/triangle.css" rel="stylesheet" />*@
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>
 
@@ -22,16 +22,16 @@
 
 @*<link href="~/Content/overlaypopup.css" rel="stylesheet" />*@
 @section AddToHead{
-<style>
-    .btns-clm > button {
-        width: 180px;
-        height: 40px;
-        margin-bottom:10px;
-        margin-left: 5px;
-        margin-right: 5px;
-        font-size: 13px;
-    }
-</style>}
+    <style>
+        .btns-clm > button {
+            width: 180px;
+            height: 40px;
+            margin-bottom: 10px;
+            margin-left: 5px;
+            margin-right: 5px;
+            font-size: 13px;
+        }
+    </style>}
 
 @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
 }
@@ -73,10 +73,28 @@
 
     <!---->
     <div style="margin-top:15px;" id="liFilteringSection">
-        <div class="form-inline" style="text-align:left;width:70%;display: inline-block;
-    float: left;padding-left: 10px;">
-            <div id="lnum" class="form-group" style="width:50%;">
-                <label for="">Account Detail</label><br/>
+        <div class="form-inline" style="text-align: left; width: 70%; display: inline-block; float: left; padding-left: 10px;">
+            @*@if (ViewBag.RoleId == 1)
+            {
+                <div id="divBranch" class="form-group" style="width: 50%;">
+                    <label for="">Branch</label><br />
+
+                    @if (Enumerable.Count(ViewBag.LoanId) == 1)
+                    {
+                        @Html.HiddenFor(model => model.LoanId, new { @Value = (int)ViewBag.LoanId.Items[0].LoanId, })
+                        @Html.LabelFor(model => model.LoanId, (string)ViewBag.LoanId.Items[0].LoanNumberB, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId", @style = "width:100%" })
+                        @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
+                        <div id="tagscloudLoanId" class="field-validation-error"><span class="text-danger"></span></div>
+                    }
+                </div>
+            }*@
+
+            <div id="lnum" class="form-group" style="width: 50%;">
+                <label for="">Account Detail</label><br />
 
                 @if (Enumerable.Count(ViewBag.LoanId) == 1)
                 {
@@ -85,27 +103,27 @@
                 }
                 else
                 {
-                    @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" , @style="width:100%" })
+                    @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId", @style = "width:100%" })
                     @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
                     <div id="tagscloudLoanId" class="field-validation-error"><span class="text-danger"></span></div>
                 }
             </div>
 
-            <div id="strdate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
+            <div id="strdate" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
                 <label for="">Start Date</label>
                 @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "startDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", style = "width:100%" } })
                 @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger", style = "left:25%" })
                 <div id="tagscloudStartDate" class="field-validation-error"><span class="text-danger"></span></div>
             </div>
 
-            <div id="enddate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
+            <div id="enddate" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
                 <label for="">End Date</label>
                 @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "endDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", style = "width:100%" } })
                 @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger", style = "left:25%" })
                 <div id="tagscloudEndDate" class="field-validation-error"><span class="text-danger"></span></div>
             </div>
 
-            <div id="ttlsts" class="form-group hf" style="margin-left:20px;display:none;width:20%">
+            <div id="ttlsts" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
                 <label for="">Title Status</label>
                 @{
                     List<SelectListItem> titleStatus = new List<SelectListItem>();
@@ -161,7 +179,7 @@
 
 
     @{
-        //Html.RenderAction("GetLinkBar", "Unit");
+//Html.RenderAction("GetLinkBar", "Unit");
     }
 
     <button class="a_demo_three icon-home3" onclick="window.location.href = '/UserManagement/UserDetails'">
@@ -442,15 +460,6 @@
         $('#hdnSelectedButton').val('CompanySummary');
         $('#lnum').hide();
         $('#lnum').siblings('.hf').hide();
-        //$('#ttlsts').hide().siblings('.hf').show();
-        //$('#ttlsts').siblings('.hf').children('input').val('');
-        //$('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
-        //$('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
-        //$('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
-
-        //$('#titleStatus').find('option:first').prop('selected', 'selected');
-        //$('#tagscloudTitleStatus').children('span').text('');
-        //$('#titleStatus').removeClass('input-validation-error');
     });
 
     $('#btnBranchSummary').click(function () {
@@ -458,15 +467,6 @@
         $('#hdnSelectedButton').val('BranchSummary');
         $('#lnum').hide();
         $('#lnum').siblings('.hf').hide();
-        //$('#ttlsts').hide().siblings('.hf').show();
-        //$('#ttlsts').siblings('.hf').children('input').val('');
-        //$('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
-        //$('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
-        //$('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
-
-        //$('#titleStatus').find('option:first').prop('selected', 'selected');
-        //$('#tagscloudTitleStatus').children('span').text('');
-        //$('#titleStatus').removeClass('input-validation-error');
     });
 
     $('#btnDeletedUnits').click(function () {
@@ -503,7 +503,7 @@
     }
 
     $('#btnDisplay').click(function () {
-        
+
         errorCount = 0;
         var rptType = $('#hdnSelectedButton').val();
 
@@ -581,7 +581,7 @@
                     $('.centered h5 span').text("");
                 }
             }
-            
+
             var val = $('#LoanId').val();
 
             var myFrame;
@@ -633,8 +633,6 @@
                     myFrame = document.getElementById('ifrmReportViewer');
                     frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
                     frameDoc.removeChild(frameDoc.documentElement);
-                    //var startDate1 = moment(startDate, "MM/dd/yyyy");
-                    //var endDate1 = moment(endDate, "MM/dd/yyyy");
 
                     urlPrefix = urlPrefix + val + "&startDate=" + formatDate(startDate) + "&endDate=" + formatDate(endDate);
                     ReportCurtailmentInvoice(val, urlPrefix);
@@ -682,24 +680,21 @@
             }
             else if (rptType === 'CompanySummary' && '@ViewBag.RoleId' === '1') {
                 var comId = '@ViewBag.ComId';
-                
+
                 myFrame = document.getElementById('ifrmReportViewer');
                 frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
                 frameDoc.removeChild(frameDoc.documentElement);
 
                 urlPrefix = urlPrefix + comId;
-                //alert(urlPrefix);
                 ReportCurtailmentInvoice(val, urlPrefix);
             }
             else if (rptType === 'BranchSummary') {
                 var branchId = '@ViewBag.BranchId';
-                //alert(comId);
                 myFrame = document.getElementById('ifrmReportViewer');
                 frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
                 frameDoc.removeChild(frameDoc.documentElement);
 
                 urlPrefix = urlPrefix + branchId;
-                //alert(urlPrefix);
                 ReportCurtailmentInvoice(val, urlPrefix);
             }
         } else {
@@ -847,47 +842,12 @@
         var range2 = $('#endDate').val();
         var titleStatus = $('#titleStatus').val();
 
-        //window.location.blank = true;
         var url = '/Reports/PrintPage?rptType=' + rptType + '&loanId=' + loanId + '&range1=' + range1 + '&range2=' + range2 + '&titleStatus=' + titleStatus;
 
         var win = window.open(url, '_blank');
         win.focus();
 
-        //$.ajax({
-        //    url: '/Reports/PrintPage',
-        //    type: 'POST',
-        //    contentType: 'application/json;',
-        //    data: JSON.stringify({ 'rptType': rptType, 'loanId': loanId, 'range1': range1, 'range2': range2, 'titleStatus': titleStatus }),
-        //    success: function (view) {
-        //        //alert(view);
-        //    },
-        //    error: function (jqXHR, textStatus, errorThrown) {
-        //        // Your handler here...
 
-        //        // if session expires
-        //        if (jqXHR.status == "404") {
-        //            window.location.href = '/Login/UserLogin?lbl=Session expired';
-        //        } else {
-        //            $('#errPage span').text('No printers are installed.');
-        //        }
-        //    }
-        //});
-
-        ////Code for adding HTML content to report viwer
-        //var headstr = "<html><head><title></title></head><body>";
-        ////End of body tag
-        //var footstr = "</body></html>";
-        ////This the main content to get the all the html content inside the report viewer control
-        ////"ReportViewer1_ctl10" is the main div inside the report viewer
-        ////controls who helds all the tables and divs where our report contents or data is available
-        //var newstr = $("#rptViewerLotInspection_ctl09").html();
-        ////open blank html for printing
-        //var popupWin = window.open('', '_blank');
-        ////paste data of printing in blank html page
-        //popupWin.document.write(headstr + newstr + footstr);
-        ////print the page and see is what you see is what you get
-        //popupWin.print();
-        //return false;
     });
 
     var startDate = new Pikaday({

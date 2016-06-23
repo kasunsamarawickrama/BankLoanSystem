@@ -994,10 +994,10 @@ namespace BankLoanSystem.DAL
 
                     companySummary.BranchName = dataRow["branchName"].ToString();
                     companySummary.NoOfPartnerBranches = Convert.ToInt32(dataRow["noOfPartnerBranch"]);
-                    companySummary.NoOfActiveLoans = Convert.ToInt32(dataRow["NoOfActiveLoans"]);
-                    companySummary.TotalActiveUnits = Convert.ToInt32(dataRow["noOfActiveUnits"]);
-                    companySummary.TotalLoanBalance = Convert.ToDecimal(dataRow["totalLoanBalance"]);
-                    companySummary.TotalLoanAmount = Convert.ToDecimal(dataRow["totalLoanAmount"]);
+                    companySummary.NoOfActiveLoans = dataRow["NoOfActiveLoans"] != DBNull.Value ? Convert.ToInt32(dataRow["NoOfActiveLoans"]) : 0;
+                    companySummary.TotalActiveUnits = dataRow["noOfActiveUnits"] != DBNull.Value ? Convert.ToInt32(dataRow["noOfActiveUnits"]) : 0;
+                    companySummary.TotalLoanBalance = dataRow["totalLoanBalance"] != DBNull.Value ? Convert.ToDecimal(dataRow["totalLoanBalance"]) : 0;
+                    companySummary.TotalLoanAmount = dataRow["totalLoanAmount"] != DBNull.Value ? Convert.ToDecimal(dataRow["totalLoanAmount"]) : 0;
 
                     companySummaryList.Add(companySummary);
                 }

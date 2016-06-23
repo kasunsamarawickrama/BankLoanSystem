@@ -1555,6 +1555,11 @@ namespace BankLoanSystem.Controllers
             //res = ua.InsertUserActivation(userId, activationCode);
             if (res > 0)
             {
+                //update Companay Step States in incomplete Branches continued in dashboard
+                StepAccess sa = new StepAccess();
+                sa.UpdateCompanySetupStep(userData.Company_Id, userObj.BranchId, 4);
+
+
                 if (userObj.Status)
                 {
 
@@ -2629,7 +2634,10 @@ namespace BankLoanSystem.Controllers
             //}
 
             int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
-            if(reslt > 0)
+            //Create new record for company Step Table
+            StepAccess sa = new StepAccess();
+            sa.UpdateCompanySetupStep(userData.Company_Id, reslt, 3);
+            if (reslt > 0)
             {
                 TempData["createBranchResult"] = 1;
             }
@@ -2828,6 +2836,10 @@ namespace BankLoanSystem.Controllers
 
             if (reslt > 0)
             {
+                //update Companay Step States in incomplete Branches continued in dashboard
+                StepAccess sa = new StepAccess();
+                sa.UpdateLoanSetupStep(userData.UserId, userData.Company_Id, model.RegBranchId, reslt, 0, 1);
+
                 if (_compType == 1)
                 {
                     ViewBag.SuccessMsg = "Dealer branch is successfully inserted";
