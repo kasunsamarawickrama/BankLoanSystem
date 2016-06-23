@@ -44,7 +44,7 @@ namespace BankLoanSystem.Reports
             //company name and report date
             List<LoanDetailsRpt> details = new List<LoanDetailsRpt>();
             LoanDetailsRpt detail = new LoanDetailsRpt();
-            detail.LenderBrnchName = userData.CompanyName;
+            detail.CompanyName = userData.CompanyName;
             detail.ReportDate = DateTime.Now.ToString("MM/dd/yyyy"); ;
             details.Add(detail);
             rptViewerCompanySummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", details));
