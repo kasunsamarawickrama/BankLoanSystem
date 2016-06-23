@@ -1068,13 +1068,15 @@ namespace BankLoanSystem.DAL
                     RptLoanSummary loanSummary = new RptLoanSummary();
                     loanSummary.TotalUnitsAdded = int.Parse(dataRow["TotalUnitsAdded"].ToString());
                     loanSummary.TotalUnitsAdvanced = int.Parse(dataRow["TotalUnitsAdvanced"].ToString());
-                    loanSummary.TotalAmountAdvanced = decimal.Parse(dataRow["TotalAmountAdvanced"].ToString());
-                    loanSummary.TotalAdvanceFees = decimal.Parse(dataRow["TotalAdvanceFees"].ToString());
+                    loanSummary.TotalAmountAdvanced = dataRow["TotalAmountAdvanced"] != DBNull.Value ? Convert.ToDecimal(dataRow["TotalAmountAdvanced"].ToString()) :0.00M;
+                    loanSummary.TotalAdvanceFees = dataRow["TotalAdvanceFees"] != DBNull.Value ? decimal.Parse(dataRow["TotalAdvanceFees"].ToString()) : 0.00M;
                     loanSummary.TotalCurtailmentsRecieved =
-                        decimal.Parse(dataRow["TotalCurtailmentsRecieved"].ToString());
-                    loanSummary.TotalUnitsPaidOff = int.Parse(dataRow["TotalUnitsPaidOff"].ToString());
-                    loanSummary.TotalAmountPaidOff = decimal.Parse(dataRow["TotalAmountPaidOff"].ToString());
-                    loanSummary.TotalUnitsDeleted = int.Parse(dataRow["TotalUnitsDeleted"].ToString());
+                        dataRow["TotalCurtailmentsRecieved"] != DBNull.Value ? decimal.Parse(dataRow["TotalCurtailmentsRecieved"].ToString()) : 0.00M;
+                    loanSummary.TotalUnitsPaidOff = dataRow["TotalUnitsPaidOff"] != DBNull.Value ? int.Parse(dataRow["TotalUnitsPaidOff"].ToString()):0;
+                    loanSummary.TotalAmountPaidOff = dataRow["TotalAmountPaidOff"] != DBNull.Value ? decimal.Parse(dataRow["TotalAmountPaidOff"].ToString()) : 0.00M;
+                    loanSummary.TotalUnitsDeleted = dataRow["TotalUnitsDeleted"] != DBNull.Value
+                        ? int.Parse(dataRow["TotalUnitsDeleted"].ToString())
+                        : 0;
 
                     loanSummaryList.Add(loanSummary);
                 }

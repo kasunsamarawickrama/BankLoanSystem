@@ -81,6 +81,7 @@
         <button type="button" id="btnCompanySummary" class="btn btn-info">Company Summary</button>
         <button type="button" id="btnBranchSummary" class="btn btn-info">Branch Summary</button>
         <button type="button" id="btnDeletedUnits" class="btn btn-info">Deleted Units</button>
+        <button type="button" id="btnLoanSummary" class="btn btn-info">Loan Summary</button>
         @*<div id="2" href="#">
     <p style="color: white">advance a unit</p>*@
             </div>
@@ -503,6 +504,22 @@
         $('#titleStatus').removeClass('input-validation-error');
     });
 
+    $('#btnLoanSummary').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('LoanSummary');
+        $('#divBranch').hide();
+        $('#lnum').show();
+        $('#ttlsts').hide().siblings('.hf').show();
+        $('#ttlsts').siblings('.hf').children('input').val('');
+        $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
+        $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
+        $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#titleStatus').find('option:first').prop('selected', 'selected');
+        $('#tagscloudTitleStatus').children('span').text('');
+        $('#titleStatus').removeClass('input-validation-error');
+    });
+
     function ReportCurtailmentInvoice(val, url) {
 
         var myFrame = document.getElementById('ifrmReportViewer');
@@ -585,6 +602,9 @@
             else if (rptType === 'DeletedUnits') {
                 urlPrefix = "../Reports/RptDivDeletedUnits.aspx?loanId=";
             }
+            else if (rptType === 'LoanSummary') {
+                urlPrefix = "../Reports/RptDivLoanSummary.aspx?loanId=";
+            }
 
             var selectedIndex;
            // if (input.attr('type') !== 'hidden') {
@@ -609,7 +629,7 @@
             var frameDoc;
 
             if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice' || rptType === 'PayOff' || rptType === 'AdvanceFeeReceipt' ||
-                rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt' || rptType === 'TransactionHistory' || rptType === 'AdvanceUnit' || rptType === 'DeletedUnits') {
+                rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt' || rptType === 'TransactionHistory' || rptType === 'AdvanceUnit' || rptType === 'DeletedUnits' || rptType === 'LoanSummary') {
                 
                 var startDate = $('#startDate').val();
                 if (startDate === '') {

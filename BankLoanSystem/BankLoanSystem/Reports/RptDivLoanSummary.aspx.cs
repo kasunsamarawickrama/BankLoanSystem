@@ -37,13 +37,15 @@ namespace BankLoanSystem.Reports
             rptViewerLoanSummary.ProcessingMode = ProcessingMode.Local;
             rptViewerLoanSummary.Reset();
             rptViewerLoanSummary.LocalReport.EnableExternalImages = true;
-            rptViewerLoanSummary.LocalReport.ReportPath = Server.MapPath("~/Reports/RptLotInspection.rdlc");
+            rptViewerLoanSummary.LocalReport.ReportPath = Server.MapPath("~/Reports/RptLoanSummary.rdlc");
 
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
 
             foreach (var dates in details)
             {
+                dates.StartRange = startDate.ToString("MM/dd/yyyy");
+                dates.EndRange = endDate.ToString("MM/dd/yyyy");
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
