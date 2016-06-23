@@ -49,14 +49,9 @@ namespace BankLoanSystem.Reports
 
             rptViewerLoanSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
 
-            List<ReportUnitModels> units = ra.GetLoanSummaryReport(loanId, startDate, endDate);
+            List<RptLoanSummary> loanSummaryList = ra.GetLoanSummaryReport(loanId, startDate, endDate);
 
-            foreach (var unit in units)
-            {
-                unit.View = false;
-            }
-
-            rptViewerLoanSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
+            rptViewerLoanSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", loanSummaryList));
         }
     }
 }
