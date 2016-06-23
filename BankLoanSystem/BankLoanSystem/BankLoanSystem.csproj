@@ -230,12 +230,15 @@
     <Content Include="Images\usernameIco.png" />
     <Content Include="Images\usersetupIco.png" />
     <Content Include="Images\UserSetupImage.png" />
+    <Content Include="Images\user_icon.jpg" />
+    <Content Include="Images\user_icon2.png" />
     <Content Include="Images\xls.png" />
     <Content Include="Reports\RptAdvanceUnitReport.aspx" />
     <Content Include="Reports\RptDivAddUnit.aspx" />
     <Content Include="Reports\RptDivAdvanceFeeInvoice.aspx" />
     <Content Include="Reports\RptDivAdvanceFeeReceipt.aspx" />
     <Content Include="Reports\RptDivAdvanceUnit.aspx" />
+    <Content Include="Reports\RptDivCompanySummary.aspx" />
     <Content Include="Reports\RptDivBranchSummary.aspx" />
     <Content Include="Reports\RptDivCurtailmentInvoice.aspx" />
     <Content Include="Reports\RptDivCurtailmentReceipt.aspx" />
@@ -415,6 +418,13 @@
     <Compile Include="Reports\RptDivAdvanceUnit.aspx.designer.cs">
       <DependentUpon>RptDivAdvanceUnit.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reports\RptDivCompanySummary.aspx.cs">
+      <DependentUpon>RptDivCompanySummary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivCompanySummary.aspx.designer.cs">
+      <DependentUpon>RptDivCompanySummary.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reports\RptDivBranchSummary.aspx.cs">
       <DependentUpon>RptDivBranchSummary.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -522,8 +532,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Login\EmployeeLogin.cshtml" />
-    <Content Include="Views\Login\UserLogin.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -640,6 +648,8 @@
     <Content Include="Views\UserManagement\EditProfile.cshtml" />
     <Content Include="Views\UserManagement\EditPartnerCompanyAtDashboard.cshtml" />
     <Content Include="Views\Login\EmpLogin.cshtml" />
+    <Content Include="Views\Login\EmployeeLogin.cshtml" />
+    <Content Include="Views\Login\UserLogin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -651,6 +661,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\SAM01\" />
     <Folder Include="Views\Dealer\" />
+    <Folder Include="Views\ErrorPage\Login\" />
     <Folder Include="Views\Home\" />
     <Folder Include="Views\TestMultipaleSubmitButton\" />
   </ItemGroup>
@@ -660,6 +671,7 @@
     <EmbeddedResource Include="Reports\RptAdvanceFeeReceipt.rdlc" />
     <EmbeddedResource Include="Reports\RptAdvanceReport.rdlc" />
     <EmbeddedResource Include="Reports\RptAdvanceUnit.rdlc" />
+    <EmbeddedResource Include="Reports\RptCompanySummary.rdlc" />
     <EmbeddedResource Include="Reports\RptBranchSummary.rdlc" />
     <EmbeddedResource Include="Reports\RptCurtailmentDuringSession.rdlc" />
     <EmbeddedResource Include="Reports\RptCurtailmentInvoice.rdlc" />

@@ -970,6 +970,42 @@ namespace BankLoanSystem.DAL
 
         #endregion
 
+        #region Summary Report
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        public List<RptCompanySummary> RptGetCompanySummary(int companyId)
+        {
+            List<RptCompanySummary> companySummaryList = new List<RptCompanySummary>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]> { new object[] { "@company_id", companyId } };
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetCompanySummary ", paramertList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    RptCompanySummary companySummary = new RptCompanySummary();
+
+                    companySummary.BranchName = dataRow["branchName"].ToString();
+                    companySummary.NoOfPartnerBranches = Convert.ToInt32(dataRow["noOfPartnerBranch"]);
+                    companySummary.NoOfActiveLoans = Convert.ToInt32(dataRow["NoOfActiveLoans"]);
+                    companySummary.TotalActiveUnits = Convert.ToInt32(dataRow["noOfActiveUnits"]);
+                    companySummary.TotalLoanBalance = Convert.ToDecimal(dataRow["totalLoanBalance"]);
+                    companySummary.TotalLoanAmount = Convert.ToDecimal(dataRow["totalLoanAmount"]);
+
+                    companySummaryList.Add(companySummary);
+                }
+            }
+
+            return companySummaryList;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -991,7 +1027,7 @@ namespace BankLoanSystem.DAL
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     RptBranchSummary loan = new RptBranchSummary();
-                    if(string.IsNullOrEmpty(dataRow["loanId"].ToString()) && !string.IsNullOrEmpty(dataRow["iloanId"].ToString()))
+                    if (string.IsNullOrEmpty(dataRow["loanId"].ToString()) && !string.IsNullOrEmpty(dataRow["iloanId"].ToString()))
                     {
                         loan.LoanNumber = dataRow["iloanNumber"].ToString();
                         loan.PartnerBranch = dataRow["inonRegBranchName"].ToString();
@@ -1041,6 +1077,9 @@ namespace BankLoanSystem.DAL
 
             return branchLoans;
         }
+
+        #endregion
+
 
     }
 }

@@ -66,7 +66,12 @@
                 }              
 
                 </div>
-                
+                 @if (ViewBag.LoanCount > 1) {
+                <button class="a_demo_three icon-stack" onclick="window.location.href='/Reports/ReportIndex'">
+
+                    Reports
+                </button>
+                 }
                 @if (ViewBag.LoanCount == 1)
                 {
                     if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
@@ -207,13 +212,13 @@
                                Fees
                             </button>
                         }
-                        if (ViewBag.RightList.Contains("U006"))
-                        {
+                       // if (ViewBag.RightList.Contains("U006")) -- comment by irfan
+                      //  {
                             <button class="a_demo_three icon-stack" onclick="window.location.href='/Reports/ReportIndex'">
                                
                                 Reports
                             </button>
-                        }
+                      //  }
                         if (ViewBag.RightList.Contains("U008"))
                         {
                             <button class="a_demo_three icon-bin2" onclick="window.location.href='/DeleteUnit/Delete'">
