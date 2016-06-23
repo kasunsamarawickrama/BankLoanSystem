@@ -35,6 +35,50 @@ namespace BankLoanSystem.DAL
             return loanNumbers;
         }
 
+
+        /// Created By: MAM Irfan
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// 
+        public List<Account> GetAccountDetails(int companyId, int userRole)
+        {
+            List<Account> loanNumbers = new List<Account>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@comp_or_branch_id", companyId });
+            paramertList.Add(new object[] { "@user_role", userRole });
+
+
+            DataSet dataSet = dataHandler.GetDataSet("GetAccountDetailsByUserRole", paramertList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    Account loanNumber = new Account();
+                    loanNumber.LoanId = Convert.ToInt32(dataRow["loan_id"]);
+                    loanNumber.BranchId = Convert.ToInt32(dataRow["branch_id"]);
+                    loanNumber.LoanNumber = dataRow["loan_number"].ToString();
+                    loanNumber.BranchName = dataRow["branch_name"].ToString();
+                    loanNumber.PatBranchName = dataRow["nr_branch_name"].ToString();
+                    loanNumber.LoanAmount = Convert.ToDecimal(dataRow["loan_amount"].ToString());
+                    loanNumber.UsedAmount = Convert.ToDecimal(dataRow["used_amount"].ToString());
+                    loanNumbers.Add(loanNumber);
+                  
+                }
+
+               
+            }
+
+          
+
+            return loanNumbers;
+        }
+
         public List<UserRights> GeUserRightsForReporting(int userId)
         {
             List<UserRights> userLoanRights = new List<UserRights>();
@@ -126,8 +170,8 @@ namespace BankLoanSystem.DAL
 
                 return lstCurtailmentShedule;
             }
-            return null;
-        }
+                return null;
+            }
 
         public List<CurtailmentShedule> GetCurtailmentPaidDetailsByDateRange(int loanId, DateTime paidDateStart, DateTime paidDateEnd)
         {
@@ -257,7 +301,7 @@ namespace BankLoanSystem.DAL
                     {
                         justAddedUnit.TitleStatus = "Returned to Dealer";
                     }
-                    
+
                     justAddedUnitList.Add(justAddedUnit);
                     
                 }
@@ -413,7 +457,7 @@ namespace BankLoanSystem.DAL
                         {
                             unit.TitleStatus = "Returned to Dealer";
                         }
-                        
+
                         AdvanceUnits.Add(unit);
 
                     }
