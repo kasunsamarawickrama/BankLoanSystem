@@ -510,6 +510,7 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@dealer_branch_id", dealerUser.NonRegBranchId });
             paramertList.Add(new object[] { "@loan_id", dealerUser.LoanId });
             paramertList.Add(new object[] { "@activation_code", dealerUser.ActivationCode });
+            paramertList.Add(new object[] { "@report_rights", dealerUser.ReportRights });
 
             try
             {

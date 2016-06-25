@@ -112,20 +112,22 @@ namespace BankLoanSystem.Controllers.CreateDealer
             return View(us);
         }
 
-       
+
         /// <summary>
-        /// CreatedBy : Nadeeka
-        /// CreatedDate: 2016/03/30
-        /// 
-        /// to insert user
-        /// 
-        /// 
-        /// 
+        /// Frontend page: Join Dealer
+        /// Title: Insert dealer user details
+        /// Designed:Nadeeka
+        /// User story:
+        /// Developed : Nadeeka
+        /// Date created: 03/30/2016
+        /// Edited: Piyumi
+        /// Date edited: 06/24/2016
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         public ActionResult LinkDealer(DealerUserModel user)
         {
+            //initialize properties of user object
             user.PhoneNumber = user.PhoneNumber2;
             user.CreatedBy = userData.UserId;
             user.IsDelete = false;
@@ -137,22 +139,24 @@ namespace BankLoanSystem.Controllers.CreateDealer
 
             BranchAccess ba = new BranchAccess();
             Loan loan = new Loan();
+            //Check Session["oneLoanDashboard"] is not null
             if (Session["oneLoanDashboard"] != null)
             {
+                //convert session object to loan object
                 loan = (Loan)Session["oneLoanDashboard"];
-                //Session.Remove("oneLoanDashboard");
+                
             }
+            //Check Session["loanDashboardJoinDealer"] is not null
             if (Session["loanDashboardJoinDealer"] != null)
             {
+                //convert session object to loan object
                 loan = (Loan)Session["loanDashboardJoinDealer"];
             }
+            //initialize non registered branch id
             user.NonRegBranchId = loan.NonRegBranchId;
-
-            // NonRegBranch nonRegBranches = ba.getNonRegBranchByNonRegBranchId(loan.NonRegBranchId);
-            // user.NonRegCompanyId = nonRegBranches.NonRegCompanyId;
-            // user.NonRegBranchId = nonRegBranches.BranchId;
+            //initialize loan id
             user.LoanId = loan.LoanId;
-
+            //encrypt given password
             string passwordTemp = user.Password;
 
             UserAccess ua = new UserAccess();
@@ -160,15 +164,27 @@ namespace BankLoanSystem.Controllers.CreateDealer
             string newSalt = PasswordEncryption.RandomString();
             user.Password = PasswordEncryption.encryptPassword(user.Password, newSalt);
             user.ActivationCode = Guid.NewGuid().ToString();
-
-            //Insert user
+            //report rights
+            string[] arrList = new string[user.ReportRightsList.Count];
+            int k = 0;
+            foreach (var y in user.ReportRightsList)
+            {
+                if (y.active)
+                {
+                    arrList[k] = y.rightId;
+                    k++;
+                }
+            }
+            arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+            user.ReportRights = string.Join(",", arrList);
+            //Insert dealer user details and retrieve user id of inserted user
             int newUserId = ua.InsertDealerUser(user);
-           
+           //Check user id is not 0
             if (newUserId != 0)
             {
 
 
-                                                        
+                //Generate email to send username and password to created dealer user                                        
                 string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
                               "<br /><br /> User name: " + user.UserName +
                                     "<br /> Password : <b>" + passwordTemp +

@@ -1522,6 +1522,7 @@ namespace BankLoanSystem.Controllers
                 string[] arrList = new string[userObj.UserRightsList.Count];
                 string[] arrList2 = new string[userObj.ReportRightsList.Count];
                 int i = 0;
+                int k = 0;
                 foreach (var x in userObj.UserRightsList)
                 {
                     if (x.active)
@@ -1530,12 +1531,12 @@ namespace BankLoanSystem.Controllers
                         i++;
                     }
                 }
-                foreach (var x in userObj.ReportRightsList)
+                foreach (var y in userObj.ReportRightsList)
                 {
-                    if (x.active)
+                    if (y.active)
                     {
-                        arrList2[i] = x.rightId;
-                        i++;
+                        arrList2[k] = y.rightId;
+                        k++;
                     }
                 }
                 arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
@@ -1566,7 +1567,7 @@ namespace BankLoanSystem.Controllers
                 string body = "Hi " + userObj.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
                               "<br /><br /> User name: " + userObj.UserName +
                                     "<br /> Password : <b>" + passwordTemp +
-                                  //"<br />Click <a href='http://localhost:57318/CreateUser/ConfirmAccount?userId=" + userId + "&activationCode=" + activationCode + "'>here</a> to activate your account." +
+                                 
                               "<br /><br/> Thanks,<br /> Admin.";
 
                 Email email = new Email(userObj.Email);
@@ -1576,22 +1577,6 @@ namespace BankLoanSystem.Controllers
 
                 }
 
-
-
-
-                //ViewBag.SuccessMsg = "User Successfully Created";
-                //RoleAccess ra = new RoleAccess();
-                //List<UserRole> roleList = ra.GetAllUserRoles();
-
-
-
-                //ViewBag.RoleId = new SelectList(roleList, "RoleId", "RoleName");
-                //List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
-                //ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
-                //List<Branch> branchesLists2 = (new BranchAccess()).GetLoansBranches(userData.Company_Id);
-
-
-                //ViewBag.BranchIdUser = new SelectList(branchesLists2, "BranchId", "BranchName");
                 string roleName = "";
                 if (userObj.RoleId == 1)
                 {
