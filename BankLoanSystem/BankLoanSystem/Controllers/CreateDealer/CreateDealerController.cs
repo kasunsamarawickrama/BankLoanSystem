@@ -39,20 +39,27 @@ namespace BankLoanSystem.Controllers.CreateDealer
         }
 
         /// <summary>
-        /// CreatedBy : Nadeeka
-        /// CreatedDate: 2016/03/30
-        /// 
-        /// to show the view
+        /// Frontend page: Join Dealer
+        /// Title: view of Link Dealer page
+        /// Designed: Nadeeka
+        /// User story:
+        /// Developed: Nadeeka
+        /// Date created: 2016/03/30
+        /// Edited: Piyumi
         /// </summary>
         /// <returns></returns>
         public ActionResult LinkDealer()
         {
+            //Check result of Join Dealer page
             if(TempData["msg"] !=null )
             {
+                //Check TempData["msg"] is 1
                 if (TempData["msg"].ToString() == "1")
                 {
                     ViewBag.SuccessMsg = "User Successfully Created";
-                }else if(TempData["msg"].ToString() == "2")
+                }
+                //Check TempData["msg"] is 2
+                else if (TempData["msg"].ToString() == "2")
                 {
                     ViewBag.Error = "Error";
                 }
@@ -60,21 +67,28 @@ namespace BankLoanSystem.Controllers.CreateDealer
             CompanyAccess ca = new CompanyAccess();
             BranchAccess ba = new BranchAccess();
             Loan loan = new Loan();
+            //Check Session["oneLoanDashboard"] is not null
             if (Session["oneLoanDashboard"] != null)
             {
+                //convert session object to loan object
                 loan = (Loan)Session["oneLoanDashboard"];
             }
-           if (Session["loanDashboardJoinDealer"] != null)
+            //Check Session["loanDashboardJoinDealer"] is not null
+            if (Session["loanDashboardJoinDealer"] != null)
             {
+                //convert session object to loan object
                 loan = (Loan)Session["loanDashboardJoinDealer"];
             }
+            //remove Session["popUpSelectionType"]
             Session.Remove("popUpSelectionType");
-           
+           //return non registered branch details by non registered branch id
             NonRegBranch nonRegBranches = ba.getNonRegBranchByNonRegBranchId(loan.NonRegBranchId);
-            ViewBag.nonRegBranches = nonRegBranches.BranchName;// nonRegBranches.BranchName;
+            ViewBag.nonRegBranches = nonRegBranches.BranchName;
             ViewBag.nonRegCompany = nonRegBranches.CompanyNameBranchName;
             List<User> userList = new List<User>();
+            //return all users of given company id
             userList = (new UserAccess()).GetUserListByCompany(userData.Company_Id);
+            //filter user list who has authorization for selected loan
             userList = userList.FindAll(t => t.BranchId == loan.BranchId || (t.BranchId ==0 && t.RoleId==1));
             ViewBag.UserIdForSendReq = new SelectList(userList, "UserId", "UserName");
 
@@ -87,26 +101,29 @@ namespace BankLoanSystem.Controllers.CreateDealer
             {
                 foreach (Right rgt in ReportRightsList)
                 {
-                    if((rgt.rightId=="RP001")|| (rgt.rightId == "RP017") || (rgt.rightId == "RP018") || (rgt.rightId == "RP018"))
+                    //Check dealer user can view the report
+                    if(!rgt.DealerView)
                     {
                         continue;
                     }
                     us.ReportRightsList.Add(rgt);
                 }
             }
+            //Check user is super admin
             if (userData.RoleId == 1)
             {
-                //ViewBag.UserIdForSendReq = new SelectList(userList, "UserId", "UserName");
+                //convert user list to session object
                 Session["UserReqList"] = userList;
             }
+            //Check user is admin
             else if (userData.RoleId == 2)
             {
-                
-                //ViewBag.UserIdForSendReq = new SelectList(userList, "UserId", "UserName");
+                //convert user list to session object
                 Session["UserReqList"] = userList;
             }
             else
             {
+                //return to dashboard
                 return RedirectToAction("UserDetails", "UserManagement");
             }
             return View(us);
@@ -169,6 +186,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
             int k = 0;
             foreach (var y in user.ReportRightsList)
             {
+                //Check whether a particular report right is given to user
                 if (y.active)
                 {
                     arrList[k] = y.rightId;
@@ -196,7 +214,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
                 Session["abcRol"] = user.RoleId;
                 Session["abcBrnc"] = user.BranchId;
                 email.SendMail(body, "Account details");
-
+                //insert log record after user is created
                 Log log = new Log(userData.UserId, userData.Company_Id, user.BranchId, user.LoanId, "Create Dealer Account", "Inserted Dealer : " + user.UserName, DateTime.Now);
 
                 int islog = (new LogAccess()).InsertLog(log);
@@ -212,25 +230,39 @@ namespace BankLoanSystem.Controllers.CreateDealer
             }
         }
 
+        /// <summary>
+        /// Frontend page: Join Dealer
+        /// Title: retrieve user email for selected user
+        /// Designed:
+        /// User story:
+        /// Developed : Piyumi
+        /// Date created: 05/26/2016
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult GetUserEmailByUserId(int userId)
         {
             User userObj = new User();
+            //Check user id is not 0 and Session["UserReqList"] is not null
             if (userId > 0 && Session["UserReqList"]!=null)
             {
                 List<User> userList = new List<User>();
+                //convert session object to user list
                 userList = (List<User>)Session["UserReqList"];
                 foreach(User u in userList)
                 {
+                    //check each user id with selected user id
                     if (u.UserId == userId)
                     {
                         userObj = u;
                     }
                 }
+                //return user object which match with selected user
                 return Json(userObj);
             }
             else
             {
+                //return to login page
                 return RedirectToAction("UserLogin", "Login");
             }
         }
