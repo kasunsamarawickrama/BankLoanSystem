@@ -12,9 +12,11 @@ namespace BankLoanSystem.DAL
     public class TitleAccess
     {
         /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate:2016/2/9
-        /// Get details of title related to given loanId
+        /// Frontend page: Title(loan setup)
+        /// Title: Get details of title related to given loanId
+        /// Designed: Piyumi
+        /// User story:
+        /// Date created: 2016/2/9
         /// </summary>
         /// <param name="loanId"></param>
         /// <returns>TitleObject</returns>
@@ -28,6 +30,7 @@ namespace BankLoanSystem.DAL
             {
                 DataSet dataSet = dataHandler.GetDataSet("spGetTitleDetailsByLoanId", paramertList);
                 Title obj1 = new Title();
+                //Check dataset is not null and table count >0
                 if (dataSet != null && dataSet.Tables.Count != 0)
                 {
                    
@@ -36,26 +39,24 @@ namespace BankLoanSystem.DAL
                         
                         obj1.LoanId = int.Parse(dataRow["loan_id"].ToString());
                         obj1.IsTitleTrack = bool.Parse(dataRow["is_title_tracked"].ToString());
+                        //Check whether title need to be tracked
                         if (obj1.IsTitleTrack)
                         {
-
-                            //obj1.TitleAcceptMethod = dataRow["title_accept_method"].ToString();
+                        
                             obj1.ReceivedTimeLimit = dataRow["title_received_time_period"].ToString();
-                            
+                            //Check auto remind period is null or empty
                             if (!string.IsNullOrEmpty(dataRow["auto_remind_period"].ToString()))
                             {
                                 obj1.RemindPeriod = int.Parse(dataRow["auto_remind_period"].ToString());
                             }
-                            //else
-                            //{
-                            //    obj1.RemindPeriod = 0;
-                            //}
+                            //Check auto remind email is null or empty
                             if (!string.IsNullOrEmpty(dataRow["auto_remind_email"].ToString()))
                             {
                                 obj1.RemindEmail = dataRow["auto_remind_email"].ToString();
                             }
                             else
                             {
+                            //get auto remind email given in loan details page
                                 LoanSetupAccess st = new LoanSetupAccess();
                                 obj1.RemindEmail = st.getAutoRemindEmailByLoanId(obj1.LoanId);
                             }
@@ -63,19 +64,22 @@ namespace BankLoanSystem.DAL
                         }
                         else 
                         {
+                            //get auto remind email given in loan details page
                             LoanSetupAccess st = new LoanSetupAccess();
                             obj1.RemindEmail = st.getAutoRemindEmailByLoanId(obj1.LoanId);
                         }
                         obj1.IsReceipRequired = bool.Parse(dataRow["is_receipt_required"].ToString());
-
+                        //Check whether receipts are required
                         if (obj1.IsReceipRequired)
                         {
 
                             obj1.ReceiptRequiredMethod = dataRow["receipt_required_method"].ToString();
                         }
+                        //Check need scan copy value is null or empty
                         if (!string.IsNullOrEmpty(dataRow["need_scan_copy"].ToString()))
                         {
                             obj1.NeedScanCopy = bool.Parse(dataRow["need_scan_copy"].ToString());
+                            //Check need scan copy value is true
                             if (obj1.NeedScanCopy)
                             {
                                 obj1.TitleAcceptMethod = "Scanned Title Adequate";

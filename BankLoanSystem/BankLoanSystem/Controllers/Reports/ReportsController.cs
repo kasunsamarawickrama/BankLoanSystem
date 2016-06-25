@@ -56,24 +56,24 @@ namespace BankLoanSystem.Controllers.Reports
         public ActionResult ReportIndex()
         {
             ReportAccess ra = new ReportAccess();
-            List<LoanIdNumber> loanNumbers = ra.GetLoanNumbersWithBranch(_userData.Company_Id);
+            List<Account> loanNumbers = new List<Account>(); 
 
-            List<LoanIdNumber> userLoanNumbers = new List<LoanIdNumber>();
+            List<Account> userLoanNumbers = new List<Account>();
+
+           
             ViewBag.RoleId = _userData.RoleId;
             ViewBag.BranchId = _userData.BranchId;
             if (_userData.RoleId == 1)
             {
+                loanNumbers = ra.GetAccountDetails(_userData.Company_Id, _userData.RoleId);
                 userLoanNumbers = loanNumbers;
                 ViewBag.ComId = _userData.Company_Id;
             }
             else if (_userData.RoleId == 2 || _userData.RoleId == 3)
             {
-                //foreach (var loans in loanNumbers)
-                //{
-                //    if (_userData.BranchId == loans.BranchId)
-                //        userLoanNumbers.Add(loans);
-                //}
-                userLoanNumbers.AddRange(loanNumbers.Where(loans => _userData.BranchId == loans.BranchId));
+                loanNumbers = ra.GetAccountDetails(_userData.BranchId, _userData.RoleId);
+                userLoanNumbers = loanNumbers;
+
             }
             if (_userData.RoleId == 3 || _userData.RoleId == 4)
             {
@@ -106,17 +106,17 @@ namespace BankLoanSystem.Controllers.Reports
                         else if (Session["oneLoanDashboard"] != null)
                         {
                             Loan loan = (Loan) Session["oneLoanDashboard"];
-                            userLoanNumbers = new List<LoanIdNumber>();
-                            LoanIdNumber uLoans = new LoanIdNumber();
+                            userLoanNumbers = new List<Account>();
+                            Account uLoans = new Account();
                             uLoans.LoanId = loan.LoanId;
-                            uLoans.LoanNumberB = loan.LoanNumber;
+                            uLoans.LoanNumber = loan.LoanNumber;
                             uLoans.BranchId = loan.BranchId;
                             userLoanNumbers.Add(uLoans);
                         }
                         else if (checkPermission && Session["oneLoanDashboard"] == null)
                         {
                             List<UserRights> userLoanRights = ra.GeUserRightsForReporting(_userData.UserId);
-                            List<LoanIdNumber> loanNumbersUsers = new List<LoanIdNumber>();
+                            List<Account> loanNumbersUsers = new List<Account>();
                             foreach (var item in userLoanRights)
                             {
                                 string[] tokens = null;
@@ -146,6 +146,93 @@ namespace BankLoanSystem.Controllers.Reports
             ViewBag.LoanId = new SelectList(userLoanNumbers, "LoanId", "LoanNumberB");
 
             return View();
+        }
+
+
+        /*
+
+        Frontend page: Report page
+        Title: Get active loans of user for grid
+        Designed: Irfan MAM
+        User story: DFP- 446
+        Developed: Irfan MAM
+        Date created: 06/23/2016
+
+*/
+
+            public JsonResult GetActiveLoans(string sidx, string sord, int page, int rows, bool _search)
+        {
+            ReportAccess ra = new ReportAccess();
+
+            List<Account> loanNumbers;
+
+            // if user is a superadmin, get account details of his company
+            if (_userData.RoleId == 1) {
+                 loanNumbers = ra.GetAccountDetails(_userData.Company_Id, _userData.RoleId);
+
+            }
+
+            // if user is a admin, get account details of his branch
+            else if (_userData.RoleId == 2)
+            {
+                loanNumbers = ra.GetAccountDetails(_userData.BranchId, _userData.RoleId);
+            }
+            // if user is a user deler user, get account details of his assigned loans
+            else
+            {
+                // should change
+                loanNumbers = ra.GetAccountDetails(_userData.BranchId, _userData.RoleId);
+            }
+
+            // these varibles are for JqGrid purpose
+
+            var count = loanNumbers.Count(); // number of rows
+            int pageIndex = page; // number of pages on the grid
+            int pageSize = rows; // maximum page sige
+            int startRow = (pageIndex * pageSize) + 1;
+            int totalRecords = count;
+            int totalPages = (int)Math.Ceiling((float)totalRecords / (float)pageSize);
+
+            // json object for jqGrid
+            var result = new
+            {
+                total = totalPages,
+                page = pageIndex,
+                records = count,
+                rows = loanNumbers.Select(x => new
+                {
+                    x.LoanId,
+                    x.BranchName,
+                    x.PatBranchName,
+                    x.LoanNumber,
+                   
+                    x.LoanAmount,
+                   
+                   
+                    x.UsedAmount,
+                    x.ActiveUnits
+                }
+                                         ).ToArray().Select(x => new
+                                         {
+                                             id = x.LoanId.ToString(),
+                                             cell = new string[] { 
+                                                        x.BranchName,
+                                                        x.PatBranchName,
+                                                        x.LoanNumber.ToString(),
+                                                        x.LoanAmount.ToString(),
+                                                        x.UsedAmount.ToString(),
+                                                        x.ActiveUnits.ToString()
+                                                      }
+                                         }
+                      ).ToArray()
+
+               
+
+            };
+            
+            // returning json object
+            return Json(result, JsonRequestBehavior.AllowGet);
+
         }
 
         // <summary>
@@ -300,6 +387,22 @@ namespace BankLoanSystem.Controllers.Reports
             {
                 RptDivLoanTerms loanTerms = new RptDivLoanTerms();
                 rptViewerPrint = loanTerms.PrintPage(loanId);
+            }
+            else if(rptType == "CompanySummary")
+            {
+                
+            }
+            else if (rptType == "BranchSummary")
+            {
+
+            }
+            else if (rptType == "DeletedUnits")
+            {
+                DateTime startDate = Convert.ToDateTime(range1);
+                DateTime endtDate = Convert.ToDateTime(range2);
+
+                RptDivDeletedUnits deleteUnits = new RptDivDeletedUnits();
+                rptViewerPrint = deleteUnits.PrintPage(loanId, startDate, endtDate);
             }
             else
             {

@@ -167,6 +167,8 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\general_foundicons.css" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery.jqGrid\ellipsis-xbl.xml" />
+    <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\overlaypopup.css" />
     <Content Include="Content\pikaday.css" />
     <Content Include="Content\smoothnessjquery-ui.css" />
@@ -174,6 +176,24 @@
     <Content Include="Content\style.css" />
     <Content Include="Content\style.min.css" />
     <Content Include="Content\theme.css" />
+    <Content Include="Content\themes\base\images\animated-overlay.gif" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="Content\triangle.css" />
     <Content Include="Error.html" />
     <Content Include="ErrorLog\04-27-2016.txt" />
@@ -185,6 +205,7 @@
     <Content Include="fonts\icomoon.woff" />
     <Content Include="Global.asax" />
     <Content Include="Images\1.jpg" />
+    <Content Include="Images\2.gif" />
     <Content Include="Images\2.png" />
     <Content Include="Images\3.png" />
     <Content Include="Images\addRow.png" />
@@ -245,6 +266,7 @@
     <Content Include="Reports\RptDivCUrtailmentReceiptDuringSession.aspx" />
     <Content Include="Reports\RptDivDeletedUnits.aspx" />
     <Content Include="Reports\RPTDivFullInventory.aspx" />
+    <Content Include="Reports\RptDivLoanSummary.aspx" />
     <Content Include="Reports\RptDivTransactionHistory.aspx" />
     <Content Include="Reports\RptDivLoanTerms.aspx" />
     <Content Include="Reports\RptDivLotInspection.aspx" />
@@ -259,10 +281,15 @@
     <Content Include="scripts\combo.js" />
     <Content Include="scripts\CommonFunctions.js" />
     <Content Include="scripts\edmunds.api.sdk.js" />
+    <Content Include="scripts\i18n\grid.locale-en.js" />
     <Content Include="scripts\input-mask.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
+    <Content Include="scripts\jquery-ui-1.10.0.js" />
+    <Content Include="scripts\jquery-ui-1.10.0.min.js" />
     <Content Include="scripts\jquery-ui.js" />
+    <Content Include="scripts\jquery.jqGrid.js" />
+    <Content Include="scripts\jquery.jqGrid.min.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="scripts\jquery.validate.js" />
     <Content Include="scripts\jquery.validate.min.js" />
@@ -467,6 +494,13 @@
     </Compile>
     <Compile Include="Reports\RPTDivFullInventory.aspx.designer.cs">
       <DependentUpon>RPTDivFullInventory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivLoanSummary.aspx.cs">
+      <DependentUpon>RptDivLoanSummary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivLoanSummary.aspx.designer.cs">
+      <DependentUpon>RptDivLoanSummary.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\RptDivTransactionHistory.aspx.cs">
       <DependentUpon>RptDivTransactionHistory.aspx</DependentUpon>
@@ -686,6 +720,7 @@
     <EmbeddedResource Include="Reports\RptCurtailmentReceipt.rdlc" />
     <EmbeddedResource Include="Reports\RptDeletedUnits.rdlc" />
     <EmbeddedResource Include="Reports\RptFullInventory.rdlc" />
+    <EmbeddedResource Include="Reports\RptLoanSummary.rdlc" />
     <EmbeddedResource Include="Reports\RptTransactionHistory.rdlc" />
     <EmbeddedResource Include="Reports\RptLoanTerms.rdlc" />
     <EmbeddedResource Include="Reports\RptLotInspection.rdlc" />

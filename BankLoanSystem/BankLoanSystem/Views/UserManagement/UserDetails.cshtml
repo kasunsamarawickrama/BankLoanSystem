@@ -67,7 +67,7 @@
 
                 </div>
                  @if (ViewBag.LoanCount > 1) {
-                <button class="a_demo_three icon-stack" onclick="window.location.href='/Reports/ReportIndex'">
+                <button class="a_demo_three icon-stack noloanselection" onclick="window.location.href='/Reports/ReportIndex'">
 
                     Reports
                 </button>
@@ -150,7 +150,7 @@
                                         <span class="txt">Reports</span>
                                     </button>*@
 
-                        <button class="a_demo_three icon-bin2" onclick="window.location.href='/DeleteUnit/Delete'">
+                        <button class="a_demo_three icon-bin2 withloanselectionSA" onclick="window.location.href='/DeleteUnit/Delete'">
                            
                            Delete Unit
                         </button>
@@ -212,13 +212,33 @@
                                Fees
                             </button>
                         }
-                       // if (ViewBag.RightList.Contains("U006")) -- comment by irfan
-                      //  {
-                            <button class="a_demo_three icon-stack" onclick="window.location.href='/Reports/ReportIndex'">
-                               
-                                Reports
-                            </button>
-                      //  }
+                                    // editted by irfan
+                       
+
+                        <button class="a_demo_three icon-stack withloanselectionUser">
+
+                            Reports
+                        </button>
+
+                        if (!ViewBag.RightList.Contains("U006"))
+                        {
+                            <script>
+
+                                $(".withloanselectionUser").click(function(e){
+                                   
+                                    e.preventDefault();
+                                });
+                            </script>
+                        }
+                        else
+                        {
+                            <script>
+
+                                $(".withloanselectionUser").click(function(e){
+                                    window.location.href='/Reports/ReportIndex';
+                                });
+                            </script>
+                        }
                         if (ViewBag.RightList.Contains("U008"))
                         {
                             <button class="a_demo_three icon-bin2" onclick="window.location.href='/DeleteUnit/Delete'">
@@ -232,7 +252,7 @@
                     <button class="a_demo_three icon-automobile" onclick="window.location.href='/Unit/Addunit'">  
                         Add Unit
                     </button>
-                    <button class="a_demo_three icon-stack" onclick="window.location.href='/Reports/ReportIndex'">
+                    <button class="a_demo_three icon-stack withloanselectionDealer" onclick="window.location.href='/Reports/ReportIndex'">
                        
                         Reports
                     </button>

@@ -333,7 +333,8 @@
                                 <div class="form-group row">
                                     <div class="col-md-2">
                                         <label for="" style="width: 177px;max-width: none;">Reason for deletion: </label>
-                                        @Html.Editor("ReasonForDeletion", new { htmlAttributes = new { @class = "form-control", @id = "txtReasonForDeletion", @style = "" } })
+                                        @Html.Editor("ReasonForDeletion", new { htmlAttributes = new { @class = "form-control", @id = "txtReasonForDeletion", @style = "width: 386px;" } })
+                                        <div id="custumErrorForReason" class="field-validation-error" style="width: 310px;"><span class="text-danger"></span></div>
                                     </div>
                                 </div>
 
@@ -370,16 +371,6 @@
 </div>
 
 
-@*<div class="overlay-content popupdelete" style="margin-left: 248px;">
-        <h3>Delete Unit</h3>
-
-        <span class="text-warning">Do you wish to delete this unit?</span><br />
-        <br />
-        @Html.ActionLink("YES", "Index", "SetupProcess", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
-            @Html.ActionLink("NO", "UserDetails", "UserManagement", null, new { @class = "btn btn-info", style = "width: 70px;" })
-    </div>*@
-
-
 <div class="overlay-content popupdelete" id="confirmBox">
     <h3>Delete Unit</h3>
     <span class="text-warning message"></span>
@@ -412,7 +403,6 @@
 
     $('#btnClear').prop('disabled', true);
     $('#btnClear').click(function () {
-        //location.reload();
 
         $('#btnClear').prop('disabled', true);
         $('#feeDetails').hide();
@@ -427,61 +417,9 @@
         document.getElementById('activeUit').checked = false;
         document.getElementById('pendingUnit').checked = false;
         $('#checkableGridDiv').hide();
-
-        //$.ajax({
-        //    url: '/DeleteUnit/GridView',
-        //    type: 'POST',
-        //    contentType: 'application/json;',
-        //    data: JSON.stringify({ viewType: 0, id: "", year: "", make: "", model: "" }),
-        //    success: function (View) {
-        //        $('#checkableGridDiv').html(View);
-        //        $('#checkableGridDiv').show();
-
-
-        //        // Change the selector if needed
-        //        var table = $('table'),
-        //            bodyCells = table.find('tbody tr:first').children(),
-        //            colWidth;
-
-        //        // Get the tbody columns width array
-        //        colWidth = bodyCells.map(function () {
-        //            return $(this)[0].getBoundingClientRect().width;
-        //        }).get();
-
-        //        // Set the width of thead columns
-        //        table.find('thead tr').children().each(function (i, v) {
-        //            $(v).outerWidth(colWidth[i]);
-        //        });
-
-        //        // Adjust the width of thead cells when window resizes
-        //        $(window).resize(function () {
-        //            // Get the tbody columns width array
-        //            colWidth = bodyCells.map(function () {
-        //                return $(this)[0].getBoundingClientRect().width;
-        //            }).get();
-
-        //            // Set the width of thead columns
-        //            table.find('thead tr').children().each(function (i, v) {
-        //                $(v).outerWidth(colWidth[i]);
-        //            });
-        //        }).resize(); // Trigger resize handler
-        //        //.highlight { background-color: lightblue; }
-        //    },
-
-        //    error: function (jqXHR, textStatus, errorThrown) {
-        //        // Your handler here...
-
-        //        // if session expires
-        //        if (jqXHR.status == "404") {
-        //            window.location.href = '/Login/UserLogin?lbl=Session expired';
-        //        }
-        //    }
-        //});
-
     });
 
     $('#btnCancel').click(function () {
-        //location.reload();
         $('.centered span').text('');
         ClearTextBoxText();
 
@@ -496,6 +434,7 @@
         $('#cmbYear').val('');
         $("#cmbMake").val('');
         $("#cmbModel").val('');
+        $('#txtReasonForDeletion').val('');
 
         $('#checkableGridDiv').hide();
         document.getElementById('allUnit').checked = false;
@@ -686,7 +625,9 @@
             var reason = $('#txtReasonForDeletion').val();
             
             if (reason === '') {
-                $('.centered span').text('Please give a reason why do you need delete this unit.');
+                $('#custumErrorForReason').children('span').text('Please give a reason why do you need delete this unit.');
+                $('#txtReasonForDeletion').addClass('input-validation-error');
+                $('.centered span').text('Error in page');
                 return;
             }
 
@@ -776,11 +717,20 @@
         $('#balanceDue').val('');
         $('#feesPaid').val('');
         $('#unitId').val('');
+        $('#txtReasonForDeletion').val('');
+
+        $('#custumErrorForReason').children('span').text('');
+        $('#txtReasonForDeletion').removeClass('input-validation-error');
 
         $('#divcurtailmentPaid').hide();
         $('#divfeesPaid').hide();
         $('#divbalanceDue').hide();
     }
+
+    $('#txtReasonForDeletion').click(function() {
+        $('#custumErrorForReason').children('span').text('');
+        $(this).removeClass('input-validation-error');
+    });
 
     $("#lkdeluni").hide();
 

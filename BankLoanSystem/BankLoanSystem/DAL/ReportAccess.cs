@@ -17,7 +17,6 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@company_id", companyId });
-            //paramertList.Add(new object[] { "@user_id", companyId });
 
             DataSet dataSet = dataHandler.GetDataSet("spGetLoanNumbersWithBranch", paramertList);
 
@@ -30,67 +29,63 @@ namespace BankLoanSystem.DAL
                     loanNumber.LoanNumberB = dataRow["LoanDisplay"].ToString();
                     loanNumber.BranchId = Convert.ToInt32(dataRow["branch_id"]);
                     loanNumbers.Add(loanNumber);
-                    //unitModels.
                 }
-
-                //foreach (DataRow dataRow in dataSet.Tables[1].Rows)
-                //{
-                //    UserRights userRights = new UserRights();
-                //    userRights.LoanId = Convert.ToInt32(dataRow["loan_id"]);
-                //    userRights.PermissionList = dataRow["right_id"].ToString();
-                //    userLoanRights.Add(userRights);
-                //}
-                //Session["UserRightListReport"] = userLoanRights;
             }
 
-            //using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))
-            //{
-            //    connection.Open();
-            //    SqlCommand cmd = new SqlCommand("spGetLoanNumbersWithBranch", connection);
-            //    cmd.CommandType = CommandType.StoredProcedure;
-
-            //    cmd.Parameters.AddWithValue("@company_id", companyId);
-            //    cmd.Parameters.AddWithValue("@user_id", companyId);
-
-            //    using (SqlDataReader dr = cmd.ExecuteReader())
-            //    {
-            //        while (dr.Read())
-            //        {
-            //            LoanIdNumber loanNumber = new LoanIdNumber();
-
-            //            loanNumber.LoanId = Convert.ToInt32(dr["loan_id"]);
-            //            loanNumber.LoanNumberB = dr["LoanDisplay"].ToString();
-            //            loanNumber.BranchId = Convert.ToInt32(dr["branch_id"]);
-            //            loanNumbers.Add(loanNumber);
-            //        }
-
-            //        if (dr.NextResult())
-            //        {
-            //            while (dr.Read())
-            //            {
-            //                UserRights userRights = new UserRights();
-            //                userRights.LoanId = Convert.ToInt32(dr["loan_id"]);
-            //                userRights.PermissionList = dr["right_id"].ToString();
-            //                userLoanRights.Add(userRights);
-            //            }
-            //        }
-            //        Session["UserRightListReport"] = userLoanRights;
-            //    }
-
-            //    //SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
-            //    //dataAdapter.TableMappings.Add("0", "");
-            //    //DataSet dataSet = new DataSet();
-            //    //dataAdapter.Fill(dataSet);
-
-            //    //DataTable ta = dataSet.Tables[0];
-
-            //    //dataSet.Tables[1].TableName = "UserPermission";
-            //    //DataTable tb = dataSet.Tables[1];
-
-            //    //dataAdapter.Dispose();
-            //}
-
             return loanNumbers;
+        }
+
+
+        /*
+
+    Frontend page: Report Page
+    Title: Get active account details of (Super Admin/ Admin)
+    Designed: Irfan Mam
+    User story: DFP-446
+    Developed: Irfan MAM
+    Date created: 6/23/2016
+
+*/
+
+        public List<Account> GetAccountDetails(int companyIdORBranchId, int userRole)
+        {
+            List<Account> Accounts = new List<Account>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+            // if user is super admin pass company id for companyIdORBranchId
+            // if user is a admin pass  branch id for companyIdORBranchId
+            paramertList.Add(new object[] { "@comp_or_branch_id", companyIdORBranchId });
+            paramertList.Add(new object[] { "@user_role", userRole });
+
+            // calling stored procedure
+            DataSet dataSet = dataHandler.GetDataSet("GetAccountDetailsByUserRole", paramertList);
+
+            // biding data to list
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    Account account = new Account();
+                    account.LoanId = Convert.ToInt32(dataRow["loan_id"]);
+                    account.BranchId = Convert.ToInt32(dataRow["branch_id"]);
+                    account.LoanNumber = dataRow["loan_number"].ToString();
+                    account.BranchName = dataRow["branch_name"].ToString();
+                    account.PatBranchName = dataRow["nr_branch_name"].ToString();
+                    account.LoanAmount = Convert.ToDecimal(dataRow["loan_amount"].ToString());
+                    account.UsedAmount = Convert.ToDecimal(dataRow["used_amount"].ToString());
+                    account.ActiveUnits = Convert.ToInt32(dataRow["active_units"]);
+                    Accounts.Add(account);
+                  
+                }
+
+               
+            }
+
+          
+            // returning the List of account details of relevant user (Super Admin/ Admin)
+            return Accounts;
         }
 
         public List<UserRights> GeUserRightsForReporting(int userId)
@@ -184,11 +179,8 @@ namespace BankLoanSystem.DAL
 
                 return lstCurtailmentShedule;
             }
-            else
-            {
                 return null;
             }
-        }
 
         public List<CurtailmentShedule> GetCurtailmentPaidDetailsByDateRange(int loanId, DateTime paidDateStart, DateTime paidDateEnd)
         {
@@ -217,8 +209,6 @@ namespace BankLoanSystem.DAL
                     curtailment.CurtNumber = Convert.ToInt32(dataRow["curt_number"]);
 
                     curtailment.PaidDate = Convert.ToDateTime(dataRow["paid_date"].ToString()).ToString("MM/dd/yyyy");
-                    //curtailment.DueDate = Convert.ToDateTime(dataRow["curt_due_date"].ToString()).ToString("MM/dd/yyyy");
-                    //curtailment.Status = Convert.ToInt32(dataRow["curt_status"]);
                     curtailment.CurtAmount = Convert.ToDecimal(dataRow["curt_amount"]);
                     curtailment.PaidCurtAmount = Convert.ToDecimal(dataRow["CurtPaidAmount"]);
 
@@ -229,8 +219,6 @@ namespace BankLoanSystem.DAL
                     totalpaid = totalpaid + Convert.ToDecimal(dataRow["CurtPaidAmount"]);
                     lstCurtailmentShedule.Add(curtailment);
                 }
-                //if (lstCurtailmentShedule.Count > 0)
-                //    lstCurtailmentShedule[0].TotalAmountPaid = totalpaid;
 
                 for(int i = 0; i < lstCurtailmentShedule.Count; i++ )
                     lstCurtailmentShedule[i].TotalAmountPaid = totalpaid;
@@ -256,8 +244,8 @@ namespace BankLoanSystem.DAL
                 {
                     ReportUnitModels unit = new ReportUnitModels();
                     unit.LoanNumber = dataRow["loan_number"].ToString();
-                    unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyyy");
                     unit.IdentificationNumber = dataRow["identification_number"].ToString();
+                    unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyyy");
                     unit.Year = Convert.ToInt32(dataRow["year"]);
                     unit.Make = dataRow["make"].ToString();
                     unit.Model = dataRow["model"].ToString();
@@ -323,7 +311,6 @@ namespace BankLoanSystem.DAL
                         justAddedUnit.TitleStatus = "Returned to Dealer";
                     }
 
-                    //justAddedUnit.CreatedDate = Convert.ToDateTime(dataRow["created_date"].ToString());
                     justAddedUnitList.Add(justAddedUnit);
                     
                 }
@@ -457,19 +444,6 @@ namespace BankLoanSystem.DAL
                 {
                     foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                     {
-                        //Unit justAddedUnit = new Unit();
-
-                        //justAddedUnit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
-                        //justAddedUnit.IdentificationNumber = dataRow["identification_number"].ToString();
-                        //justAddedUnit.Year = Convert.ToInt32(dataRow["year"]);
-                        //justAddedUnit.Make = dataRow["make"].ToString();
-                        //justAddedUnit.Model = dataRow["model"].ToString();
-                        //justAddedUnit.AdvanceAmount = (dataRow["advance_amount"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;
-                        //justAddedUnit.IsAdvanced = Convert.ToBoolean(dataRow["is_advanced"]);
-                        //justAddedUnit.TitleStatus = Convert.ToInt32(dataRow["title_status"]);
-
-                        //justAddedUnit.CreatedDate = Convert.ToDateTime(dataRow["created_date"].ToString());
-
                         RptAddUnit unit = new RptAddUnit();
                         unit.LoanId = Convert.ToInt32(dataRow["loan_id"]);
                         unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"]).ToString("MM/dd/yyy");
@@ -493,7 +467,6 @@ namespace BankLoanSystem.DAL
                             unit.TitleStatus = "Returned to Dealer";
                         }
 
-                        //unit.CreatedDate = Convert.ToDateTime(dataRow["created_date"].ToString());
                         AdvanceUnits.Add(unit);
 
                     }
@@ -1078,6 +1051,49 @@ namespace BankLoanSystem.DAL
             return branchLoans;
         }
 
+        /// <summary>
+        /// Created By: Kasun Samarawickrama
+        /// Loan Summary report - for a loan need to retrive all informations about it
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <param name="dueDateStart">start date</param>
+        /// <param name="dueDateEnd">end date</param>
+        /// <returns></returns>
+        public List<RptLoanSummary> GetLoanSummaryReport(int loanId, DateTime dueDateStart, DateTime dueDateEnd) {
+
+            List<RptLoanSummary> loanSummaryList = new List<RptLoanSummary>();
+            DataHandler dataHandler = new DataHandler();
+
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@loan_id", loanId });
+            paramertList.Add(new object[] { "@due_date_start", dueDateStart });
+            paramertList.Add(new object[] { "@due_date_end", dueDateEnd });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetLoanSummaryReport", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    RptLoanSummary loanSummary = new RptLoanSummary();
+                    loanSummary.TotalUnitsAdded = int.Parse(dataRow["TotalUnitsAdded"].ToString());
+                    loanSummary.TotalUnitsAdvanced = int.Parse(dataRow["TotalUnitsAdvanced"].ToString());
+                    loanSummary.TotalAmountAdvanced = dataRow["TotalAmountAdvanced"] != DBNull.Value ? Convert.ToDecimal(dataRow["TotalAmountAdvanced"].ToString()) :0.00M;
+                    loanSummary.TotalAdvanceFees = dataRow["TotalAdvanceFees"] != DBNull.Value ? decimal.Parse(dataRow["TotalAdvanceFees"].ToString()) : 0.00M;
+                    loanSummary.TotalCurtailmentsRecieved =
+                        dataRow["TotalCurtailmentsRecieved"] != DBNull.Value ? decimal.Parse(dataRow["TotalCurtailmentsRecieved"].ToString()) : 0.00M;
+                    loanSummary.TotalUnitsPaidOff = dataRow["TotalUnitsPaidOff"] != DBNull.Value ? int.Parse(dataRow["TotalUnitsPaidOff"].ToString()):0;
+                    loanSummary.TotalAmountPaidOff = dataRow["TotalAmountPaidOff"] != DBNull.Value ? decimal.Parse(dataRow["TotalAmountPaidOff"].ToString()) : 0.00M;
+                    loanSummary.TotalUnitsDeleted = dataRow["TotalUnitsDeleted"] != DBNull.Value
+                        ? int.Parse(dataRow["TotalUnitsDeleted"].ToString())
+                        : 0;
+
+                    loanSummaryList.Add(loanSummary);
+                }
+            }
+
+            return loanSummaryList;
+        }
+
         #endregion
 
         public static string SubStrDeletion = "Delete reason";
@@ -1105,11 +1121,11 @@ namespace BankLoanSystem.DAL
                     unit.Year = (dataRow["year"]) != DBNull.Value ? (int)dataRow["year"] : 0000;
                     unit.Make = dataRow["make"].ToString();
                     unit.Model = dataRow["model"].ToString();
-                    unit.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString()).ToString("MM/dd/yyyy");
+                    unit.AdvanceDate = !dataRow.IsNull("advance_date") ? Convert.ToDateTime(dataRow["advance_date"].ToString()).ToString("MM/dd/yyyy"):"";
                     unit.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
                     unit.AdvanceAmount = Convert.ToDecimal(dataRow["advance_amount"]);
-                    unit.TotalCurtPaid = Convert.ToDecimal(dataRow["CurtailmentPaid"]);
-                    unit.BalanceDue = Convert.ToDecimal(dataRow["BalanceDue"]);
+                    unit.TotalCurtPaid = !dataRow.IsNull("CurtailmentPaid") ? Convert.ToDecimal(dataRow["CurtailmentPaid"]):0.00M;
+                    unit.BalanceDue = !dataRow.IsNull("BalanceDue") ? Convert.ToDecimal(dataRow["BalanceDue"]):0.00M;
 
                     int status = Convert.ToInt32(dataRow["title_status"]);
 
@@ -1126,7 +1142,7 @@ namespace BankLoanSystem.DAL
                         unit.TitleStatus = "Returned to Dealer";
                     }
 
-                    unit.DeletedDate = Convert.ToDateTime(dataRow["deleted_date"].ToString()).ToString("MM/dd/yyyy");
+                    unit.DeletedDate = !dataRow.IsNull("modified_date") ? Convert.ToDateTime(dataRow["modified_date"].ToString()).ToString("MM/dd/yyyy"):"";
                     string note = dataRow["Note"].ToString();
                     string[] words = note.Split(';');
                     string getFirst = words[0];

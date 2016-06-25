@@ -41,6 +41,18 @@ namespace BankLoanSystem.Models
         public int BranchId { get; set; }
     }
 
+    public class Account
+    {
+        public int LoanId { get; set; }
+        public string LoanNumber { get; set; }
+        public int BranchId { get; set; }
+        public string BranchName { get; set; }
+        public string PatBranchName { get; set; }
+        public decimal LoanAmount { get; set; }
+        public decimal UsedAmount { get; set; }
+        public int ActiveUnits { get; set; }
+    }
+
     public class UserRights
     {
         public int UserId { get; set; }
@@ -193,6 +205,18 @@ namespace BankLoanSystem.Models
         public int ActiveUnits { get; set; }
         public int InActiveUnits { get; set; }
        
+    }
+
+    public class RptLoanSummary
+    {
+        public int TotalUnitsAdded { get; set; }
+        public int TotalUnitsAdvanced { get; set; }
+        public decimal TotalAmountAdvanced { get; set; }
+        public decimal TotalAdvanceFees { get; set; }
+        public decimal TotalCurtailmentsRecieved { get; set; }
+        public int TotalUnitsPaidOff { get; set; }
+        public decimal TotalAmountPaidOff { get; set; } 
+        public int TotalUnitsDeleted { get; set; }
     }
 
     #endregion
