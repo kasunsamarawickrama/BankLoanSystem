@@ -5,7 +5,7 @@
     ViewBag.Title = "Reports";
 }
 
-
+@using BankLoanSystem.Models
 
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>
@@ -45,7 +45,7 @@
     {
 
     }
-    else
+    else if( ViewBag.LoanId.Items.Count > 1)
     {
        
         <div style="padding-left:12px;padding-right:12px;padding-bottom: 10px;text-align:left">
@@ -97,40 +97,41 @@
 @if (ViewBag.LoanId.Items.Count == 1)
 {
             <div id="lnum" class="form-group" style="width:50%;">
-                <label for="">Account Detail</label><br/>
+                @*<label for="">Account Detail</label><br/>*@
 
-
-                    @Html.HiddenFor(model => model.LoanId, new { @Value = (int)ViewBag.LoanId.Items[0].LoanId, })
-                    @Html.LabelFor(model => model.LoanId, (string)ViewBag.LoanId.Items[0].LoanNumberB, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })
+                <input type="hidden" id="loanId" value="@(((Loan)Session["LoanOne"]).LoanId)" />
+                    @*@Html.HiddenFor(model => model.LoanId, new {id= "loanId",  @Value = (int)ViewBag.LoanId.Items[0].LoanId, })*@
+                 @*//   @Html.LabelFor(model => model.LoanId, (string)ViewBag.LoanId.Items[0].LoanNumberB, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })*@ @*-- irfan*@
                     </div>
-                }
-                else
-                {
+}
+else
+{
+    <div id="lnum" class="form-group" style="width:50%;">
+        <input type="hidden" id="loanId" value="" />
+    </div>
+        @*// @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" , @style="width:100%" })
+            // @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
+            // <div id="tagscloudLoanId" class="field-validation-error"><span class="text-danger"></span></div>*@
+        }
 
-        <input type="hidden"  id="loanId" value=""/>
-               @*// @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" , @style="width:100%" })
-               // @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
-               // <div id="tagscloudLoanId" class="field-validation-error"><span class="text-danger"></span></div>*@
-                }
 
+        <div id="strdate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
+            <label for="">Start Date</label>
+            @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "startDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", style = "width:100%" } })
+            @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger", style = "left:25%" })
+            <div id="tagscloudStartDate" class="field-validation-error"><span class="text-danger"></span></div>
+        </div>
 
-            <div id="strdate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
-                <label for="">Start Date</label>
-                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "startDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", style = "width:100%" } })
-                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger", style = "left:25%" })
-                <div id="tagscloudStartDate" class="field-validation-error"><span class="text-danger"></span></div>
-            </div>
+        <div id="enddate" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
+            <label for="">End Date</label>
+            @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "endDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", style = "width:100%" } })
+            @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger", style = "left:25%" })
+            <div id="tagscloudEndDate" class="field-validation-error"><span class="text-danger"></span></div>
+        </div>
 
-            <div id="enddate" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
-                <label for="">End Date</label>
-                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "endDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", style = "width:100%" } })
-                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger", style = "left:25%" })
-                <div id="tagscloudEndDate" class="field-validation-error"><span class="text-danger"></span></div>
-            </div>
-
-            <div id="ttlsts" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
-                <label for="">Title Status</label>
-                @{
+        <div id="ttlsts" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
+            <label for="">Title Status</label>
+            @{
                     List<SelectListItem> titleStatus = new List<SelectListItem>();
 
                     titleStatus.Add(new SelectListItem
@@ -153,11 +154,11 @@
                         Text = "All",
                         Value = "3"
                     });
-                }
-                @Html.DropDownList("Title Status", titleStatus, "-- select type --", new { @class = "form-control", @id = "titleStatus" })
-                <div id="tagscloudTitleStatus" class="field-validation-error"><span class="text-danger"></span></div>
-            </div>
+            }
+            @Html.DropDownList("Title Status", titleStatus, "-- select type --", new { @class = "form-control", @id = "titleStatus" })
+            <div id="tagscloudTitleStatus" class="field-validation-error"><span class="text-danger"></span></div>
         </div>
+    </div>
 
         <div class="form-inline" style="width: 30%;float: left;padding-top: 5px;">
             <div class="form-group" style="float:left;">
