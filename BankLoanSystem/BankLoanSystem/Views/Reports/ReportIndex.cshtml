@@ -15,10 +15,15 @@
 
 
 <!-- This is for jqGrid-->
-<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+@*<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
 
 
-<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" type="text/css" />*@
+
+
+<link rel="stylesheet" type="text/css" media="screen" href="http://trirand.com/blog/jqgrid/themes/redmond/jquery-ui-1.8.1.custom.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="http://trirand.com/blog/jqgrid/themes/ui.jqgrid.css" />  
+
 @*<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>*@
 <script src="~/Scripts/jquery-ui-1.10.0.min.js"></script> 
 <script src="~/Scripts/i18n/grid.locale-en.js" type="text/javascript"></script>
@@ -915,7 +920,7 @@ else
 <script language="javascript">
 
 
-$(document).ready(function () {
+    $(document).ready(function () {
 
         @if (ViewBag.RoleId == 1) {
 
@@ -960,90 +965,123 @@ $(document).ready(function () {
             pager: '#pager2',
             sortname: 'id',
             loadonce: true,
-            viewrecords: true,
+            scrollrows: true,
             sortorder: "asc",
             caption: "Active Loans",
             // changing grid height
             loadComplete: function () {
+
                 var grid = $("#grid"),
             ids = grid.getDataIDs();
 
                 for (var i = 0; i < ids.length; i++) {
                     grid.setRowData(ids[i], false, { height: 27 });
                 }
+
+
+                @if ((Loan)Session["loanDashboard"] != null)
+    {
+        <text>
+
+                var ids = $("#grid").jqGrid("getDataIDs");
+                if (ids.length > 0) {
+                    $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
+                    $("#loanId").val('@(((Loan)Session["loanDashboard"]).LoanId)');
+                }
+
+                </text>
+    }
+
             }
         });  </text>
         }else if (ViewBag.RoleId == 2)
         {
              <text>
         // getting and binding datas to the grid
-    $("#grid").jqGrid({
-        url: '@Href("~/Reports/GetActiveLoans")',
-        datatype: "json",
-        contentType: "application/json; charset-utf-8",
-        mtype: 'GET',
-        colNames: ['Branch Name', 'Partner Branch Name', 'Loan Number', 
-             'Loan Amount', 'Used Amount', 'No. of Active Units'],
-        colModel: [
-                 { name: 'BranchName', index: 'BranchName', width: 194, hidden: true},
+        $("#grid").jqGrid({
+            url: '@Href("~/Reports/GetActiveLoans")',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
+            colNames: ['Branch Name', 'Partner Branch Name', 'Loan Number',
+                 'Loan Amount', 'Used Amount', 'No. of Active Units'],
+            colModel: [
+                     { name: 'BranchName', index: 'BranchName', width: 194, hidden: true },
 
-                  { name: 'PatBranchName', index: 'PatBranchName', width: 232 },
-           
-                { name: 'LoanNumber', index: 'LoanNumber', width: 232 },
+                      { name: 'PatBranchName', index: 'PatBranchName', width: 232 },
+
+                    { name: 'LoanNumber', index: 'LoanNumber', width: 232 },
 
 
-            {
+                {
                     name: 'LoanAmount', index: 'LoanAmount', width: 174,
                     align: "right", sorttype: 'float', formatter: 'currency',
                     formatoptions: { prefix: '$ ', thousandsSeparator: ',' }
-            },
-             {
-                    name: 'UsedAmount', index: 'UsedAmount', width: 174,
+                },
+                 {
+                     name: 'UsedAmount', index: 'UsedAmount', width: 174,
                      align: "right", sorttype: 'float', formatter: 'currency',
                      formatoptions: { prefix: '$ ', thousandsSeparator: ',' }
-                    },
-                  {
-                    name: 'ActiveUnits', index: 'ActiveUnits', width: 150,
-                      align: "right", sorttype: 'int'
-             }
-           
-        ],
+                 },
+                      {
+                          name: 'ActiveUnits', index: 'ActiveUnits', width: 150,
+                          align: "right", sorttype: 'int'
+                      }
+
+            ],
 
             rowList: [],        // disable page size dropdown
             pgbuttons: false,     // disable page control like next, back button
             pgtext: null,         // disable pager text like 'Page 0 of 10'
             viewrecords: false,    // disable current view record text like 'View 1-10 of 100'
-        pager: '#pager2',
-        sortname: 'id',
-        loadonce:true,
-        viewrecords: true,
-        sortorder: "asc",
-        caption: "Active Loans",
+            pager: '#pager2',
+            sortname: 'id',
+            loadonce: true,
+            scrollrows: true,
+            sortorder: "asc",
+            caption: "Active Loans",
             // changing grid height
-        loadComplete: function () {
-            var grid = $("#grid"),
-                ids = grid.getDataIDs();
+            loadComplete: function () {
+                var grid = $("#grid"),
+                    ids = grid.getDataIDs();
 
-            for (var i = 0; i < ids.length; i++) {
-                grid.setRowData(ids[i], false, { height: 27 });
-            }
+                for (var i = 0; i < ids.length; i++) {
+                    grid.setRowData(ids[i], false, { height: 27 });
+                }
+
+
+                @if ((Loan)Session["loanDashboard"] != null)
+        {
+           <text>
+
+                var ids = $("#grid").jqGrid("getDataIDs");
+                if (ids.length > 0) {
+                    $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
+                    $("#loanId").val('@(((Loan)Session["loanDashboard"]).LoanId)');
+                }
+
+            </text>
         }
+
+            }
         });  </text>
 
         }
 
 
-        // disable edit, add , false on pager
+
+
+    // disable edit, add , false on pager
     jQuery("#grid").jqGrid('navGrid', '#pager2',
-        { edit: false, add: false, del: false });
+            { edit: false, add: false, del: false });
 
         // set the loan id of selected row if one row click
-    $(document).on('click', '.ui-row-ltr', function () {
+        $(document).on('click', '.ui-row-ltr', function () {
 
-        var id = jQuery("#grid").jqGrid('getGridParam', 'selrow');
-        $("#loanId").val(id);
+            var id = jQuery("#grid").jqGrid('getGridParam', 'selrow');
+            $("#loanId").val(id);
 
-        
+
             var rptType = $('#hdnSelectedButton').val();
 
             if (rptType === 'FullInventory' || rptType === 'LotInspection')
@@ -1077,7 +1115,6 @@ $(document).ready(function () {
             jQuery("#grid").jqGrid('resetSelection');
 
         });
-
 
 
 
