@@ -15,14 +15,11 @@
 
 
 <!-- This is for jqGrid-->
-@*<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/themes/base/jquery-ui.css?version=1" rel="stylesheet" type="text/css" />
 
 
-<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" type="text/css" />*@
-
-
-<link rel="stylesheet" type="text/css" media="screen" href="http://trirand.com/blog/jqgrid/themes/redmond/jquery-ui-1.8.1.custom.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="http://trirand.com/blog/jqgrid/themes/ui.jqgrid.css" />  
+<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+ 
 
 @*<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>*@
 <script src="~/Scripts/jquery-ui-1.10.0.min.js"></script> 
@@ -38,6 +35,20 @@
         margin-left: 5px;
         margin-right: 5px;
         font-size: 13px;
+    }
+
+    .btn-info1{
+        color:black;
+        background-color:#b1adad;
+        border-color:#8e8a8a;
+
+    }
+
+     .btn-info1:hover{
+        color:black;
+        background-color:#7f7676;
+        border-color:#8e8a8a;
+
     }
 </style>}
 
@@ -66,29 +77,32 @@
     <div id="errPage" class="field-validation-error"><span class="text-danger"></span></div>
     <div class="btns-clm" id="divRptType">
         <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
-        <button type="button" id="btnLotInspection" class="btn btn-info">Lot Inspection</button>
-        <button type="button" id="btnCurtailmentInvoice" class="btn btn-info">Curtailment Invoice </button>
+        <button type="button" id="btnLotInspection" class="btn btn-info1">Lot Inspection</button>
+        <button type="button" id="btnCurtailmentInvoice" class="btn btn-info1">Curtailment Invoice </button>
 
-        <button type="button" id="btnCurtailmentReceipt" class="btn btn-info">Curtailment Receipt </button>
+        <button type="button" id="btnCurtailmentReceipt" class="btn btn-info1">Curtailment Receipt </button>
 
-        <button type="button" id="btnTitlesStatus" class="btn btn-info">Title Status</button>
-        <button type="button" id="btnFullInventory" class="btn btn-info">Full Inventory</button>
+        <button type="button" id="btnTitlesStatus" class="btn btn-info1">Title Status</button>
+        <button type="button" id="btnFullInventory" class="btn btn-info1">Full Inventory</button>
 
-        <button type="button" id="btnAdvanceUnit" class="btn btn-info">Advance Unit</button>
+        <button type="button" id="btnAdvanceUnit" class="btn btn-info1">Advance Unit</button>
 
-        <button type="button" id="btnAdvFeeInv" class="btn btn-info">Advance Fee Invoice</button>
-        <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info">Advance Fee Receipt</button>
-        <button type="button" id="btnLoanFeeInv" class="btn btn-info">Monthly Loan Fee Invoice</button>
-        <button type="button" id="btnMonthlyLoanFeeReceipt" class="btn btn-info">Monthly Loan Fee Receipt</button>
-        <button type="button" id="btnLotInsFeeInv" class="btn btn-info">Lot Inspection Fee Invoice</button>
-        <button type="button" id="btnLotInspectionFeeReceipt" class="btn btn-info">Lot Inspection Fee Receipt</button>
-        <button type="button" id="btnPayOff" class="btn btn-info">Pay Off</button>
-        <button type="button" id="btnTransactionHistory" class="btn btn-info">Transaction History</button>
-        <button type="button" id="btnLoanTerms" class="btn btn-info">Loan Terms</button>
-        <button type="button" id="btnCompanySummary" class="btn btn-info">Company Summary</button>
-        <button type="button" id="btnBranchSummary" class="btn btn-info">Branch Summary</button>
-        <button type="button" id="btnDeletedUnits" class="btn btn-info">Deleted Units</button>
-        <button type="button" id="btnLoanSummary" class="btn btn-info">Loan Summary</button>
+        <button type="button" id="btnAdvFeeInv" class="btn btn-info1">Advance Fee Invoice</button>
+        <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info1">Advance Fee Receipt</button>
+        <button type="button" id="btnLoanFeeInv" class="btn btn-info1">Monthly Loan Fee Invoice</button>
+        <button type="button" id="btnMonthlyLoanFeeReceipt" class="btn btn-info1">Monthly Loan Fee Receipt</button>
+        <button type="button" id="btnLotInsFeeInv" class="btn btn-info1">Lot Inspection Fee Invoice</button>
+        <button type="button" id="btnLotInspectionFeeReceipt" class="btn btn-info1">Lot Inspection Fee Receipt</button>
+        <button type="button" id="btnPayOff" class="btn btn-info1">Pay Off</button>
+        <button type="button" id="btnTransactionHistory" class="btn btn-info1">Transaction History</button>
+        <button type="button" id="btnLoanTerms" class="btn btn-info1">Loan Terms</button>
+
+        @if(ViewBag.RoleId == 1) {
+        <button type="button" id="btnCompanySummary" class="btn btn-info1">Company Summary</button>
+        }
+        <button type="button" id="btnBranchSummary" class="btn btn-info1">Branch Summary</button>
+        <button type="button" id="btnDeletedUnits" class="btn btn-info1">Deleted Units</button>
+        <button type="button" id="btnLoanSummary" class="btn btn-info1">Loan Summary</button>
         @*<div id="2" href="#">
     <p style="color: white">advance a unit</p>*@
             </div>
@@ -203,7 +217,7 @@ else
     function ChangeButtonColor(id) {
         $('.centered h5 span').text("");
         $(id).css({ 'background': 'green' });
-        $('#divRptType').children('button').not(id).css({ 'background': '#5bc0de' });
+        $('#divRptType').children('button').not(id).css({ 'background': '#b1adad' });
         $('#reportViewerDiv').hide();
         $('#btnPrint').hide();
         $('#LoanId').removeClass('input-validation-error');
@@ -922,6 +936,8 @@ else
 
     $(document).ready(function () {
 
+        var isFirstTime = 0; // variable for selecteing item at first time only
+
         @if (ViewBag.RoleId == 1) {
 
                 <text>
@@ -978,15 +994,18 @@ else
                     grid.setRowData(ids[i], false, { height: 27 });
                 }
 
-
+                // if loan selected from dashboard autoselect the row
                 @if ((Loan)Session["loanDashboard"] != null)
     {
         <text>
-
+                if (isFirstTime == 0){ 
                 var ids = $("#grid").jqGrid("getDataIDs");
                 if (ids.length > 0) {
                     $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
                     $("#loanId").val('@(((Loan)Session["loanDashboard"]).LoanId)');
+                }
+
+                    isFirstTime = 1;
                 }
 
                 </text>
@@ -1049,17 +1068,18 @@ else
                     grid.setRowData(ids[i], false, { height: 27 });
                 }
 
-
+                // if loan selected from dashboard autoselect the row
                 @if ((Loan)Session["loanDashboard"] != null)
         {
            <text>
-
+                if (isFirstTime == 0) { 
                 var ids = $("#grid").jqGrid("getDataIDs");
                 if (ids.length > 0) {
                     $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
                     $("#loanId").val('@(((Loan)Session["loanDashboard"]).LoanId)');
                 }
-
+                    isFirstTime = 1;
+                }
             </text>
         }
 
