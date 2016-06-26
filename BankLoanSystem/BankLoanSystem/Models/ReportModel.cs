@@ -209,6 +209,7 @@ namespace BankLoanSystem.Models
 
     public class RptLoanSummary
     {
+        public decimal LoanAmount { get; set; }
         public int TotalUnitsAdded { get; set; }
         public int TotalUnitsAdvanced { get; set; }
         public decimal TotalAmountAdvanced { get; set; }
