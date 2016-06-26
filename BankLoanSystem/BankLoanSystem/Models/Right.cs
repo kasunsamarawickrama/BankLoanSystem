@@ -19,6 +19,8 @@ namespace BankLoanSystem.Models
         [Display(Name = "Add")]
         public bool active { get; set; }
 
+        public bool DealerView { get; set; }
+
         [Display(Name = "Description")]
         public string description { get; set; }
 

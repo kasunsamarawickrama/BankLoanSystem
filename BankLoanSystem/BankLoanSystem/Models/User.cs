@@ -161,6 +161,8 @@ namespace BankLoanSystem.Models
 
         public List<Branch> BranchList { get; set; }
         public List<User> UserList { get; set; }
+
+        public string SecurityCode { get; set; }
     }
 
     /// <summary>
