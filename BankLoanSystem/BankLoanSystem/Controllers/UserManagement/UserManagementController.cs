@@ -32,7 +32,7 @@ namespace BankLoanSystem.Controllers
                 if (Session["AuthenticatedUser"] != null)
                 {
                     userData = ((User)Session["AuthenticatedUser"]);
-                    
+
                 }
                 else
                 {
@@ -41,13 +41,13 @@ namespace BankLoanSystem.Controllers
 
                         filterContext.Result = new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
 
-                    }else
+                    } else
                     {
                         filterContext.Result = new RedirectResult("/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.");
 
                     }
                     //return RedirectToAction("UserLogin", "Login", new { lbl = "Your Session Expired" });
-                    
+
                 }
             }
             catch
@@ -62,7 +62,7 @@ namespace BankLoanSystem.Controllers
 
             int idval;
             int typeval = 0;
-            
+
             try
             {
                 idval = userData.UserId;
@@ -149,7 +149,7 @@ namespace BankLoanSystem.Controllers
         {
             int id;
             int logId;
-            
+
             try
             {
                 id = (int)Session["rowId"];
@@ -206,7 +206,7 @@ namespace BankLoanSystem.Controllers
                 Session.Remove("loanDashboardAssignUser");
             }
 
-                if (Session["AuthenticatedUser"] != null)
+            if (Session["AuthenticatedUser"] != null)
             {
                 DashBoardAccess da = new DashBoardAccess();
                 ViewBag.Username = userData.UserName;
@@ -217,7 +217,7 @@ namespace BankLoanSystem.Controllers
                     ViewBag.LoanCount = 1;
                     ViewBag.loanSelected = 1;
                     Loan loanSelected = (Loan)Session["loanDashboard"];
-                  
+
                     if (loanSelected != null)
                     {
                         if (userData.RoleId == 1)
@@ -232,7 +232,7 @@ namespace BankLoanSystem.Controllers
                             ViewBag.PartnerType = 0;
                         }
                         ViewBag.PartnerName = loanSelected.PartnerName;
-                        
+
                         ViewBag.Branch = loanSelected.BranchName;
                         ViewBag.LoanNum = loanSelected.LoanNumber;
                         ViewBag.IsTitleTrack = loanSelected.IsTitleTrack;
@@ -258,7 +258,7 @@ namespace BankLoanSystem.Controllers
                                 string[] rightsStringList = rgts.Split(',');
 
                                 List<string> rightList = new List<string>();
-                                for (int i= 0; i < rightsStringList.Length; i++ ) {
+                                for (int i = 0; i < rightsStringList.Length; i++) {
                                     rightList.Add(rightsStringList[i]);
                                 }
 
@@ -312,10 +312,10 @@ namespace BankLoanSystem.Controllers
                     ViewBag.Position = "User";
 
                 }
-                
+
                 if (ViewBag.LoanCount == 1)
                 {
-                   
+
                     if (userData.RoleId == 2)
                     {
                         loan = da.GetLoanDetails(userData.BranchId, 2);
@@ -349,7 +349,7 @@ namespace BankLoanSystem.Controllers
                         ViewBag.LoanNum = loan.LoanNumber;
                         ViewBag.IsTitleTrack = loan.IsTitleTrack;
                         Session["IsTitleTrack"] = loan.IsTitleTrack;
-                        if ((loan.AdvanceFee==1) || (loan.LotInspectionFee==1) || (loan.MonthlyLoanFee==1))
+                        if ((loan.AdvanceFee == 1) || (loan.LotInspectionFee == 1) || (loan.MonthlyLoanFee == 1))
                         {
                             ViewBag.Fee = 1;
                         }
@@ -357,7 +357,7 @@ namespace BankLoanSystem.Controllers
                         {
                             ViewBag.Fee = 0;
                         }
-                       
+
                         // 
                         Session["loanCode"] = loan.LoanCode;
                         if (userData.RoleId == 3)
@@ -371,14 +371,14 @@ namespace BankLoanSystem.Controllers
                                     charactors = loan.Rights.Split(',');
                                 }
                                 List<string> rightLst = new List<string>(charactors);
-                                                             
+
                                 ViewBag.RightList = rightLst;
-                                
+
                             }
-                            
+
 
                         }
-                        else if((userData.RoleId == 1)||(userData.RoleId == 2))
+                        else if ((userData.RoleId == 1) || (userData.RoleId == 2))
                         {
                             ViewBag.AdvanceUnits = 1;
                             ViewBag.AddUnits = 1;
@@ -413,9 +413,9 @@ namespace BankLoanSystem.Controllers
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
-                
-            
-            
+
+
+
         }
 
 
@@ -746,7 +746,7 @@ namespace BankLoanSystem.Controllers
             if (userRole == 3)
             {
                 ///get permission string for the relevent user
-                List<Right> permissionString = access.getRightsString(userId,0);
+                List<Right> permissionString = access.getRightsString(userId, 0);
                 if (permissionString.Count == 1)
                 {
 
@@ -805,22 +805,22 @@ namespace BankLoanSystem.Controllers
         {
 
 
-            
+
             LoanSelection detail = new LoanSelection();
             //if edit loan
-           if (!string.IsNullOrEmpty(type) && type.Contains("tidenaol")) 
-           {
+            if (!string.IsNullOrEmpty(type) && type.Contains("tidenaol"))
+            {
                 detail = (new UnitAccess()).GetInActiveLoans(userData.UserId, userData.Company_Id, userData.BranchId, userData.RoleId);
-                if(detail!=null) 
+                if (detail != null)
                 {
                     Session["detail"] = detail;
                 }
-                else 
+                else
                 {
                     return RedirectToAction("UserLogin", "Login");
                 }
             }
-           else if (!string.IsNullOrEmpty(type) && type.Contains("aticno"))
+            else if (!string.IsNullOrEmpty(type) && type.Contains("aticno"))
             {
                 detail = (new UnitAccess()).GetPermisssionGivenLoanwithBranchDeatils(userData.UserId, userData.Company_Id, userData.BranchId, userData.RoleId);
                 if (detail != null)
@@ -832,24 +832,24 @@ namespace BankLoanSystem.Controllers
                     return RedirectToAction("UserLogin", "Login");
                 }
             }
-            else if(!string.IsNullOrEmpty(type)) 
-           {
+            else if (!string.IsNullOrEmpty(type))
+            {
                 detail = (new UnitAccess()).GetPermisssionGivenLoanwithBranchDeatils(userData.UserId, userData.Company_Id, userData.BranchId, userData.RoleId);
                 if (detail == null)
                 {
                     ViewBag.type = "return";
                     return PartialView();
                 }
-                else if(detail!=null){
+                else if (detail != null) {
                     Session["detail"] = detail;
                 }
 
-                
-            }
-            
 
-          
-            int userId = userData.UserId; 
+            }
+
+
+
+            int userId = userData.UserId;
             // if Session is expired throw an error
 
 
@@ -876,7 +876,7 @@ namespace BankLoanSystem.Controllers
                 if (loanSelection.RegBranches != null && loanSelection.RegBranches.Count() == 1)
                 {
 
-                   
+
 
                     // the get non registered branches details for perticular branch  from the non registeres branches list
                     foreach (NonRegBranch branch in NonRegisteredBranchLists)
@@ -885,7 +885,7 @@ namespace BankLoanSystem.Controllers
                         {
                             loanSelection.NonRegBranchList.Add(branch);
                         }
-                    }                   
+                    }
 
                     if (loanSelection.NonRegBranchList.Count() == 1)
                     {
@@ -893,43 +893,43 @@ namespace BankLoanSystem.Controllers
                         List<LoanSetupStep1> loanLists = detail.LoanList; //new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
                         loanSelection.LoanList = new List<LoanSetupStep1>();
                         foreach (LoanSetupStep1 loan in loanLists) {
-                           // if(loan.LoanStatus == true)
-                          //  {
-                                loanSelection.LoanList.Add(loan);
-                          //  }
+                            // if(loan.LoanStatus == true)
+                            //  {
+                            loanSelection.LoanList.Add(loan);
+                            //  }
                         }
-                         
+
                         //if loans count is one redirect to add unit page
                     }
                 }
 
-            }else if (userData.RoleId == 2)
+            } else if (userData.RoleId == 2)
             {
 
                 //loanSelection.RegBranches.Add((new BranchAccess()).getBranchByBranchId(userData.BranchId));
-                if(detail.RegBranches!=null && detail.RegBranches.Count > 0)
+                if (detail.RegBranches != null && detail.RegBranches.Count > 0)
                 {
                     loanSelection.RegBranches.Add(detail.RegBranches[0]);
                 }
-                
+
 
 
                 // the get non registered branches details for perticular branch  from the non registeres branches list
                 foreach (NonRegBranch branch in NonRegisteredBranchLists)
+                {
+                    if (branch.BranchId == userData.BranchId)
                     {
-                        if (branch.BranchId == userData.BranchId)
-                        {
 
-                            loanSelection.NonRegBranchList.Add(branch);
+                        loanSelection.NonRegBranchList.Add(branch);
 
 
-                        }
                     }
-                    if (loanSelection.NonRegBranchList.Count() == 1)
-                    {
+                }
+                if (loanSelection.NonRegBranchList.Count() == 1)
+                {
                     loanSelection.LoanList = detail.LoanList; //new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
-                   
-                    }
+
+                }
             }
             else if (userData.RoleId == 3)
             {
@@ -968,7 +968,7 @@ namespace BankLoanSystem.Controllers
                 return PartialView(loanSelection);
             }
 
-            else if (type == "sedretyt") 
+            else if (type == "sedretyt")
             {
                 ViewBag.type = "Curtailment";
                 return PartialView(loanSelection);
@@ -979,7 +979,7 @@ namespace BankLoanSystem.Controllers
                 ViewBag.type = "PayOff";
                 return PartialView(loanSelection);
             }
-            
+
             else if (type == "frtgcvfd")
             {
                 ViewBag.type = "Title";
@@ -1006,7 +1006,7 @@ namespace BankLoanSystem.Controllers
                 ViewBag.type = "EditLoan";
                 return PartialView(loanSelection);
             }
-            else if (type == "aticno") 
+            else if (type == "aticno")
             {
                 ViewBag.type = "RenewLoan";
                 return PartialView(loanSelection);
@@ -1026,7 +1026,7 @@ namespace BankLoanSystem.Controllers
             {
                 if (NonRegBranchId == l.nonRegisteredBranchId)
                 {
-                        LoanList.Add(l);
+                    LoanList.Add(l);
                 }
             }
             return PartialView(LoanList);
@@ -1047,21 +1047,21 @@ namespace BankLoanSystem.Controllers
             foreach (NonRegBranch branch in NonRegisteredBranchLists)
             {
                 if (branch.BranchId == RegBranchId)
-               {
+                {
                     loanSelection.NonRegBranchList.Add(branch);
                 }
             }
 
-           
-                ViewBag.type = type;
-            
-            
+
+            ViewBag.type = type;
+
+
 
             if (loanSelection.NonRegBranchList != null && loanSelection.NonRegBranchList.Count() == 1)
             {
 
                 //loanSelection.LoanList = list.LoanList;   //new LoanSetupAccess().GetLoanDetailsByNonRegBranchId(loanSelection.NonRegBranchList[0].NonRegBranchId);
-                                                          //if loans count is one redirect to add unit page
+                //if loans count is one redirect to add unit page
                 foreach (LoanSetupStep1 l in list.LoanList)
                 {
                     if (loanSelection.NonRegBranchList[0].NonRegBranchId == l.nonRegisteredBranchId)
@@ -1131,7 +1131,7 @@ namespace BankLoanSystem.Controllers
                         {
                             finalSelectedLoan.BranchId = nrbr.BranchId;
                             finalSelectedLoan.PartnerName = nrbr.CompanyNameBranchName;
-                           
+
                             foreach (var br in list3.RegBranches)
                             {
                                 if (br.BranchId == finalSelectedLoan.BranchId)
@@ -1144,7 +1144,7 @@ namespace BankLoanSystem.Controllers
                     if ((string)Session["popUpSelectionType"] == "linkDealer")
                     {
                         Session["loanDashboardJoinDealer"] = finalSelectedLoan;
-                    }else if ((string)Session["popUpSelectionType"] == "assignRights")
+                    } else if ((string)Session["popUpSelectionType"] == "assignRights")
                     {
                         Session["loanDashboardAssignUser"] = finalSelectedLoan;
 
@@ -1167,7 +1167,7 @@ namespace BankLoanSystem.Controllers
             Session["detail"] = null;
             if ((string)Session["popUpSelectionType"] == "assignRights")
             {
-                return RedirectToAction("AssignRights");                
+                return RedirectToAction("AssignRights");
             }
             else if ((string)Session["popUpSelectionType"] == "linkDealer")
             {
@@ -1179,7 +1179,7 @@ namespace BankLoanSystem.Controllers
             }
             else if ((string)Session["popUpSelectionType"] == "aticno")
             {
-                return RedirectToAction("RenewLoan","LoanManagement");
+                return RedirectToAction("RenewLoan", "LoanManagement");
             }
             else
             {
@@ -1188,7 +1188,7 @@ namespace BankLoanSystem.Controllers
             //return RedirectToAction(action);
         }
 
-        public List<Right> PermissionList(int userId,int loanId)
+        public List<Right> PermissionList(int userId, int loanId)
         {
             var access = new UserRightsAccess();
 
@@ -1252,9 +1252,13 @@ namespace BankLoanSystem.Controllers
         }
 
         /// <summary>
-        /// CreatedBy: Piyumi
-        /// CreatedDate: 4/1/2016
-        /// Create user from dashboard
+        /// Frontend page: Create User(Dashboard)
+        /// Title: Get view of Create user page in dashboard
+        /// Designed: Piyumi P
+        /// User story:
+        /// Developed: Piyumi P
+        /// Date created: 4/1/2016
+        /// Edited: 6/21/2016
         /// </summary>
         /// <param name="lbls"></param>
         /// <returns></returns>
@@ -1270,20 +1274,20 @@ namespace BankLoanSystem.Controllers
             // check he is a super admin or admin
 
             int roleId = userData.RoleId;
-
-            if (roleId > 2)
+            //Check user role is user or dealer user
+            if ((roleId == 3)||(roleId == 4))
             {
+                //return to login page
                 return RedirectToAction("UserLogin", "Login");
             }
-
-            // check if   step is 3...
-
+            //Check result of insert user details
             if (TempData["createUserResult"] != null)
             {
+                //result is 1 = success
             if(int.Parse(TempData["createUserResult"].ToString()) == 1) {
                     ViewBag.SuccessMsg = "User Successfully Created";
                 }
-
+                //result is 0 = failure
                 else if (int.Parse(TempData["createUserResult"].ToString()) == 0)
                 {
                     ViewBag.ErrorMsg = "Failed To Create User";
@@ -1293,33 +1297,39 @@ namespace BankLoanSystem.Controllers
 
             ViewBag.CurrUserRoleType = roleId;
             int loanCount = -1;
+            //Check user role is admin
             if (userData.RoleId == 2)
             {
-                //ViewBag.Branch = (ba.getBranchByBranchId(user.BranchId)).BranchName;
+                //get loan count for branch which admin is assigned to
                 loanCount = da.GetLoanCount(userData.BranchId, 2);
                 
 
             }
+            //Check user role is super admin
             else if (userData.RoleId == 1)
             {
+                //get loan count for company which super admin is assigned to
                 loanCount = da.GetLoanCount(userData.Company_Id, 1);
                 
             }
             RoleAccess ra = new RoleAccess();
             List<UserRole> roleList = ra.GetAllUserRoles();
             List<UserRole> tempRoleList = new List<UserRole>();
-
+            // filter user roles for page user role drop down compairing with role of user who logged in
             for (int i = roleId - 1; i < roleList.Count && ViewBag.CurrUserRoleType != 3; i++)
             {
+                //Check role is dealer user 
                 if (roleList[i].RoleId == 4)
                 {
                     continue;
                 }
-                else if((roleList[i].RoleId == 3) &&(loanCount==0)) 
+                //Check role is user and loan count is 0
+                else if ((roleList[i].RoleId == 3) &&(loanCount==0)) 
                 {
                     continue;
                 }
-                else if((userData.RoleId==2)&&(roleList[i].RoleId == 1)) {
+                //Check role is super admin and logged user role is admin
+                else if ((userData.RoleId==2)&&(roleList[i].RoleId == 1)) {
                     continue;
                 }
                 UserRole tempRole = new UserRole()
@@ -1332,13 +1342,15 @@ namespace BankLoanSystem.Controllers
 
             ViewBag.RoleId = new SelectList(tempRoleList, "RoleId", "RoleName");
 
-            // get all branches
+            // get all branches which belong to company
             List<Branch> branchesLists = (new BranchAccess()).getBranches(userData.Company_Id);
             List<Branch> branchesListAdmin = new List<Branch>();
+            //Check user is super admin
             if (userData.RoleId == 1) {
                 ViewBag.BranchId = new SelectList(branchesLists, "BranchId", "BranchName");
             }
             else {
+                //filter retrieved branch list for admin
                 branchesListAdmin = branchesLists.FindAll(t => t.BranchId == userData.BranchId);
                 ViewBag.BranchId = new SelectList(branchesListAdmin, "BranchId", "BranchName");
             }
@@ -1346,31 +1358,21 @@ namespace BankLoanSystem.Controllers
 
             List<Branch> branchesListsLoan =  new List<Branch>();
             List<Branch> branchesListsLoanAd = new List<Branch>();
+            //get list of branches which has atleast one loan 
             branchesListsLoan = (new BranchAccess()).GetLoansBranches(userData.Company_Id);
-            //List<Branch> branchesLists2 = new List<Branch>();
-            //branchesLists2 = branchesListsLoan.Distinct().ToList();
+           //check user is super admin
             if (userData.RoleId == 1)
             {
+                //convert branch list to select list
                 ViewBag.BranchIdUser = new SelectList(branchesListsLoan, "BranchId", "BranchName");
             }
             else {
+                //filter branch which admin is assigned
                 branchesListsLoanAd = branchesListsLoan.FindAll(t => t.BranchId == userData.BranchId);
+                //convert branch list to select list
                 ViewBag.BranchIdUser = new SelectList(branchesListsLoanAd, "BranchId", "BranchName");
             }
-            //List<Branch> branchesLists3 = new List<Branch>();
-            //branchesLists3 = branchesListsLoan;
-            //Session["BranchLoans"] = branchesLists3;
-            //ViewBag.LoanId = new SelectList(branchesLists3, "LoanId", "BranchName");
-
-            //List<Right> rightLists = new List<Right>();
-
-
-            //rightLists = (new UserRightsAccess()).getRights();
-
-            //us.UserRightsList = rightLists;
-
-            //return PartialView(userViewModel);
-
+           //check request is ajax request
             if (HttpContext.Request.IsAjaxRequest())
             {
                 ViewBag.AjaxRequest = 1;
@@ -1385,9 +1387,12 @@ namespace BankLoanSystem.Controllers
         }
 
         /// <summary>
-        /// CreatedBy: Piyumi
-        /// CreatedDate: 4/1/2016
-        /// Get Loans for selected branch
+        /// Frontend page: Create User (Dashboard) 
+        /// Title: Get active loans for given branch id and right list
+        /// Designed: Piyumi P
+        /// User story:
+        /// Developed: Piyumi P
+        /// Date created: 4/1/2016
         /// </summary>
         /// <param name="BranchIdL"></param>
         /// <returns></returns>
@@ -1396,23 +1401,26 @@ namespace BankLoanSystem.Controllers
             User us = new User();
             List<Branch> listLoan = new List<Branch>();
             List<Branch> listLoan2 = new List<Branch>();
+            //get loans which belong to given branch id
             listLoan = (new BranchAccess()).GetLoansByBranches(BranchIdL);
-
+            //check loan list is not null and count >0
             if(listLoan!=null && listLoan.Count > 0)
             {
+                //assigned loan list to user object property
                 us.BranchList = listLoan;
+                //convert loan list to session object
                 Session["LoanTitle"] = listLoan;
             }
             ViewBag.LoanId = new SelectList(listLoan,"LoanId","LoanNumber");
             List<Right> rightLists = new List<Right>();
 
-
+            //get all rights list
             rightLists = (new UserRightsAccess()).getRights();
 
             us.UserRightsList = rightLists;
+            //get all report list
             us.ReportRightsList = (new UserRightsAccess()).getReportRights();
-            //return PartialView(userViewModel);
-
+            //check request is ajax request
             if (HttpContext.Request.IsAjaxRequest())
             {
                 ViewBag.AjaxRequest = 1;
@@ -1427,31 +1435,33 @@ namespace BankLoanSystem.Controllers
         }
 
         /// <summary>
-        /// CreatedBy: Piyumi
-        /// CreatedDate: 4/1/2016
-        /// Insert new user details
+        /// Frontend page: Create User (Dashboard) 
+        /// Title: Insert user details
+        /// Designed: Piyumi P
+        /// User story:
+        /// Developed: Piyumi P
+        /// Date created: 4/1/2016
+        /// Edited: Piyumi P
+        /// Date edited: 6/24/2016
+        /// 
         /// </summary>
         /// <param name="userObj"></param>
         /// <returns></returns>
         [HttpPost]
         public ActionResult CreateDashboardUser(User userObj)
         {
-
+            //assign phone number to object property
             userObj.PhoneNumber = userObj.PhoneNumber2;
-
+            //assign user id to variable
             int currentUser = userData.UserId;
 
-            //// check he is a super admin or admin
+            // assign role to variable
             int roleId = userData.RoleId;
-
-            
-
-
-
+            //assign current user id to created by property
             userObj.CreatedBy = currentUser;
+            //is delete property as false
             userObj.IsDelete = false;
-            //userObj.Status = false;
-
+            //encrypt password
             string passwordTemp = userObj.Password;
 
             UserAccess ua = new UserAccess();
@@ -1461,54 +1471,70 @@ namespace BankLoanSystem.Controllers
 
             userObj.Email = userObj.NewEmail;
 
-
-            userObj.Company_Id = userData.Company_Id;//  company.CompanyId;  - asanka
-
-            ////Set admin branch to new user 
+            //assign logged user's company id to created user's company id
+            userObj.Company_Id = userData.Company_Id;
+            //check user role is admin
             if (roleId == 2)
             {
+                //assign logged user's branch id to created user's branch id
                 userObj.BranchId = userData.BranchId;
             }
+            //check created user is super admin and logged user is super admin
             if ((userObj.RoleId == 1)&&(userData.RoleId==1))
             {
+                //assign logged user's step status to created user's step status
                 userObj.step_status = userData.step_status;
             }
+            //check created user is admin
             else if (userObj.RoleId == 2)
             {
+                //get step status for given branch id
             int step= ua.GetStepStatusByUserBranchId(userObj.BranchId);
+                //check step is 0 or greater than 0
             if(step>=0) 
             {
+                    //assign step to created user's step status
                     userObj.step_status = step;
             }
                 
             }
+            //check created user is user
             else if (userObj.RoleId == 3)
             {
+                //check Session["LoanTitle"] is not null
                 if (Session["LoanTitle"] != null)
                 {
+                    //convert session to list
                     List<Branch> loanList = (List<Branch>)Session["LoanTitle"];
                     for (var j = 0; j < loanList.Count; j++)
                     {
+                        //check created user's loan id
                         if (loanList[j].LoanId == userObj.LoanId)
                         {
+                            //check title is needed to be tracked for created user's loan
                             if (!loanList[j].IsTitleTrack)
                             {
+                                //assign title page rights as false if title is not needed to be tracked
                                 userObj.UserRightsList[3].active = false;
                             }
-
+                            //check if there is atleast one fee for created user's loan
                             if (!loanList[j].HasFee)
                             {
+                                //assign fee page rights as false if there is no atleast one fee
                                 userObj.UserRightsList[5].active = false;
                             }
                         }
                     }
                 }
+                //assign 1 for created user's step status
                 userObj.step_status= 1;
+                //assign selected branch id for created user's branch id
                 userObj.BranchId = userObj.BranchIdUser;
                 string[] arrList = new string[userObj.UserRightsList.Count];
                 string[] arrList2 = new string[userObj.ReportRightsList.Count];
                 int i = 0;
                 int k = 0;
+                //create user right list string by checking each right in right list active status
                 foreach (var x in userObj.UserRightsList)
                 {
                     if (x.active)
@@ -1517,6 +1543,7 @@ namespace BankLoanSystem.Controllers
                         i++;
                     }
                 }
+                //create user report right list string by checking each right in report right list active status
                 foreach (var y in userObj.ReportRightsList)
                 {
                     if (y.active)
@@ -1526,27 +1553,24 @@ namespace BankLoanSystem.Controllers
                     }
                 }
                 arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                //user.UserRights = arrList.ToString();
+                
                 userObj.UserRights = string.Join(",", arrList);
                 //add report rights
                 arrList2 = arrList2.Where(x => !string.IsNullOrEmpty(x)).ToArray();
                 userObj.ReportRights = string.Join(",", arrList2);
             }
          
-            //Insert user
+            //Insert user details
             int res = da.InsertUserInDashboard(userObj);
 
-            //Insert new user to user activation table
-            //string activationCode = Guid.NewGuid().ToString();
-            //int userId = (new UserAccess()).getUserId(userObj.Email);
-            //res = ua.InsertUserActivation(userId, activationCode);
+            //check result of insert user function
             if (res > 0)
             {
                 //update Companay Step States in incomplete Branches continued in dashboard
                 StepAccess sa = new StepAccess();
                 sa.UpdateCompanySetupStep(userData.Company_Id, userObj.BranchId, 4);
 
-
+                //if created user's status is active send email to inform his username and password
                 if (userObj.Status)
                 {
 
@@ -1564,18 +1588,25 @@ namespace BankLoanSystem.Controllers
                 }
 
                 string roleName = "";
+                //check created user is super admin
                 if (userObj.RoleId == 1)
                 {
+                    //assign role name as super admin
                     roleName = "Super Admin";
                 }
+                //check created user is admin
                 else if (userObj.RoleId == 2)
                 {
+                    //assign role name as admin
                     roleName = "Admin";
                 }
+                //check created user is user
                 else if (userObj.RoleId == 3)
                 {
+                    //assign role name as user
                     roleName = "User";
                 }
+                //insert log record
                 Log log = new Log(userData.UserId, userData.Company_Id, userObj.BranchId, 0, "Create User", "Create "+roleName+" ,Username:"+userObj.UserName, DateTime.Now);
 
                 int islog = (new LogAccess()).InsertLog(log);
