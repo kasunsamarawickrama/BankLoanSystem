@@ -50,6 +50,7 @@ namespace BankLoanSystem.Models
         public string PatBranchName { get; set; }
         public decimal LoanAmount { get; set; }
         public decimal UsedAmount { get; set; }
+        public int ActiveUnits { get; set; }
     }
 
     public class UserRights

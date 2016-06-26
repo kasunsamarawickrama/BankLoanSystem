@@ -180,6 +180,7 @@ namespace BankLoanSystem.DAL
                         right.active = false;
                         right.description = dataRow["report_description"].ToString();
                         right.name = dataRow["report_name"].ToString();
+                        right.DealerView = bool.Parse(dataRow["dealer_can_view"].ToString());
                         RightsLists.Add(right);
                     }
 

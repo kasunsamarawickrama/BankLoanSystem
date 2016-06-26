@@ -56,7 +56,7 @@ namespace BankLoanSystem.Controllers.Reports
         public ActionResult ReportIndex()
         {
             ReportAccess ra = new ReportAccess();
-            List<Account> loanNumbers = ra.GetAccountDetails(_userData.Company_Id, _userData.RoleId);
+            List<Account> loanNumbers = new List<Account>(); 
 
             List<Account> userLoanNumbers = new List<Account>();
 
@@ -65,17 +65,15 @@ namespace BankLoanSystem.Controllers.Reports
             ViewBag.BranchId = _userData.BranchId;
             if (_userData.RoleId == 1)
             {
+                loanNumbers = ra.GetAccountDetails(_userData.Company_Id, _userData.RoleId);
                 userLoanNumbers = loanNumbers;
                 ViewBag.ComId = _userData.Company_Id;
             }
             else if (_userData.RoleId == 2 || _userData.RoleId == 3)
             {
-                //foreach (var loans in loanNumbers)
-                //{
-                //    if (_userData.BranchId == loans.BranchId)
-                //        userLoanNumbers.Add(loans);
-                //}
-                userLoanNumbers.AddRange(loanNumbers.Where(loans => _userData.BranchId == loans.BranchId));
+                loanNumbers = ra.GetAccountDetails(_userData.BranchId, _userData.RoleId);
+                userLoanNumbers = loanNumbers;
+
             }
             if (_userData.RoleId == 3 || _userData.RoleId == 4)
             {
@@ -153,10 +151,10 @@ namespace BankLoanSystem.Controllers.Reports
 
         /*
 
-        Frontend page: Report
-        Title: Get active loans
+        Frontend page: Report page
+        Title: Get active loans of user for grid
         Designed: Irfan MAM
-        User story: DFP-
+        User story: DFP- 446
         Developed: Irfan MAM
         Date created: 06/23/2016
 
@@ -168,36 +166,34 @@ namespace BankLoanSystem.Controllers.Reports
 
             List<Account> loanNumbers;
 
+            // if user is a superadmin, get account details of his company
             if (_userData.RoleId == 1) {
                  loanNumbers = ra.GetAccountDetails(_userData.Company_Id, _userData.RoleId);
 
             }
-            else
+
+            // if user is a admin, get account details of his branch
+            else if (_userData.RoleId == 2)
             {
                 loanNumbers = ra.GetAccountDetails(_userData.BranchId, _userData.RoleId);
             }
+            // if user is a user deler user, get account details of his assigned loans
+            else
+            {
+                // should change
+                loanNumbers = ra.GetAccountDetails(_userData.BranchId, _userData.RoleId);
+            }
 
-            //List<Account> loanNumbers = new List<Account>();
-            //loanNumbers.Add(new Account() {
-            //    LoanId = 12,
-            //    BranchId =123,
-            //    BranchName ="asd",
-            //    LoanAmount = 123,
-            //    LoanNumber = "asd",
-            //    PatBranchName = "addf",
-            //    UsedAmount = 234
+            // these varibles are for JqGrid purpose
 
-            //});
-
-
-
-
-            var count = loanNumbers.Count();
-            int pageIndex = page;
-            int pageSize = rows;
+            var count = loanNumbers.Count(); // number of rows
+            int pageIndex = page; // number of pages on the grid
+            int pageSize = rows; // maximum page sige
             int startRow = (pageIndex * pageSize) + 1;
             int totalRecords = count;
             int totalPages = (int)Math.Ceiling((float)totalRecords / (float)pageSize);
+
+            // json object for jqGrid
             var result = new
             {
                 total = totalPages,
@@ -206,7 +202,6 @@ namespace BankLoanSystem.Controllers.Reports
                 rows = loanNumbers.Select(x => new
                 {
                     x.LoanId,
-                    //x.BranchId,
                     x.BranchName,
                     x.PatBranchName,
                     x.LoanNumber,
@@ -214,28 +209,28 @@ namespace BankLoanSystem.Controllers.Reports
                     x.LoanAmount,
                    
                    
-                    x.UsedAmount
+                    x.UsedAmount,
+                    x.ActiveUnits
                 }
                                          ).ToArray().Select(x => new
                                          {
                                              id = x.LoanId.ToString(),
-                                             cell = new string[] { /*x.LoanId.ToString(),*/
-                                                        //x.BranchId.ToString(),
+                                             cell = new string[] { 
                                                         x.BranchName,
                                                         x.PatBranchName,
                                                         x.LoanNumber.ToString(),
                                                         x.LoanAmount.ToString(),
-                                                        x.UsedAmount.ToString()
+                                                        x.UsedAmount.ToString(),
+                                                        x.ActiveUnits.ToString()
                                                       }
                                          }
                       ).ToArray()
 
-                //rows = new[] { new { id = 1, cell = new[] { "LoanId", "BranchId", "BranchName", "LoanAmount", "LoanNumber", "PatBranchName" , "UsedAmount" } } }
-
-                //rows = Json(loanNumbers, JsonRequestBehavior.AllowGet).ToString().ToArray()
+               
 
             };
             
+            // returning json object
             return Json(result, JsonRequestBehavior.AllowGet);
 
         }
