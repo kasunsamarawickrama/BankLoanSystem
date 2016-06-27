@@ -2507,80 +2507,96 @@ namespace BankLoanSystem.Controllers
         }
 
         /// <summary>
-        /// CreatedBy : Piyumi
-        /// CreatedDate: 2016/05/03
-        /// 
-        /// edit company
-        /// 
+        /// Frontend page: Edit Company
+        /// Title: Get company details for edit company view
+        /// Designed : Piyumi P
+        /// User story:
+        /// Developed: Piyumi P
+        /// Date created: 2016/05/03
         /// </summary>
         /// <returns></returns>
         /// 
-        
+
         public ActionResult EditCompany()
         {
+            //check user is super admin
             if (userData.RoleId == 1)
             {
-                //Get states to list
+                
                 Company cmp = new Company();
                 CompanyAccess ca = new CompanyAccess();
+                //Get states to list
                 List<State> stateList = ca.GetAllStates();
                 ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
+                //check result of update company is not null and value is 1
                 if (TempData["updateComReslt"]!=null && int.Parse(TempData["updateComReslt"].ToString()) == 1)
                 {
                     ViewBag.SuccessMsg = "Company is updated successfully";
-                    //cmp = new Company();
-                    //return View(cmp);
+                    
                 }
+                //check result of update company is not null and value is 0
                 else if (TempData["updateComReslt"] != null && int.Parse(TempData["updateComReslt"].ToString()) == 0)
                 {
                     ViewBag.ErrorMsg = "Failed to update company";
                 }
                
-               
+               //get company details of given company id
                 cmp = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
+                //check company object is not null
                 if (cmp != null)
                 {
+                    //return company object to view
                     return View(cmp);
                 }
                 else
                 {
+                    //return empty company object to view
                     cmp = new Company();
                     return View(cmp);
                 }
             }
             else
             {
+                //if user is not a super admin return to login page
                 return new HttpStatusCodeResult(404);
             }
         }
 
         /// <summary>
-        /// CreatedBy : Piyumi
-        /// CreatedDate: 2016/05/03
-        /// 
-        /// edit company - post
-        /// 
+        /// Frontend page: Edit Company
+        /// Title: Update company details
+        /// Designed : Piyumi P
+        /// User story:
+        /// Developed: Piyumi P
+        /// Date created: 05/03/2016
         /// </summary>
         /// <returns></returns>
         /// 
         [HttpPost]
         public ActionResult EditCompany(Company company)
         {
+            //check user is super admin
             if (userData.RoleId == 1)
             {
+                //set zip code 
                 company.Zip = company.ZipPre;
                 if (company.Extension != null)
                     company.Zip += "-" + company.Extension;
+                //get result of update company
                 int reslt = (new CompanyAccess().UpdateCompany(company,userData.UserId));
+                //check update result is 1
                 if(reslt == 1)
                 {
+                    //insert log data
                     Log log = new Log(userData.UserId, userData.Company_Id, 0, 0, "Edit Company", "Edit Company : " + userData.Company_Id, DateTime.Now);
 
                     int islog = (new LogAccess()).InsertLog(log);
+                    //assign result to TempData object
                     TempData["updateComReslt"] = reslt;
-
+                    //check Session["AuthenticatedUser"] is not null
                     if (Session["AuthenticatedUser"] != null)
                     {
+                        //assign updated company name to session company name 
                         ((User)Session["AuthenticatedUser"]).CompanyName = company.CompanyName;
                     }
                 }
@@ -2588,10 +2604,12 @@ namespace BankLoanSystem.Controllers
                 {
                     TempData["updateComReslt"] = 0;
                 }
+                //return to edit company view
                 return RedirectToAction("EditCompany");
             }
             else
             {
+                //if user is not super admin return to login page
                 return new HttpStatusCodeResult(404);
             }
         }
@@ -3022,28 +3040,35 @@ namespace BankLoanSystem.Controllers
         }
 
         /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate:5/4/2016
-        /// Create Partner Company
+        /// Frontend page: Create Partner Company
+        /// Title: create view of create partner company
+        /// Designed : Piyumi P
+        /// User story:
+        /// Developed: Piyumi P
+        /// Date created: 5/4/2016
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult CreatePartnerCompanyAtDashboard()
         {
+            //check user is super admin or admin
             if ((userData.RoleId == 1) ||(userData.RoleId == 2))
             {
-                //int comType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
+                //assign company type to variable
                 int comType = userData.CompanyType;
+                //company type 1 - Lender; Partner company type Dealer
+                //company type 2 - Dealer; Partner company type Lender
                 ViewBag.ThisCompanyType = (comType == 1) ? "Dealer" : "Lender";
                 CompanyAccess ca = new CompanyAccess();
+                //get all states
                 List<State> stateList = ca.GetAllStates();
                 ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
-
-                //string type = (PartnerCompanyType == 1) ? "Lender" : "Dealer";
+                //check result of create partner company is not null and 1 - success
                 if(TempData["partnerReslt"]!=null && int.Parse(TempData["partnerReslt"].ToString()) == 1)
                 {
                     ViewBag.SuccessMsg = "Partner Company Created Successfully";
                 }
+                //check result of create partner company is not null and 0 - failure
                 else if (TempData["partnerReslt"] != null && int.Parse(TempData["partnerReslt"].ToString()) == 0)
                 {
                     ViewBag.ErrorMsg = "Failed to create partner company";
@@ -3052,15 +3077,19 @@ namespace BankLoanSystem.Controllers
             }
             else
             {
+                //if user is not a super admin or admin return to login page
                 return new HttpStatusCodeResult(404);
             }
            
         }
 
         /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate:5/4/2016
-        /// Create Partner Company
+        /// Frontend page: Create Partner Company
+        /// Title: create new partner company
+        /// Designed : Piyumi P
+        /// User story:
+        /// Developed: Piyumi P
+        /// Date created: 5/4/2016
         /// </summary>
         /// <returns></returns>
         /// 
@@ -3068,42 +3097,46 @@ namespace BankLoanSystem.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult CreatePartnerCompanyAtDashboard(PartnerCompany  partnerCompany)
         {
+            //check user is super admin or admin
             if ((userData.RoleId == 1) || (userData.RoleId == 2))
             {
+                //check object is not null
                 if (partnerCompany != null)
                 {
-                    //partnerCompany.CompanyCode = (new GeneratesCode()).GenerateNonRegCompanyCode(partnerCompany.CompanyName);
+                  //set company zip code
                     partnerCompany.Zip = partnerCompany.ZipPre;
                     if (partnerCompany.Extension != null)
                         partnerCompany.Zip += "-" + partnerCompany.Extension;
+                    //assign created by property value as logged user id
                     partnerCompany.CreatedBy = userData.UserId;
+                    //assign created company type - (1-Lender, 2-Dealer)
                     partnerCompany.TypeId = (userData.CompanyType == 1) ? 2 : 1; ;
                    
                     CompanyAccess ca = new CompanyAccess();
-                    //Company regCompany = ca.GetCompanyDetailsByFirstSpUserId(userId);
-
+                 
                     partnerCompany.RegCompanyId = userData.Company_Id; //regCompany.CompanyId;  asanka
-
-                    //Company nonRegCom = partnerCompany.Company;
-                    
+                    //check result of create partner company
                     if (ca.InsertNonRegisteredCompanyAtDashboard(partnerCompany) == 1)
                     {
-
+                        //assign result to TempData object
                         TempData["partnerReslt"] = 1;
                     }
                     else
                     {
                         TempData["partnerReslt"] = 0;
                     }
+                    //return to create partner company page
                         return RedirectToAction("CreatePartnerCompanyAtDashboard");
                 }
                 else
                 {
+                    //if partner company object is null return to login page
                     return new HttpStatusCodeResult(404);
                 }
             }
             else
             {
+                //if user is not a super admin or admin return to login page
                 return new HttpStatusCodeResult(404);
             }
 
@@ -3212,103 +3245,115 @@ namespace BankLoanSystem.Controllers
 
             
         }
-    
+
 
         /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate:5/4/2016
-        /// Edit Partner Company
+        /// Frontend page: Edit Partner Company
+        /// Title: create view of Edit Partner Company
+        /// Designed : Piyumi P
+        /// User story:
+        /// Developed: Piyumi P
+        /// Date created: 5/4/2016
         /// </summary>
         /// <returns></returns>
         public ActionResult EditPartnerCompanyAtDashboard()
         {
+            //check user is super admin or admin
             if ((userData.RoleId == 1) || (userData.RoleId == 2))
             {
                 CompanyAccess ca = new CompanyAccess();
+                //get all states
                 List<State> stateList = ca.GetAllStates();
                 ViewBag.StateId = new SelectList(stateList, "StateId", "StateName");
                 PartnerCompany pc = new PartnerCompany();
+                //get all non registered companies by registered company id
                 pc.PartnerCompanyList = ca.GetNonRegCompanyDetailsByRegCompanyId2(userData.Company_Id);
+                //check partner company list is null
                 if (pc.PartnerCompanyList == null)
                 {
+                    //create empty partner company list
                     pc.PartnerCompanyList =  new List<PartnerCompany>();
                 }
-                
+                //get company type by user id
                 int comType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
-                //int comType = userData.CompanyType;
+                //company type 1(lender) - partner company type 2(dealer)
+                //company type 2(dealer) - partner company type 1(lender)
                 ViewBag.ThisCompanyType = (comType == 1) ? "Dealer" : "Lender";
-
-                //string type = (PartnerCompanyType == 1) ? "Lender" : "Dealer";
+                //check result of update partner company is null and value is 1
                 if (TempData["partnerEditReslt"] != null && int.Parse(TempData["partnerEditReslt"].ToString()) == 1)
                 {
+                    //result 1 - success
                     ViewBag.SuccessMsg = "Partner Company Updated Successfully";
                 }
+                //check result of update partner company is null and value is 0
                 else if (TempData["partnerEditReslt"] != null && int.Parse(TempData["partnerEditReslt"].ToString()) == 0)
                 {
+                    //result 0 - failure
                     ViewBag.ErrorMsg = "Failed to update partner company";
                 }
+                //return object to view
                 return View(pc);
             }
             else
             {
+                //if user is not super admin or admin return to login page
                 return new HttpStatusCodeResult(404);
             }
 
         }
 
         /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate:5/4/2016
-        /// Edit Partner Company
+        /// Frontend page: Edit Partner Company
+        /// Title: create view of Edit Partner Company
+        /// Designed : Piyumi P
+        /// User story:
+        /// Developed: Piyumi P
+        /// Date created: 5/4/2016
         /// </summary>
         /// <returns></returns>
         ///
         [HttpPost]
         public ActionResult EditPartnerCompanyAtDashboard(PartnerCompany partnerCompany)
         {
+            //check user is super admin or admin
             if ((userData.RoleId == 1) || (userData.RoleId == 2))
             {
+                //check object is not null
                 if (partnerCompany != null)
                 {
+                    //assign logged user id to created by property
                     partnerCompany.CreatedBy = userData.UserId;
+                    //assign logged user's company id to registered company id property
                     partnerCompany.RegCompanyId = userData.Company_Id;
+                    //set zip code
                     partnerCompany.Zip = partnerCompany.ZipPre;
                     if (partnerCompany.Extension != null)
                         partnerCompany.Zip += "-" + partnerCompany.Extension;
+                    //check result of update partner company is 1
                     if ( (new CompanyAccess()).UpdatePartnerCompany(partnerCompany) == 1)
                     {
                         TempData["partnerEditReslt"] = 1;
-                        //if (Session["loanDashboard"] != null)
-                        //{
-                        //    if (((Loan)Session["loanDashboard"]). == model.CompanyBranch.MainBranch.NonRegBranchId)
-                        //    {
-                        //        ((Loan)Session["loanDashboard"]).PartnerName = model.NonRegCompanyName + " - " + model.CompanyBranch.MainBranch.BranchName;
-                        //    }
-                        //}
-                        //else if (Session["LoanOne"] != null)
-                        //{
-                        //    if (((Loan)Session["LoanOne"]).NonRegBranchId == model.CompanyBranch.MainBranch.NonRegBranchId)
-                        //    {
-                        //        ((Loan)Session["LoanOne"]).PartnerName = model.NonRegCompanyName + " - " + model.CompanyBranch.MainBranch.BranchName;
-                        //    }
-                        //}
+                       
                     }
                     else
                     {
                         TempData["partnerEditReslt"] = 0;
                     }
+                    //return to edit partner company page
                     return RedirectToAction("EditPartnerCompanyAtDashboard");
                 }
                 else
                 {
+                    //if object is null return to login page
                     return new HttpStatusCodeResult(404);
                 }
             }
             else
             {
+                //if user is not super admin or admin return to login page
                 return new HttpStatusCodeResult(404);
             }
-            //return View();
+           
         }
         }
 }
