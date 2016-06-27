@@ -245,35 +245,43 @@ namespace BankLoanSystem.Controllers.Unit
             //check this posted vin unique in database
 
             int num = 0;
+            // vehile ID number
             if (unit.UnitTypeId == 1)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.vehicle.IdentificationNumber, unit.LoanId);
             }
+            // rv ID number
             else if (unit.UnitTypeId == 2)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.rv.IdentificationNumber , unit.LoanId);
 
             }
+            // camper ID number
             else if (unit.UnitTypeId == 3)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.camper.IdentificationNumber, unit.LoanId);
             }
+            // atv ID number
             else if (unit.UnitTypeId == 4)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.atv.IdentificationNumber, unit.LoanId);
             }
+            // boat ID number
             else if (unit.UnitTypeId == 5)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.boat.IdentificationNumber, unit.LoanId);
             }
+            // motorcycle ID number 
             else if (unit.UnitTypeId == 6)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.motorcycle.IdentificationNumber, unit.LoanId);
             }
+            // snowmobile ID number 
             else if (unit.UnitTypeId == 7)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.snowmobile.IdentificationNumber, unit.LoanId);
             }
+            // heavyequipment ID number 
             else if (unit.UnitTypeId == 8)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.heavyequipment.SerialNumber, unit.LoanId);
