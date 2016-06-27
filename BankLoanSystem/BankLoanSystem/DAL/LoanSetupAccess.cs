@@ -489,7 +489,6 @@ namespace BankLoanSystem.DAL
                         {
                             loanSetupStep1.loanId = Convert.ToInt32(reader["loan_id"]);
                             loanSetupStep1.advancePercentage = int.Parse(reader["advance"].ToString());
-                            //loanSetupStep1.allUnitTypes
                             loanSetupStep1.autoReminderEmail = reader["auto_remind_email"].ToString();
                             loanSetupStep1.autoReminderPeriod = int.Parse(reader["auto_remind_period"].ToString());
                             loanSetupStep1.defaultUnitType = int.Parse(reader["default_unit_type"].ToString());
@@ -497,18 +496,13 @@ namespace BankLoanSystem.DAL
                             loanSetupStep1.isInterestCalculate = Convert.ToBoolean(reader["is_interest_calculate"].ToString());
                             loanSetupStep1.loanAmount = Convert.ToDecimal(reader["loan_amount"].ToString());
                             loanSetupStep1.loanNumber = reader["loan_number"].ToString();
-                            //loanSetupStep1.loanNumberForDisplay = loanSetupStep1.loanNumber;
                             loanSetupStep1.maturityDate = Convert.ToDateTime(reader["maturity_date"].ToString());
                             loanSetupStep1.nonRegisteredBranchId = int.Parse(reader["non_reg_branch_id"].ToString());
                             loanSetupStep1.paymentMethod = reader["payment_method"].ToString();
-                            //loanSetupStep1.payOffPeriod = int.Parse(reader["pay_off_period"].ToString());
-                            //loanSetupStep1.payOffPeriodType = (Convert.ToChar(reader["pay_off_type"].ToString()) == 'd') ? 0 : 1;
-                            //loanSetupStep1.selectedUnitTypes
                             loanSetupStep1.startDate = Convert.ToDateTime(reader["start_date"].ToString());
 
                             
                             loanSetupStep1.LoanStatus = Convert.ToBoolean(reader["loan_status"]);
-                            //loanSetupStep1.RegisteredBranchId = reader["branch_id"] != null ? Convert.ToInt32(reader["branch_id"].ToString()) : 0;
                             loanSetupStep1.RegisteredBranchCode = reader["r_branch_code"].ToString();
                             loanSetupStep1.RegisteredCompanyCode = reader["company_code"].ToString();
                             if(reader["curtailment_due_date"].ToString()== "EoM") {
