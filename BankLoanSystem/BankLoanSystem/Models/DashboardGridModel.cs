@@ -25,6 +25,10 @@ namespace BankLoanSystem.Models
 
         public decimal UsedAmount { get; set; }
 
-        public string status { get; set; }
+        public int StatusId { get; set; } 
+
+        public string Status { get; set; }
+
+        public int StepNo { get; set; }
     }
 }

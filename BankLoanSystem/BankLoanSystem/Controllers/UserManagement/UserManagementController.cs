@@ -285,8 +285,7 @@ namespace BankLoanSystem.Controllers
                         }
 
 
-                        //ViewBag.CompType = (new BranchAccess()).getCompanyTypeByUserId(userData.UserId);
-                        //ViewBag.CompType 
+                        
                         return View();
                     }
                     else
@@ -421,6 +420,89 @@ namespace BankLoanSystem.Controllers
             }
 
 
+
+        }
+
+
+
+        /*
+
+      Frontend page: Dashboard page
+      Title: Get all loans and branch details and bind it to Json
+      Designed: Irfan MAM
+      User story: DFP- 437
+      Developed: Irfan MAM
+      Date created: 06/27/2016
+
+*/
+
+        public JsonResult GetLoanBranchDetails(string sidx, string sord, int page, int rows, bool _search)
+        {
+            
+            // get all branch and loan details
+            List<DashboardGridModel> dashboardGridModel = (new DashBoardAccess()).GetAllLoanBranchDetails(userData.Company_Id, userData.BranchId);
+           
+
+          
+
+            // these varibles are for JqGrid purpose
+
+            var count = dashboardGridModel.Count(); // number of rows
+            int pageIndex = page; // number of pages on the grid
+            int pageSize = rows; // maximum page sige
+            int startRow = (pageIndex * pageSize) + 1;
+            int totalRecords = count;
+            int totalPages = (int)Math.Ceiling((float)totalRecords / (float)pageSize);
+
+            // inding list to json object for jqGrid
+            var result = new
+            {
+                total = totalPages,
+                page = pageIndex,
+                records = count,
+                rows = dashboardGridModel.Select(x => new
+                {
+                    x.Id,
+                    x.BranchId,
+                    x.BranchName,
+                    x.PartnerBranchId,
+
+                    x.PartnerBranchName,
+
+
+                    x.Loanid,
+                    x.LoanNumber,
+                    x.TotalAmount,
+                    x.UsedAmount,
+                    x.StatusId,
+                    x.Status,
+                    x.StepNo
+                }
+                                         ).ToArray().Select(x => new
+                                         {
+                                             id = x.Id.ToString(),
+                                             cell = new string[] {
+                                                        x.BranchId.ToString(),
+                                                        x.BranchName,
+                                                        x.PartnerBranchId.ToString(),
+                                                        x.PartnerBranchName,
+                                                        x.Loanid.ToString(),
+                                                        x.LoanNumber,
+                                                        x.TotalAmount.ToString(), 
+                                                        x.UsedAmount.ToString(), 
+                                                        x.StatusId.ToString(),
+                                                         x.Status,
+                                                         x.StepNo.ToString()
+                                                      }
+                                         }
+                      ).ToArray()
+
+
+
+            };
+
+            // returning json object
+            return Json(result, JsonRequestBehavior.AllowGet);
 
         }
 

@@ -121,7 +121,7 @@ namespace BankLoanSystem.DAL
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>(); // argument list 
             List<DashboardGridModel> gridList = new List<DashboardGridModel>();
-            // add the rguments to list
+            // add the arguments to list
             paramertList.Add(new object[] { "@company_id", comId });
             paramertList.Add(new object[] { "@branch_id", branchId });
             try
@@ -136,18 +136,20 @@ namespace BankLoanSystem.DAL
 
                     foreach (DataRow dataRow in dataSet.Tables[0].Rows) {
                     DashboardGridModel dashboardGridModel = new DashboardGridModel();
-                    dashboardGridModel.Id = Convert.ToInt32(dataRow["branch_id"].ToString());
-                    dashboardGridModel.BranchId = Convert.ToInt32(dataRow["loan_number"].ToString());
+                    dashboardGridModel.Id = Convert.ToInt32(dataRow["number"].ToString());
+                    dashboardGridModel.BranchId = Convert.ToInt32(dataRow["branch_id"].ToString());
                     dashboardGridModel.BranchName = dataRow["branch_name"].ToString();
-                    dashboardGridModel.PartnerBranchId = Convert.ToInt32(dataRow["non_reg_branch_id"].ToString());
-                    dashboardGridModel.PartnerBranchName = dataRow["non_reg_branch_name"].ToString();
-                    dashboardGridModel.Loanid = Convert.ToInt32(dataRow["loan_id"].ToString());
+                    dashboardGridModel.PartnerBranchId = (dataRow.IsNull("non_reg_branch_id") ? -1 : Convert.ToInt32(dataRow["non_reg_branch_id"].ToString()));
+                    dashboardGridModel.PartnerBranchName = (dataRow.IsNull("non_reg_branch_name") ? "" : dataRow["non_reg_branch_name"].ToString()); 
+                    dashboardGridModel.Loanid = (dataRow.IsNull("loan_id") ? -1 : Convert.ToInt32(dataRow["loan_id"].ToString()));
 
-                    dashboardGridModel.LoanNumber = dataRow["loan_number"].ToString();
-                    dashboardGridModel.TotalAmount = Convert.ToDecimal(dataRow["loan_amount"].ToString());
-                    dashboardGridModel.UsedAmount = Convert.ToDecimal(dataRow["used_amount"].ToString());
-                    dashboardGridModel.status = dataRow["loan_status"].ToString();
-                        gridList.Add(dashboardGridModel);
+                    dashboardGridModel.LoanNumber = (dataRow.IsNull("loan_number") ? "" : dataRow["loan_number"].ToString()); 
+                    dashboardGridModel.TotalAmount = Convert.ToDecimal(dataRow.IsNull("loan_amount") ? "0.00" : dataRow["loan_amount"].ToString());
+                    dashboardGridModel.UsedAmount = Convert.ToDecimal(dataRow.IsNull("used_amount") ? "0.00": dataRow["used_amount"].ToString()); 
+                    dashboardGridModel.StatusId = Convert.ToInt32(dataRow["loan_status"].ToString());  
+                    dashboardGridModel.Status = dataRow["loan_status_text"].ToString();
+                    dashboardGridModel.StepNo = ( dataRow.IsNull("step_no") ? -1 : Convert.ToInt32(dataRow["step_no"].ToString()));
+                    gridList.Add(dashboardGridModel);
                     }
                 }
             }
