@@ -898,16 +898,17 @@ else
     });
 
     $('#btnPrint').click(function () {
-        var rptType = $('#hdnSelectedButton').val();
-        var loanId = $('#LoanId').val();
-        var range1 = $('#startDate').val();
-        var range2 = $('#endDate').val();
-        var titleStatus = $('#titleStatus').val();
+        //Filtering section
+        var rptType = $('#hdnSelectedButton').val(); //report name
+        var loanId = $("#loanId").val(); //loan id
+        var range1 = $('#startDate').val(); //Begin date
+        var range2 = $('#endDate').val(); //End date
+        var titleStatus = $('#titleStatus').val(); //Title status
 
-        alert(rptType + ' ' + loanId + ' ' + ' ' + range1 + ' ' + titleStatus);
-
+        //Create and store report path
         var url = '/Reports/PrintPage?rptType=' + rptType + '&loanId=' + loanId + '&range1=' + range1 + '&range2=' + range2 + '&titleStatus=' + titleStatus;
 
+        //open report in a new page
         var win = window.open(url, '_blank');
         win.focus();
     });

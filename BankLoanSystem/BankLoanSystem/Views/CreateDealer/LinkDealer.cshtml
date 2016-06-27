@@ -760,7 +760,7 @@
 <div id="PopupDiv">
     <div class="overlay-bg">
     </div>
-    <div class="overlay-content popupRpt" style="width:auto;text-align:center;margin-left: 105px;">
+    <div class="overlay-content popupRpt" style="width:auto;text-align:center;margin-left: -160px;">
         <h3 id="textForPopup"></h3>
         <div style="padding:10px;">
             <label>Description</label>
@@ -771,7 +771,10 @@
         <div style="padding:10px;">
             <label>Example</label>
         </div>
-        <button class="close-btn btn btn-info" style="margin-left: 700px;">Close</button>
+        <div style="padding: 10px;">
+            <img src="@Url.Content("../Reports/SampleReports/AdvanceFeeInv.JPG")" onclick="window.open(this.src)" alt="Image" style="max-width: 1500px;max-height: 500px;width:1225px" /><p>AdvanceFeeInv.JPG</p>@Html.ActionLink("download", "Download", new { imagePath = "../Reports/SampleReports/AdvanceFeeInv.JPG" })
+        </div>
+        <button class="close-btn btn btn-info" style="margin-left: 1161px;">Close</button>
     </div>
 
 </div>
