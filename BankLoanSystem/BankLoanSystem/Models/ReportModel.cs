@@ -50,6 +50,7 @@ namespace BankLoanSystem.Models
         public string PatBranchName { get; set; }
         public decimal LoanAmount { get; set; }
         public decimal UsedAmount { get; set; }
+        public int ActiveUnits { get; set; }
     }
 
     public class UserRights
@@ -208,6 +209,7 @@ namespace BankLoanSystem.Models
 
     public class RptLoanSummary
     {
+        public decimal LoanAmount { get; set; }
         public int TotalUnitsAdded { get; set; }
         public int TotalUnitsAdvanced { get; set; }
         public decimal TotalAmountAdvanced { get; set; }

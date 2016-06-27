@@ -36,38 +36,47 @@ namespace BankLoanSystem.DAL
         }
 
 
-        /// Created By: MAM Irfan
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        /// 
-        public List<Account> GetAccountDetails(int companyId, int userRole)
+        /*
+
+    Frontend page: Report Page
+    Title: Get active account details of (Super Admin/ Admin)
+    Designed: Irfan Mam
+    User story: DFP-446
+    Developed: Irfan MAM
+    Date created: 6/23/2016
+
+*/
+
+        public List<Account> GetAccountDetails(int companyIdORBranchId, int userRole)
         {
-            List<Account> loanNumbers = new List<Account>();
+            List<Account> Accounts = new List<Account>();
 
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
-            paramertList.Add(new object[] { "@comp_or_branch_id", companyId });
+
+            // if user is super admin pass company id for companyIdORBranchId
+            // if user is a admin pass  branch id for companyIdORBranchId
+            paramertList.Add(new object[] { "@comp_or_branch_id", companyIdORBranchId });
             paramertList.Add(new object[] { "@user_role", userRole });
 
-
+            // calling stored procedure
             DataSet dataSet = dataHandler.GetDataSet("GetAccountDetailsByUserRole", paramertList);
 
+            // biding data to list
             if (dataSet != null && dataSet.Tables.Count != 0)
             {
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    Account loanNumber = new Account();
-                    loanNumber.LoanId = Convert.ToInt32(dataRow["loan_id"]);
-                    loanNumber.BranchId = Convert.ToInt32(dataRow["branch_id"]);
-                    loanNumber.LoanNumber = dataRow["loan_number"].ToString();
-                    loanNumber.BranchName = dataRow["branch_name"].ToString();
-                    loanNumber.PatBranchName = dataRow["nr_branch_name"].ToString();
-                    loanNumber.LoanAmount = Convert.ToDecimal(dataRow["loan_amount"].ToString());
-                    loanNumber.UsedAmount = Convert.ToDecimal(dataRow["used_amount"].ToString());
-                    loanNumbers.Add(loanNumber);
+                    Account account = new Account();
+                    account.LoanId = Convert.ToInt32(dataRow["loan_id"]);
+                    account.BranchId = Convert.ToInt32(dataRow["branch_id"]);
+                    account.LoanNumber = dataRow["loan_number"].ToString();
+                    account.BranchName = dataRow["branch_name"].ToString();
+                    account.PatBranchName = dataRow["nr_branch_name"].ToString();
+                    account.LoanAmount = Convert.ToDecimal(dataRow["loan_amount"].ToString());
+                    account.UsedAmount = Convert.ToDecimal(dataRow["used_amount"].ToString());
+                    account.ActiveUnits = Convert.ToInt32(dataRow["active_units"]);
+                    Accounts.Add(account);
                   
                 }
 
@@ -75,8 +84,8 @@ namespace BankLoanSystem.DAL
             }
 
           
-
-            return loanNumbers;
+            // returning the List of account details of relevant user (Super Admin/ Admin)
+            return Accounts;
         }
 
         public List<UserRights> GeUserRightsForReporting(int userId)
@@ -1066,6 +1075,8 @@ namespace BankLoanSystem.DAL
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     RptLoanSummary loanSummary = new RptLoanSummary();
+
+                    loanSummary.LoanAmount = dataRow["LoanAmount"] != DBNull.Value ? Convert.ToDecimal(dataRow["LoanAmount"].ToString()) : 0.00M;
                     loanSummary.TotalUnitsAdded = int.Parse(dataRow["TotalUnitsAdded"].ToString());
                     loanSummary.TotalUnitsAdvanced = int.Parse(dataRow["TotalUnitsAdvanced"].ToString());
                     loanSummary.TotalAmountAdvanced = dataRow["TotalAmountAdvanced"] != DBNull.Value ? Convert.ToDecimal(dataRow["TotalAmountAdvanced"].ToString()) :0.00M;

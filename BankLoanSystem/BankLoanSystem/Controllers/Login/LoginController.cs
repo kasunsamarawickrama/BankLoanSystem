@@ -97,6 +97,7 @@ namespace BankLoanSystem.Controllers
         {
             try
             {
+                //string ip = Request.UserHostAddress;
                 DataSet dsUser = new DataSet();
                 var login = new LoginAccess();
                 var step = new StepAccess();

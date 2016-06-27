@@ -28,13 +28,29 @@
         }
 
         #page-wrapper {
-            min-height: 930px;
+            min-height: 568px;
             padding: 0 36px;
             float: none !important;
             /* position: relative !important; */
             margin: auto !important;
         }
-    </style>}
+        #rights > input{
+             float:unset;
+             margin-right:10px;
+
+             width:17px;
+             height:17px;
+         }
+
+        #rights{
+            text-align:left;
+            font-size:14px;
+            font-weight:normal;
+            color:#545454;
+            width:400%;
+        }
+    </style>
+    }
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 
 @*<script src="~/scripts/bootstrap.min.js"></script>*@
@@ -45,7 +61,7 @@
 <script src="~/scripts/moment.js"></script>
 <script src="~/scripts/pikaday.js"></script>*@
 
-<link href="~/Content/commonActions.css" rel="stylesheet" />
+
 
 @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
 }
@@ -220,6 +236,42 @@
                                                     <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })</p>
                                                 </div>
                                             </div>
+                                            <div id="rightDiv">
+                                                <div class="form-group new_form_group">
+                                                    <div class="control-label col-sm-2 lable_style">
+                                                        <label>Select Reports Rights</label>
+                                                    </div>
+                                                    <div class="col-xs-8 ">
+                                                        @if (Model.ReportRightsList.Count > 0)
+                                                        {
+                                                            @*<table style="width: 100%;" class="table_style">*@
+                                                                <div class="col-sm-7">
+
+                                                                    <div id="rights">
+                                                                        @Html.CheckBox("selectAll", new { @class = "All", @id = "CheckAll" })
+                                                                        @Html.Label("All")
+                                                                        <br />
+                                                                        @for (var i = 0; i < Model.ReportRightsList.Count; i++)
+                    {
+                                                                            <div id="rights">
+
+                                                                                @Html.HiddenFor(x => x.ReportRightsList[i].rightId)
+                                                                                @Html.CheckBoxFor(x => x.ReportRightsList[i].active, new { @class = "All", @id = i + 1 })
+                                                                                @Html.Label(Model.ReportRightsList[i].name)
+                                                                                <a onclick="ViewDetails(@i)" id="Description">View Details</a>
+                                                                                
+                                                                            </div>
+                                                                            
+                                                                        }
+                                                                    </div>
+                                                                    <div id="checkBoxMessage" class="text-danger"><span></span></div>
+                                                                </div>
+                                                                @*</table>*@
+                                                                }
+                                                    </div>
+                                                </div>
+
+                                            </div>
                                           
                                             <hr />
 
@@ -296,7 +348,7 @@
                                                                 <input value="Dashboard" name="subBack" id="btnPreStep3" class="btn btn-primary m-b cancel next_clear_button back_back" tabindex="-1" style="margin-left: 10px" type="button" onclick="window.location.href='/UserManagement/UserDetails'">
                                                             </div>
                                                             <div class="button_box algn_center">
-                                                                <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit">
+                                                                <input value="Create" class="btn btn-primary m-b next_clear_button next_back" style="margin-left:10px" type="submit" id="btnCreateDealer">
                                                             </div>
                                                             <div class="button_box algn_right">
                                                                 <input id="clear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
@@ -357,7 +409,24 @@
 <script src="~/scripts/CommonFunctions.js"></script>
 
 <script>
+    $('#btnCreateDealer').click(function(){
+        checked = $("input[type=checkbox]:checked").length;
 
+        if (!checked) {
+            //alert("You must check at least one checkbox.");
+            $('#checkBoxMessage span').text("please select at least one right.");
+            e.preventDefault();
+        }
+    });
+    function ViewDetails(rightId){
+        //alert(rightId);
+        var model = @Html.Raw(Json.Encode(Model));
+        $('#PopupDiv').show();
+        showPopup('Rpt');
+        $('#textForPopup').text(model.ReportRightsList[rightId].name);
+        $('#desLbl').text(model.ReportRightsList[rightId].description);
+
+    };
     $('#JDUser').change(function () {
         var ind = $('#JDUser').val();
         if(ind>0){
@@ -375,7 +444,7 @@
                 //else{
                 //   // $('#DivEmailJD').hide();
                 //}
-              
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 // Your handler here...
@@ -387,7 +456,7 @@
             }
         });
         }
-        
+
     });
     function GetEmail(ind) {
         if (ind > 0) {
@@ -440,6 +509,9 @@
         $('#txtPhoneNumber').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtPhoneNumber').next("div").children("p").children("span").text("");
 
+        //clear check box values
+        $('.All').prop('checked',false);
+        $('#checkBoxMessage span').text("");
         $('#successSpn span').text("");
         $('#errSpn span').text("");
 
@@ -637,8 +709,116 @@
         $('#successSpn span').text("");
         $('#errSpn span').text("");
     }
+    $(function () {
+        $('#CheckAll').on('change', function () {
+            $('#checkBoxMessage span').text("");
+            if ($(this).is(':checked')) {
+                //alert('checked');
+                $('#checkBoxMessage span').text("");
+                $('.All').prop('checked', true);
 
+            }
+            else {
+                //alert('unchecked');
+                $('.All').prop('checked', false);
+            }
+        });
+        //$('.All').on('change', function () {
+        //    $('#checkBoxMessage span').text("");
+
+        //});
+    });
+    $(function () {
+        $('.All').on('change', function () {
+            $('#checkBoxMessage span').text("");
+            checkAll();
+        });
+    });
+    function checkAll(){
+        var model = @Html.Raw(Json.Encode(Model));
+        var len = model.ReportRightsList.length;
+        var count =0;
+        for (var j = 0 ; j < model.ReportRightsList.length; j++){
+            var str = '#'+(j+1);
+            if ($(str).is(':checked')) {
+                //alert('checked');
+                count++;
+            }
+        }
+        if( count === len){
+            $('#CheckAll').prop('checked', true);
+        }
+        
+        else{
+            $('#CheckAll').prop('checked', false);
+        }
+        $('#successSpn span').text("");
+        $('#errSpn span').text("");
+    };
 </script>
 
+<div id="PopupDiv">
+    <div class="overlay-bg">
+    </div>
+    <div class="overlay-content popupRpt" style="width:auto;text-align:center;margin-left: 105px;">
+        <h3 id="textForPopup"></h3>
+        <div style="padding:10px;">
+            <label>Description</label>
+        </div>
+        <div style="padding:10px;">
+            <label id="desLbl"></label>
+        </div>
+        <div style="padding:10px;">
+            <label>Example</label>
+        </div>
+        <button class="close-btn btn btn-info" style="margin-left: 700px;">Close</button>
+    </div>
+
+</div>
+
+<script>
+
+    // function to show our popups
+    function showPopup(whichpopup) {
+        var docHeight = $(document).height(); //grab the height of the page
+        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+        $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+    }
+
+    // function to close our popups
+    function closePopup() {
+        $('.overlay-bg, .overlay-content').hide(); //hide the overlay
+    }
+
+    // timer if we want to show a popup after a few seconds.
+    //get rid of this if you don't want a popup to show up automatically
+    // setTimeout(function() {
+    // Show popup3 after 2 seconds
+    //    showPopup(3);
+    // }, 2000);
 
 
+    // show popup when you click on the link
+    $('.show-popup').click(function (event) {
+        //event.preventDefault(); // disable normal link function so that it doesn't refresh the page
+        var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
+
+        showPopup(selectedPopup); //we'll pass in the popup number to our showPopup() function to show which popup we want
+    });
+
+    // hide popup when user clicks on close button or if user clicks anywhere outside the container
+    $('.close-btn, .overlay-bg').click(function () {
+        closePopup();
+    });
+
+    // hide the popup when user presses the esc key
+    $(document).keyup(function (e) {
+        if (e.keyCode == 27) { // if user presses esc key
+            closePopup();
+        }
+    });
+
+
+
+</script>
