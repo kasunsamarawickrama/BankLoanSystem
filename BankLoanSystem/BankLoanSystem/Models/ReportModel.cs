@@ -51,6 +51,9 @@ namespace BankLoanSystem.Models
         public decimal LoanAmount { get; set; }
         public decimal UsedAmount { get; set; }
         public int ActiveUnits { get; set; }
+        public string PatBranchAddress1 { get; set; }
+        public string PatBranchAddress2 { get; set; }
+        public string PatCity { get; set; }
     }
 
     public class UserRights

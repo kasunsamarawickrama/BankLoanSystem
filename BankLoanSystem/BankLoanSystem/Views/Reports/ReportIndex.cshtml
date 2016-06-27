@@ -39,7 +39,7 @@
 
     .btn-info1{
         color:black;
-        background-color:#b1adad;
+        background-color:#d9d9d9;
         border-color:#8e8a8a;
 
     }
@@ -65,7 +65,7 @@
     {
        
         <div style="padding-left:12px;padding-right:12px;padding-bottom: 10px;text-align:left">
-            <label>Select a loan then choose a report to display</label>
+            <label><strong> Select a loan then choose a report to display </strong></label>
             <table id="grid"></table>
             <div id="pager2"></div>
         </div>
@@ -217,7 +217,7 @@ else
     function ChangeButtonColor(id) {
         $('.centered h5 span').text("");
         $(id).css({ 'background': 'green' });
-        $('#divRptType').children('button').not(id).css({ 'background': '#b1adad' });
+        $('#divRptType').children('button').not(id).css({ 'background': '#d9d9d9' });
         $('#reportViewerDiv').hide();
         $('#btnPrint').hide();
         $('#LoanId').removeClass('input-validation-error');
@@ -951,7 +951,7 @@ else
             contentType: "application/json; charset-utf-8",
             mtype: 'GET',
             colNames: ['Branch Name', 'Partner Branch Name', 'Loan Number',
-             'Loan Amount', 'Used Amount', 'No. of Active Units'],
+             'Loan Amount', 'Used Amount', 'No. of Active Units', 'PatBranchAddress1', 'PatBranchAddress2', 'PatCity'],
             colModel: [
                  { name: 'BranchName', index: 'BranchName', width: 194 },
 
@@ -973,7 +973,13 @@ else
                   {
                       name: 'ActiveUnits', index: 'ActiveUnits', width: 114,
                       align: "right", sorttype: 'int'
-                  }
+                  },
+
+                   { name: 'PatBranchAddress1', index: 'PatBranchAddress1', width: 194, hidden: true },
+
+                    { name: 'PatBranchAddress2', index: 'PatBranchAddress2', width: 194, hidden: true },
+
+                     { name: 'PatCity', index: 'PatCity', width: 194, hidden: true }
 
             ],
 
@@ -1001,7 +1007,7 @@ else
                 @if ((Loan)Session["loanDashboard"] != null)
     {
         <text>
-                if (isFirstTime == 0){ 
+                if (isFirstTime == 0){
                 var ids = $("#grid").jqGrid("getDataIDs");
                 if (ids.length > 0) {
                     $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
@@ -1026,7 +1032,7 @@ else
             contentType: "application/json; charset-utf-8",
             mtype: 'GET',
             colNames: ['Branch Name', 'Partner Branch Name', 'Loan Number',
-                 'Loan Amount', 'Used Amount', 'No. of Active Units'],
+                 'Loan Amount', 'Used Amount', 'No. of Active Units', 'PatBranchAddress1', 'PatBranchAddress2', 'PatCity'],
             colModel: [
                      { name: 'BranchName', index: 'BranchName', width: 194, hidden: true },
 
@@ -1048,7 +1054,13 @@ else
                       {
                           name: 'ActiveUnits', index: 'ActiveUnits', width: 150,
                           align: "right", sorttype: 'int'
-                      }
+                      },
+
+                       { name: 'PatBranchAddress1', index: 'PatBranchAddress1', width: 194, hidden: true },
+
+                    { name: 'PatBranchAddress2', index: 'PatBranchAddress2', width: 194, hidden: true },
+
+                     { name: 'PatCity', index: 'PatCity', width: 194, hidden: true }
 
             ],
 
@@ -1075,7 +1087,7 @@ else
                 @if ((Loan)Session["loanDashboard"] != null)
         {
            <text>
-                if (isFirstTime == 0) { 
+                if (isFirstTime == 0) {
                 var ids = $("#grid").jqGrid("getDataIDs");
                 if (ids.length > 0) {
                     $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
@@ -1098,20 +1110,44 @@ else
     jQuery("#grid").jqGrid('navGrid', '#pager2',
             { edit: false, add: false, del: false });
 
+
+
+        //Frontend page: Report Page
+        //Title:   when user click the row on grid .. Set the loan to view , change loan details on top of the page and remove error
+        //Designed: Irfan Mam
+        //User story: DFP-468
+        //Developed: Irfan MAM
+        //Date created: 6/24/2016
+
         // set the loan id of selected row if one row click
         $(document).on('click', '.ui-row-ltr', function () {
 
-            var id = jQuery("#grid").jqGrid('getGridParam', 'selrow');
-            $("#loanId").val(id);
+
+            var myGrid = jQuery("#grid"); // select grid
+            var id = myGrid.jqGrid('getGridParam', 'selrow'); // take the selected loan from that grid
+
+            var currentLoan = $("#loanId").val(); // take current loan selected
+
+            // if user change the loan
+            if (currentLoan != id) {
+                $("#loanId").val(id); // set the loan
 
 
-            var rptType = $('#hdnSelectedButton').val();
+                // change the loan detail bar on top the page
+                LoanNumber = myGrid.jqGrid('getCell', id, 'LoanNumber'); // take loan number from selected loan
+                PatBranchName = myGrid.jqGrid('getCell', id, 'PatBranchName');   // take Parner branch name from selected loan
+                PatBranchAddress1 = myGrid.jqGrid('getCell', id, 'PatBranchAddress1'); // take Parner branch address1 from selected loan
+                PatBranchAddress2 = myGrid.jqGrid('getCell', id, 'PatBranchAddress2');  // take Parner branch address2 from selected loan
+                City = myGrid.jqGrid('getCell', id, 'PatCity');  // take Parner city from selected loan
 
-            if (rptType === 'FullInventory' || rptType === 'LotInspection')
-                $('.centered h5 span').text("");
-            else if (rptType === 'TitlesStatus') {
-                if (this.value !== '' && $("#titleStatus option:selected").index() !== 0)
-                    $('.centered h5 span').text("");
+                PatBranchAddress = PatBranchAddress1 + (PatBranchAddress2 != "" ? ', ' + PatBranchAddress2 : '') + (City != "" ? ', ' + City : ''); // combine address using name, address1, address2 and city
+
+                // set the address on the bar
+                $('#Pataddress').html('<span class="parbranchname">' + PatBranchName + '</span> -  <span class="parbarnchaddress">' + PatBranchAddress + '</span>  ');
+                // set the loan number on the bar
+                $('.loanumber').html('<strong>Loan Number : &nbsp; </strong> ' + LoanNumber);
+
+
             }
 
 

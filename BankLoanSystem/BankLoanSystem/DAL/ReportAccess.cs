@@ -76,6 +76,9 @@ namespace BankLoanSystem.DAL
                     account.LoanAmount = Convert.ToDecimal(dataRow["loan_amount"].ToString());
                     account.UsedAmount = Convert.ToDecimal(dataRow["used_amount"].ToString());
                     account.ActiveUnits = Convert.ToInt32(dataRow["active_units"]);
+                    account.PatBranchAddress1 = dataRow["branch_address_1"].ToString();
+                    account.PatBranchAddress2 = dataRow["branch_address_2"].ToString();
+                    account.PatCity = dataRow["city"].ToString();
                     Accounts.Add(account);
 
                 }
