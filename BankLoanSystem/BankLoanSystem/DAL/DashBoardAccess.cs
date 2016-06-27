@@ -62,9 +62,10 @@ namespace BankLoanSystem.DAL
 
 
         /// <summary>
-        /// Associated page:    dashboard page
+        /// Frontend page:    dashboard page
         /// title:              checking is atleast one permission for report access
         /// designed:           irfan mam
+        /// User story:         DFP 442
         /// developed:          irfan mam
         /// date creaed:        6/23/2016
         /// 
@@ -77,15 +78,18 @@ namespace BankLoanSystem.DAL
         public bool IsAtleastOnePermissionForReport( int userId)
         {
 
-            bool ret = false;
-            DataHandler dataHandler = new DataHandler();
-            List<object[]> paramertList = new List<object[]>();
+            bool ret = false; // set ret value false as default 
+            DataHandler dataHandler = new DataHandler(); 
+            List<object[]> paramertList = new List<object[]>(); // argument list
            
+            // add user id to argument list
             paramertList.Add(new object[] { "@user_id", userId });
             try
             {
+                // if stored proceture return 1
                 if( dataHandler.ExecuteSQLReturn("isAtleastOnePermissionForReport", paramertList)== 1)
                 {
+                    // set return value to true
                     ret = true;
                 }
             }
@@ -93,9 +97,67 @@ namespace BankLoanSystem.DAL
             {
                 throw ex;
             }
+
+            // return the ret value
             return ret;
 
 
+        }
+
+
+        /// <summary>
+        /// Frontend page:    dashboard page
+        /// title:              getting all loans and branch details
+        /// designed:           irfan mam
+        /// User story:         DFP 437
+        /// developed:          irfan mam
+        /// date creaed:        6/27/2016
+        /// 
+        /// </summary>
+        /// 
+        public List<DashboardGridModel> GetAllLoanBranchDetails(int comId, int branchId)
+        {
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>(); // argument list 
+            List<DashboardGridModel> gridList = new List<DashboardGridModel>();
+            // add the rguments to list
+            paramertList.Add(new object[] { "@company_id", comId });
+            paramertList.Add(new object[] { "@branch_id", branchId });
+            try
+            {
+
+                // execute stored procedure and get data list
+                DataSet dataSet = dataHandler.GetDataSet("spGetFullDetailsforLoan", paramertList);
+                
+                // if data exists, bind it to a list
+                if (dataSet != null && dataSet.Tables.Count != 0)
+                {
+
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows) {
+                    DashboardGridModel dashboardGridModel = new DashboardGridModel();
+                    dashboardGridModel.Id = Convert.ToInt32(dataRow["branch_id"].ToString());
+                    dashboardGridModel.BranchId = Convert.ToInt32(dataRow["loan_number"].ToString());
+                    dashboardGridModel.BranchName = dataRow["branch_name"].ToString();
+                    dashboardGridModel.PartnerBranchId = Convert.ToInt32(dataRow["non_reg_branch_id"].ToString());
+                    dashboardGridModel.PartnerBranchName = dataRow["non_reg_branch_name"].ToString();
+                    dashboardGridModel.Loanid = Convert.ToInt32(dataRow["loan_id"].ToString());
+
+                    dashboardGridModel.LoanNumber = dataRow["loan_number"].ToString();
+                    dashboardGridModel.TotalAmount = Convert.ToDecimal(dataRow["loan_amount"].ToString());
+                    dashboardGridModel.UsedAmount = Convert.ToDecimal(dataRow["used_amount"].ToString());
+                    dashboardGridModel.status = dataRow["loan_status"].ToString();
+                        gridList.Add(dashboardGridModel);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            // retun=rn the list of loan branch details
+            return gridList;
         }
 
 
