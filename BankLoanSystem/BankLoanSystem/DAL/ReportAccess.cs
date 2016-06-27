@@ -1078,6 +1078,8 @@ namespace BankLoanSystem.DAL
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     RptLoanSummary loanSummary = new RptLoanSummary();
+
+                    loanSummary.LoanAmount = dataRow["LoanAmount"] != DBNull.Value ? Convert.ToDecimal(dataRow["LoanAmount"].ToString()) : 0.00M;
                     loanSummary.TotalUnitsAdded = int.Parse(dataRow["TotalUnitsAdded"].ToString());
                     loanSummary.TotalUnitsAdvanced = int.Parse(dataRow["TotalUnitsAdvanced"].ToString());
                     loanSummary.TotalAmountAdvanced = dataRow["TotalAmountAdvanced"] != DBNull.Value ? Convert.ToDecimal(dataRow["TotalAmountAdvanced"].ToString()) :0.00M;

@@ -909,6 +909,8 @@ else
         var range2 = $('#endDate').val();
         var titleStatus = $('#titleStatus').val();
 
+        alert(rptType + ' ' + loanId + ' ' + ' ' + range1 + ' ' + titleStatus);
+
         var url = '/Reports/PrintPage?rptType=' + rptType + '&loanId=' + loanId + '&range1=' + range1 + '&range2=' + range2 + '&titleStatus=' + titleStatus;
 
         var win = window.open(url, '_blank');
