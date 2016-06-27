@@ -7,7 +7,21 @@
 @using System.Globalization;
 
 
+<style>
+    .parbranchname{
+        max-width:39%;display: inline-flex;
+    text-align: left;padding-right: 5px;
+    }
 
+    .parbarnchaddress{
+        width:35%;display: inline-flex;text-align: left;padding-left: 5px; 
+    }
+
+    .loanumber{
+        display:inline-flex;width:30%;text-align:left;
+    }
+
+</style>
 
 
 
@@ -17,14 +31,17 @@
 
             <div class="address" style="text-align:left">
                 <div style="display:inline-flex;width:40%;text-align:left;padding-left:5px;">
-                    <strong>@ViewBag.loanCompanyType :</strong>&nbsp;  @if (ViewBag.NonRegBranchName != null) { <span style="max-width:39%;display: inline-flex;
-    text-align: left;padding-right: 5px;">@ViewBag.NonRegBranchName  </span> { char a = '-'; @a}  <span style="width:35%;display: inline-flex;text-align: left;padding-left: 5px; ">  @ViewBag.loanBranchAddress</span>}
+                    <strong>@ViewBag.loanCompanyType :</strong>&nbsp; <span id="Pataddress">
+    @if (ViewBag.NonRegBranchName != null)
+                    { <span class="parbranchname">@ViewBag.NonRegBranchName</span> {
+                            char a = '-'; @a}  <span class="parbarnchaddress">  @ViewBag.loanBranchAddress</span>}
+                </span> 
          </div>
 
 
 
 
-        <div style="display:inline-flex;width:30%;text-align:left"><strong>Loan Number : </strong>&nbsp;  @ViewBag.LoanNumber </div>
+        <div class="loanumber"><strong>Loan Number : &nbsp; </strong>  @ViewBag.LoanNumber </div>
 
 
 

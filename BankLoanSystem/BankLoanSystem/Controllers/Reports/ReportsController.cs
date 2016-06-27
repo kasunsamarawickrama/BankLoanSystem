@@ -210,7 +210,10 @@ namespace BankLoanSystem.Controllers.Reports
                    
                    
                     x.UsedAmount,
-                    x.ActiveUnits
+                    x.ActiveUnits,
+                    x.PatBranchAddress1,
+                    x.PatBranchAddress2,
+                    x.PatCity
                 }
                                          ).ToArray().Select(x => new
                                          {
@@ -221,7 +224,10 @@ namespace BankLoanSystem.Controllers.Reports
                                                         x.LoanNumber.ToString(),
                                                         x.LoanAmount.ToString(),
                                                         x.UsedAmount.ToString(),
-                                                        x.ActiveUnits.ToString()
+                                                        x.ActiveUnits.ToString(),
+                                                        x.PatBranchAddress1,
+                                                        x.PatBranchAddress2,
+                                                        x.PatCity
                                                       }
                                          }
                       ).ToArray()
