@@ -68,6 +68,7 @@ namespace BankLoanSystem.Models
 
     public class LoanDetailsRpt
     {
+        public string CreaterName { get; set; }
         public string CompanyName { get; set; }
         public string LenderBrnchName { get; set; }
         public string DealerBrnchName { get; set; }
