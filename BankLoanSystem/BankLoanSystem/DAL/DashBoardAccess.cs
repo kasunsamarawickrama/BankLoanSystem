@@ -106,7 +106,7 @@ namespace BankLoanSystem.DAL
 
 
         /// <summary>
-        /// Frontend page:    dashboard page
+        /// Frontend page:      dashboard page
         /// title:              getting all loans and branch details
         /// designed:           irfan mam
         /// User story:         DFP 437
@@ -156,7 +156,7 @@ namespace BankLoanSystem.DAL
                 throw ex;
             }
 
-            // retun=rn the list of loan branch details
+            // return the list of loan branch details
             return gridList;
         }
 
