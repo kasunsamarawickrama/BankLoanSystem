@@ -514,6 +514,7 @@ margin-left:1%;
     <div class="overlay-bg">
     </div>
     <div class="overlay-content popupRpt2" style="width:auto;text-align:center;margin-left: 105px;">
+        <div class="close-pop icon-cross" style="float: right;font-size: 23px;"></div>
         <h3 id="textForPopup"></h3>
         <div style="padding:10px;">
             <label>Description</label>
@@ -524,7 +525,7 @@ margin-left:1%;
         <div style="padding:10px;">
             <label>Example</label>
         </div>
-        <button class="close-btn btn btn-info" style="margin-left: 700px;">Close</button>
+        <input type="button" class="close-btn btn btn-info" value="Close" style="margin-left: 700px;"/>
     </div>
 
 </div>
@@ -561,7 +562,7 @@ margin-left:1%;
     });
 
     // hide popup when user clicks on close button or if user clicks anywhere outside the container
-    $('.close-btn, .overlay-bg').click(function () {
+    $('.close-btn, .overlay-bg ,.close-pop').click(function () {
         closePopup();
     });
 

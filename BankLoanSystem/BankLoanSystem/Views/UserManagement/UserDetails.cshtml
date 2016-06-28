@@ -329,6 +329,24 @@
             </button>
             }
 
+            @using (Ajax.BeginForm(
+                "Selectloan",
+                "UserManagement", new { type = "tcaninaol" },
+                new AjaxOptions
+                {
+                    OnFailure = "handleError",
+                    HttpMethod = "GET",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "selcet-panel",
+                    LoadingElementId = "loadingSpan"
+                }, new { style = "display:inline-block" }))
+            {
+                <button type="submit" class="a_demo_three icon-clipboard show-popup" data-showpopup="1">
+
+                    Deactivate Loan
+                </button>
+            }
+
             <button class="a_demo_three icon-user-tie"  onclick="window.location.href='/UserManagement/EditPartnerCompanyAtDashboard'" >
                 
                 Edit Partner Company
