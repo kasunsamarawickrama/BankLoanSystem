@@ -1695,8 +1695,8 @@ namespace BankLoanSystem.Controllers
         [ActionName("UserRequestMessage")]
         public ActionResult UserRequestMessagePost(UserRequest userReq)
         {
-            if (this.Session["CaptchaImageText"].ToString() == userReq.captcha)
-            {
+            //if (this.Session["CaptchaImageText"].ToString() == userReq.captcha)
+            //{
                 string loancod = "";
                 string page_nam = "";
                 userReq.company_id = userData.Company_Id;
@@ -1742,12 +1742,12 @@ namespace BankLoanSystem.Controllers
                     ViewBag.SuccessMsg = "Error Occured";
                     return RedirectToAction("UserRequestMessage");
                 }
-            }
-            else {
-                TempData["message"] = userReq.message;
-                TempData["topic"] = userReq.message;
-                return RedirectToAction("UserRequestMessage");
-            }
+            //}
+            //else {
+            //    TempData["message"] = userReq.message;
+            //    TempData["topic"] = userReq.message;
+            //    return RedirectToAction("UserRequestMessage");
+            //}
 
 
            
