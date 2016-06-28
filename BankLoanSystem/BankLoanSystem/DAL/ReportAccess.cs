@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Web.Mvc;
 using BankLoanSystem.Models;
 
@@ -125,12 +126,45 @@ namespace BankLoanSystem.DAL
             Date created: 
 
         */
+
+        public List<LoanDetailsRpt> TopHeaderDetails(int loanId, int userId)
+        {
+            List<LoanDetailsRpt> loanDetails = new List<LoanDetailsRpt>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@loan_id", loanId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetTopHeaderDetailsRpts", paramertList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    LoanDetailsRpt details = new LoanDetailsRpt();
+
+                    details.CreaterName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(dataRow["first_name"] + " " + dataRow["last_name"]);
+                    details.LenderBrnchName = dataRow["branch_name"].ToString();
+                    details.DealerBrnchName = dataRow["nr_branch_name"].ToString();
+                    details.LoanNumber = dataRow["loan_number"].ToString();
+
+                    loanDetails.Add(details);
+
+                    break;
+                }
+            }
+
+            return loanDetails;
+        }
+
         public List<LoanDetailsRpt> GetLoanDetailsRpt(int loanId)
         {
             List<LoanDetailsRpt> loanDetails = new List<LoanDetailsRpt>();
 
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
+            //paramertList.Add(new object[] { "@user_id", userId });
             paramertList.Add(new object[] { "@loan_id", loanId });
 
             DataSet dataSet = dataHandler.GetDataSet("spGetLoanDetailsByLoanIdRpts", paramertList);
@@ -141,7 +175,7 @@ namespace BankLoanSystem.DAL
                 {
                     LoanDetailsRpt details = new LoanDetailsRpt();
 
-                    details.CreaterName = dataRow["first_name"] + " " + dataRow["last_name"];
+                    
                     details.LenderBrnchName = dataRow["branch_name"].ToString();
                     details.DealerBrnchName = dataRow["nr_branch_name"].ToString();
                     details.LoanNumber = dataRow["loan_number"].ToString();

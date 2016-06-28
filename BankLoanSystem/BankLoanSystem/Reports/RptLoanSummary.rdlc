@@ -440,8 +440,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>3.91266cm</Top>
-        <Left>1.05516cm</Left>
+        <Top>4.433cm</Top>
+        <Left>5.55196cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>13</ZIndex>
@@ -470,8 +470,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>5.07104cm</Top>
-        <Left>1.05516cm</Left>
+        <Top>5.59138cm</Top>
+        <Left>5.55196cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>14</ZIndex>
@@ -500,8 +500,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>6.26456cm</Top>
-        <Left>1.05516cm</Left>
+        <Top>6.7849cm</Top>
+        <Left>5.55196cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>15</ZIndex>
@@ -530,8 +530,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>7.42294cm</Top>
-        <Left>1.05516cm</Left>
+        <Top>7.94328cm</Top>
+        <Left>5.55196cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>16</ZIndex>
@@ -560,8 +560,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>8.6691cm</Top>
-        <Left>1.05516cm</Left>
+        <Top>9.18944cm</Top>
+        <Left>5.55196cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>17</ZIndex>
@@ -590,8 +590,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>9.82748cm</Top>
-        <Left>1.05516cm</Left>
+        <Top>10.34782cm</Top>
+        <Left>5.55196cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>18</ZIndex>
@@ -620,8 +620,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>11.021cm</Top>
-        <Left>1.05516cm</Left>
+        <Top>11.54134cm</Top>
+        <Left>5.55196cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>19</ZIndex>
@@ -650,8 +650,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>12.17938cm</Top>
-        <Left>1.05516cm</Left>
+        <Top>12.69972cm</Top>
+        <Left>5.55196cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>20</ZIndex>
@@ -676,12 +676,14 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>3.91265cm</Top>
-        <Left>7.59585cm</Left>
+        <Top>4.433cm</Top>
+        <Left>10.6639cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>21</ZIndex>
@@ -706,12 +708,14 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>5.07103cm</Top>
-        <Left>7.59585cm</Left>
+        <Top>5.59138cm</Top>
+        <Left>10.6639cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>22</ZIndex>
@@ -733,15 +737,19 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!TotalAmountAdvanced.Value, "DataSet2")</Value>
-                <Style />
+                <Style>
+                  <Format>'$'0.00;('$'0.00)</Format>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>6.26455cm</Top>
-        <Left>7.59585cm</Left>
+        <Top>6.7849cm</Top>
+        <Left>10.6639cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>23</ZIndex>
@@ -753,6 +761,7 @@
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
           <PaddingBottom>2pt</PaddingBottom>
+          <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
         </Style>
       </Textbox>
       <Textbox Name="Textbox28">
@@ -763,15 +772,19 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!TotalAdvanceFees.Value, "DataSet2")</Value>
-                <Style />
+                <Style>
+                  <Format>'$'0.00;('$'0.00)</Format>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>7.42293cm</Top>
-        <Left>7.59585cm</Left>
+        <Top>7.94328cm</Top>
+        <Left>10.6639cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>24</ZIndex>
@@ -783,6 +796,7 @@
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
           <PaddingBottom>2pt</PaddingBottom>
+          <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
         </Style>
       </Textbox>
       <Textbox Name="Textbox29">
@@ -793,15 +807,19 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!TotalCurtailmentsRecieved.Value, "DataSet2")</Value>
-                <Style />
+                <Style>
+                  <Format>'$'0.00;('$'0.00)</Format>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>8.6691cm</Top>
-        <Left>7.59585cm</Left>
+        <Top>9.18945cm</Top>
+        <Left>10.6639cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>25</ZIndex>
@@ -813,6 +831,7 @@
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
           <PaddingBottom>2pt</PaddingBottom>
+          <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
         </Style>
       </Textbox>
       <Textbox Name="Textbox30">
@@ -826,12 +845,14 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>9.82748cm</Top>
-        <Left>7.59585cm</Left>
+        <Top>10.34783cm</Top>
+        <Left>10.6639cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>26</ZIndex>
@@ -853,15 +874,19 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!TotalAmountPaidOff.Value, "DataSet2")</Value>
-                <Style />
+                <Style>
+                  <Format>'$'0.00;('$'0.00)</Format>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>11.021cm</Top>
-        <Left>7.59585cm</Left>
+        <Top>11.54135cm</Top>
+        <Left>10.6639cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>27</ZIndex>
@@ -873,6 +898,7 @@
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
           <PaddingBottom>2pt</PaddingBottom>
+          <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
         </Style>
       </Textbox>
       <Textbox Name="Textbox38">
@@ -886,12 +912,14 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>12.17937cm</Top>
-        <Left>7.59585cm</Left>
+        <Top>12.69972cm</Top>
+        <Left>10.6639cm</Left>
         <Height>0.6cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>28</ZIndex>
@@ -905,8 +933,73 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Textbox Name="Textbox43">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Loan Amount:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox16</rd:DefaultName>
+        <Top>3.37783cm</Top>
+        <Left>5.55196cm</Left>
+        <Height>0.6cm</Height>
+        <Width>4.80188cm</Width>
+        <ZIndex>29</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox44">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!LoanAmount.Value, "DataSet2")</Value>
+                <Style>
+                  <Format>'$'0.00;('$'0.00)</Format>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox16</rd:DefaultName>
+        <Top>3.37784cm</Top>
+        <Left>10.6639cm</Left>
+        <Height>0.6cm</Height>
+        <Width>4.80188cm</Width>
+        <ZIndex>30</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+          <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
+        </Style>
+      </Textbox>
     </ReportItems>
-    <Height>13.75833cm</Height>
+    <Height>14.04937cm</Height>
     <Style />
   </Body>
   <Width>19.99358cm</Width>
@@ -1036,6 +1129,10 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
+        <Field Name="LoanAmount">
+          <DataField>LoanAmount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="TotalUnitsAdded">
           <DataField>TotalUnitsAdded</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>

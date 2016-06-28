@@ -210,7 +210,7 @@ namespace BankLoanSystem.Controllers.Curtailments
                     rptViewerCurtailmentReceiptDuringSession.LocalReport.ReportPath = Server.MapPath("~/Reports/RptCurtailmentDuringSession.rdlc");
 
                     ReportAccess ra = new ReportAccess();
-                    List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanDetails.loanId);
+                    List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanDetails.loanId, userData.UserId);
 
                     foreach (var dates in details)
                     {
@@ -348,7 +348,7 @@ namespace BankLoanSystem.Controllers.Curtailments
             rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptCurtailmentDuringSession.rdlc");
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
             foreach (var dates in details)
             {

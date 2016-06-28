@@ -37,17 +37,13 @@
 
                         @if (ViewBag.SuccessMsg == "Loan setup is completed")
                         {
-                            @*@section JavaScript
-                                {
-                                    <script type="text/javascript">
-                                        Progress(0);
-                                    </script>
-                                }*@
                             <span class="text-success">@ViewBag.SuccessMsg</span>
                             <div class="form-group">
                                 <div class="button-panel">
                                     Click <a href="~/UserManagement/UserDetails">here</a> to go dashboard.
                                     <input type="button" id="dashBoard" value="Dashboard" class="btn btn-primary  btn-next" style="left: 30%"/>
+                                    <br/>
+                                    Display/Print loan terms<button type="button" id="btnLoanTerms" class="btn btn-info1">Loan Terms</button>
                                 </div>
 
                             </div>
@@ -58,15 +54,6 @@
                         else
                         {
                             List<SelectListItem> listItems = new List<SelectListItem>();
-                            //using (Ajax.BeginForm("Step10", "SetupProcess", new AjaxOptions()
-                            //{
-
-                            //    OnFailure = "handleError",
-                            //    HttpMethod = "POST",
-                            //    InsertionMode = InsertionMode.Replace,
-                            //    UpdateTargetId = "changeContainer",
-                            //    LoadingElementId = "loadingDiv"
-                            //}, new { id = "form" }))
                             using (Html.BeginForm("Step10", "SetupProcess", FormMethod.Post,
             new { id = "form" }))
                             {
@@ -96,10 +83,6 @@
                                             <tr>
                                                 <td width="55%"><label>Is the curtailment calculated from the original purchase price or the advanced amount?   <span class='icon-help_outline 1'></span></label></td>
                                                 <td width="40%">
-                                                    @*@Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment" })
-                                                        Full payment
-                                                        @Html.RadioButtonFor(m => m.CalculationBase, "Advance", new { @id = "rdAdvance", @class = "payment" })
-                                                        Advance*@
                                                     @if (Model.CalculationBase == "Full payment")
                                                     {
                                                         @Html.RadioButtonFor(m => m.CalculationBase, "Full payment", new { @id = "rdFullPayment", @class = "payment", @checked = true })
@@ -172,9 +155,6 @@
 
                                         }
                                         <br />
-                                        @*<span>
-                                                Vehicle must be paid off within the @Html.DisplayFor(m => m.RemainingTime, new { htmlAttributes = new { @id = "remainingTime" } }) @Model.TimeBase
-                                            </span>*@
                                     </div>
                                     <br />
                                    
@@ -201,12 +181,10 @@
                                                         <tr>
                                                             <td style="width: 10%;"><label id="lblCur">@Model.InfoModel[a].CurtailmentId</label></td>
                                                             <td style="width: 35%;">
-                                                                @*<input class="clstimePeriod" id="timePeriod" type="text" value="" disabled="disabled" style="text-align: right">*@
                                                                 @Html.TextBoxFor(m => m.InfoModel[a].TimePeriod, "{0:#.#}", new { @id = "timePeriod", @class = "clstimePeriod", @disabled = "disabled", @style = "text-align: right" })
                                                                 <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
                                                             </td>
                                                             <td style="width: 35%;">
-                                                                @*<input class="clsaddCuirtailment" id="percentage" type="text" value="" disabled="disabled" style="text-align: right">*@
                                                                 @Html.TextBoxFor(m => m.InfoModel[a].Percentage, "{0:#.#}", new { @id = "percentage", @class = "clsaddCuirtailment", @disabled = "disabled", @style = "text-align: right" })
                                                                 <span class="field-validation-valid text-danger" data-valmsg-replace="true"></span>
                                                             </td>
@@ -294,24 +272,6 @@
                                                 </td>
                                             </tr>
                                         </table>
-
-                                        @*<div class="control-label col-sm-3 mLable">
-                                                <label>What day of the month are the curtailments due?</label>
-                                            </div>
-                                            <div class="col-xs-8 text_field short_text_field" style="padding-left: 140px;">
-                                                @{
-                                                    for (var i = 1; i < 29; i++)
-                                                    {
-                                                        listItems.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-                                                    }
-                                                    listItems.Add(new SelectListItem { Text = "EoM", Value = "EoM" });
-                                                }
-                                                @Html.DropDownListFor(model => model.DueDate, listItems, "-- select a date --", new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "CurtailmentDueDate" })
-                                            </div>
-                                            <div class="err_msg_box  mErrMsgBox">
-                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })</p>
-                                                <div id="customErrorDueDate"><span class="text-danger"></span></div>
-                                            </div>*@
                                     </div>
                                     <div class="form-group new_form_group">
 
@@ -335,19 +295,6 @@
                                                 </td>
                                             </tr>
                                         </table>
-
-                                        @*<div class="control-label col-sm-2 mLable">
-                                                <label>
-                                                    Would you like a reminder email sent when curtailments are due?<br>
-                                                    <span class="optional">(Optional)</span>
-                                                </label>
-                                            </div>
-                                            <div class="col-xs-8 text_field short_text_field" style="width:335px;">
-                                                @Html.EditorFor(model => model.AutoRemindEmail, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input", @id = "curtailmentDueEmail" } })
-                                            </div>
-                                            <div class="err_msg_box  mErrMsgBox">
-                                                <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.AutoRemindEmail, "", new { @class = "text-danger" })</p>
-                                            </div>*@
                                     </div>
                                 <div class="form-group new_form_group">
 
@@ -371,20 +318,6 @@
                                             </td>
                                         </tr>
                                     </table>
-
-                                    @*<div class="control-label col-sm-2 mLable">
-                                            <label>
-                                                How many days prior to the curtailment due date would you like a reminder emailed?<br>
-                                                <span class="optional">(Optional)</span>
-                                            </label>
-                                        </div>
-                                        <div class="col-xs-8 text_field short_text_field" style="width:335px;">
-                                            @Html.EditorFor(model => model.EmailRemindPeriod, new { htmlAttributes = new { @class = "form-control text-box single-line text_field_input short_text_field", @id = "curtailmentDueEmailRemindPeriod", placeholder = "Number of Days", @type = "text", min = 1 } })
-                                        </div>
-                                        <div class="err_msg_box  mErrMsgBox">
-                                            <p class="err_msg new_err_msg">@Html.ValidationMessageFor(model => model.EmailRemindPeriod, "", new { @class = "text-danger" })</p>
-                                            <div id="customErrorPeriod"><span class="text-danger"></span></div>
-                                        </div>*@
                                 </div>
                                     <div class="form-group new_form_group clear_next clear_next_bordr">
                                         <div>
@@ -425,6 +358,16 @@
     @{
         @Html.Partial("Step10help")
     }
+</div>
+
+<div class="overlay-content popupReport" id="confirmBox" style="height: 750px;">
+    <h3>Loan Terms</h3>
+
+    <div id="reportViewerDiv" hidden>
+        <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="0" scrolling="no"></iframe>
+    </div>
+    <button style="font-size: 14px; width: 100px; margin-top: -56px;" type="button" id="btnPrint" class="btn btn-primary m-b cancel next_clear_button back_back"> Print</button>
+    <button style="font-size:14px;width: 100px;margin-top: -56px;" type="button" id="btnCancelPtrDiv" class="btn btn-primary m-b cancel next_clear_button clear_back"> Cancel</button>
 </div>
 
 @*Grid view*@
@@ -620,7 +563,6 @@
                 return;
             }
             else if (e.which === 92 || e.which === 39) {
-                //$(this).siblings('div').children('span').text("Invalid character.");
                 e.preventDefault();
                 return;
             }
@@ -760,12 +702,8 @@
     $(document).on('keypress', '.clstimePeriod', function (e) {
         if(e.keyCode === 13) {
             var res = TimeValidation(this.value);
-            //if (res === true) {
-            //alert(res);
                 var tr = $(this).parents('tr:first');
                 tr.find("#percentage").focus();
-            //}
-
         }
     });
 
@@ -801,7 +739,6 @@
             }
 
             index = parseInt(index) + parseInt(1);
-            //alert('curid: ' + curid + ' timePeriod: ' + timePeriod + ' previousTime: ' + previousTime);
             
             if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
 
@@ -814,11 +751,6 @@
                 $('#spnremainTimeError').children('span').text("");
             }
         });
-
-        //currentListLenght = Object.keys(list.currentList).length;
-        //for (var j = 0; j < currentListLenght; j++) {
-        //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
-        //}
         return true;
     }
 
@@ -829,7 +761,6 @@
 
     function CurtailmentAdd(t) {
         
-        //if (isErrorTime === false) {
         var tr = $(t).parents('tr:first');
 
         var curid = tr.find("#lblCur").html();
@@ -843,13 +774,7 @@
 
         var isNewRow = false;
 
-        //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
-
         var currentListLenght = Object.keys(list.currentList).length;
-
-        //for (var j = 0; j < currentListLenght; j++) {
-        //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
-        //}
         
         if (percentage <= 0) {
             return;
@@ -884,8 +809,6 @@
             }
         }
 
-        //alert('Cur list: ' + currentListLenght + ' curid: ' + (parseInt(curid) - parseInt(1)));
-
         if (parseInt(curid) === parseInt(id) && timePeriod !== '' && percentage !== '') {
 
             if (isNewRow === false) {
@@ -904,7 +827,6 @@
 
                     var strTr = createTableRow(id);
                     $('#tblGrid').append(strTr);
-                    //alert($('#tblGrid tr:last').find("#timePeriod").html());
                     $('#tblGrid tr:last').find("#timePeriod").focus();
                 }
 
@@ -936,23 +858,11 @@
 
     });
 
-    //$('.clsaddCuirtailment').bind('enterKey', function(e) {
-    //    alert('enterkey');
-    //});
-
-    //$('.clsaddCuirtailment').keypress(function (e) {
-    //    //alert('enterkey');
-    //    var key = e.which;
-    //    if(key === 13)  // the enter key code
-    //    {
-    //        alert('enterkey');
-    //    }
-    //});
-
     var isSelectCalcType = false;
     var isSelectTime = false;
     var isRowAdded = false;
     var isFullFirst = true;
+
     //update Percentage remaining to pay off
     $('.payment').change(function() {
         $('#customErrorCalBase').children('span').text("");
@@ -1028,6 +938,7 @@
         $('#time').text(time);
 
         isSelectTime = true;
+
         //enable textboxes
         if (isSelectCalcType === true && isSelectTime === true) {
             $('.clstimePeriod').prop("disabled", false);
@@ -1035,147 +946,6 @@
         }
 
     });
-
-    ////delete row
-    //$(document).on('click', '.btnDeleteRow', function () {
-    //    //alert('delete');
-    //    var tblLength = $('table#tblGrid > tbody > tr').not(':first').length;
-    //    $('#customErrorTable').children('span').text("");
-    //    if(tblLength > 1) {
-    //        //alert('if');
-    //        var tr = $(this).parents('tr:first');
-
-    //        var curid = tr.find("#lblCur").html();
-    //        var timePeriod = tr.find("#timePeriod").val();
-    //        var percentage = tr.find("#percentage").val();
-
-    //        if (percentage !== '') {
-    //            var gridTable = document.getElementById('tblGrid');
-    //            gridTable.deleteRow(curid);
-    //            id = id - 1;
-
-    //            for (var k = curid; k < id + 1; k++) {
-    //                gridTable.rows[k].cells[0].innerHTML = '<label id="lblCur">' + k + '</label>';
-    //            }
-
-    //            var removeIndex = (parseInt(curid) - parseInt(1));
-
-    //            list.currentList.splice(removeIndex, 1);
-    //            var currentListLenght = Object.keys(list.currentList).length;
-
-    //            for (var i = removeIndex; i < currentListLenght; i++) {
-    //                list.currentList[i].CurtailmentId = removeIndex + 1;
-    //            }
-
-    //            //if(isErrorTime === true){}
-
-    //            //for (var j = 0; j < currentListLenght; j++) {
-    //            //    alert('curid:' + list.currentList[j].CurtailmentId + ' timePeriod:' + list.currentList[j].TimePeriod + ' percentage:' + list.currentList[j].Percentage);
-    //            //}
-
-    //            //if(isErrorTime !== true)
-    //            remainingPt = parseInt(remainingPt) + parseInt(percentage);
-
-    //            //alert(isErrorTime);
-
-    //            if(parseInt(remainingPt) > 0)
-    //            {
-    //                var val = document.getElementById('spnremainPtComplete').innerHTML;
-
-    //                $('#spnremainPt').text('Percentage remaining to pay off:' + remainingPt);
-    //                $('#spnremainPtComplete').text('');
-    //                $('#spnremainPtError').text('');
-    //            }
-    //            else if (parseInt(remainingPt) === 0) {
-    //                $('#spnremainPt').text('');
-    //                $('#spnremainPtComplete').text('Curtailment schedule Completed.');
-    //                $('#spnremainPtError').text('');
-    //            } else {
-    //                $('#spnremainPt').text('');
-    //                $('#spnremainPtComplete').text('');
-    //                $('#spnremainPtError').text('Error percentage found');
-    //            }
-    //        }
-
-    //    }
-
-    //
-    //var index = 0;
-
-    //$('table#tblGrid > tbody > tr').not(':first').each(function() {
-
-    //    var curid = $(this).find("#lblCur").html();
-    //    var timePeriod = $(this).find("#timePeriod").val();
-    //    var percentage = $(this).find("#percentage").val();
-    //    var previousTime = 0;
-
-    //    if(curid > 1)
-    //        previousTime = list.currentList[curid - 2].TimePeriod;
-
-    //    //alert('curid: ' + curid + ' timePeriod: ' + timePeriod);
-    //    if (parseInt(timePeriod) > parseInt(remainingTime)) {
-    //        $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
-    //        isErrorTime = true;
-    //    }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
-    //        $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
-    //        isErrorTime = true;
-    //    }
-    //    else {
-    //        isErrorTime = false;
-    //        $('#spnremainTimeError').children('span').text("");
-    //    }
-
-    //    // update list
-    //    list.currentList[index].TimePeriod = timePeriod;
-    //    list.currentList[index].Percentage = percentage;
-    //    index = parseInt(index) + parseInt(1);
-    //});
-
-    //    var index = 0;
-
-    //    $('table#tblGrid > tbody > tr').not(':first').each(function() {
-
-    //        var curid = $(this).find("#lblCur").html();
-    //        var timePeriod = $(this).find("#timePeriod").val();
-    //        var percentage = $(this).find("#percentage").val();
-    //        var previousTime = 0;
-
-    //        if (parseInt(curid) > 1) {
-    //            previousTime = list.currentList[curid - 2].TimePeriod;
-    //        }
-
-    //        var currentListLenght = Object.keys(list.currentList).length;
-    //        if (parseInt(curid) > 1 && parseInt(currentListLenght) > parseInt(index)) {
-    //            // update list
-    //            list.currentList[index].TimePeriod = timePeriod;
-    //            //list.currentList[index].Percentage = percentage;
-    //        }
-
-    //        index = parseInt(index) + parseInt(1);
-    //        //alert('curid: ' + curid + ' timePeriod: ' + timePeriod + ' previousTime: ' + previousTime);
-
-    //        if (parseInt(timePeriod) > parseInt(remainingTime)) {
-    //            $('#spnremainTimeError').children('span').text("You entered time should be less than paid off period");
-    //            isErrorTime = true;
-    //            return;
-    //        }else if (parseInt(timePeriod) <= parseInt(previousTime) && parseInt(timePeriod) > 0) {
-
-    //            $('#spnremainTimeError').children('span').text("You entered time should be greater than previous time");
-    //            isErrorTime = true;
-    //            return;
-    //        }
-    //        else {
-    //            isErrorTime = false;
-    //            $('#spnremainTimeError').children('span').text("");
-    //        }
-    //    });
-
-    //    //alert('curid:' + curid + ' timePeriod:' + timePeriod + ' percentage:' + percentage);
-    //});
-
-    //$('#curtailmentDueEmail').change(function() {
-    //    alert('hi');
-    //});
 
     $('#btnCreate').click(function() {
         
@@ -1204,7 +974,6 @@
             $('#customErrorLoanStatus').children('span').text("Please select if the loan should be activated at this time.");
         }
 
-        //var dueDate = $('#CurtailmentDueDate').val();
         if (remainingPt === advancePt) {
             $('#customErrorTable').children('span').text("Please complete the curtailment schedule.");
         } else {
@@ -1218,7 +987,6 @@
         } else {
             $('#customErrorDueDate').children('span').text("");
         }
-        //alert(dueDate);
 
         var isErrorReminder = false;
         var email = document.getElementById('curtailmentDueEmail').value;
@@ -1329,6 +1097,38 @@
             }
         });
     });
+
+    $('#btnLoanTerms').click(function () {
+        doConfirm();
+        var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
+
+        $('#reportViewerDiv').show();
+        var myFrame = document.getElementById('ifrmReportViewer');
+
+        if (myFrame !== null) {
+
+            if (myFrame.src) {
+                //alert(1);
+                myFrame.src = url;
+            } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                //alert(2);
+                myFrame.contentWindow.location = url;
+            } else {
+                //alert(3);
+                myFrame.setAttribute('src', url);
+            }
+        }
+    });
+
+    function doConfirm() {
+        var scrollTop = $(window).scrollTop();
+        var docHeight = $(document).height(); //grab the height of the page
+        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+        $('#confirmBox').show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+
+        $('.overlay-bg, .overlay-content.popupReport').show();
+        return;
+    }
 
     Progress(10);
 </script>

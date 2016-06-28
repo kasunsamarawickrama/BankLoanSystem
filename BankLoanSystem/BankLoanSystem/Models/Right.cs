@@ -30,6 +30,8 @@ namespace BankLoanSystem.Models
 
         public string rightsPermissionString { get; set; }
 
+        public string ImagePath { get; set; }
+
         public int editorId { get; set; }
 
     }

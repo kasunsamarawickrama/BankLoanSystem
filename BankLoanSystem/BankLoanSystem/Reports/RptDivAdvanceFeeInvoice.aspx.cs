@@ -20,8 +20,6 @@ namespace BankLoanSystem.Reports
             {
                 int loanId = 0;
                string feeType = "advanceFee";
-                //DateTime startDate = Convert.ToDateTime("5/5/2016");
-                //DateTime endDate = Convert.ToDateTime("5/5/2019");
 
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
@@ -38,6 +36,9 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int loanId, DateTime startDate, DateTime endDate, string feeType)
         {
+            if (Session["AuthenticatedUser"] == null) return;
+            User userData = (User)Session["AuthenticatedUser"];
+
             rptViewerAdvanceFeeInvoice.ProcessingMode = ProcessingMode.Local;
             rptViewerAdvanceFeeInvoice.Reset();
             rptViewerAdvanceFeeInvoice.LocalReport.EnableExternalImages = true;
@@ -45,7 +46,7 @@ namespace BankLoanSystem.Reports
             rptViewerAdvanceFeeInvoice.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
             foreach (var dates in details)
             {
@@ -63,6 +64,9 @@ namespace BankLoanSystem.Reports
 
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
+            if (Session["AuthenticatedUser"] == null) return null;
+            User userData = (User)Session["AuthenticatedUser"];
+
             ReportViewer rptViewerAdvanceFeeInvoicePrint = new ReportViewer();
             rptViewerAdvanceFeeInvoicePrint.ProcessingMode = ProcessingMode.Local;
             rptViewerAdvanceFeeInvoicePrint.Reset();
@@ -70,7 +74,7 @@ namespace BankLoanSystem.Reports
             rptViewerAdvanceFeeInvoicePrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptAdvanceFeeInvoice.rdlc");
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
             foreach (var dates in details)
             {

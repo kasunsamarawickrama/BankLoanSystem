@@ -94,6 +94,10 @@ namespace BankLoanSystem.Models
         public bool IsTitleTrack { get; set; }
 
         public bool HasFee { get; set; }
+
+        public bool HasAdvanceFee { get; set; }
+        public bool HasMonthlyFee { get; set; }
+        public bool HasLotFee { get; set; }
     }
 
     public class NonRegBranch : Branch
