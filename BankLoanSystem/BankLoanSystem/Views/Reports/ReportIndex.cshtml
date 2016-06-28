@@ -52,11 +52,11 @@
 
 
 
-    @if (ViewBag.LoanId.Items.Count == 1)
+    @if (ViewBag.loanCount == 1)
     {
 
     }
-    else if( ViewBag.LoanId.Items.Count > 1)
+    else if( ViewBag.loanCount > 1)
     {
        
         <div style="padding-left:12px;padding-right:12px;padding-bottom: 10px;text-align:left">
@@ -108,7 +108,7 @@
     <div style="margin-top:15px;" id="liFilteringSection">
         <div class="form-inline" style="text-align:left;width:70%;display: inline-block;
     float: left;padding-left: 10px;">
-@if (ViewBag.LoanId.Items.Count == 1)
+@if (ViewBag.loanCount == 1)
 {
             <div id="lnum" class="form-group" style="width:50%;">
                 @*<label for="">Account Detail</label><br/>*@
@@ -1158,6 +1158,10 @@ else
         $('.ui-icon-refresh').parent().click(function () {
 
             $("#loanId").val('');
+            // set the address on the bar
+            $('#Pataddress').html('');
+            // set the loan number on the bar
+            $('.loanumber').html('<strong>Loan Number : &nbsp; </strong> ');
 
         });
 
@@ -1165,6 +1169,10 @@ else
         $('.ui-icon-search').parent().click(function () {
 
             $("#loanId").val('');
+            // set the address on the bar
+            $('#Pataddress').html('');
+            // set the loan number on the bar
+            $('.loanumber').html('<strong>Loan Number : &nbsp; </strong> ');
 
             jQuery("#grid").jqGrid('resetSelection');
 
