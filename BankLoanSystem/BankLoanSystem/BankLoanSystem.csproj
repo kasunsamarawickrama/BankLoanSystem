@@ -90,7 +90,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="SRVTextToImage">
-      <HintPath>..\..\..\Codes\SRVTextToImage.dll</HintPath>
+      <HintPath>..\..\..\..\SRVTextToImage.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -687,6 +687,7 @@
     <Content Include="Views\Login\EmpLogin.cshtml" />
     <Content Include="Views\Login\EmployeeLogin.cshtml" />
     <Content Include="Views\Login\UserLogin.cshtml" />
+    <Content Include="Views\UserManagement\InactiveLoan.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
