@@ -145,7 +145,7 @@ namespace BankLoanSystem.Controllers
                         foreach (var x in rgtList)
                         {
                             //check relevant right for Advance Unit page contains in the user right list
-                            if (x == "U001")
+                            if (x == "U01")
                             {
                                 checkPermission = true;
                             }

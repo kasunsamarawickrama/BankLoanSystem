@@ -787,6 +787,42 @@ namespace BankLoanSystem.DAL
                 return 0;
             }
         }
+
+        /// <summary>
+        /// CreatedBy:Asanka Senarathna
+        /// CreatedDate: 6/27/2016
+        /// Update Loan Status for Active loan to inactive
+        /// </summary>
+        /// <param name="slctdLoanId"></param>
+        /// <param name="slctdLoanCode"></param>
+        /// <returns></returns>
+        public int UpdateLoanStatus_ActiveInactive(int slctdLoanId, string slctdLoanCode)
+        {
+            if ((slctdLoanId > 0) && (!string.IsNullOrEmpty(slctdLoanCode)) )
+            {
+                DataHandler dataHandler = new DataHandler();
+                List<object[]> paramertList = new List<object[]>();
+
+
+                paramertList.Add(new object[] { "@loan_id", slctdLoanId });
+                paramertList.Add(new object[] { "@loan_code", slctdLoanCode });
+                paramertList.Add(new object[] { "@loan_status", 0 });
+
+                try
+                {
+                    return dataHandler.ExecuteSQLReturn("spUpdateLoanStatus_ActivetoInactive", paramertList);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
     }
 
 

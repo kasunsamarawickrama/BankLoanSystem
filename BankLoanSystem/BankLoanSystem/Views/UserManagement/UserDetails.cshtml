@@ -177,7 +177,7 @@
                     {
 
 
-                        if (ViewBag.RightList.Contains("U004"))
+                        if (ViewBag.RightList.Contains("U04"))
                         {
                             <button id="lkuni" class="a_demo_three icon-automobile" onclick="window.location.href='/Unit/Addunit'">       
                                 Add Unit
@@ -185,7 +185,7 @@
 
                             @*@Html.ActionLink("Unit", "addunit", "unit", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkuni" })*@
                             }
-                            if (ViewBag.RightList.Contains("U001"))
+                            if (ViewBag.RightList.Contains("U01"))
                             {
                             <button id="lkadv" class="a_demo_three icon-dollar" onclick="window.location.href='/AdvanceUnit/Advance'">
                                
@@ -193,7 +193,7 @@
                             </button>
                             @*@Html.ActionLink("Advance", "Advance", "AdvanceUnit", null, new { @class = "btn btn-info btn-arrow-right link" , @id="lkadv" })*@
                             }
-                            if (ViewBag.RightList.Contains("U005"))
+                            if (ViewBag.RightList.Contains("U05"))
                             {
                             <button id="lkcrtl" class="a_demo_three icon-coin-dollar" onclick="window.location.href='/Curtailments/PayCurtailments'">
                                 
@@ -201,7 +201,7 @@
                             </button>
                             @*@Html.ActionLink("Curtailment", "PayCurtailments", "Curtailments", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkcrtl" })*@
                             }
-                            if (ViewBag.RightList.Contains("U002") && ViewBag.ttlAccess == 1 && ViewBag.IsTitleTrack == 1)
+                            if (ViewBag.RightList.Contains("U02") && ViewBag.ttlAccess == 1 && ViewBag.IsTitleTrack == 1)
                             {
                             <button id="lkttl" class="a_demo_three icon-files-empty" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
                                 
@@ -210,7 +210,7 @@
 
                             @*@Html.ActionLink("Title", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info btn-arrow-right link",   @id = "lkttl" })*@
                             }
-                            if (ViewBag.RightList.Contains("U003"))
+                            if (ViewBag.RightList.Contains("U03"))
                             {
                             <button id="lkpoff" class="a_demo_three icon-banknote" onclick="window.location.href='/UnitPayOff/PayOff'">
                                
@@ -219,7 +219,7 @@
 
                             @*@Html.ActionLink("Pay Off", "PayOff", "UnitPayOff", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkpoff" })*@
                         }
-                        if (ViewBag.RightList.Contains("U007")&&(ViewBag.Fee == 1))
+                        if (ViewBag.RightList.Contains("U07")&&(ViewBag.Fee == 1))
                         {
                             <button class="a_demo_three icon-credit" onclick="window.location.href='/Fee/PayFees'">
                               
@@ -234,7 +234,7 @@
                             Reports
                         </button>
 
-                        if (!ViewBag.RightList.Contains("U006"))
+                        if (!ViewBag.RightList.Contains("U06"))
                         {
                             <script>
 
@@ -253,7 +253,7 @@
                                 });
                             </script>
                         }
-                        if (ViewBag.RightList.Contains("U008"))
+                        if (ViewBag.RightList.Contains("U08"))
                         {
                             <button class="a_demo_three icon-bin2" onclick="window.location.href='/DeleteUnit/Delete'">
                                
@@ -327,6 +327,24 @@
                 
                 Renew Loan
             </button>
+            }
+
+            @using (Ajax.BeginForm(
+                "Selectloan",
+                "UserManagement", new { type = "tcaninaol" },
+                new AjaxOptions
+                {
+                    OnFailure = "handleError",
+                    HttpMethod = "GET",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "selcet-panel",
+                    LoadingElementId = "loadingSpan"
+                }, new { style = "display:inline-block" }))
+            {
+                <button type="submit" class="a_demo_three icon-clipboard show-popup" data-showpopup="1">
+
+                    Deactivate Loan
+                </button>
             }
 
             <button class="a_demo_three icon-user-tie"  onclick="window.location.href='/UserManagement/EditPartnerCompanyAtDashboard'" >

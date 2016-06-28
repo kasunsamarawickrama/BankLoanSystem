@@ -95,7 +95,7 @@ namespace BankLoanSystem.Controllers.Reports
                     {
                         foreach (string x in rgtList)
                         {
-                            if (x == "U006")
+                            if (x == "U06")
                             {
                                 checkPermission = true;
                             }
@@ -127,7 +127,7 @@ namespace BankLoanSystem.Controllers.Reports
                                 {
                                     foreach (string x in tokens)
                                     {
-                                        if (x == "U006")
+                                        if (x == "U06")
                                         {
                                             loanNumbersUsers.AddRange(loanNumbers.Where(loans => item.LoanId == loans.LoanId));
                                         }
