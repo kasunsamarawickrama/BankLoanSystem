@@ -1972,7 +1972,7 @@ namespace BankLoanSystem.Controllers
                 {
                     foreach (var x in list)
                     {
-                        if (x.rightId != "U002")
+                        if (x.rightId != "U02")
                         {
                             user.UserRightsList.Add(x);
                         }
