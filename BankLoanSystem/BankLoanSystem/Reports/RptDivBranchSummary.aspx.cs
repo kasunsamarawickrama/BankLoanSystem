@@ -27,13 +27,17 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int branchId)
         {
+            //check authentication session is null, if null return
+            if (Session["AuthenticatedUser"] == null) return;
+            User userData = (User)Session["AuthenticatedUser"];
+
+            //set report viewr property dynamically
             rptViewerBranchSummary.ProcessingMode = ProcessingMode.Local;
             rptViewerBranchSummary.Reset();
             rptViewerBranchSummary.LocalReport.EnableExternalImages = true;
             rptViewerBranchSummary.LocalReport.ReportPath = Server.MapPath("~/Reports/RptBranchSummary.rdlc");
             rptViewerBranchSummary.ZoomMode = ZoomMode.PageWidth;
 
-            User userData = ((User)Session["AuthenticatedUser"]);
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = new List<LoanDetailsRpt>();
             LoanDetailsRpt detail = new LoanDetailsRpt();
@@ -48,12 +52,43 @@ namespace BankLoanSystem.Reports
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
             List<RptBranchSummary> branchSummary = ra.GetBranchSummarRptDetails(branchId);
-
-            // rptViewerLotInspectionFeeInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+            
             rptViewerBranchSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", branchSummary));
-            //rptViewerAdvanceUnit.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
+        }
 
-           
+        public ReportViewer PrintPage(int branchId)
+        {
+            //check authentication session is null, if null return
+            if (Session["AuthenticatedUser"] == null) return null;
+            User userData = (User)Session["AuthenticatedUser"];
+
+            //set report viewr property dynamically
+            ReportViewer rptViewerBranchSummaryPrint = new ReportViewer();
+
+            rptViewerBranchSummaryPrint.ProcessingMode = ProcessingMode.Local;
+            rptViewerBranchSummaryPrint.Reset();
+            rptViewerBranchSummaryPrint.LocalReport.EnableExternalImages = true;
+            rptViewerBranchSummaryPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptBranchSummary.rdlc");
+            rptViewerBranchSummaryPrint.ZoomMode = ZoomMode.PageWidth;
+
+            ReportAccess ra = new ReportAccess();
+            List<LoanDetailsRpt> details = new List<LoanDetailsRpt>();
+            LoanDetailsRpt detail = new LoanDetailsRpt();
+            detail.CompanyName = userData.CompanyName;
+            detail.LenderBrnchName = userData.BranchName;
+            detail.ReportDate = DateTime.Now.ToString("MM/dd/yyyy"); ;
+            details.Add(detail);
+            rptViewerBranchSummaryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", details));
+
+            foreach (var dates in details)
+            {
+                dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            }
+            List<RptBranchSummary> branchSummary = ra.GetBranchSummarRptDetails(branchId);
+
+            rptViewerBranchSummaryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", branchSummary));
+
+            return rptViewerBranchSummaryPrint;
         }
     }
 }

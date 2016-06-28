@@ -30,14 +30,21 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
         {
+            //check authentication session is null, if null return
+            if (Session["AuthenticatedUser"] == null) return;
+            User userData = (User)Session["AuthenticatedUser"];
+
+            //set report viewr property dynamically
             rptViewerLoanSummary.ProcessingMode = ProcessingMode.Local;
             rptViewerLoanSummary.Reset();
             rptViewerLoanSummary.LocalReport.EnableExternalImages = true;
             rptViewerLoanSummary.LocalReport.ReportPath = Server.MapPath("~/Reports/RptTransactionHistory.rdlc");
             rptViewerLoanSummary.ZoomMode = ZoomMode.PageWidth;
 
+            //get report header details
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
+
 
             foreach (var dates in details)
             {
@@ -55,14 +62,20 @@ namespace BankLoanSystem.Reports
 
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
+            //check authentication session is null, if null return
+            if (Session["AuthenticatedUser"] == null) return null;
+            User userData = (User)Session["AuthenticatedUser"];
+
+            //set report viewr property dynamically
             ReportViewer rptViewerLoanSummaryPrint = new ReportViewer();
             rptViewerLoanSummaryPrint.ProcessingMode = ProcessingMode.Local;
             rptViewerLoanSummaryPrint.Reset();
             rptViewerLoanSummaryPrint.LocalReport.EnableExternalImages = true;
             rptViewerLoanSummaryPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptTransactionHistory.rdlc");
 
+            //get report header details
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
             foreach (var dates in details)
             {
