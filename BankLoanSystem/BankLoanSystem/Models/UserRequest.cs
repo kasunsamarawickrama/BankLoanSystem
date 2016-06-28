@@ -68,5 +68,7 @@ namespace BankLoanSystem.Models
         public string email { get; set; }
 
         public List<UserRequest> RequestList { get; set; }
+
+        public string captcha { get; set; }
     }
 }

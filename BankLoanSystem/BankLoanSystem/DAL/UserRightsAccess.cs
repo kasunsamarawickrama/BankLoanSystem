@@ -123,7 +123,17 @@ namespace BankLoanSystem.DAL
                 throw ex;
             }
         }
-
+        /// <summary>
+        /// Frontend Page:Bottom Link Bar of each page in floor plan management section
+        /// Title: return user rights for given loan code and user id
+        /// Designed: Irfan MAM
+        /// User Story:
+        /// Developed: Piyumi P
+        /// Date created:
+        /// </summary>
+        /// <param name="loanCode"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public List<Right> GetUserRightsByLoanCode(string loanCode,int userId) 
         {
             List<Right> resltList = new List<Right>();
@@ -180,6 +190,7 @@ namespace BankLoanSystem.DAL
                         right.active = false;
                         right.description = dataRow["report_description"].ToString();
                         right.name = dataRow["report_name"].ToString();
+                        right.ImagePath = dataRow["image_path"].ToString();
                         right.DealerView = bool.Parse(dataRow["dealer_can_view"].ToString());
                         RightsLists.Add(right);
                     }

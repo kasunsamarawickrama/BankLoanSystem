@@ -19,15 +19,19 @@ namespace BankLoanSystem.Reports
 
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
-                if(Request.QueryString["userId"] != "")
-                    userId = Convert.ToInt32(Request.QueryString["userId"]);
+                //if(Request.QueryString["userId"] != "")
+                //    userId = Convert.ToInt32(Request.QueryString["userId"]);
 
-                RenderReport(loanId, userId);
+                RenderReport(loanId);
             }
         }
 
-        public void RenderReport(int loanId, int userId)
+        //public void RenderReport(int loanId, int userId)
+        public void RenderReport(int loanId)
         {
+            if (Session["AuthenticatedUser"] == null) return;
+            User userData = (User)Session["AuthenticatedUser"];
+
             rptViewerAddUnit.ProcessingMode = ProcessingMode.Local;
             rptViewerAddUnit.Reset();
             rptViewerAddUnit.LocalReport.EnableExternalImages = true;
@@ -35,7 +39,7 @@ namespace BankLoanSystem.Reports
             rptViewerAddUnit.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
             foreach (var dates in details)
             {
@@ -44,7 +48,7 @@ namespace BankLoanSystem.Reports
 
             rptViewerAddUnit.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
 
-            List<RptAddUnit> units = ra.GetJustAddedUnitDetails(userId, loanId);
+            List<RptAddUnit> units = ra.GetJustAddedUnitDetails(userData.UserId, loanId);
 
             rptViewerAddUnit.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
 
@@ -53,6 +57,9 @@ namespace BankLoanSystem.Reports
 
         public ReportViewer PrintPage(int loanId, int userId)
         {
+            if (Session["AuthenticatedUser"] == null) return null;
+            User userData = (User)Session["AuthenticatedUser"];
+
             ReportViewer rptViewerAddUnitPrint = new ReportViewer();
 
             rptViewerAddUnitPrint.ProcessingMode = ProcessingMode.Local;
@@ -62,7 +69,7 @@ namespace BankLoanSystem.Reports
             rptViewerAddUnitPrint.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
             foreach (var dates in details)
             {

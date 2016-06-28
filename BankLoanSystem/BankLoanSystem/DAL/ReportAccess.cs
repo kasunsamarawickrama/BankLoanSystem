@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Web.Mvc;
 using BankLoanSystem.Models;
 
 namespace BankLoanSystem.DAL
 {
-    public class ReportAccess: Controller
+    public class ReportAccess : Controller
     {
         public List<LoanIdNumber> GetLoanNumbersWithBranch(int companyId)
         {
@@ -76,14 +77,17 @@ namespace BankLoanSystem.DAL
                     account.LoanAmount = Convert.ToDecimal(dataRow["loan_amount"].ToString());
                     account.UsedAmount = Convert.ToDecimal(dataRow["used_amount"].ToString());
                     account.ActiveUnits = Convert.ToInt32(dataRow["active_units"]);
+                    account.PatBranchAddress1 = dataRow["branch_address_1"].ToString();
+                    account.PatBranchAddress2 = dataRow["branch_address_2"].ToString();
+                    account.PatCity = dataRow["city"].ToString();
                     Accounts.Add(account);
-                  
+
                 }
 
-               
+
             }
 
-          
+
             // returning the List of account details of relevant user (Super Admin/ Admin)
             return Accounts;
         }
@@ -112,15 +116,27 @@ namespace BankLoanSystem.DAL
             return userLoanRights;
         }
 
-        public List<LoanDetailsRpt> GetLoanDetailsRpt(int loanId)
+        /*
+
+            Frontend page: Report viewr(Report Page)
+            Title: Get loan details
+            Designed: Kanishk SHM
+            User story: 
+            Developed: Kanishk SHM
+            Date created: 
+
+        */
+
+        public List<LoanDetailsRpt> TopHeaderDetails(int loanId, int userId)
         {
             List<LoanDetailsRpt> loanDetails = new List<LoanDetailsRpt>();
 
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
             paramertList.Add(new object[] { "@loan_id", loanId });
 
-            DataSet dataSet = dataHandler.GetDataSet("spGetLoanDetailsByLoanIdRpts", paramertList);
+            DataSet dataSet = dataHandler.GetDataSet("spGetTopHeaderDetailsRpts", paramertList);
 
             if (dataSet != null && dataSet.Tables.Count != 0)
             {
@@ -128,6 +144,7 @@ namespace BankLoanSystem.DAL
                 {
                     LoanDetailsRpt details = new LoanDetailsRpt();
 
+                    details.CreaterName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(dataRow["first_name"] + " " + dataRow["last_name"]);
                     details.LenderBrnchName = dataRow["branch_name"].ToString();
                     details.DealerBrnchName = dataRow["nr_branch_name"].ToString();
                     details.LoanNumber = dataRow["loan_number"].ToString();
@@ -141,6 +158,47 @@ namespace BankLoanSystem.DAL
             return loanDetails;
         }
 
+        public List<LoanDetailsRpt> GetLoanDetailsRpt(int loanId)
+        {
+            List<LoanDetailsRpt> loanDetails = new List<LoanDetailsRpt>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            //paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@loan_id", loanId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetLoanDetailsByLoanIdRpts", paramertList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    LoanDetailsRpt details = new LoanDetailsRpt();
+
+                    
+                    details.LenderBrnchName = dataRow["branch_name"].ToString();
+                    details.DealerBrnchName = dataRow["nr_branch_name"].ToString();
+                    details.LoanNumber = dataRow["loan_number"].ToString();
+
+                    loanDetails.Add(details);
+
+                    break;
+                }
+            }
+
+            return loanDetails;
+        }
+
+        /*
+
+            Frontend page: Report viewr(Report Page)
+            Title: Get curtailment details of units by date range
+            Designed: Kanishk SHM
+            User story: 
+            Developed: Kanishk SHM
+            Date created: 
+
+        */
         public List<CurtailmentShedule> GetCurtailmentScheduleByDateRange(int loanId, DateTime dueDateStart, DateTime dueDateEnd)
         {
             List<CurtailmentShedule> lstCurtailmentShedule = new List<CurtailmentShedule>();
@@ -179,9 +237,19 @@ namespace BankLoanSystem.DAL
 
                 return lstCurtailmentShedule;
             }
-                return null;
-            }
+            return null;
+        }
 
+        /*
+
+            Frontend page: Report viewr(Report Page)
+            Title: Get curtailment payment details of units by date range
+            Designed: Kanishk SHM
+            User story: 
+            Developed: Kanishk SHM
+            Date created: 
+
+        */
         public List<CurtailmentShedule> GetCurtailmentPaidDetailsByDateRange(int loanId, DateTime paidDateStart, DateTime paidDateEnd)
         {
             List<CurtailmentShedule> lstCurtailmentShedule = new List<CurtailmentShedule>();
@@ -205,7 +273,7 @@ namespace BankLoanSystem.DAL
                     curtailment.Year = Convert.ToInt32(dataRow["year"]);
                     curtailment.Make = dataRow["make"].ToString();
                     curtailment.Model = dataRow["model"].ToString();
-                    curtailment.PurchasePrice = Convert.ToDecimal(dataRow["cost"]); 
+                    curtailment.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
                     curtailment.CurtNumber = Convert.ToInt32(dataRow["curt_number"]);
 
                     curtailment.PaidDate = Convert.ToDateTime(dataRow["paid_date"].ToString()).ToString("MM/dd/yyyy");
@@ -220,14 +288,24 @@ namespace BankLoanSystem.DAL
                     lstCurtailmentShedule.Add(curtailment);
                 }
 
-                for(int i = 0; i < lstCurtailmentShedule.Count; i++ )
+                for (int i = 0; i < lstCurtailmentShedule.Count; i++)
                     lstCurtailmentShedule[i].TotalAmountPaid = totalpaid;
 
-                
+
             }
             return lstCurtailmentShedule;
         }
 
+        /*
+
+            Frontend page: Report viewr(Report Page)
+            Title: Get all active units details by loan id
+            Designed: Kanishk SHM
+            User story: 
+            Developed: Kanishk SHM
+            Date created: 
+
+        */
         public List<ReportUnitModels> GetAllActiveUnitDetailsRpt(int loanId)
         {
             List<ReportUnitModels> units = new List<ReportUnitModels>();
@@ -312,7 +390,7 @@ namespace BankLoanSystem.DAL
                     }
 
                     justAddedUnitList.Add(justAddedUnit);
-                    
+
                 }
             }
 
@@ -320,7 +398,16 @@ namespace BankLoanSystem.DAL
 
         }
 
+        /*
 
+            Frontend page: Report viewr(Report Page)
+            Title: Get unit details by title status
+            Designed: Kanishk SHM
+            User story: 
+            Developed: Kanishk SHM
+            Date created: 
+
+        */
         public List<Unit> GeUnitDetailsByTitleStatus(int loanId, int titleStatus)
         {
 
@@ -356,7 +443,7 @@ namespace BankLoanSystem.DAL
                     {
                         unit.TitleStatusText = "Received";
                     }
-                    else if(unit.TitleStatus == 2)
+                    else if (unit.TitleStatus == 2)
                     {
                         unit.TitleStatusText = "Returned to Dealer";
                     }
@@ -364,7 +451,7 @@ namespace BankLoanSystem.DAL
                     unit.AdvanceAmount = (dataRow["advance_amount"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00;
                     unit.IsAdvanced = Convert.ToBoolean(dataRow["is_advanced"]);
                     unit.CreatedDate = Convert.ToDateTime(dataRow["created_date"].ToString());
-                    
+
                     units.Add(unit);
 
                 }
@@ -374,6 +461,16 @@ namespace BankLoanSystem.DAL
 
         }
 
+        /*
+
+            Frontend page: Report viewr(Report Page)
+            Title: Get all active unit details
+            Designed: Kanishk SHM
+            User story: 
+            Developed: Kanishk SHM
+            Date created: 
+
+        */
         public List<ReportFullInventoryUnit> GetFullInventoryByLoanId(int loanId)
         {
             List<ReportFullInventoryUnit> units = new List<ReportFullInventoryUnit>();
@@ -427,7 +524,16 @@ namespace BankLoanSystem.DAL
             return units;
         }
 
+        /*
 
+            Frontend page: Report viewr(Report Page)
+            Title: Get advance unit details(this session)
+            Designed: Kanishk SHM
+            User story: 
+            Developed: Kanishk SHM
+            Date created: 
+
+        */
         public List<RptAddUnit> AdvanceUnitsDuringSession(string unitIdList)
         {
             List<RptAddUnit> AdvanceUnits = new List<RptAddUnit>();
@@ -512,7 +618,7 @@ namespace BankLoanSystem.DAL
                 if (feeInvoiceData.Count > 0)
                     feeInvoiceData[0].TotalAdvanceAmount = totalDue;
 
-                return feeInvoiceData; 
+                return feeInvoiceData;
             }
             else
             {
@@ -600,7 +706,7 @@ namespace BankLoanSystem.DAL
                     unit.Make = dataRow["make"].ToString();
                     unit.Model = dataRow["model"].ToString();
                     unit.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
-                    
+
                     unit.AdvanceAmount = Convert.ToDecimal(dataRow["advance_amount"]);
                     unit.PayOffAmount = Convert.ToDecimal(dataRow["payoff_amount"]);
                     int status = Convert.ToInt32(dataRow["title_status"]);
@@ -707,11 +813,11 @@ namespace BankLoanSystem.DAL
             //        totalpaid = totalpaid + Convert.ToDecimal(dataRow["CurtPaidAmount"]);
             //        lstCurtailmentShedule.Add(curtailment);
             //    }
-                //if (lstCurtailmentShedule.Count > 0)
-                //    lstCurtailmentShedule[0].TotalAmountPaid = totalpaid;
+            //if (lstCurtailmentShedule.Count > 0)
+            //    lstCurtailmentShedule[0].TotalAmountPaid = totalpaid;
 
-                for (int i = 0; i < lstCurtailmentShedule.Count; i++)
-                    lstCurtailmentShedule[i].TotalAmountPaid = totalpaid;
+            for (int i = 0; i < lstCurtailmentShedule.Count; i++)
+                lstCurtailmentShedule[i].TotalAmountPaid = totalpaid;
 
 
             //}
@@ -731,7 +837,7 @@ namespace BankLoanSystem.DAL
         /// <param name="dueDateStart"></param>
         /// <param name="dueDateEnd"></param>
         /// <returns></returns>
-        public List<ReportTransactionHistory> GetTransactionHistoryByDateRange(int loanId,DateTime dueDateStart, DateTime dueDateEnd)
+        public List<ReportTransactionHistory> GetTransactionHistoryByDateRange(int loanId, DateTime dueDateStart, DateTime dueDateEnd)
         {
             List<ReportTransactionHistory> loanhiHistories = new List<ReportTransactionHistory>();
             DataHandler dataHandler = new DataHandler();
@@ -861,7 +967,7 @@ namespace BankLoanSystem.DAL
 
                     if (String.Equals(dataRow["payment_due_date"].ToString(), "VP", StringComparison.CurrentCultureIgnoreCase))
                         loanFee.DueDate = "Vehicle Payoff";
-                    else if(String.Equals(dataRow["payment_due_date"].ToString(), "ToA", StringComparison.CurrentCultureIgnoreCase))
+                    else if (String.Equals(dataRow["payment_due_date"].ToString(), "ToA", StringComparison.CurrentCultureIgnoreCase))
                     {
                         loanFee.DueDate = "Time of Advance";
                     }
@@ -891,7 +997,7 @@ namespace BankLoanSystem.DAL
             List<RptEmailReminder> emailReminders = new List<RptEmailReminder>();
 
             DataHandler dataHandler = new DataHandler();
-            List<object[]> paramertList = new List<object[]> {new object[] {"@loan_id", loanId}};
+            List<object[]> paramertList = new List<object[]> { new object[] { "@loan_id", loanId } };
 
             DataSet dataSet = dataHandler.GetDataSet("spGetAutoReminderDetailForLoanTerms ", paramertList);
             if (dataSet != null && dataSet.Tables.Count != 0)
@@ -1059,7 +1165,8 @@ namespace BankLoanSystem.DAL
         /// <param name="dueDateStart">start date</param>
         /// <param name="dueDateEnd">end date</param>
         /// <returns></returns>
-        public List<RptLoanSummary> GetLoanSummaryReport(int loanId, DateTime dueDateStart, DateTime dueDateEnd) {
+        public List<RptLoanSummary> GetLoanSummaryReport(int loanId, DateTime dueDateStart, DateTime dueDateEnd)
+        {
 
             List<RptLoanSummary> loanSummaryList = new List<RptLoanSummary>();
             DataHandler dataHandler = new DataHandler();
@@ -1079,11 +1186,11 @@ namespace BankLoanSystem.DAL
                     loanSummary.LoanAmount = dataRow["LoanAmount"] != DBNull.Value ? Convert.ToDecimal(dataRow["LoanAmount"].ToString()) : 0.00M;
                     loanSummary.TotalUnitsAdded = int.Parse(dataRow["TotalUnitsAdded"].ToString());
                     loanSummary.TotalUnitsAdvanced = int.Parse(dataRow["TotalUnitsAdvanced"].ToString());
-                    loanSummary.TotalAmountAdvanced = dataRow["TotalAmountAdvanced"] != DBNull.Value ? Convert.ToDecimal(dataRow["TotalAmountAdvanced"].ToString()) :0.00M;
+                    loanSummary.TotalAmountAdvanced = dataRow["TotalAmountAdvanced"] != DBNull.Value ? Convert.ToDecimal(dataRow["TotalAmountAdvanced"].ToString()) : 0.00M;
                     loanSummary.TotalAdvanceFees = dataRow["TotalAdvanceFees"] != DBNull.Value ? decimal.Parse(dataRow["TotalAdvanceFees"].ToString()) : 0.00M;
                     loanSummary.TotalCurtailmentsRecieved =
                         dataRow["TotalCurtailmentsRecieved"] != DBNull.Value ? decimal.Parse(dataRow["TotalCurtailmentsRecieved"].ToString()) : 0.00M;
-                    loanSummary.TotalUnitsPaidOff = dataRow["TotalUnitsPaidOff"] != DBNull.Value ? int.Parse(dataRow["TotalUnitsPaidOff"].ToString()):0;
+                    loanSummary.TotalUnitsPaidOff = dataRow["TotalUnitsPaidOff"] != DBNull.Value ? int.Parse(dataRow["TotalUnitsPaidOff"].ToString()) : 0;
                     loanSummary.TotalAmountPaidOff = dataRow["TotalAmountPaidOff"] != DBNull.Value ? decimal.Parse(dataRow["TotalAmountPaidOff"].ToString()) : 0.00M;
                     loanSummary.TotalUnitsDeleted = dataRow["TotalUnitsDeleted"] != DBNull.Value
                         ? int.Parse(dataRow["TotalUnitsDeleted"].ToString())
@@ -1123,11 +1230,11 @@ namespace BankLoanSystem.DAL
                     unit.Year = (dataRow["year"]) != DBNull.Value ? (int)dataRow["year"] : 0000;
                     unit.Make = dataRow["make"].ToString();
                     unit.Model = dataRow["model"].ToString();
-                    unit.AdvanceDate = !dataRow.IsNull("advance_date") ? Convert.ToDateTime(dataRow["advance_date"].ToString()).ToString("MM/dd/yyyy"):"";
+                    unit.AdvanceDate = !dataRow.IsNull("advance_date") ? Convert.ToDateTime(dataRow["advance_date"].ToString()).ToString("MM/dd/yyyy") : "";
                     unit.PurchasePrice = Convert.ToDecimal(dataRow["cost"]);
                     unit.AdvanceAmount = Convert.ToDecimal(dataRow["advance_amount"]);
-                    unit.TotalCurtPaid = !dataRow.IsNull("CurtailmentPaid") ? Convert.ToDecimal(dataRow["CurtailmentPaid"]):0.00M;
-                    unit.BalanceDue = !dataRow.IsNull("BalanceDue") ? Convert.ToDecimal(dataRow["BalanceDue"]):0.00M;
+                    unit.TotalCurtPaid = !dataRow.IsNull("CurtailmentPaid") ? Convert.ToDecimal(dataRow["CurtailmentPaid"]) : 0.00M;
+                    unit.BalanceDue = !dataRow.IsNull("BalanceDue") ? Convert.ToDecimal(dataRow["BalanceDue"]) : 0.00M;
 
                     int status = Convert.ToInt32(dataRow["title_status"]);
 
@@ -1144,7 +1251,7 @@ namespace BankLoanSystem.DAL
                         unit.TitleStatus = "Returned to Dealer";
                     }
 
-                    unit.DeletedDate = !dataRow.IsNull("modified_date") ? Convert.ToDateTime(dataRow["modified_date"].ToString()).ToString("MM/dd/yyyy"):"";
+                    unit.DeletedDate = !dataRow.IsNull("deletedDate") ? Convert.ToDateTime(dataRow["deletedDate"].ToString()).ToString("MM/dd/yyyy") : "";
                     string note = dataRow["Note"].ToString();
                     string[] words = note.Split(';');
                     string getFirst = words[0];

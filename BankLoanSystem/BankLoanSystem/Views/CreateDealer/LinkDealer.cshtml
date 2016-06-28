@@ -425,6 +425,8 @@
         showPopup('Rpt');
         $('#textForPopup').text(model.ReportRightsList[rightId].name);
         $('#desLbl').text(model.ReportRightsList[rightId].description);
+        var str = model.ReportRightsList[rightId].ImagePath;
+        $('#idimg').attr('src',str);
 
     };
     $('#JDUser').change(function () {
@@ -760,18 +762,22 @@
 <div id="PopupDiv">
     <div class="overlay-bg">
     </div>
-    <div class="overlay-content popupRpt" style="width:auto;text-align:center;margin-left: 105px;">
-        <h3 id="textForPopup"></h3>
-        <div style="padding:10px;">
-            <label>Description</label>
+    <div class="overlay-content popupRpt" style="width:auto;text-align:center;margin: auto;margin-top: 99px;">
+        <div class="close-pop icon-cross" style="float: right;font-size: 23px;"></div>
+        <div><h3 id="textForPopup"></h3></div>
+        <div style="padding:10px;font-weight:bold">
+            <label style="color:darkgreen">Description</label>
         </div>
         <div style="padding:10px;">
             <label id="desLbl"></label>
         </div>
         <div style="padding:10px;">
-            <label>Example</label>
+            <label style="color:darkgreen;font-weight:bold">Example</label>
         </div>
-        <button class="close-btn btn btn-info" style="margin-left: 700px;">Close</button>
+        <div style="padding: 10px;">
+            <img onclick="window.open(this.src)" alt="Image" style="max-width: 1500px;max-height: 500px" id="idimg"/>
+        </div>
+        <button class="close-btn btn btn-info" style="margin-left: 893px;">Close</button>
     </div>
 
 </div>
@@ -808,7 +814,7 @@
     });
 
     // hide popup when user clicks on close button or if user clicks anywhere outside the container
-    $('.close-btn, .overlay-bg').click(function () {
+    $('.close-btn, .overlay-bg ,.close-pop').click(function () {
         closePopup();
     });
 

@@ -965,13 +965,11 @@ namespace BankLoanSystem.DAL
                         }
                         if (!string.IsNullOrEmpty(dataRow["has_advance_fee"].ToString()) || !string.IsNullOrEmpty(dataRow["has_monthly_loan_fee"].ToString()) || !string.IsNullOrEmpty(dataRow["has_lot_inspection_fee"].ToString()))
                         {
-                            bool advnce = true;
-                            bool monthly = true;
-                            bool lot = true;
-                            advnce = (dataRow["has_advance_fee"]) != DBNull.Value ? (bool)dataRow["has_advance_fee"] : false;
-                            monthly = (dataRow["has_monthly_loan_fee"]) != DBNull.Value ? (bool)dataRow["has_monthly_loan_fee"] : false;
-                            lot = (dataRow["has_lot_inspection_fee"]) != DBNull.Value ? (bool)dataRow["has_lot_inspection_fee"] : false;
-                            if(advnce|| monthly || lot)
+                           
+                            branch.HasAdvanceFee = (dataRow["has_advance_fee"]) != DBNull.Value ? (bool)dataRow["has_advance_fee"] : false;
+                            branch.HasMonthlyFee = (dataRow["has_monthly_loan_fee"]) != DBNull.Value ? (bool)dataRow["has_monthly_loan_fee"] : false;
+                            branch.HasLotFee = (dataRow["has_lot_inspection_fee"]) != DBNull.Value ? (bool)dataRow["has_lot_inspection_fee"] : false;
+                            if(branch.HasAdvanceFee || branch.HasMonthlyFee || branch.HasLotFee)
                             {
                                 branch.HasFee = true;
                             }

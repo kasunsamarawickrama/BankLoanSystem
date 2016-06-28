@@ -145,7 +145,7 @@ namespace BankLoanSystem.Controllers
                         foreach (var x in rgtList)
                         {
                             //check relevant right for Advance Unit page contains in the user right list
-                            if (x == "U001")
+                            if (x == "U01")
                             {
                                 checkPermission = true;
                             }
@@ -209,7 +209,16 @@ namespace BankLoanSystem.Controllers
             //return advance unit list to view
             return View(advanceUnit);
         }
+        /*
 
+         Frontend page   : Load titles
+         Title           : Load titles for each unit
+         Designed        : Kasun Samarawickrama
+         User story      : 
+         Developed       : Kasun Samarawickrama
+         Date created    : 
+
+         */
         public ActionResult loadTitles(string unitId) {
 
             List<TitleUpload> tl = (new UnitAccess()).GetUploadTitlesByLoanId(unitId);
@@ -513,21 +522,30 @@ namespace BankLoanSystem.Controllers
             var fsResult = File(bytes, "application/pdf");
             return fsResult;
         }
+        /*
 
+       Frontend page   : Load titles
+       Title           : View titles for each unit
+       Designed        : Kasun Samarawickrama
+       User story      : 
+       Developed       : Kasun Samarawickrama
+       Date created    : 
+
+       */
         public FileResult Download(string imagePath)
         {
             string[] tokens = imagePath.Split('/');
             string fileName = tokens[tokens.Length - 1];
             return File(imagePath, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
-        public FileResult Downloadx(string image, string path)
-        {
-            return File(path + image, System.Net.Mime.MediaTypeNames.Application.Octet);
-        }
-        public ActionResult Downloaderx(string imagePath)
-        {
-            return File(imagePath, "application/pdf");
+        //public FileResult Downloadx(string image, string path)
+        //{
+        //    return File(path + image, System.Net.Mime.MediaTypeNames.Application.Octet);
+        //}
+        //public ActionResult Downloaderx(string imagePath)
+        //{
+        //    return File(imagePath, "application/pdf");
 
-        }
+        //}
     }
 }

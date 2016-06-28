@@ -60,9 +60,10 @@ namespace BankLoanSystem.Controllers.Reports
 
             List<Account> userLoanNumbers = new List<Account>();
 
-           
-            ViewBag.RoleId = _userData.RoleId;
-            ViewBag.BranchId = _userData.BranchId;
+            ViewBag.RoleId = _userData.RoleId; //user role
+            ViewBag.BranchId = _userData.BranchId; // branch
+
+            // check user rile 
             if (_userData.RoleId == 1)
             {
                 loanNumbers = ra.GetAccountDetails(_userData.Company_Id, _userData.RoleId);
@@ -82,7 +83,7 @@ namespace BankLoanSystem.Controllers.Reports
                     return RedirectToAction("UserDetails", "UserManagement");
                 }
                 else {
-                    var checkPermission = false;
+                    bool checkPermission = false;
                     string rgts = "";
                     rgts = (string)Session["CurrentLoanRights"];
                     string[] rgtList = null;
@@ -92,9 +93,9 @@ namespace BankLoanSystem.Controllers.Reports
                     }
                     if (rgtList != null)
                     {
-                        foreach (var x in rgtList)
+                        foreach (string x in rgtList)
                         {
-                            if (x == "U006")
+                            if (x == "U06")
                             {
                                 checkPermission = true;
                             }
@@ -117,16 +118,16 @@ namespace BankLoanSystem.Controllers.Reports
                         {
                             List<UserRights> userLoanRights = ra.GeUserRightsForReporting(_userData.UserId);
                             List<Account> loanNumbersUsers = new List<Account>();
-                            foreach (var item in userLoanRights)
+                            foreach (UserRights item in userLoanRights)
                             {
                                 string[] tokens = null;
                                 string loanRights = item.PermissionList;
                                 if (loanRights != "") tokens = loanRights.Split(',');
                                 if (tokens != null)
                                 {
-                                    foreach (var x in tokens)
+                                    foreach (string x in tokens)
                                     {
-                                        if (x == "U006")
+                                        if (x == "U06")
                                         {
                                             loanNumbersUsers.AddRange(loanNumbers.Where(loans => item.LoanId == loans.LoanId));
                                         }
@@ -186,7 +187,7 @@ namespace BankLoanSystem.Controllers.Reports
 
             // these varibles are for JqGrid purpose
 
-            var count = loanNumbers.Count(); // number of rows
+            int count = loanNumbers.Count(); // number of rows
             int pageIndex = page; // number of pages on the grid
             int pageSize = rows; // maximum page sige
             int startRow = (pageIndex * pageSize) + 1;
@@ -210,7 +211,10 @@ namespace BankLoanSystem.Controllers.Reports
                    
                    
                     x.UsedAmount,
-                    x.ActiveUnits
+                    x.ActiveUnits,
+                    x.PatBranchAddress1,
+                    x.PatBranchAddress2,
+                    x.PatCity
                 }
                                          ).ToArray().Select(x => new
                                          {
@@ -221,7 +225,10 @@ namespace BankLoanSystem.Controllers.Reports
                                                         x.LoanNumber.ToString(),
                                                         x.LoanAmount.ToString(),
                                                         x.UsedAmount.ToString(),
-                                                        x.ActiveUnits.ToString()
+                                                        x.ActiveUnits.ToString(),
+                                                        x.PatBranchAddress1,
+                                                        x.PatBranchAddress2,
+                                                        x.PatCity
                                                       }
                                          }
                       ).ToArray()
@@ -235,29 +242,30 @@ namespace BankLoanSystem.Controllers.Reports
 
         }
 
-        // <summary>
-        // Print reports
-        // </summary>
-        // <param name="rptType"></param>
-        // <param name="loanId"></param>
-        // <param name="range1"></param>
-        // <param name="range2"></param>
-        // <param name="titleStatus"></param>
-        //[HttpPost]
-        //public int PrintPage(string rptType, int loanId, string range1, string range2, string titleStatus)
+        /*
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+            Frontend page: Report page
+            Title: Loan pdf viwer
+            Designed: Kanishka SHM
+            User story: 
+            Developed: Kanishka SHM
+            Date created: 
+            Modified: Kanishka SHM
+            Date Modified: 06/28/2016
+        */
         public FileResult PrintPage()
         {
+            //check authentication session is null, if null return
+            if (Session["AuthenticatedUser"] == null) return null;
+            User userData = (User)Session["AuthenticatedUser"];
+
+            //to store report viwer as a pdf file
             Warning[] warnings;
             string[] streamids;
             string mimeType;
             string encoding;
             string filenameExtension;
-            ReportViewer rptViewerPrint = new ReportViewer();
+            ReportViewer rptViewerPrint;
 
             string rptType = "";
             int loanId = 0;
@@ -265,21 +273,27 @@ namespace BankLoanSystem.Controllers.Reports
             string range2 = "";
             int titleStatus = 0;
 
+            // get report type
             if (Request.QueryString["rptType"] != "")
                 rptType = Request.QueryString["rptType"];
 
+            // get loan id
             if (Request.QueryString["loanId"] != "")
                 loanId = Convert.ToInt32(Request.QueryString["loanId"]);
 
+            // stat date of range
             if(Request.QueryString["range1"] != "")
                 range1 = Request.QueryString["range1"];
 
+            // end date of range
             if (Request.QueryString["range2"] != "")
                 range2 = Request.QueryString["range2"];
 
+            // title status
             if(Request.QueryString["titleStatus"] != "")
                 titleStatus = Convert.ToInt32(Request.QueryString["titleStatus"]);
 
+            // call pdf viwer by report type
             if (rptType == "LotInspection")
             {
                 RptDivLotInspection lInspection = new RptDivLotInspection();
@@ -390,11 +404,13 @@ namespace BankLoanSystem.Controllers.Reports
             }
             else if(rptType == "CompanySummary")
             {
-                
+                RptDivCompanySummary companySummary = new RptDivCompanySummary();
+                rptViewerPrint = companySummary.PrintPage(userData.Company_Id);
             }
             else if (rptType == "BranchSummary")
             {
-
+                RptDivBranchSummary branchSummary = new RptDivBranchSummary();
+                rptViewerPrint = branchSummary.PrintPage(userData.BranchId);
             }
             else if (rptType == "DeletedUnits")
             {
@@ -404,16 +420,26 @@ namespace BankLoanSystem.Controllers.Reports
                 RptDivDeletedUnits deleteUnits = new RptDivDeletedUnits();
                 rptViewerPrint = deleteUnits.PrintPage(loanId, startDate, endtDate);
             }
+            else if (rptType == "LoanSummary")
+            {
+                DateTime startDate = Convert.ToDateTime(range1);
+                DateTime endtDate = Convert.ToDateTime(range2);
+
+                RptDivLoanSummary deleteUnits = new RptDivLoanSummary();
+                rptViewerPrint = deleteUnits.PrintPage(loanId, startDate, endtDate);
+            }
             else
             {
                 return null;
             }
 
-            var bytes = rptViewerPrint.LocalReport.Render(
+            // store report viewer as pdf format
+            byte[] bytes = rptViewerPrint.LocalReport.Render(
                 "PDF", null, out mimeType, out encoding, out filenameExtension,
                 out streamids, out warnings);
 
-            var fsResult = File(bytes, "application/pdf");
+            // return pdf file
+            FileContentResult fsResult = File(bytes, "application/pdf");
             return fsResult;
         }
 

@@ -28,6 +28,9 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int loanId)
         {
+            if (Session["AuthenticatedUser"] == null) return;
+            User userData = (User)Session["AuthenticatedUser"];
+
             rptViewerAdvanceUnit.ProcessingMode = ProcessingMode.Local;
             rptViewerAdvanceUnit.Reset();
             rptViewerAdvanceUnit.LocalReport.EnableExternalImages = true;
@@ -36,7 +39,7 @@ namespace BankLoanSystem.Reports
             List<Unit> units = (List<Unit>)Session["AdvItems"];
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
             foreach (var dates in details)
             {
@@ -73,6 +76,9 @@ namespace BankLoanSystem.Reports
 
         public ReportViewer PrintPage(int loanId)
         {
+            if (Session["AuthenticatedUser"] == null) return null;
+            User userData = (User)Session["AuthenticatedUser"];
+
             ReportViewer rptViewerAdvanceUnitPrint = new ReportViewer();
 
             rptViewerAdvanceUnitPrint.ProcessingMode = ProcessingMode.Local;
@@ -83,7 +89,7 @@ namespace BankLoanSystem.Reports
             List<Unit> units = (List<Unit>)Session["AdvItems"];
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
             foreach (var dates in details)
             {

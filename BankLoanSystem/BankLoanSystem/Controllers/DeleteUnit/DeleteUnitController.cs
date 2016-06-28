@@ -80,7 +80,7 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                     {
                         foreach (var x in rgtList)
                         {
-                            if (x == "U008")
+                            if (x == "U08")
                             {
                                 checkPermission = true;
                             }

@@ -33,6 +33,9 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int loanId)
         {
+            if (Session["AuthenticatedUser"] == null) return;
+            User userData = (User)Session["AuthenticatedUser"];
+
             rptViewerCurtailmentReceiptDuringSession.ProcessingMode = ProcessingMode.Local;
             rptViewerCurtailmentReceiptDuringSession.Reset();
             rptViewerCurtailmentReceiptDuringSession.LocalReport.EnableExternalImages = true;
@@ -40,7 +43,7 @@ namespace BankLoanSystem.Reports
             rptViewerCurtailmentReceiptDuringSession.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
             foreach (var dates in details)
             {
@@ -74,8 +77,11 @@ namespace BankLoanSystem.Reports
             }
         }
 
-        public int PrintPage(int loanId)
+        public ReportViewer PrintPage(int loanId)
         {
+            if (Session["AuthenticatedUser"] == null) return null;
+            User userData = (User)Session["AuthenticatedUser"];
+
             ReportViewer rptViewerCurtailmentReceiptDuringSessionPrint = new ReportViewer();
             rptViewerCurtailmentReceiptDuringSessionPrint.ProcessingMode = ProcessingMode.Local;
             rptViewerCurtailmentReceiptDuringSessionPrint.Reset();
@@ -83,7 +89,7 @@ namespace BankLoanSystem.Reports
             rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptCurtailmentDuringSession.rdlc");
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
             foreach (var dates in details)
             {
@@ -100,7 +106,7 @@ namespace BankLoanSystem.Reports
                 rptViewerCurtailmentReceiptDuringSessionPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", selectedCurtailmentSchedules));
             }
             
-            return 0;
+            return rptViewerCurtailmentReceiptDuringSessionPrint;
         }
     }
 }
