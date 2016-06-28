@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
-
+@using BankLoanSystem.Controllers
 <script src="~/scripts/popup.js"></script>
 
 
@@ -25,6 +25,12 @@
         border: 1px solid #d4ea1a; 
      background: #eaec36; 
     }
+    .popup-report-no-permission{
+        width:640px;
+        text-align:center;
+        margin-left: 173px;
+        top:280px;
+    }
 </style>
 
 <div class="overlay-content popup1">
@@ -41,6 +47,21 @@
 </div>
 
 
+<div class="overlay-content popup-report-no-permission">
+
+    <h3>Message</h3>
+
+    <div class="alert alert-info" role="alert">
+        You don't have any report access for any loan
+    </div><br />
+    <span> Please Contact Your Admin</span><br />
+    <br />
+    
+    <button class="btn btn-info" style="width:200px" onclick="$('.overlay-bg, .overlay-content').hide();">OK</button>
+
+</div>
+
+
     @if (ViewBag.LoanCount > 0 && ((ViewBag.roleId == 1) || (ViewBag.roleId == 2) || (ViewBag.roleId == 3) || (ViewBag.roleId == 4)))
     {
        
@@ -52,11 +73,16 @@
                 <div class="select-loan">
 
                 @if (ViewBag.loanSelected == 1) { 
-                    <div>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" })</div>
+                   @Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "sel-loan a_demo_three icon-point-right nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" , style = "text-decoration: none;" })
                 }
                 @if (ViewBag.LoanCount > 1)
                 {
-                    <div>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" })</div>
+                    @*<div>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" })</div>*@
+
+                    
+
+                      @Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "sel-loan a_demo_three icon-point-right nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" , style= "text-decoration: none;" })
+                    
                 }
                 else
                 {
@@ -226,13 +252,15 @@
                                Fees
                             </button>
                         }
-                                    // editted by irfan
-                       
+                        // editted by irfan
+
 
                         <button class="a_demo_three icon-stack withloanselectionUser">
 
                             Reports
                         </button>
+
+                       
 
                         if (!ViewBag.RightList.Contains("U06"))
                         {
@@ -741,4 +769,17 @@ ids = grid.getDataIDs();
     // disable edit, add , false on pager
     jQuery("#grid").jqGrid('navGrid', '#pager2',
             { edit: false, add: false, del: false });
+
+
+    @* if there is no user rights give pop up message to user*@
+    @if (!(new UserManagementController()).IsAtleastOnePermissionForReport(ViewBag.Userid) && ViewBag.roleId == 3)
+    {
+    <text>
+    $('.icon-stack').addClass('show-popup').attr('data-showpopup','-report-no-permission').removeAttr('onclick');
+    
+    </text>
+    }
 </script>
+
+
+ 
