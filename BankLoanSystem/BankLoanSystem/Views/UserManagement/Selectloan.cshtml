@@ -60,6 +60,11 @@
         actoinName = "RenewLoan";
         controllerName = "UserManagement";
     }
+    else if (ViewBag.type == "InactiveLoan")
+    {
+        actoinName = "InactiveLoan";
+        controllerName = "UserManagement";
+    }
     else
     {
         <text>$(location).attr('href', '/Unit/setLoanCode?loanCode=""');</text>
