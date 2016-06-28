@@ -245,35 +245,43 @@ namespace BankLoanSystem.Controllers.Unit
             //check this posted vin unique in database
 
             int num = 0;
+            // vehile ID number
             if (unit.UnitTypeId == 1)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.vehicle.IdentificationNumber, unit.LoanId);
             }
+            // rv ID number
             else if (unit.UnitTypeId == 2)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.rv.IdentificationNumber , unit.LoanId);
 
             }
+            // camper ID number
             else if (unit.UnitTypeId == 3)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.camper.IdentificationNumber, unit.LoanId);
             }
+            // atv ID number
             else if (unit.UnitTypeId == 4)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.atv.IdentificationNumber, unit.LoanId);
             }
+            // boat ID number
             else if (unit.UnitTypeId == 5)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.boat.IdentificationNumber, unit.LoanId);
             }
+            // motorcycle ID number 
             else if (unit.UnitTypeId == 6)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.motorcycle.IdentificationNumber, unit.LoanId);
             }
+            // snowmobile ID number 
             else if (unit.UnitTypeId == 7)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.snowmobile.IdentificationNumber, unit.LoanId);
             }
+            // heavyequipment ID number 
             else if (unit.UnitTypeId == 8)
             {
                 num = (new UnitAccess()).IsUniqueVinForaLoan(unit.heavyequipment.SerialNumber, unit.LoanId);
@@ -535,47 +543,62 @@ namespace BankLoanSystem.Controllers.Unit
 
         }
 
-
+        /// <summary>
+        /// Frontend Page:Bottom Link Bar of each page in floor plan management section
+        /// Title: return view according to user rights and loan setup details
+        /// Designed: Irfan MAM
+        /// User Story:
+        /// Developed: Piyumi P
+        /// Date created:
+        /// </summary>
+        /// <returns></returns>
         public ActionResult GetLinkBar()
         {
-
+        //assign logged user id to int variable
             int userId = userData.UserId;
             string loanCode = "";
 
             UserRightsAccess access = new UserRightsAccess();
 
-            /////retrive all rights
+            //retrive all rights
             List<Right> rights = new List<Right>();
-
+            //assign logged user role to int variable
             int userRole = userData.RoleId;
+            //check Session["loanCode"] is not null and not empty
             if ((Session["loanCode"] != null) && (!string.IsNullOrEmpty(Session["loanCode"].ToString())))
             {
+            //convert session to string variable
                 loanCode = Session["loanCode"].ToString();
             }
-
+            //check user role is user
             if (userRole == 3)
             {
+            //retrieve rigts given for the loan 
                 rights = access.GetUserRightsByLoanCode(loanCode, userId);
             }
+            //assign user role to viewbag variable
             ViewBag.Role = userRole;
 
-
+            //check Session["addUnitloan"] is null
             if (Session["addUnitloan"] == null)
             {
+            //return to login page
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Failed find loan" });
             }
-
+            //convert session to loan object
             LoanSetupStep1 loan = (LoanSetupStep1)Session["addUnitloan"];
-
-            //Title ttl = (new TitleAccess()).getTitleDetails(loan.loanId);
+            //check  Session["IsTitleTrack"] is not null
             if (Session["IsTitleTrack"] != null)
             {
+            //check session value
                 if (int.Parse(Session["IsTitleTrack"].ToString())==1)
                     {
+                    //if 1 - title need to be tracked
                         ViewBag.ttlAccess = 1;
                     }
                     else
                     {
+                    //else title no need to be tracked
                         ViewBag.ttlAccess = 0;
 
                     }
@@ -584,40 +607,53 @@ namespace BankLoanSystem.Controllers.Unit
             }
             else
             {
+                //else title no need to be tracked
                 ViewBag.ttlAccess = 0;
 
             }
-
+            //check Session["oneLoanDashboard"] which contains loan data if logged user has one loan is not null and not empty
             if ((Session["oneLoanDashboard"] != null) && (!string.IsNullOrEmpty(Session["oneLoanDashboard"].ToString())))
             {
                 Loan loanObj = new Loan();
+                //convert session to loan object
                     loanObj = (Loan)Session["oneLoanDashboard"];
+                    //check if loan has at least one fee
                 if ((loanObj.LotInspectionFee == 1) || (loanObj.MonthlyLoanFee == 1) || (loanObj.AdvanceFee == 1))
                     {
-                        ViewBag.FeeLB = 1;
+                    //assign value 1 for ViewBag.FeeLB
+                    ViewBag.FeeLB = 1;
                     }
                     else
                     {
-                        ViewBag.FeeLB = 0;
+                    //assign value 0 for ViewBag.FeeLB
+                    ViewBag.FeeLB = 0;
                     }
             }
-           else if ((Session["loanDashboard"] != null) && (!string.IsNullOrEmpty(Session["loanDashboard"].ToString())))
+            //check Session["loanDashboard"] which contains loan data if logged user select in popup is not null and not empty
+            else if ((Session["loanDashboard"] != null) && (!string.IsNullOrEmpty(Session["loanDashboard"].ToString())))
             {
                 Loan loanObj = new Loan();
+                //convert session to loan object
                 loanObj = (Loan)Session["loanDashboard"];
+                //check if loan has at least one fee
                 if ((loanObj.LotInspectionFee == 1) || (loanObj.MonthlyLoanFee == 1) || (loanObj.AdvanceFee == 1))
                 {
+                    //assign value 1 for ViewBag.FeeLB
                     ViewBag.FeeLB = 1;
                 }
                 else
                 {
+                    //assign value 0 for ViewBag.FeeLB
                     ViewBag.FeeLB = 0;
                 }
             }
+            //check Session["loanDashboard"] and check Session["oneLoanDashboard"] is null
             else if ((Session["oneLoanDashboard"] == null) && (Session["loanDashboard"] == null))
             {
+            //return to login page
                 return RedirectToAction("UserLogin", "Login");
             }
+            //return right list to partial view
             return PartialView(rights);
 
         }

@@ -123,7 +123,17 @@ namespace BankLoanSystem.DAL
                 throw ex;
             }
         }
-
+        /// <summary>
+        /// Frontend Page:Bottom Link Bar of each page in floor plan management section
+        /// Title: return user rights for given loan code and user id
+        /// Designed: Irfan MAM
+        /// User Story:
+        /// Developed: Piyumi P
+        /// Date created:
+        /// </summary>
+        /// <param name="loanCode"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public List<Right> GetUserRightsByLoanCode(string loanCode,int userId) 
         {
             List<Right> resltList = new List<Right>();

@@ -897,23 +897,26 @@
                             <div class="form-group">
                                 @*@Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })*@
 
-                                <label class="control-label col-md-2" for="Cost">Cost  <span class="icon-help_outline help-cost"></span></label>
+                                <label class="control-label col-md-2" for="Cost" style="margin-top: -5px;">Cost  <span class="icon-help_outline help-cost"></span></label>
                                 <div class="col-md-3">
-                                    @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control unset", @id = "txtCost", autocomplete = "off", @placeholder = "0.00", @style = "text-align: right;" } })
+                                    <p style="font-size: 18px;padding-right: 200px;">$</p>
+                                    @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control unset", @id = "txtCost", autocomplete = "off", @placeholder = "0.00", @style = "text-align: right;margin-left: 17px;margin-top: -35px;" } })
                                     @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger", @style = "left: 1%;" })
                                     <div id="tagscloud" class="validation-error"><span class="text-danger co"></span></div>
                                 </div>
 
                                 @*@Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 57px;" })*@
-                                <label class="control-label col-md-3" for="AdvanceAmount" style="padding-left: 35px;">Advance Amount  <span class="icon-help_outline help-adv_amount"></span></label>
+                                <label class="control-label col-md-3" for="AdvanceAmount" style="padding-left: 35px;margin-top: -5px;">Advance Amount  <span class="icon-help_outline help-adv_amount"></span></label>
                                 <div class="col-md-3">
                                     @if (ViewBag.Editable == "Yes")
                                     {
-                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control unset", @id = "txtLoanAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;", @tabindex = "-1" } })
+                                        <p style="font-size: 18px;padding-right: 200px;">$</p>
+                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control unset", @id = "txtLoanAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;;margin-left: 17px;margin-top: -35px;", @tabindex = "-1" } })
                                     }
                                     else
                                     {
-                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control unset", @readonly = "readonly", @id = "txtLoanAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;", @tabindex = "-1" } })
+                                        <p style="font-size: 18px;padding-right: 200px;">$</p>
+                                        @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control unset", @readonly = "readonly", @id = "txtLoanAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;;margin-left: 17px;margin-top: -35px;", @tabindex = "-1" } })
                                     }
                                     @Html.ValidationMessageFor(model => model.AdvanceAmount, "", new { @class = "text-danger", @style = "left: 0%; text-align: left; width: 217px;" })
                                     <div id="tagscloudAdvance" class="validation-error"><span class="text-danger ad"></span></div>
