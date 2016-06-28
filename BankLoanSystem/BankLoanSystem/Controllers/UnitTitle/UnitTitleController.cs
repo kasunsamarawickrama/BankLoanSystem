@@ -98,7 +98,7 @@ namespace BankLoanSystem.Controllers.UnitTitle
                         foreach (var x in rgtList)
                         {
                             //Check right list contains the relevant right which represent Update Titles page
-                            if (x == "U002")
+                            if (x == "U02")
                             {
                                 checkPermission = true;
                             }

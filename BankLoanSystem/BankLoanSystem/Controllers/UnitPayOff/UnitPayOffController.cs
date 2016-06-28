@@ -153,7 +153,7 @@ namespace BankLoanSystem.Controllers.UnitPayOff
                 {
                     foreach (var x in rgtList)
                     {
-                        if (x == "U003")
+                        if (x == "U03")
                         {
                             checkPermission = true;
                         }

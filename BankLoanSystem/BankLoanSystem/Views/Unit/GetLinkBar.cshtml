@@ -57,7 +57,7 @@ else if ((ViewBag.Role == 3) && (Model.Count() > 0) && (Model != null))
     foreach (var item in Model)
     {
 
-        if (item.rightsPermissionString.Contains("U004"))
+        if (item.rightsPermissionString.Contains("U04"))
         {
     <button id="lkuni" class="a_demo_three icon-automobile" onclick="window.location.href='/Unit/Addunit'">
         
@@ -66,7 +66,7 @@ else if ((ViewBag.Role == 3) && (Model.Count() > 0) && (Model != null))
 
         @*@Html.ActionLink("Unit", "addunit", "unit", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkuni" })*@
         }
-        if (item.rightsPermissionString.Contains("U001"))
+        if (item.rightsPermissionString.Contains("U01"))
         {
         <button id="lkadv" class="a_demo_three icon-dollar" onclick="window.location.href='/AdvanceUnit/Advance'">
             
@@ -74,7 +74,7 @@ else if ((ViewBag.Role == 3) && (Model.Count() > 0) && (Model != null))
         </button>
         @*@Html.ActionLink("Advance", "Advance", "AdvanceUnit", null, new { @class = "btn btn-info btn-arrow-right link" , @id="lkadv" })*@
         }
-        if (item.rightsPermissionString.Contains("U005"))
+        if (item.rightsPermissionString.Contains("U05"))
         {
     <button id="lkcrtl" class="a_demo_three icon-coin-dollar" onclick="window.location.href='/Curtailments/PayCurtailments'">
         
@@ -82,7 +82,7 @@ else if ((ViewBag.Role == 3) && (Model.Count() > 0) && (Model != null))
     </button>
         @*@Html.ActionLink("Curtailment", "PayCurtailments", "Curtailments", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkcrtl" })*@
         }
-        if (item.rightsPermissionString.Contains("U002") && ViewBag.ttlAccess == 1)
+        if (item.rightsPermissionString.Contains("U02") && ViewBag.ttlAccess == 1)
         {
         <button id="lkttl" class="a_demo_three icon-files-empty" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
             
@@ -91,7 +91,7 @@ else if ((ViewBag.Role == 3) && (Model.Count() > 0) && (Model != null))
 
         @*@Html.ActionLink("Title", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info btn-arrow-right link",   @id = "lkttl" })*@
         }
-        if (item.rightsPermissionString.Contains("U003"))
+        if (item.rightsPermissionString.Contains("U03"))
         {
         <button id="lkpoff" class="a_demo_three icon-banknote" onclick="window.location.href='/UnitPayOff/PayOff'">
             
@@ -100,21 +100,21 @@ else if ((ViewBag.Role == 3) && (Model.Count() > 0) && (Model != null))
         
         @*@Html.ActionLink("Pay Off", "PayOff", "UnitPayOff", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkpoff" })*@
         }
-        if (item.rightsPermissionString.Contains("U007") && (ViewBag.FeeLB == 1))
+        if (item.rightsPermissionString.Contains("U07") && (ViewBag.FeeLB == 1))
         {
             <button id="lkfee" class="a_demo_three icon-credit" onclick="window.location.href='/Fee/PayFees'">
                 
                Fees
             </button>
         }
-        if (item.rightsPermissionString.Contains("U006"))
+        if (item.rightsPermissionString.Contains("U06"))
         {
         <button id="lkrep" class="a_demo_three icon-stack" onclick="window.location.href='/Reports/ReportIndex'">
             
             Reports
         </button>
         }
-        if (item.rightsPermissionString.Contains("U008"))
+        if (item.rightsPermissionString.Contains("U08"))
         {
             <button id="lkdeluni" class="a_demo_three icon-bin2" onclick="window.location.href='/DeleteUnit/Delete'">
                

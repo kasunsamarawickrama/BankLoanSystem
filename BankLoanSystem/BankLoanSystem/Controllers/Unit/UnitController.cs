@@ -118,12 +118,12 @@ namespace BankLoanSystem.Controllers.Unit
                         foreach (var x in rgtList)
                         {
                             //check user have rights to add unit page
-                            if (x == "U004")
+                            if (x == "U04")
                             {
                                 checkPermission = true;
                             }
                             // check user have right to advance units in this page
-                            if (x == "U001")
+                            if (x == "U01")
                             {
                                 checkAdvance = true;
                             }

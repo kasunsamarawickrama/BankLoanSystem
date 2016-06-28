@@ -920,6 +920,18 @@ namespace BankLoanSystem.Controllers
                     return RedirectToAction("UserLogin", "Login");
                 }
             }
+            else if(!string.IsNullOrEmpty(type) && type.Contains("tcaninaol"))
+            {
+                detail = (new UnitAccess()).GetActiveLoanforInactive(userData.Company_Id, userData.BranchId, userData.RoleId);
+                if (detail != null)
+                {
+                    Session["detail"] = detail;
+                }
+                else
+                {
+                    return RedirectToAction("UserLogin", "Login");
+                }
+            }
             else if (!string.IsNullOrEmpty(type))
             {
                 detail = (new UnitAccess()).GetPermisssionGivenLoanwithBranchDeatils(userData.UserId, userData.Company_Id, userData.BranchId, userData.RoleId);
@@ -1094,6 +1106,11 @@ namespace BankLoanSystem.Controllers
                 ViewBag.type = "EditLoan";
                 return PartialView(loanSelection);
             }
+            else if (type == "tcaninaol") 
+            {
+                ViewBag.type = "InactiveLoan";
+                return PartialView(loanSelection);
+            }
             else if (type == "aticno")
             {
                 ViewBag.type = "RenewLoan";
@@ -1242,6 +1259,11 @@ namespace BankLoanSystem.Controllers
                         Session["loanDashboardEditLoan"] = finalSelectedLoan;
 
                     }
+                    else if ((string)Session["popUpSelectionType"] == "tcaninaol")
+                    {
+                        Session["loanDashboardActiveLoanInact"] = finalSelectedLoan;
+
+                    }
                     else if ((string)Session["popUpSelectionType"] == "aticno")
                     {
                         Session["loanDashboardRenewLoan"] = finalSelectedLoan;
@@ -1264,6 +1286,10 @@ namespace BankLoanSystem.Controllers
             else if ((string)Session["popUpSelectionType"] == "tidenaol")
             {
                 return RedirectToAction("EditLoan");
+            }
+            else if ((string)Session["popUpSelectionType"] == "tcaninaol")
+            {
+                return RedirectToAction("InactiveLoan");
             }
             else if ((string)Session["popUpSelectionType"] == "aticno")
             {
@@ -1921,6 +1947,114 @@ namespace BankLoanSystem.Controllers
             }
         }
 
+        ///<summary>
+        /// Frontend page: Inactive Loan
+        /// Title: create view and get active loan details for inactive
+        /// Designed : Asanka P
+        /// User story: DFP-103
+        /// Developed: Asanka P
+        /// Date created: 6/27/2016
+        ///</summary>
+
+        public ActionResult InactiveLoan()
+        {
+            Session.Remove("popUpSelectionType");
+            Loan loan = new Loan();
+            if (Session["oneLoanDashboard"] != null)
+            {
+                loan = (Loan)Session["oneLoanDashboard"];
+                //Session.Remove("oneLoanDashboard");
+            }
+            if (Session["loanDashboardAssignUser"] != null)
+            {
+                loan = (Loan)Session["loanDashboardAssignUser"];
+            }
+            if (Session["loanDashboardActiveLoanInact"] != null)
+            {
+                loan = (Loan)Session["loanDashboardActiveLoanInact"];
+            }
+            if (TempData["EditReslt"] != null)
+            {
+                if ((string)TempData["EditReslt"] == "success")
+                {
+                    ViewBag.SuccessMsg = "Loan Status Successfully Updated";
+                    if ((Session["loanDashboardActiveLoanInact"] != null) && (Session["loanDashboardActiveLoanInact"].ToString() != ""))
+                    {
+                        loan.CurrentLoanStatus = true;
+                    }
+
+                    Session["loanDashboardActiveLoanInact"] = loan;
+                    //loan = new Loan();
+                    //return View(loan);
+                }
+                else if ((string)TempData["EditReslt"] == "failed")
+                {
+                    ViewBag.ErrorMsg = "Failed To Update Loan Status";
+                }
+            }
+            if ((Session["loanDashboardActiveLoanInact"] != null) && (Session["loanDashboardActiveLoanInact"].ToString() != ""))
+            {
+
+
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return PartialView(loan);
+                }
+                else
+                {
+
+                    return View(loan);
+                }
+            }
+            else {
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    ViewBag.AjaxRequest = 1;
+                    return RedirectToAction("UserDetails");
+                }
+                else
+                {
+
+                    return RedirectToAction("UserDetails");
+                }
+            }
+        }
+       
+        ///<summary>
+        /// Frontend page: Post Method for Inactive Loan
+        /// Title: create view and get active loan details for inactive in Post method
+        /// Designed : Asanka P
+        /// User story: DFP-103
+        /// Developed: Asanka P
+        /// Date created: 6/27/2016
+        ///</summary>
+        /// <param name="slctdLoanId"></param>
+        /// <param name="slctdLoanCode"></param>
+        public void UpdateLoanStatus_ActiveInactive(int slctdLoanId, string slctdLoanCode)
+        {
+            if ((slctdLoanId > 0) && (!string.IsNullOrEmpty(slctdLoanCode)))
+           {
+                LoanSetupAccess ls = new LoanSetupAccess();
+                int reslt = ls.UpdateLoanStatus_ActiveInactive(slctdLoanId, slctdLoanCode);
+                if (reslt == 1)
+                {
+                    Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "Inactive Loan", "Loan Id : " + slctdLoanId + " ,Edited Status : Inactive", DateTime.Now);
+
+                    int islog = (new LogAccess()).InsertLog(log);
+                    TempData["EditReslt"] = "success";
+                }
+                else
+                {
+                    TempData["EditReslt"] = "failed";
+                }
+            }
+            else
+            {
+                TempData["EditReslt"] = "failed";
+            }
+        }
+
         public ActionResult AssignRights()
         {
             Session.Remove("popUpSelectionType");
@@ -1972,7 +2106,7 @@ namespace BankLoanSystem.Controllers
                 {
                     foreach (var x in list)
                     {
-                        if (x.rightId != "U002")
+                        if (x.rightId != "U02")
                         {
                             user.UserRightsList.Add(x);
                         }
@@ -3477,4 +3611,9 @@ namespace BankLoanSystem.Controllers
            
         }
         }
+
+    
+
+
+
 }

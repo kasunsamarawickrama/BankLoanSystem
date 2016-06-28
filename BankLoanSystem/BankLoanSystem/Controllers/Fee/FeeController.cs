@@ -116,7 +116,7 @@ namespace BankLoanSystem.Controllers.Fee
                     {
                         foreach (var x in rgtList)
                         {
-                            if (x == "U007")
+                            if (x == "U07")
                             {
                                 checkPermission = true;
                             }
