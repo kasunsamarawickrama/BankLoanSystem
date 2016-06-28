@@ -45,7 +45,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
         /// User story:
         /// Developed: Nadeeka
         /// Date created: 2016/03/30
-        /// Edited: Piyumi
+        /// Edited: Piyumi P
         /// </summary>
         /// <returns></returns>
         public ActionResult LinkDealer()
@@ -105,6 +105,33 @@ namespace BankLoanSystem.Controllers.CreateDealer
                     if(!rgt.DealerView)
                     {
                         continue;
+                    }
+                    else
+                    {
+                        //check title need not to be tracked for selected loan and report right for Title Status
+                        if ((loan.IsTitleTrack == 0) && (rgt.rightId=="R04"))
+                        {
+                            //if title need not to be tracked report right for Title Status is not added to right list
+                            continue;
+                        }
+                        //check there is no advance fee for selected loan and report right for advance fee invoice and advance fee receipt
+                        if ((loan.AdvanceFee == 0) && ((rgt.rightId == "R07")||(rgt.rightId == "R08")))
+                        {
+                            //if there is no advance fee, report right for advance fee invoice and advance fee receipt are not added to right list
+                            continue;
+                        }
+                        //check there is no monthly loan fee for selected loan and report right for monthly loan fee invoice and monthly loan fee receipt
+                        if ((loan.MonthlyLoanFee == 0) && ((rgt.rightId == "R09") || (rgt.rightId == "R10")))
+                        {
+                            //if there is no monthly loan fee, report right for monthly loan fee invoice and monthly loan fee receipt are not added to right list
+                            continue;
+                        }
+                        //check there is no lot inspection fee for selected loan and report right for lot inspection fee invoice and lot inspection fee receipt
+                        if ((loan.LotInspectionFee == 0) && ((rgt.rightId == "R11") || (rgt.rightId == "R12")))
+                        {
+                            //if there is no lot inspection fee, report right for lot inspection fee invoice and lot inspection fee receipt are not added to right list
+                            continue;
+                        }
                     }
                     us.ReportRightsList.Add(rgt);
                 }
@@ -186,9 +213,11 @@ namespace BankLoanSystem.Controllers.CreateDealer
             int k = 0;
             foreach (var y in user.ReportRightsList)
             {
+         
                 //Check whether a particular report right is given to user
                 if (y.active)
                 {
+                   
                     arrList[k] = y.rightId;
                     k++;
                 }

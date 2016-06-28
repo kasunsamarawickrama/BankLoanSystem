@@ -1529,6 +1529,45 @@ namespace BankLoanSystem.Controllers
                                 //assign fee page rights as false if there is no atleast one fee
                                 userObj.UserRightsList[5].active = false;
                             }
+                            //check report rights according to the loan setup details
+                            foreach(Right rgt in userObj.ReportRightsList)
+                            {
+                                //check title need to be tracked and related right id
+                                if(!loanList[j].IsTitleTrack && rgt.rightId== "R04")
+                                {
+                                    rgt.active = false;
+                                }
+                                //check loan has advance fee and related right id for advance fee invoice
+                                if (!loanList[j].HasAdvanceFee && rgt.rightId == "R07")
+                                {
+                                    rgt.active = false;
+                                }
+                                //check loan has advance fee and related right id for advance fee receipt
+                                if (!loanList[j].HasAdvanceFee && rgt.rightId == "R08")
+                                {
+                                    rgt.active = false;
+                                }
+                                //check loan has monthly fee and related right id for monthly fee invoice
+                                if (!loanList[j].HasMonthlyFee && rgt.rightId == "R09")
+                                {
+                                    rgt.active = false;
+                                }
+                                //check loan has monthly fee and related right id for monthly fee receipt
+                                if (!loanList[j].HasMonthlyFee && rgt.rightId == "R10")
+                                {
+                                    rgt.active = false;
+                                }
+                                //check loan has lot inspection fee and related right id for lot inspection fee invoice
+                                if (!loanList[j].HasLotFee && rgt.rightId == "R11")
+                                {
+                                    rgt.active = false;
+                                }
+                                //check loan has lot inspection fee and related right id for lot inspection fee receipt
+                                if (!loanList[j].HasLotFee && rgt.rightId == "R12")
+                                {
+                                    rgt.active = false;
+                                }
+                            }
                         }
                     }
                 }
