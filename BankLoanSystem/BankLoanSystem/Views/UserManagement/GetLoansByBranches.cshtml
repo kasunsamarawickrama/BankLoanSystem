@@ -97,11 +97,13 @@ margin-left:1%;
                                     <br />
                                     @for (var j = 0; j < Model.ReportRightsList.Count; j++)
                                     {
+                                        var xx = "Desc" + (Model.ReportRightsList[j].rightId).ToString();
+                                        var xy = "Br_" + (Model.ReportRightsList[j].rightId).ToString();
                                         @Html.HiddenFor(x => x.ReportRightsList[j].rightId)
-                                        @Html.CheckBoxFor(x => x.ReportRightsList[j].active, new { @class = "All2", @id = "rpt" + (j + 1) })
+                                        @Html.CheckBoxFor(x => x.ReportRightsList[j].active, new { @class = "All2", @id = Model.ReportRightsList[j].rightId })
                                         @Html.Label(Model.ReportRightsList[j].name)
-                                        <a onclick="ViewDetails(@i)" id="Description">View Details</a>
-                                        <br />
+                                        <a onclick="ViewDetails(@i)" id="@xx">View Details</a>
+                                        <br id="@xy" />
                                     }
                                 </div>
                                     }
@@ -124,11 +126,14 @@ margin-left:1%;
 
     var title = 0;
     var hasFee = 0;
+    var advanceFee = 0;
+    var monthlyFee = 0;
+    var lotFee = 0;
     @if(ViewBag.LoanId!=null && ViewBag.LoanId.Items.Count == 1)
     {
 
         <text>var loanId = @ViewBag.LoanId.Items[0].LoanId;</text>
-         
+
     <text> CheckLoanTitle(loanId);</text>
     };
     function CheckLoanTitle(loanId){
@@ -183,7 +188,111 @@ margin-left:1%;
 
 
     };
-    
+    //show report rights according to loan setup details
+    function CheckLoanReportRights(loanId2){
+        if(loanId2>0){
+            
+            var model = @Html.Raw(Json.Encode(Model));
+            var len = model.BranchList.length;
+            var count =0;
+            for (var j = 0 ; j < model.BranchList.length; j++){
+                if(model.BranchList[j].LoanId==loanId2){
+                    if(!model.BranchList[j].IsTitleTrack){
+                        title=0;
+                        $('#R04').hide();
+                        $('[for="Title_Status"]').hide();
+                        $('#DescR04').hide();
+                        $('#Br_R04').hide();
+                    }
+                    else{
+                        title=1;
+                        $('#R04').show();
+                        $('[for="Title_Status"]').show();
+                        $('#DescR04').show();
+                        $('#Br_R04').show();
+                    }
+                    if(model.BranchList[j].HasAdvanceFee){
+                        advanceFee=1;
+                        $('#R07').show();
+                        $('[for="Advance_Fee_Invoice"]').show();
+                        $('#DescR07').show();
+                        $('#Br_R07').show();
+                        $('#R08').show();
+                        $('[for="Advance_Fee_Receipt"]').show();
+                        $('#DescR08').show();
+                        $('#Br_R08').show();
+
+                    }
+                    else{
+                        advanceFee=0;
+                        $('#R07').hide();
+                        $('[for="Advance_Fee_Invoice"]').hide();
+                        $('#DescR07').hide();
+                        $('#Br_R07').hide();
+                        $('#R08').hide();
+                        $('[for="Advance_Fee_Receipt"]').hide();
+                        $('#DescR08').hide();
+                        $('#Br_R08').hide();
+                    }
+                    if(model.BranchList[j].HasMonthlyFee){
+                        monthlyFee=1;
+                        $('#R09').show();
+                        $('[for="Monthly_Loan_Fee_Invoice"]').show();
+                        $('#DescR09').show();
+                        $('#Br_R09').show();
+                        $('#R10').show();
+                        $('[for="Monthly_Loan_Fee_Receipt"]').show();
+                        $('#DescR10').show();
+                        $('#Br_R10').show();
+
+                    }
+                    else{
+                        monthlyFee=0;
+                        $('#R09').hide();
+                        $('[for="Monthly_Loan_Fee_Invoice"]').hide();
+                        $('#DescR09').hide();
+                        $('#Br_R09').hide();
+                        $('#R10').hide();
+                        $('[for="Monthly_Loan_Fee_Receipt"]').hide();
+                        $('#DescR10').hide();
+                        $('#Br_R10').hide();
+                    }
+                    if(model.BranchList[j].HasLotFee){
+                        lotFee=1;
+                        $('#R11').show();
+                        $('[for="Lot_Inspection_Fee_Invoice"]').show();
+                        $('#DescR11').show();
+                        $('#Br_R11').show();
+                        $('#R12').show();
+                        $('[for="Lot_Inspection_Fee_Receipt"]').show();
+                        $('#DescR12').show();
+                        $('#Br_R12').show();
+
+                    }
+                    else{
+                        lotFee=0;
+                        $('#R11').hide();
+                        $('[for="Lot_Inspection_Fee_Invoice"]').hide();
+                        $('#DescR11').hide();
+                        $('#Br_R11').hide();
+                        $('#R12').hide();
+                        $('[for="Lot_Inspection_Fee_Receipt"]').hide();
+                        $('#DescR12').hide();
+                        $('#Br_R12').hide();
+
+                    }
+                }
+                
+                
+               
+            }
+
+        }
+
+
+
+
+    };
     $(function () {
         $('#CheckAll').on('change', function () {
             $('#checkBoxMessage span').text("");
@@ -191,7 +300,23 @@ margin-left:1%;
                 //alert('checked');
                 $('#checkBoxMessage span').text("");
                 $('.All').prop('checked', true);
-                $('#DivRptRights').show();
+                var loanId2 = 0;
+            @if(ViewBag.LoanId!=null && ViewBag.LoanId.Items.Count == 1)
+                {
+
+                    <text> loanId2 = @ViewBag.LoanId.Items[0].LoanId;</text>
+
+                <text> CheckLoanReportRights(loanId);</text>
+                    <text>$('#DivRptRights').show();</text>
+                }
+                else{
+
+                    <text>loanId2 = $('#LoanIdUser2').val();</text>
+                     <text> CheckLoanReportRights(loanId2);</text>
+                    <text>$('#DivRptRights').show();</text>
+
+                }
+                
 
             }
             else {
@@ -200,7 +325,7 @@ margin-left:1%;
                 $('#DivRptRights').hide();
             }
         });
-        
+
     });
     //for report rights
     $(function () {
@@ -283,14 +408,62 @@ margin-left:1%;
         var len = model.ReportRightsList.length;
         var count =0;
         for (var j = 0 ; j < model.ReportRightsList.length; j++){
-            var str = '#rpt'+(j+1);
+            var str = '#'+ model.ReportRightsList[j].rightId;
             if ($(str).is(':checked')) {
                 //alert('checked');
                 count++;
             }
         }
-       
-        if( count === len){
+
+        //if( count === len){
+        //    $('#CheckAll2').prop('checked', true);
+        //}
+        if( title===1 && advanceFee===0 && monthlyFee===0 && lotFee===0 && count === (len-6)){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===1 && advanceFee===1 && monthlyFee===0 && lotFee===0 && count === (len-4)){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===1 && advanceFee===1 && monthlyFee===1 && lotFee===0 && count === (len-2)){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===1 && advanceFee===1 && monthlyFee===1 && lotFee===1 && count === len-4){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===0 && advanceFee===1 && monthlyFee===0 && lotFee===0 && count === len-5){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===0 && advanceFee===1 && monthlyFee===1 && lotFee===0 && count === len-3){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===0 && advanceFee===1 && monthlyFee===1 && lotFee===1 && count === len-1){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===0 && advanceFee===0 && monthlyFee===1 && lotFee===0 && count === len-5){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===0 && advanceFee===0 && monthlyFee===1 && lotFee===1 && count === len-3){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===0 && advanceFee===0 && monthlyFee===0 && lotFee===1 && count === len-5){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===0 && advanceFee===0 && monthlyFee===0 && lotFee===0 && count === len-7){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===1 && advanceFee===0 && monthlyFee===1 && lotFee===0 && count === len-4){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===1 && advanceFee===0 && monthlyFee===1 && lotFee===1 && count === len-2){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===1 && advanceFee===0 && monthlyFee===0 && lotFee===1 && count === len-4){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===1 && advanceFee===1 && monthlyFee===0 && lotFee===1 && count === len-2){
+            $('#CheckAll2').prop('checked', true);
+        }
+        else if( title===0 && advanceFee===1 && monthlyFee===0 && lotFee===1 && count === len-3){
             $('#CheckAll2').prop('checked', true);
         }
         else{
@@ -301,9 +474,26 @@ margin-left:1%;
     };
     $('#7').change(function(){
         if($(this).is(":checked")) {
-            //alert('checked');
-            $('#DivRptRights').show();
-           
+
+            var loanId2 = 0;
+            @if(ViewBag.LoanId!=null && ViewBag.LoanId.Items.Count == 1)
+            {
+
+                <text> loanId2 = @ViewBag.LoanId.Items[0].LoanId;</text>
+
+            <text> CheckLoanReportRights(loanId);</text>
+                <text>$('#DivRptRights').show();</text>
+             }
+             else{
+
+                <text>loanId2 = $('#LoanIdUser2').val();</text>
+                 <text> CheckLoanReportRights(loanId2);</text>
+                <text>$('#DivRptRights').show();</text>
+
+                 }
+
+
+
         }
         else{
             $('#DivRptRights').hide();
@@ -314,16 +504,16 @@ margin-left:1%;
         //alert(rightId);
         var model = @Html.Raw(Json.Encode(Model));
         $('#PopupDiv').show();
-        showPopup('Rpt');
+        showPopup('Rpt2');
         $('#textForPopup').text(model.ReportRightsList[rightId].name);
         $('#desLbl').text(model.ReportRightsList[rightId].description);
-
+        $('#idimg').src(model.ReportRightsList[rightId].ImagePath);
     };
     </script>
 <div id="PopupDiv">
     <div class="overlay-bg">
     </div>
-    <div class="overlay-content popupRpt" style="width:auto;text-align:center;margin-left: 105px;">
+    <div class="overlay-content popupRpt2" style="width:auto;text-align:center;margin-left: 105px;">
         <h3 id="textForPopup"></h3>
         <div style="padding:10px;">
             <label>Description</label>

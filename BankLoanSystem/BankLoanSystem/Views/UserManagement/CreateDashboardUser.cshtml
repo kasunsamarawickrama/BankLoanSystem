@@ -833,8 +833,11 @@
             }
             if ($('#7').is(':checked')) {
                 var chck = $(".All2:checked").length;
-                $('#checkBoxMessage span').text("please select at least one right for reports.");
-                e.preventDefault();
+                if (chck === 0) {
+                    $('#checkBoxMessage span').text("please select at least one right for reports.");
+                    e.preventDefault();
+                }
+               
             }
         }
 

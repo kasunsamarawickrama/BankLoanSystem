@@ -64,6 +64,16 @@ namespace BankLoanSystem.DAL
             }
         }
 
+        /// <summary>
+        /// Frontend Page : Join Dealer
+        /// Title: Get all users for given company id
+        /// Designed: Piyumi P
+        /// User story:
+        /// Developed: Piyumi P
+        /// Date Created: 05/26/2016
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
         public List<User> GetUserListByCompany(int companyId)
         {
             List<User> users = new List<User>();

@@ -21,6 +21,10 @@
 
         margin:10px;
     }
+    .highlighBranch{
+        border: 1px solid #d4ea1a; 
+     background: #eaec36; 
+    }
 </style>
 
 <div class="overlay-content popup1">
@@ -30,7 +34,7 @@
     </div>
     <div id="selcet-panel">
 
-
+        
 
     </div>
 
@@ -606,6 +610,7 @@
                     break;
                 case '4': // incomplete branch
                     jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'blue'});
+                    $('#'+rowid).addClass('highlighBranch');
                     break;
                 case '0': // inactive
                     jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'grey'});
