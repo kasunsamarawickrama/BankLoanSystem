@@ -85,9 +85,9 @@ margin-left:1%;
                     {
                         <div id="rights">
                             @Html.HiddenFor(x => x.UserRightsList[i].rightId)
-                            @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = i + 1 })
+                            @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = Model.UserRightsList[i].rightId })
                             @Html.Label(Model.UserRightsList[i].description)
-                            @if (i == 6)
+                            @if (Model.UserRightsList[i].rightId == "U06")
                             {
                                 if (Model.ReportRightsList!=null && Model.ReportRightsList.Count > 0)
                                 {
@@ -145,44 +145,40 @@ margin-left:1%;
             if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==0 && model.BranchList[j].HasFee==0){
                 title = 0;
                 hasFee = 0;
-                $('#6').hide();
+                $('#U07').hide();
                 $('[for="Pay_Fees"]').hide();
-                $('#4').hide();
+                $('#U02').hide();
                 $('[for="Update_Title_Status"]').hide();
 
             }
             else if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==0 && model.BranchList[j].HasFee==1){
                 title = 0;
                 hasFee = 1;
-                $('#6').show();
+                $('#U07').show();
                 $('[for="Pay_Fees"]').show();
-                $('#4').hide();
+                $('#U02').hide();
                 $('[for="Update_Title_Status"]').hide();
 
             }
             else if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==1 && model.BranchList[j].HasFee==1){
                 title = 1;
                 hasFee = 1;
-                $('#6').show();
+                $('#U07').show();
                 $('[for="Pay_Fees"]').show();
-                $('#4').show();
+                $('#U02').show();
                 $('[for="Update_Title_Status"]').show();
 
             }
             else if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==1 && model.BranchList[j].HasFee==0){
                 title = 1;
                 hasFee = 0;
-                $('#6').hide();
+                $('#U07').hide();
                 $('[for="Pay_Fees"]').hide();
-                $('#4').show();
+                $('#U02').show();
                 $('[for="Update_Title_Status"]').show();
 
             }
-            //else{
-            //    title = 1;
-            //    $('#4').show();
-            //    $('[for="Update_Title_Status"]').show();
-            //}
+            
         }
 
 
@@ -377,7 +373,7 @@ margin-left:1%;
         var len = model.UserRightsList.length;
         var count =0;
         for (var j = 0 ; j < model.UserRightsList.length; j++){
-            var str = '#'+(j+1);
+            var str = '#'+(model.UserRightsList[j].rightId);
             if ($(str).is(':checked')) {
                 //alert('checked');
                 count++;
@@ -429,7 +425,7 @@ margin-left:1%;
         $('#successSpn span').text("");
         $('#errSpn span').text("");
     };
-    $('#7').change(function(){
+    $('#U06').change(function(){
         if($(this).is(":checked")) {
 
             var loanId2 = 0;
