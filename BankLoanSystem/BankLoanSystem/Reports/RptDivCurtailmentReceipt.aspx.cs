@@ -36,15 +36,22 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
         {
+            //check authentication session is null, if null return
+            if (Session["AuthenticatedUser"] == null) return;
+            User userData = (User)Session["AuthenticatedUser"];
+
+            //set report viewr property dynamically
             rptViewerCurtailmentReceipt.ProcessingMode=ProcessingMode.Local;
             rptViewerCurtailmentReceipt.Reset();
             rptViewerCurtailmentReceipt.LocalReport.EnableExternalImages = true;
             rptViewerCurtailmentReceipt.LocalReport.ReportPath = Server.MapPath("~/Reports/RptCurtailmentReceipt.rdlc");
             rptViewerCurtailmentReceipt.ZoomMode = ZoomMode.PageWidth;
 
+            //get report header details
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
+            //add dates, date range and current date
             foreach (var dates in details)
             {
                 dates.StartRange = startDate.ToString("MM/dd/yyyy");
@@ -52,24 +59,32 @@ namespace BankLoanSystem.Reports
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
-
+            //get curtailment paid details
             List<CurtailmentShedule> curtailments = ra.GetCurtailmentPaidDetailsByDateRange(loanId, startDate, endDate);
 
+            //set data source to report viwer
             rptViewerCurtailmentReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerCurtailmentReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
         }
 
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
+            //check authentication session is null, if null return
+            if (Session["AuthenticatedUser"] == null) return null;
+            User userData = (User)Session["AuthenticatedUser"];
+
+            //set report viewr property dynamically
             ReportViewer rptViewerCurtailmentReceiptPrint = new ReportViewer();
             rptViewerCurtailmentReceiptPrint.ProcessingMode = ProcessingMode.Local;
             rptViewerCurtailmentReceiptPrint.Reset();
             rptViewerCurtailmentReceiptPrint.LocalReport.EnableExternalImages = true;
             rptViewerCurtailmentReceiptPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptCurtailmentReceipt.rdlc");
 
+            //get report header details
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
+            //add dates, date range and current date
             foreach (var dates in details)
             {
                 dates.StartRange = startDate.ToString("MM/dd/yyyy");
@@ -77,12 +92,14 @@ namespace BankLoanSystem.Reports
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
-
+            //get curtailment paid details
             List<CurtailmentShedule> curtailments = ra.GetCurtailmentPaidDetailsByDateRange(loanId, startDate, endDate);
 
+            //set data source to report viwer
             rptViewerCurtailmentReceiptPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerCurtailmentReceiptPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
 
+            //return report viwer
             return rptViewerCurtailmentReceiptPrint;
         }
 

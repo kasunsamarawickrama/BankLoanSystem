@@ -5,14 +5,24 @@
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
-<style>
 
-
-</style>
 <script src="~/scripts/popup.js"></script>
 
-@*<div class="overlay-bg">
-</div>*@
+
+<!-- This is for jqGrid-->
+<link href="~/Content/themes/base/jquery-ui.css?version=1" rel="stylesheet" type="text/css" />
+<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+<script src="~/Scripts/jquery-ui-1.10.0.min.js"></script>
+<script src="~/Scripts/i18n/grid.locale-en.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.jqGrid.min.js" type="text/javascript"></script>  
+
+<style>
+    .dash_grid{
+
+        margin:10px;
+    }
+</style>
+
 <div class="overlay-content popup1">
 
     <div id="loadingSpan" style="display:none;">
@@ -481,6 +491,11 @@
         </div>
     </div>
 
+    <div class="dash_grid">
+        <table id="grid"></table>
+        <div id="pager2"></div>
+    </div>
+
 }
 
 
@@ -497,14 +512,14 @@
         else{
             $('#floorPlanDiv').show();
         }
-    if(@ViewBag.LoanCount==1){
-        $('.floorPlanDiv .big-button').show();
-        //$('#floorPlanBtnDiv').show();
-    }
-    else{
-        $('.floorPlanDiv .big-button').show();
-        //$('#floorPlanBtnDiv').hide();
-    }
+        if(@ViewBag.LoanCount==1){
+            $('.floorPlanDiv .big-button').show();
+            //$('#floorPlanBtnDiv').show();
+        }
+        else{
+            $('.floorPlanDiv .big-button').show();
+            //$('#floorPlanBtnDiv').hide();
+        }
     });
 
 
@@ -515,6 +530,192 @@
         if (jqXHR.status == "404") {
             window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
         }
-        
+
     }
+
+
+    @if (ViewBag.roleId == 1) {
+        <text>
+    // getting and binding datas to the grid
+    $("#grid").jqGrid({
+        url: '@Href("~/UserManagement/GetLoanBranchDetails")',
+        datatype: "json",
+        contentType: "application/json; charset-utf-8",
+        mtype: 'GET',
+        colNames: ['BranchId', 'Branch Name', 'PartnerBranchId',
+         'Partner Branch Name', 'Loanid', 'Loan Number', 'Total Amount', 'Used Amount', 'StatusId','Status' , 'StepNo'],
+        colModel: [
+             { name: 'BranchId', index: 'BranchId', width: 194 ,  hidden: true },
+
+              { name: 'BranchName', index: 'BranchName', width: 180 },
+
+            { name: 'PartnerBranchId', index: 'PartnerBranchId', width: 194 ,  hidden: true },
+
+
+            {
+                name: 'PartnerBranchName', index: 'PartnerBranchName', width: 180
+            },
+             {
+                 name: 'Loanid', index: 'Loanid', width: 136,  hidden: true
+             },
+              {
+                  name: 'LoanNumber', index: 'LoanNumber', width: 180
+
+
+              },
+
+               { name: 'TotalAmount', index: 'TotalAmount', width: 140 ,
+                   align: "right", sorttype: 'float', formatter: 'currency',
+                   formatoptions: { prefix: '$ ', thousandsSeparator: ',' } },
+
+                { name: 'UsedAmount', index: 'UsedAmount', width: 140,
+                    align: "right", sorttype: 'float', formatter: 'currency',
+                    formatoptions: { prefix: '$ ', thousandsSeparator: ',' } },
+
+                 { name: 'StatusId', index: 'StatusId', width: 194,  hidden: true  },
+
+                 { name: 'Status', index: 'Status', width: 140  },
+
+                 { name: 'StepNo', index: 'StepNo', width: 194,  hidden: true  }
+
+        ],
+
+        rowList: [],        // disable page size dropdown
+        pgbuttons: false,     // disable page control like next, back button
+        pgtext: null,         // disable pager text like 'Page 0 of 10'
+        viewrecords: false,    // disable current view record text like 'View 1-10 of 100'
+        pager: '#pager2',
+        sortname: 'id',
+        loadonce: true,
+        scrollrows: true,
+        sortorder: "asc",
+        caption: "Summary",
+        rowNum: 2000,
+
+        afterInsertRow: function(rowid, aData){
+            switch (aData.StatusId) {
+                case '1': // active
+                    jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'green'});
+                    break;
+                case '2': // renewal pending
+                    jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'white', 'background-color':'black'});
+                   // jQuery("#grid").jqGrid('setCell',rowid,'Status','',{'background-color':'black'});
+                    break;
+                case '3': // incomplete
+                    jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'rgb(160, 160, 43)'});
+                    break;
+                case '4': // incomplete branch
+                    jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'blue'});
+                    break;
+                case '0': // inactive
+                    jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'grey'});
+                    break;
+
+
+    		
+            }
+        }
+        ,
+
+        // changing grid height
+        loadComplete: function () {
+
+            var grid = $("#grid"),
+ids = grid.getDataIDs();
+
+            for (var i = 0; i < ids.length; i++) {
+               grid.setRowData(ids[i], false, { height: 27 });
+            }
+
+
+
+        }
+    });
+
+    </text>
+
+    } else if (ViewBag.roleId == 2 || ViewBag.roleId == 3) {
+
+          <text>
+    // getting and binding datas to the grid
+    $("#grid").jqGrid({
+            url: '@Href("~/UserManagement/GetLoanBranchDetails")',
+        datatype: "json",
+        contentType: "application/json; charset-utf-8",
+        mtype: 'GET',
+        colNames: ['BranchId', 'Branch Name', 'PartnerBranchId',
+         'Partner Branch Name', 'Loanid', 'Loan Number', 'Total Amount', 'Used Amount', 'StatusId','Status' , 'StepNo'],
+        colModel: [
+             { name: 'BranchId', index: 'BranchId', width: 194 ,  hidden: true },
+
+              { name: 'BranchName', index: 'BranchName', width: 180 ,  hidden: true },
+
+            { name: 'PartnerBranchId', index: 'PartnerBranchId', width: 194 ,  hidden: true },
+
+
+            {
+                name: 'PartnerBranchName', index: 'PartnerBranchName', width: 232
+            },
+             {
+                name: 'Loanid', index: 'Loanid', width: 136,  hidden: true
+             },
+              {
+                  name: 'LoanNumber', index: 'LoanNumber', width: 232
+
+
+              },
+
+               { name: 'TotalAmount', index: 'TotalAmount', width: 174 ,
+                   align: "right", sorttype: 'float', formatter: 'currency',
+                   formatoptions: { prefix: '$ ', thousandsSeparator: ',' } },
+
+                { name: 'UsedAmount', index: 'UsedAmount', width: 174 ,
+                    align: "right", sorttype: 'float', formatter: 'currency',
+                    formatoptions: { prefix: '$ ', thousandsSeparator: ',' }
+                },
+
+                 { name: 'StatusId', index: 'StatusId', width: 194,  hidden: true  },
+
+                 { name: 'Status', index: 'Status', width: 140  },
+
+                 { name: 'StepNo', index: 'StepNo', width: 194,  hidden: true  }
+
+        ],
+
+        rowList: [],        // disable page size dropdown
+        pgbuttons: false,     // disable page control like next, back button
+        pgtext: null,         // disable pager text like 'Page 0 of 10'
+        viewrecords: false,    // disable current view record text like 'View 1-10 of 100'
+        pager: '#pager2',
+        rowNum: 2000,
+        sortname: 'id',
+        loadonce: true,
+        scrollrows: true,
+        sortorder: "asc",
+        caption: "Summary",
+        // changing grid height
+        loadComplete: function () {
+
+                    var grid = $("#grid"),
+        ids = grid.getDataIDs();
+
+                    for (var i = 0; i < ids.length; i++) {
+                        grid.setRowData(ids[i], false, { height: 27 });
+                }
+
+
+
+            }
+        });
+
+        </text>
+
+
+
+    }
+
+
+    // disable edit, add , false on pager
+    jQuery("#grid").jqGrid('navGrid', '#pager2',
+            { edit: false, add: false, del: false });
 </script>

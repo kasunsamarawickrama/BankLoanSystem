@@ -52,29 +52,42 @@
             @Html.ValidationMessageFor(model => model.message, "", new { @class = "text-danger" })
 
         </div>
-        <div class="form-group" style="margin-top: 13px;">
-            <div>
+        @*<div class="form-group" style="margin-top: 13px;" id="captchaDIV">
+            <div >
                 <img src="@Url.Action("GetCaptchaImage","UserManagement")" />
             </div>
         </div>
-            <div class="form-group" style="margin-left: 173px;margin-top: -60px;">
-                <div>
-                    @Html.EditorFor(model => model.captcha, new { htmlAttributes = new { @class = "form-control", @id = "CaptchaText", @maxlength = "5" ,@style= "width: 182px;" } })
-                </div>
-                <div>
-                    @Html.Label("[Type Security code here]", htmlAttributes: new { @style = "font-weight:normal;" })
-                </div>
-
+        <div class="form-group" style="margin-left: 173px;margin-top: -60px;" id="refreshHide1">
+            <div>
+                @Html.EditorFor(model => model.captcha, new { htmlAttributes = new { @class = "form-control", @id = "CaptchaText", @maxlength = "5" ,@style= "width: 182px;" } })
             </div>
-        <div>
-            <input type="submit" value="Submit" name="btnAdd" id="btnSubmit" class="button button5" style="float: right;margin-top: -10px;"/>
-        </div>
+            <div>
+                @Html.Label("[Type Security code here]", htmlAttributes: new { @style = "font-weight:normal;" })
+            </div>
 
+        </div>*@
+        <div id="refreshHide2">
+            <input type="submit" value="Submit" name="btnAdd" id="btnSubmit" class="button button5" style="float: right;margin-top: 12px;"/>
+        </div>
+        @*<img src="../Images/refresh.png" style="width: 23px;margin-top: -133px;margin-left: -30px;" onclick="reload();" />*@
         <div style="clear: both; padding-top: 10px">
                 <small><span>@ViewBag.SuccessMsg</span></small>
             </div>
     }
 </div>
+
+@*<script type="text/javascript">
+    function reload() {
+        $('#refreshHide1').hide();
+        $('#refreshHide2').hide();
+        var container = document.getElementById("captchaDIV");
+        var content = container.innerHTML;
+        container.innerHTML = content;
+        $('#refreshHide1').show('slow');
+        $('#refreshHide2').show('slow');
+    }
+    
+</script>*@
 
 <script type="text/javascript">
     $('#topic').change(function() {

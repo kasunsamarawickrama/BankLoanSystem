@@ -32,6 +32,9 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
         {
+            if (Session["AuthenticatedUser"] == null) return;
+            User userData = (User)Session["AuthenticatedUser"];
+
             rptViewerAdvanceUnitRpt.ProcessingMode = ProcessingMode.Local;
             rptViewerAdvanceUnitRpt.Reset();
             rptViewerAdvanceUnitRpt.LocalReport.EnableExternalImages = true;
@@ -39,7 +42,7 @@ namespace BankLoanSystem.Reports
             rptViewerAdvanceUnitRpt.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
             foreach (var dates in details)
             {
@@ -58,6 +61,9 @@ namespace BankLoanSystem.Reports
 
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
+            if (Session["AuthenticatedUser"] == null) return null;
+            User userData = (User)Session["AuthenticatedUser"];
+
             ReportViewer rptViewerAdvanceUnitRptPrint = new ReportViewer();
             rptViewerAdvanceUnitRptPrint.ProcessingMode = ProcessingMode.Local;
             rptViewerAdvanceUnitRptPrint.Reset();
@@ -66,7 +72,7 @@ namespace BankLoanSystem.Reports
             rptViewerAdvanceUnitRptPrint.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
             foreach (var dates in details)
             {

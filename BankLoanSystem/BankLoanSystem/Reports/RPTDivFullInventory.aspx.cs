@@ -26,51 +26,87 @@ namespace BankLoanSystem.Reports
             }
         }
 
+        /*
+
+            Frontend page: Report Page
+            Title: Load details to report and show on browser
+            Designed: Kanishka SHM
+            User story: 
+            Developed: Kanishka SHM
+            Date created: 
+
+        */
         public void RenderReport(int loanId, int titleStatus)
         {
+            //check authentication session is null, if null return
+            if (Session["AuthenticatedUser"] == null) return;
+            User userData = (User)Session["AuthenticatedUser"];
+
+            //set report viewr property dynamically
             rptViewerFullInventory.ProcessingMode=ProcessingMode.Local;
             rptViewerFullInventory.Reset();
             rptViewerFullInventory.LocalReport.EnableExternalImages = true;
             rptViewerFullInventory.LocalReport.ReportPath = Server.MapPath("~/Reports/RptFullInventory.rdlc");
             rptViewerFullInventory.ZoomMode = ZoomMode.PageWidth;
 
+            //get report header details
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
+            //add current date
             foreach (var dates in details)
             {
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
-
+            //Get unit details with payment details
             List<ReportFullInventoryUnit> units = ra.GetFullInventoryByLoanId(loanId);
 
+            //set data source to report viwer
             rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
         }
 
+        /*
+
+            Frontend page: Report Page
+            Title: Load pdf view on browser
+            Designed: Kanishka SHM
+            User story: 
+            Developed: Kanishka SHM
+            Date created: 
+
+        */
         public ReportViewer PrintPage(int loanId)
         {
+            //check authentication session is null, if null return
+            if (Session["AuthenticatedUser"] == null) return null;
+            User userData = (User)Session["AuthenticatedUser"];
+
+            //set report viewr property dynamically
             ReportViewer rptViewerFullInventoryPrint = new ReportViewer();
             rptViewerFullInventoryPrint.ProcessingMode = ProcessingMode.Local;
             rptViewerFullInventoryPrint.Reset();
             rptViewerFullInventoryPrint.LocalReport.EnableExternalImages = true;
             rptViewerFullInventoryPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptFullInventory.rdlc");
 
+            //get report header details
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
             foreach (var dates in details)
             {
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
-
+            //Get unit details with payment details
             List<ReportFullInventoryUnit> units = ra.GetFullInventoryByLoanId(loanId);
 
+            //set data source to report viwer
             rptViewerFullInventoryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerFullInventoryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
             
+            //return report view
             return rptViewerFullInventoryPrint;
         }
     }

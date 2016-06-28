@@ -210,7 +210,10 @@ namespace BankLoanSystem.Controllers.Reports
                    
                    
                     x.UsedAmount,
-                    x.ActiveUnits
+                    x.ActiveUnits,
+                    x.PatBranchAddress1,
+                    x.PatBranchAddress2,
+                    x.PatCity
                 }
                                          ).ToArray().Select(x => new
                                          {
@@ -221,7 +224,10 @@ namespace BankLoanSystem.Controllers.Reports
                                                         x.LoanNumber.ToString(),
                                                         x.LoanAmount.ToString(),
                                                         x.UsedAmount.ToString(),
-                                                        x.ActiveUnits.ToString()
+                                                        x.ActiveUnits.ToString(),
+                                                        x.PatBranchAddress1,
+                                                        x.PatBranchAddress2,
+                                                        x.PatCity
                                                       }
                                          }
                       ).ToArray()
@@ -252,6 +258,10 @@ namespace BankLoanSystem.Controllers.Reports
         /// <returns></returns>
         public FileResult PrintPage()
         {
+            //check authentication session is null, if null return
+            if (Session["AuthenticatedUser"] == null) return null;
+            User userData = (User)Session["AuthenticatedUser"];
+
             Warning[] warnings;
             string[] streamids;
             string mimeType;
@@ -390,11 +400,13 @@ namespace BankLoanSystem.Controllers.Reports
             }
             else if(rptType == "CompanySummary")
             {
-                
+                RptDivCompanySummary companySummary = new RptDivCompanySummary();
+                rptViewerPrint = companySummary.PrintPage(userData.Company_Id);
             }
             else if (rptType == "BranchSummary")
             {
-
+                RptDivBranchSummary branchSummary = new RptDivBranchSummary();
+                rptViewerPrint = branchSummary.PrintPage(userData.BranchId);
             }
             else if (rptType == "DeletedUnits")
             {
@@ -402,6 +414,14 @@ namespace BankLoanSystem.Controllers.Reports
                 DateTime endtDate = Convert.ToDateTime(range2);
 
                 RptDivDeletedUnits deleteUnits = new RptDivDeletedUnits();
+                rptViewerPrint = deleteUnits.PrintPage(loanId, startDate, endtDate);
+            }
+            else if (rptType == "LoanSummary")
+            {
+                DateTime startDate = Convert.ToDateTime(range1);
+                DateTime endtDate = Convert.ToDateTime(range2);
+
+                RptDivLoanSummary deleteUnits = new RptDivLoanSummary();
                 rptViewerPrint = deleteUnits.PrintPage(loanId, startDate, endtDate);
             }
             else
