@@ -454,7 +454,7 @@ namespace BankLoanSystem.Controllers
             int totalRecords = count;
             int totalPages = (int)Math.Ceiling((float)totalRecords / (float)pageSize);
 
-            // inding list to json object for jqGrid
+            // binding list to json object for jqGrid
             var result = new
             {
                 total = totalPages,
