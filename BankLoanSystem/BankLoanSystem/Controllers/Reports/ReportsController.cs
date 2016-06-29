@@ -58,34 +58,78 @@ namespace BankLoanSystem.Controllers.Reports
             Developed: Kanishka SHM
             Date created: 
 
+            Edited By: Irfan MAM
+            Purpose: Grid Functionality and user right access
+
         */
         public ActionResult ReportIndex()
         {
             DashBoardAccess da = new DashBoardAccess();
            int loanCount = 0; 
 
-            List<Account> userLoanNumbers = new List<Account>();
 
             ViewBag.RoleId = _userData.RoleId; //user role
             ViewBag.BranchId = _userData.BranchId; // branch
 
-            // check user role 
+            // if user is a super admin
             if (_userData.RoleId == 1)
             {
+                // get total number of active loans which belong to his company
                 loanCount = da.GetLoanCount(_userData.Company_Id, _userData.RoleId);
-                //userLoanNumbers = loanNumbers;
+                
                 ViewBag.ComId = _userData.Company_Id;
+
+                // if there is no active loan then redirect to login -- wrong access
+                if (loanCount < 1)
+                {
+                    return RedirectToAction("UserLogin", "Login");
             }
+            }
+            // if user is a admin
             else if (_userData.RoleId == 2)
             {
+                // get total number of active loans which belong to his branch
                 loanCount = da.GetLoanCount(_userData.BranchId, _userData.RoleId);
-                //userLoanNumbers = loanNumbers;
+
+                // if there is no active loan then redirect to login -- wrong access
+                if (loanCount < 1)
+                {
+                    return RedirectToAction("UserLogin", "Login");
+                }
 
             }
-            if (_userData.RoleId == 3 || _userData.RoleId == 4)
+            // if user is a user
+            else if (_userData.RoleId == 3)
+            {
+                // get total number of autorized loans which belong to him
+                loanCount = da.GetLoanCount(_userData.UserId, _userData.RoleId);
+
+                // if there is no authorized loan then redirect to login -- wrong access
+                if (loanCount < 1)
+                {
+                    return RedirectToAction("UserLogin", "Login");
+                }
+                //  if user selected the authorized loan from dashboard
+                else if(Session["CurrentLoanRights"] != null && Session["CurrentLoanRights"].ToString().Contains("U06"))
+                {
+
+
+                    // pass the user rights to view
+            }
+                // if user selected the non authorized loan from dashboard
+                else if (Session["CurrentLoanRights"] != null && !Session["CurrentLoanRights"].ToString().Contains("U06"))
             {
 
-                loanCount = da.GetLoanCount(_userData.UserId, _userData.RoleId);
+
+                    // clear the session of selected loan
+                    Session["loanCode"] = null;
+                    
+
+
+                    if (loanCount== 1) {
+                        // get that loan detail and report rights
+                    }
+                }
 
 
                 //if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
@@ -146,16 +190,23 @@ namespace BankLoanSystem.Controllers.Reports
                 //            }
                 //            userLoanNumbers = loanNumbersUsers;
 
-                        }
-                    }
-                    else {
-                        return RedirectToAction("UserDetails", "UserManagement");
-                    }
+                //        }
+                //    }
+                //    else {
+                //        return RedirectToAction("UserDetails", "UserManagement");
+                //    }
 
                 //}
             }
-            ViewBag.LoanId = new SelectList(userLoanNumbers, "LoanId", "LoanNumberB");
 
+            else if ( _userData.RoleId == 4)
+            {
+                ViewBag.loanCount = 1;
+
+            }
+
+                //ViewBag.LoanId = new SelectList(userLoanNumbers, "LoanId", "LoanNumberB");
+                ViewBag.loanCount = loanCount;
             return View();
         }
 

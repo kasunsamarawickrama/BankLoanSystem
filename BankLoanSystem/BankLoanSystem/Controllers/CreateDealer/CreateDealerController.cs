@@ -229,8 +229,6 @@ namespace BankLoanSystem.Controllers.CreateDealer
            //Check user id is not 0
             if (newUserId != 0)
             {
-
-
                 //Generate email to send username and password to created dealer user                                        
                 string body = "Hi " + user.FirstName + "! <br /><br /> Your account has been successfully created. Below in your account detail." +
                               "<br /><br /> User name: " + user.UserName +

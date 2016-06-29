@@ -52,9 +52,9 @@
     <h3>Message</h3>
 
     <div class="alert alert-info" role="alert">
-        You don't have any report access for any loan
+        You don't currently have access to reports for any of your loans.
     </div><br />
-    <span> Please Contact Your Admin</span><br />
+    <span>Please contact your administrator.</span><br />
     <br />
     
     <button class="btn btn-info" style="width:200px" onclick="$('.overlay-bg, .overlay-content').hide();">OK</button>
@@ -62,9 +62,35 @@
 </div>
 
 
+<div class="overlay-content popup-report-no-rightsforselectedloan">
+
+    <h3>Message</h3>
+
+    <div class="alert alert-info" role="alert">
+        You do not have access to reports for the selected loan. Would you like to view reports for another loan?
+    </div><br />
+    <span> Press OK to continue to the reports page or Cancel to stay on the current page. </span><br />
+    <br />
+
+   @Html.ActionLink("OK", "ReportIndex", "Reports", null, new { @class = "btn btn-info", style = "width: 70px;margin-right: 20px;" })
+    <button class="close-btn btn btn-info" onclick="$('.overlay-bg, .overlay-content').hide();">Cancel</button>
+
+</div>
+
+@{
+
+    bool isAtleastonePerm = false;
+}
+
+@if (ViewBag.roleId == 3)
+{
+
+    isAtleastonePerm = (new UserManagementController()).IsAtleastOnePermissionForReport(ViewBag.Userid);
+}
+
     @if (ViewBag.LoanCount > 0 && ((ViewBag.roleId == 1) || (ViewBag.roleId == 2) || (ViewBag.roleId == 3) || (ViewBag.roleId == 4)))
     {
-       
+
         <div class="fpm">
             <h3>Floor Plan Management</h3>
 
@@ -72,17 +98,17 @@
                 
                 <div class="select-loan">
 
-                @if (ViewBag.loanSelected == 1) { 
-                   @Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "sel-loan a_demo_three icon-point-right nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" , style = "text-decoration: none;" })
+                @if (ViewBag.loanSelected == 1) {
+                   @Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "sel-loan a_demo_three icon-point-right nrm-button show-popup", @id = "lkuni", @data_showpopup = "1", style = "text-decoration: none;" })
                 }
                 @if (ViewBag.LoanCount > 1)
                 {
                     @*<div>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" })</div>*@
 
-                    
 
-                      @Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "sel-loan a_demo_three icon-point-right nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" , style= "text-decoration: none;" })
-                    
+
+                      @Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "sel-loan a_demo_three icon-point-right nrm-button show-popup", @id = "lkuni", @data_showpopup = "1", style = "text-decoration: none;" })
+
                 }
                 else
                 {
@@ -210,34 +236,34 @@
                             </button>
 
                             @*@Html.ActionLink("Unit", "addunit", "unit", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkuni" })*@
-                            }
-                            if (ViewBag.RightList.Contains("U01"))
-                            {
+                        }
+                        if (ViewBag.RightList.Contains("U01"))
+                        {
                             <button id="lkadv" class="a_demo_three icon-dollar" onclick="window.location.href='/AdvanceUnit/Advance'">
                                
                                 Advance Unit
                             </button>
                             @*@Html.ActionLink("Advance", "Advance", "AdvanceUnit", null, new { @class = "btn btn-info btn-arrow-right link" , @id="lkadv" })*@
-                            }
-                            if (ViewBag.RightList.Contains("U05"))
-                            {
+                        }
+                        if (ViewBag.RightList.Contains("U05"))
+                        {
                             <button id="lkcrtl" class="a_demo_three icon-coin-dollar" onclick="window.location.href='/Curtailments/PayCurtailments'">
                                 
                                 Unit Curtailments
                             </button>
                             @*@Html.ActionLink("Curtailment", "PayCurtailments", "Curtailments", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkcrtl" })*@
-                            }
-                            if (ViewBag.RightList.Contains("U02") && ViewBag.ttlAccess == 1 && ViewBag.IsTitleTrack == 1)
-                            {
+                        }
+                        if (ViewBag.RightList.Contains("U02") && ViewBag.ttlAccess == 1 && ViewBag.IsTitleTrack == 1)
+                        {
                             <button id="lkttl" class="a_demo_three icon-files-empty" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
                                 
                                 Update Titles
                             </button>
 
                             @*@Html.ActionLink("Title", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info btn-arrow-right link",   @id = "lkttl" })*@
-                            }
-                            if (ViewBag.RightList.Contains("U03"))
-                            {
+                        }
+                        if (ViewBag.RightList.Contains("U03"))
+                        {
                             <button id="lkpoff" class="a_demo_three icon-banknote" onclick="window.location.href='/UnitPayOff/PayOff'">
                                
                                 Pay Off Unit
@@ -245,7 +271,7 @@
 
                             @*@Html.ActionLink("Pay Off", "PayOff", "UnitPayOff", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkpoff" })*@
                         }
-                        if (ViewBag.RightList.Contains("U07")&&(ViewBag.Fee == 1))
+                        if (ViewBag.RightList.Contains("U07") && (ViewBag.Fee == 1))
                         {
                             <button class="a_demo_three icon-credit" onclick="window.location.href='/Fee/PayFees'">
                               
@@ -260,15 +286,26 @@
                             Reports
                         </button>
 
-                       
 
-                        if (!ViewBag.RightList.Contains("U06"))
+                        // if user has doesn't have right for selected loan and he can see report for another loan
+                        if (!ViewBag.RightList.Contains("U06") && isAtleastonePerm)
+                        {
+                            <script>
+                               
+                               
+                                $('.icon-stack').addClass('show-popup').attr('data-showpopup','-report-no-rightsforselectedloan').removeAttr('onclick');
+                                    
+                               
+
+                               
+                            </script>
+                        }
+                        else if(ViewBag.RightList.Contains("U06"))
                         {
                             <script>
 
                                 $(".withloanselectionUser").click(function(e){
-                                   
-                                    e.preventDefault();
+                                    window.location.href='/Reports/ReportIndex';
                                 });
                             </script>
                         }
@@ -276,9 +313,7 @@
                         {
                             <script>
 
-                                $(".withloanselectionUser").click(function(e){
-                                    window.location.href='/Reports/ReportIndex';
-                                });
+                                alert('something went wrong');
                             </script>
                         }
                         if (ViewBag.RightList.Contains("U08"))
@@ -323,16 +358,16 @@
             </button>
             }
             @using (Ajax.BeginForm(
-            "Selectloan",
-            "UserManagement", new { type = "tidenaol" },
-            new AjaxOptions
-            {
-            OnFailure = "handleError",
-            HttpMethod = "GET",
-            InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = "selcet-panel",
-            LoadingElementId = "loadingSpan"
-            }, new { style = "display:inline-block" }))
+    "Selectloan",
+    "UserManagement", new { type = "tidenaol" },
+    new AjaxOptions
+    {
+        OnFailure = "handleError",
+        HttpMethod = "GET",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "selcet-panel",
+        LoadingElementId = "loadingSpan"
+    }, new { style = "display:inline-block" }))
             {
             <button type="submit" class="a_demo_three icon-clipboard show-popup" data-showpopup="1">
                 
@@ -340,16 +375,16 @@
             </button>
             }
             @using (Ajax.BeginForm(
-            "Selectloan",
-            "UserManagement", new { type = "aticno" },
-            new AjaxOptions
-            {
-                OnFailure = "handleError",
-                HttpMethod = "GET",
-                InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "selcet-panel",
-                LoadingElementId = "loadingSpan"
-            }, new { style = "display:inline-block" }))
+    "Selectloan",
+    "UserManagement", new { type = "aticno" },
+    new AjaxOptions
+    {
+        OnFailure = "handleError",
+        HttpMethod = "GET",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "selcet-panel",
+        LoadingElementId = "loadingSpan"
+    }, new { style = "display:inline-block" }))
             {
             <button type="submit" class="a_demo_three icon-loop2 show-popup" data-showpopup="1">
                 
@@ -358,16 +393,16 @@
             }
 
             @using (Ajax.BeginForm(
-                "Selectloan",
-                "UserManagement", new { type = "tcaninaol" },
-                new AjaxOptions
-                {
-                    OnFailure = "handleError",
-                    HttpMethod = "GET",
-                    InsertionMode = InsertionMode.Replace,
-                    UpdateTargetId = "selcet-panel",
-                    LoadingElementId = "loadingSpan"
-                }, new { style = "display:inline-block" }))
+        "Selectloan",
+        "UserManagement", new { type = "tcaninaol" },
+        new AjaxOptions
+        {
+            OnFailure = "handleError",
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "selcet-panel",
+            LoadingElementId = "loadingSpan"
+        }, new { style = "display:inline-block" }))
             {
                 <button type="submit" class="a_demo_three icon-clipboard show-popup" data-showpopup="1">
 
@@ -394,7 +429,7 @@
 
             @if (ViewBag.roleId == 1 || ViewBag.roleId == 2)
             {
-                if (ViewBag.LoanCount > 0 )
+                if (ViewBag.LoanCount > 0)
                 {
                     using (Ajax.BeginForm(
                     "Selectloan",
@@ -437,8 +472,8 @@
                             <span class="txt">Join Dealer</span>
                           </button>
                     }*@
-                if (ViewBag.roleId == 1)
-                {
+            if (ViewBag.roleId == 1)
+            {
                 <button class="a_demo_three icon-office" type="submit" onclick="window.location.href='/UserManagement/EditCompany'">
                 
                    Edit Company
@@ -446,13 +481,13 @@
                 @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
                 </button>
 
-                }
+            }
                 @*@Html.ActionLink("Edit Company", "Step1", "SetupProcess", new { edit = 1 }, new { @class = "big-button", @type = "submit" , @id="editComp" })*@
                 @*<span class="icon-office"></span>
                 <span class="txt">Edit Company</span>*@
-                
-            
-                
+
+
+
             }
         </div>
     </div>
@@ -493,7 +528,7 @@
             </button>
 
             @if (ViewBag.roleId == 1)
-                {
+            {
                 <button class="a_demo_three icon-home" onclick="window.location.href='/UserManagement/CreateDashboardBranch'" >
                     
                     Create Branch
@@ -517,25 +552,25 @@
             @if (ViewBag.LoanCount > 0 && ViewBag.PartnerType == 2)
 
             {
-            using (Ajax.BeginForm(
-            "Selectloan",
-            "UserManagement", new { type = "linkDealer" },
-            new AjaxOptions
-            {
-            OnFailure = "handleError",
-            HttpMethod = "GET",
-            InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = "selcet-panel",
-            LoadingElementId = "loadingSpan"
-            }, new { style = "display:inline-block" }))
-            {
+                using (Ajax.BeginForm(
+                "Selectloan",
+                "UserManagement", new { type = "linkDealer" },
+                new AjaxOptions
+                {
+                    OnFailure = "handleError",
+                    HttpMethod = "GET",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "selcet-panel",
+                    LoadingElementId = "loadingSpan"
+                }, new { style = "display:inline-block" }))
+                {
             <button class="a_demo_three icon-link show-popup" type="submit" data-showpopup="1">
 
                 Join Dealer
 
                 @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
             </button>
-            }
+                }
             }
 
         </div>
@@ -770,9 +805,9 @@ ids = grid.getDataIDs();
     jQuery("#grid").jqGrid('navGrid', '#pager2',
             { edit: false, add: false, del: false });
 
-
+    
     @* if there is no user rights give pop up message to user*@
-    @if (!(new UserManagementController()).IsAtleastOnePermissionForReport(ViewBag.Userid) && ViewBag.roleId == 3)
+    @if (!isAtleastonePerm && ViewBag.roleId == 3)
     {
     <text>
     $('.icon-stack').addClass('show-popup').attr('data-showpopup','-report-no-permission').removeAttr('onclick');
