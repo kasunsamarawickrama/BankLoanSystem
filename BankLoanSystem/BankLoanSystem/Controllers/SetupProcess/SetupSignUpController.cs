@@ -86,16 +86,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
             return RedirectToAction("SignUp");
         }
 
-
-        // This action for get Captcha Image
+        /// <summary>
+        /// CreatedBy : Kasun Samarawickrama
+        /// CreatedDate: 2016/06/27
+        /// 
+        /// This action for get Captcha Image
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")] // This is for output cache false
+        // This is for output cache false
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")] 
         public FileResult GetCaptchaImage()
         {
             CaptchaRandomImage CI = new CaptchaRandomImage();
-            this.Session["CaptchaImageText"] = CI.GetRandomString(5); // here 5 means I want to get 5 char long captcha
-                                                                      //CI.GenerateImage(this.Session["CaptchaImageText"].ToString(), 300, 75);
-                                                                      // Or We can use another one for get custom color Captcha Image 
+            // here 5 means I want to get 5 char long captcha
+            this.Session["CaptchaImageText"] = CI.GetRandomString(5); 
+
             CI.GenerateImage(this.Session["CaptchaImageText"].ToString(), 200, 50, Color.Black, Color.LightBlue);
             MemoryStream stream = new MemoryStream();
             CI.Image.Save(stream, ImageFormat.Png);
