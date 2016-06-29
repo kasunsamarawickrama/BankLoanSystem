@@ -58,6 +58,9 @@ namespace BankLoanSystem.Controllers.Reports
             Developed: Kanishka SHM
             Date created: 
 
+            Edited By: Irfan MAM
+            Purpose: Grid Functionality and user right access
+
         */
         public ActionResult ReportIndex()
         {
