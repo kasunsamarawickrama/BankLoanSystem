@@ -1976,9 +1976,9 @@ namespace BankLoanSystem.Controllers
         ///<summary>
         /// Frontend page: Inactive Loan
         /// Title: create view and get active loan details for inactive
-        /// Designed : Asanka P
+        /// Designed : Asanka Senarathna
         /// User story: DFP-103
-        /// Developed: Asanka P
+        /// Developed: Asanka Senarathna
         /// Date created: 6/27/2016
         ///</summary>
 
@@ -1986,10 +1986,10 @@ namespace BankLoanSystem.Controllers
         {
             Session.Remove("popUpSelectionType");
             Loan loan = new Loan();
+            // If session not null then assign value to loan object
             if (Session["oneLoanDashboard"] != null)
             {
                 loan = (Loan)Session["oneLoanDashboard"];
-                //Session.Remove("oneLoanDashboard");
             }
             if (Session["loanDashboardAssignUser"] != null)
             {
@@ -2001,6 +2001,7 @@ namespace BankLoanSystem.Controllers
             }
             if (TempData["EditReslt"] != null)
             {
+                //Check pass value in view and display message
                 if ((string)TempData["EditReslt"] == "success")
                 {
                     ViewBag.SuccessMsg = "Loan Status Successfully Updated";
@@ -2010,8 +2011,6 @@ namespace BankLoanSystem.Controllers
                     }
 
                     Session["loanDashboardActiveLoanInact"] = loan;
-                    //loan = new Loan();
-                    //return View(loan);
                 }
                 else if ((string)TempData["EditReslt"] == "failed")
                 {
@@ -2020,7 +2019,6 @@ namespace BankLoanSystem.Controllers
             }
             if ((Session["loanDashboardActiveLoanInact"] != null) && (Session["loanDashboardActiveLoanInact"].ToString() != ""))
             {
-
 
                 if (HttpContext.Request.IsAjaxRequest())
                 {
@@ -2041,7 +2039,6 @@ namespace BankLoanSystem.Controllers
                 }
                 else
                 {
-
                     return RedirectToAction("UserDetails");
                 }
             }
@@ -2050,23 +2047,25 @@ namespace BankLoanSystem.Controllers
         ///<summary>
         /// Frontend page: Post Method for Inactive Loan
         /// Title: create view and get active loan details for inactive in Post method
-        /// Designed : Asanka P
+        /// Designed : Asanka Senarathna
         /// User story: DFP-103
-        /// Developed: Asanka P
+        /// Developed: Asanka Senarathna
         /// Date created: 6/27/2016
         ///</summary>
         /// <param name="slctdLoanId"></param>
         /// <param name="slctdLoanCode"></param>
         public void UpdateLoanStatus_ActiveInactive(int slctdLoanId, string slctdLoanCode)
         {
+            //check Loan ID and Loan code has value for update loan
             if ((slctdLoanId > 0) && (!string.IsNullOrEmpty(slctdLoanCode)))
            {
                 LoanSetupAccess ls = new LoanSetupAccess();
                 int reslt = ls.UpdateLoanStatus_ActiveInactive(slctdLoanId, slctdLoanCode);
+                //Update loan statues as Inactive(set loan_status = 0)
                 if (reslt == 1)
                 {
                     Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, 0, "Inactive Loan", "Loan Id : " + slctdLoanId + " ,Edited Status : Inactive", DateTime.Now);
-
+                    //Insert new record to log 
                     int islog = (new LogAccess()).InsertLog(log);
                     TempData["EditReslt"] = "success";
                 }
@@ -2894,16 +2893,23 @@ namespace BankLoanSystem.Controllers
                 return new HttpStatusCodeResult(404);
             }
         }
-   
-            
-     
 
+
+
+        /// <summary>
+        /// Frontend page: Create Branch(used in dashboard)
+        /// Title: create view of create branch
+        /// Designed : Asanka Senarathna
+        /// User story:
+        /// Developed: Asanka Senarathna
+        /// Date created: 5/4/2016
+        /// </summary>
+        /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult CreateDashboardBranch()
         {
             CompanyBranchModel userCompany;
 
-            //edit = 3;
             int userId = userData.UserId;
             int roleId = userData.RoleId;
             // check he is a super admin or admin
@@ -2916,6 +2922,7 @@ namespace BankLoanSystem.Controllers
 
             if (TempData["createBranchResult"] != null)
             {
+                //
                 if (int.Parse(TempData["createBranchResult"].ToString()) == 1)
                 {
                     ViewBag.SuccessMsg = "Branch Successfully Created";
@@ -2937,7 +2944,6 @@ namespace BankLoanSystem.Controllers
 
                 BranchAccess ba = new BranchAccess();
                 IList<Branch> branches = ba.getBranchesByCompanyCode(preCompany.CompanyCode);
-                //userCompany.SubBranches = branches;
 
                 //Get states to list
                 List<State> stateList = ca.GetAllStates();
@@ -2955,7 +2961,17 @@ namespace BankLoanSystem.Controllers
                 }
         }
 
-
+        /// <summary>
+        /// Frontend page: Create Branch(used in dashboard) POST method
+        /// Title: create view of create branch
+        /// Designed : Asanka Senarathna
+        /// User story:
+        /// Developed: Asanka Senarathna
+        /// Date created: 5/4/2016
+        /// </summary>
+        /// <param name="userCompany2"></param>
+        /// <param name="branchCode"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult CreateDashboardBranch(CompanyBranchModel userCompany2, string branchCode)
         {
@@ -2968,15 +2984,13 @@ namespace BankLoanSystem.Controllers
             userCompany2.MainBranch.BranchCode = branchCode;
 
             BranchAccess ba = new BranchAccess();
-            //if (string.IsNullOrEmpty(branchCode))
-            //{
-            //    userCompany2.MainBranch.BranchCode = ba.createBranchCode(userCompany2.Company.CompanyCode);
-            //}
-
+            //Insert record for Branch Table
             int reslt = ba.insertFirstBranchDetails(userCompany2, userId);
+
             //Create new record for company Step Table
             StepAccess sa = new StepAccess();
             sa.UpdateCompanySetupStep(userData.Company_Id, reslt, 3);
+
             if (reslt > 0)
             {
                 TempData["createBranchResult"] = 1;
@@ -2988,7 +3002,6 @@ namespace BankLoanSystem.Controllers
 
             return RedirectToAction("CreateDashboardBranch");
             
-
         }
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
