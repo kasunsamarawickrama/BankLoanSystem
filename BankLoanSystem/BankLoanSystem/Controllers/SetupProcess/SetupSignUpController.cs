@@ -101,7 +101,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             CaptchaRandomImage CI = new CaptchaRandomImage();
             // here 5 means I want to get 5 char long captcha
             this.Session["CaptchaImageText"] = CI.GetRandomString(5); 
-
+            // captcha image size and color
             CI.GenerateImage(this.Session["CaptchaImageText"].ToString(), 200, 50, Color.Black, Color.LightBlue);
             MemoryStream stream = new MemoryStream();
             CI.Image.Save(stream, ImageFormat.Png);
