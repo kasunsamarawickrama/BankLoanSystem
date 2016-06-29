@@ -538,7 +538,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
       /*
 
-       Frontend page: Report Page
+       Frontend page: Create User page on setup process
        Title: creating users on the setup process -- step3
        Designed: Irfan Mam
        User story:  As the initial Super Admin I should be able to create Super Admins, Admins in the set up process.
