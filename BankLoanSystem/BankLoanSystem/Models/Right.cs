@@ -34,6 +34,7 @@ namespace BankLoanSystem.Models
 
         public int editorId { get; set; }
 
+        public string reportRightsPermissionString { get; set; }
     }
 
     public class UserLoanRightsModel
