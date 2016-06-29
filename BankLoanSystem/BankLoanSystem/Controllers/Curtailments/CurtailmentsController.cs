@@ -289,33 +289,37 @@ namespace BankLoanSystem.Controllers.Curtailments
             return returnValue;
         }
 
-        /// <summary>
-        /// CreatedBy:Irfan
-        /// CreatedDate:2016/3/18
-        /// Search curtailments
-        /// </summary>
-        /// <param name="identificationNumber"></param>
-        /// <param name="year"></param>
-        /// <param name="make"></param>
-        /// <param name="vehicleModel"></param>
-        /// <returns></returns>
+
+        /*
+
+   Frontend page: Curtailment Page
+   Title: Searching curtailment details on curtailment list
+   Designed: Irfan Mam
+   User story: 
+   Developed: Irfan MAM
+   Date created: 3/18/2016
+
+*/ 
         public ActionResult SearchCurtailment(string identificationNumber, string year, string make, string vehicleModel , CurtailmentScheduleModel CurtailmentList)
         {
             List<CurtailmentShedule> SearchList = new List<CurtailmentShedule>();
             
-            
+            // if atleast one arg has the value, do search
             if (((!string.IsNullOrEmpty(identificationNumber)) || (!string.IsNullOrEmpty(year)) || (!string.IsNullOrEmpty(make)) || (!string.IsNullOrEmpty(vehicleModel))))
             {
-                //search through list elements
-                Search sc = new Search();
+                
+                Search sc = new Search();  // search object
 
+                //search through list of elements
                 SearchList = sc.GetSearchCurtailmentList(CurtailmentList, identificationNumber.Trim().ToLower(), year.Trim().ToLower(), make.Trim().ToLower(), vehicleModel.Trim().ToLower() );
 
+
+                // return the partial page of searched elements
                 return PartialView(SearchList);
             }
             else
             {
-                
+                // return the partial page of empty elements
                 return PartialView(SearchList);
             }
         }
