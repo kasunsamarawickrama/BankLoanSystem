@@ -121,10 +121,12 @@ namespace BankLoanSystem.Controllers.Reports
             {
 
 
-                    // clear the session selected loan
+                    // clear the session of selected loan
+                    Session["loanCode"] = null;
+                    
 
 
-                    if(loanCount== 1) {
+                    if (loanCount== 1) {
                         // get that loan detail and report rights
                     }
                 }
