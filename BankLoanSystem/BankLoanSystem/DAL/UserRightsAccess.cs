@@ -78,7 +78,7 @@ namespace BankLoanSystem.DAL
                         Right right = new Right();
                         right.userId = int.Parse(dataRow["user_id"].ToString());
                         right.rightsPermissionString = dataRow["right_id"].ToString();
-
+                        right.reportRightsPermissionString = dataRow["report_rights"].ToString();
                         RightsLists.Add(right);
                     }
 

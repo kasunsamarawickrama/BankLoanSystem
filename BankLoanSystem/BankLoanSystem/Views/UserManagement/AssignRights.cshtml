@@ -39,6 +39,19 @@
         font-weight: normal;
         color: #545454;
     }
+    #reportRights > input {
+        float: none;
+        margin-right: 10px;
+        width: 17px;
+        height: 17px;
+    }
+
+    #reportRights {
+        text-align: left;
+        font-size: 14px;
+        font-weight: normal;
+        color: #545454;
+    }
 </style>}
 
 
@@ -47,7 +60,7 @@
 @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
 }
 
-<div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper usersetup_border" style="min-height: 629px;">
+<div id="page-wrapper" class="gray-bg sidebar-content companySetupWrapper usersetup_border" style="min-height: 629px;height: 875px;">
     <div class="ibox float-e-margins">
         <div class="ibox-title">
             <div class="container body-content">
@@ -122,20 +135,34 @@
                                                 <div class="form-group new_form_group">
                                                     <div class="col-sm-6">
                                                         <div id="rights">
-
+                                                    
                                                             @Html.CheckBox("selectAll", new { @class = "All", @id = "CheckAll" })
                                                             @Html.Label("Select All")
                                                             <br /><br />
                                                             @for (var i = 0; i < Model.UserRightsList.Count; i++)
                                                             {
-
                                                                 @Html.HiddenFor(x => x.UserRightsList[i].rightId)
-                                                                @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All" ,@id = i+1})
+                                                                @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = i + 1 })
                                                                 @Html.DisplayFor(x => x.UserRightsList[i].description)
+                                                                if (Model.UserRightsList[i].rightId == "U06")
+                                                                {
+                                                                    <div id="reportRights" style="margin-left: 28px;margin-top: 14px;">
+                                                                       
+                                                                        @Html.CheckBox("selectAll", new { @class = "report", @id = "RepAll" })
+                                                                        @Html.Label("Select All")
+                                                                        <br />
+                                                                        @for (var j = 0; j < Model.ReportRightsList.Count; j++)
+                                                                        {
+                                                                            @Html.HiddenFor(x => x.ReportRightsList[j].rightId)
+                                                                            @Html.CheckBoxFor(x => x.ReportRightsList[j].active, new { @class = "report", @id = "Rep" + (j + 1) })
+                                                                            @Html.DisplayFor(x => x.ReportRightsList[j].name)
+                                                                            <br />
+                                                                        }                                                           
+                                                                    </div>
+                                                                }
                                                                 <br />
                                                             }
-                                                        </div>
-
+                                                        </div>                                                      
                                                     </div>
                                                     <div class="err_msg_box">
                                                         <p class="err_msg new_err_msg"><div id="checkBoxMessage"><span class="err_msg new_err_msg"></span></div></p>
@@ -169,14 +196,11 @@
                                     <div>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -184,7 +208,7 @@
     <script>
         $(document).ready(function (){
             @if (ViewBag.userSelectList == null || ViewBag.userSelectList.Count <= 0)
-        {                                                    
+        {
             <text>
             $('#Submit').prop('disabled', true);
             </text>
@@ -193,7 +217,7 @@
 
         $('#Submit').click(function (e) {
             @if (ViewBag.userSelectList == null || ViewBag.userSelectList.Count <= 0)
-            {                                                    
+            {
                 <text>
                     e.preventDefault();
                 </text>
@@ -215,11 +239,27 @@
                 if ($(this).is(':checked')) {
                     //alert('checked');
                     $('.All').prop('checked', true);
+                    $('.report').prop('checked', true);
+                    $('#RepAll').prop('checked', true);
 
                 }
                 else {
                     //alert('unchecked');
+                    $('.report').prop('checked', false);
                     $('.All').prop('checked', false);
+                    $('#RepAll').prop('checked', false);
+                }
+            });
+        }); $(function () {
+            $('#RepAll').on('change', function () {
+                if ($(this).is(':checked')) {
+                    //alert('checked');
+                    $('.report').prop('checked', true);
+
+                }
+                else {
+                    //alert('unchecked');
+                    $('.report').prop('checked', false);
                 }
             });
         });
@@ -248,9 +288,11 @@
             var model = @Html.Raw(Json.Encode(Model));
             $('.All').prop('checked', false);
             $('.All').attr('disabled', true);
+            $('.report').prop('checked', false);
+            $('.report').attr('disabled', true);
 
             if(selectedUser > 0 ){
-            
+
             $.ajax({
                 url: '/UserManagement/ExistingUserRights',
                 type: 'POST',
@@ -258,13 +300,25 @@
                 data: JSON.stringify({ userId: selectedUser, loanId: loanId }),
                 success: function (data) {
                     //alert(data);
-                    var array = data.split(',');
+                    var array = data.split(':');
+                    var array1 = array[0].split(',');
+                    var array2 = array[1].split(',');
                     for (var i = 0 ; i < model.UserRightsList.length; i++){
-                        for (var j = 0 ; j < array.length; j++){
+                        for (var j = 0 ; j < array1.length; j++){
 
-                            if (model.UserRightsList[i].rightId  === array[j] ) {
+                            if (model.UserRightsList[i].rightId  === array1[j] ) {
                                 //alert('checked');
                                 var str = '#'+(i+1);
+                                $(str).prop('checked', true);
+                            }
+                        }
+                    }
+                    for (var i = 0 ; i < model.ReportRightsList.length; i++){
+                        for (var j = 0 ; j < array2.length; j++){
+
+                            if (model.ReportRightsList[i].rightId  === array2[j] ) {
+                                //alert('checked');
+                                var str = '#Rep'+(i+1);
                                 $(str).prop('checked', true);
                             }
                         }
@@ -275,6 +329,7 @@
                         $('#Submit').val("Assign");
                     }
                     $('.All').attr('disabled', false);
+                    $('.report').attr('disabled', false);
                     checkAll();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -315,7 +370,31 @@
                 $('#CheckAll').prop('checked', false);
             }
         };
-
+        $(function () {
+            $('.report').on('change', function () {
+                //$('#checkBoxMessage span').text("");
+                //$('#success').text("");
+                //$('#fail').text("");
+                checkAllReport();
+            });
+        });
+        function checkAllReport(){
+            var model = @Html.Raw(Json.Encode(Model));
+            var len = model.ReportRightsList.length;
+            var count =0;
+            for (var j = 0 ; j < len; j++){
+                var str = '#Rep'+(j+1);
+                if ($(str).is(':checked')) {
+                    //alert('checked');
+                    count++;
+                }
+            }
+            if(count === len){
+                $('#RepAll').prop('checked', true);
+            }else{
+                $('#RepAll').prop('checked', false);
+            }
+        };
         $('#clear').click(function(){
             $('#Submit').val("Assign");
             $('#checkBoxMessage span').text("");
