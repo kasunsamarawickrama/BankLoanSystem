@@ -233,30 +233,39 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        /// <summary>
-        /// CreatedBy : Irfan
-        /// CreatedDate: 2016/03/17
-        /// 
-        /// Getting Curtailment Shedule
-        /// 
-        /// 
-        /// </summary>
-        /// 
-        /// <param name="dueDate">due date</param>
-        /// <param name="loanId">loan id</param>
-        /// <returns></returns>
+
+
+
+        /*
+
+   Frontend page: Curtailment Page
+   Title: Get curtailment shedule details using due date
+   Designed: Irfan Mam
+   User story:
+   Developed: Irfan MAM
+   Date created: 3/17/2016
+
+*/
         public List<CurtailmentShedule> GetCurtailmentScheduleByDueDate( int loanId , DateTime dueDate)
         {
             try {
-                List<CurtailmentShedule> lstCurtailmentShedule = new List<CurtailmentShedule>();
+                List<CurtailmentShedule> lstCurtailmentShedule = new List<CurtailmentShedule>(); 
                 DataHandler dataHandler = new DataHandler();
                 List<object[]> paramertList = new List<object[]>();
+
+                // add the parametets for list
                 paramertList.Add(new object[] { "@loan_id", loanId });
                 paramertList.Add(new object[] { "@due_date", dueDate });
 
+
+                // executing the stored proceture and get return list of curtailment
                 DataSet dataSet = dataHandler.GetDataSet("spGetCurtailmentSheduleByDueDate", paramertList);
+
+                //if there is data
                 if (dataSet != null && dataSet.Tables.Count != 0)
                 {
+
+                    // bind the datas to list
                     foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                     {
                         CurtailmentShedule curtailment = new CurtailmentShedule();
@@ -277,6 +286,8 @@ namespace BankLoanSystem.DAL
                     }
                     return lstCurtailmentShedule;
                 }
+
+                // if there is no data
                 else
                 {
                     return null;
