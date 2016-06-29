@@ -2246,16 +2246,37 @@ Date created: 1/25/2016
         [HttpPost]
         public ActionResult AssignRights(User user)
         {
-            // add rigts list to array and check active rights to a permission strinng which contain comma seperated rights
+            // add page rigts list to array and check active rights to a permission strinng which contain comma seperated rights
             string[] arrList = new string[user.UserRightsList.Count];
+
+            // add report rigts list to array and check active rights to a permission strinng which contain comma seperated rights
+            string[] arrList2 = new string[user.ReportRightsList.Count];
             int i = 0;
+            // check page rights which have active status
             foreach (var x in user.UserRightsList) {
                 if (x.active) {
                     arrList[i] = x.rightId;
                     i++;
+                    //if report rights contain
+                    if (x.rightId == "U06") {
+                        int j = 0;
+
+                        // check report rights which have active status
+                        foreach (var y in user.ReportRightsList)
+                        {
+                            if (y.active)
+                            {
+                                arrList2[j] = y.rightId ;
+                                j++;                             
+                            }
+                        }
+                        arrList2 = arrList2.Where(y => !string.IsNullOrEmpty(y)).ToArray();
+                        //report rights
+                        user.ReportRights = string.Join(",", arrList2);
+                    }
                 }
             }
-
+            // page rights
             arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
             // converting user right list to comma seperated string.
