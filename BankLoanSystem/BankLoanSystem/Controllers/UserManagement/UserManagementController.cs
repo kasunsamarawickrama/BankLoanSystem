@@ -1935,19 +1935,21 @@ namespace BankLoanSystem.Controllers
         /// <returns></returns>
 
         [HttpGet]
-        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")] // This is for output cache false
+        // This is for output cache false
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")] 
         public FileResult GetCaptchaImage()
         {
             CaptchaRandomImage CI = new CaptchaRandomImage();
-            this.Session["CaptchaImageText"] = CI.GetRandomString(5); // here 5 means I want to get 5 char long captcha
-                                                                      //CI.GenerateImage(this.Session["CaptchaImageText"].ToString(), 300, 75);
-                                                                      // Or We can use another one for get custom color Captcha Image 
+            // here 5 means I want to get 5 char long captcha
+            this.Session["CaptchaImageText"] = CI.GetRandomString(5); 
+
             CI.GenerateImage(this.Session["CaptchaImageText"].ToString(), 150, 50, Color.Black, Color.LightBlue);
             MemoryStream stream = new MemoryStream();
             CI.Image.Save(stream, ImageFormat.Png);
             stream.Seek(0, SeekOrigin.Begin);
             return new FileStreamResult(stream, "image/png");
         }
+
         /// <summary>
         /// CreatedBy: Asanka Senarathna
         /// CreatedDate: 30/31/2016
@@ -2079,11 +2081,20 @@ namespace BankLoanSystem.Controllers
                 TempData["EditReslt"] = "failed";
             }
         }
-
+        /// <summary>
+        /// Frontend page: Assign rights
+        /// Title: Assign new rights for a loan for users and edit rights
+        /// Designed : Kasun Samarawickrama
+        /// User story: 
+        /// Developed: Kasun Samarawickrama
+        /// Date created: 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AssignRights()
         {
             Session.Remove("popUpSelectionType");
             Loan loan = new Loan();
+            // get loan details from session
             if (Session["oneLoanDashboard"] != null)
             {
                 loan = (Loan)Session["oneLoanDashboard"];
@@ -2093,6 +2104,7 @@ namespace BankLoanSystem.Controllers
             {
                 loan = (Loan)Session["loanDashboardAssignUser"];
             }
+            //check from submission 
             if (TempData["submit"] != null) {
                 if ((string)TempData["submit"] == "success") {
                     ViewBag.SuccessMsg = "User Rights Successfully Updated";
@@ -2102,14 +2114,18 @@ namespace BankLoanSystem.Controllers
                     ViewBag.ErrorMsg = "Failed To Update User Rights";
                 }
             }
+            // check loan null or not
             if (Session["oneLoanDashboard"] != null || Session["loanDashboardAssignUser"] != null)
             {
                 ViewBag.LoanId = loan.LoanId;
                 ViewBag.LoanNumber = loan.LoanNumber;
-            UserManageAccess ua = new UserManageAccess();
-                List<User> userList = ua.getUsersByRoleBranch(3, loan.BranchId);
-            List<User> tempRoleList = new List<User>();
+                UserManageAccess ua = new UserManageAccess();
 
+                // get user list for that branch
+                List<User> userList = ua.getUsersByRoleBranch(3, loan.BranchId);
+                List<User> tempRoleList = new List<User>();
+
+                // add users to select list for front end 
                 for (int i = 0; i < userList.Count; i++)
                 {
                     User tempRole = new User()
@@ -2125,12 +2141,16 @@ namespace BankLoanSystem.Controllers
                 List<Right> list = new List<Right>();
 
                 user.UserRightsList = new List<Right>();
+
+                // retrive all rights from table
                 list = (new UserRightsAccess()).getRights();
 
+                // check title track yes or no.
                 if ( loan.IsTitleTrack !=  1)
                 {
                     foreach (var x in list)
                     {
+                        // title page right
                         if (x.rightId != "U02")
                         {
                             user.UserRightsList.Add(x);
@@ -2141,8 +2161,51 @@ namespace BankLoanSystem.Controllers
                 else {
                     user.UserRightsList = list;
                 }
-                //user.UserRightsList = (new UserRightsAccess()).getRights();
 
+                //get all report list
+                
+                List<Right> ReportRightsList = (new UserRightsAccess()).getReportRights();
+                user.ReportRightsList = new List<Right>();
+                // filter report rights according to the loan
+                if (ReportRightsList != null && ReportRightsList.Count > 0)
+                {
+                    foreach (Right rgt in ReportRightsList)
+                    {
+                        //Check dealer user can view the report
+                        if (!rgt.DealerView)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            //check title need not to be tracked for selected loan and report right for Title Status
+                            if ((loan.IsTitleTrack == 0) && (rgt.rightId == "R04"))
+                            {
+                                //if title need not to be tracked report right for Title Status is not added to right list
+                                continue;
+                            }
+                            //check there is no advance fee for selected loan and report right for advance fee invoice and advance fee receipt
+                            if ((loan.AdvanceFee == 0) && ((rgt.rightId == "R07") || (rgt.rightId == "R08")))
+                            {
+                                //if there is no advance fee, report right for advance fee invoice and advance fee receipt are not added to right list
+                                continue;
+                            }
+                            //check there is no monthly loan fee for selected loan and report right for monthly loan fee invoice and monthly loan fee receipt
+                            if ((loan.MonthlyLoanFee == 0) && ((rgt.rightId == "R09") || (rgt.rightId == "R10")))
+                            {
+                                //if there is no monthly loan fee, report right for monthly loan fee invoice and monthly loan fee receipt are not added to right list
+                                continue;
+                            }
+                            //check there is no lot inspection fee for selected loan and report right for lot inspection fee invoice and lot inspection fee receipt
+                            if ((loan.LotInspectionFee == 0) && ((rgt.rightId == "R11") || (rgt.rightId == "R12")))
+                            {
+                                //if there is no lot inspection fee, report right for lot inspection fee invoice and lot inspection fee receipt are not added to right list
+                                continue;
+                            }
+                        }
+                        user.ReportRightsList.Add(rgt);
+                    }
+                }
                 if (HttpContext.Request.IsAjaxRequest())
                 {
                     ViewBag.AjaxRequest = 1;
@@ -2168,9 +2231,19 @@ namespace BankLoanSystem.Controllers
                 }
             }
         }
+        /// <summary>
+        /// Frontend page: Assign rights(post)
+        /// Title: Assign new rights for a loan for users and edit rights
+        /// Designed : Kasun Samarawickrama
+        /// User story: 
+        /// Developed: Kasun Samarawickrama
+        /// Date created: 
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult AssignRights(User user)
         {
+            // add rigts list to array and check active rights to a permission strinng which contain comma seperated rights
             string[] arrList = new string[user.UserRightsList.Count];
             int i = 0;
             foreach (var x in user.UserRightsList) {
@@ -2181,11 +2254,15 @@ namespace BankLoanSystem.Controllers
             }
 
             arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-            //user.UserRights = arrList.ToString();
+
+            // converting user right list to comma seperated string.
             user.UserRights = string.Join(",", arrList);
+
+            // update user right details
             int check = (new UserAccess()).updateUserRightDetails(user,userData.UserId);
             if (check == 1)
             {
+                // insert log 
                 Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId,user.LoanId, "Assign User Rights", "Assign user rights for User ID: " + user.UserId, DateTime.Now);
 
                 int islog = (new LogAccess()).InsertLog(log);
@@ -2201,20 +2278,37 @@ namespace BankLoanSystem.Controllers
             //return View();
 
         }
-
+        /// <summary>
+        /// Frontend page: Assign rights
+        /// Title: Get Existing user rights for a loan
+        /// Designed : Kasun Samarawickrama
+        /// User story: 
+        /// Developed: Kasun Samarawickrama
+        /// Date created: 
+        /// </summary>
+        /// <returns></returns>
         public string ExistingUserRights(int userId, int loanId)
         {
             User usr = new User();
             List<Right> rights = new List<Right>();
+            // page rights and report rights retrive
             rights = (new UserRightsAccess()).getRightsString(userId, loanId);
-            string str="";
+            string str1 = "";
+            string str2 = "";
+            string str = "";
+            // check rights empty
             if (rights != null && rights.Count >0)
             {
-                str = rights[0].rightsPermissionString;
+                //page rights
+                str1 = rights[0].rightsPermissionString;
+                //report rights
+                str2 = rights[0].reportRightsPermissionString;
             }
-            
+            // combine rights for a one string seperated by : mark
+            str = str1 +":"+ str2;
             return str;
         }
+
         /// <summary>
         /// CreatedBy : Piyumi
         /// CreatedDate: 2016/04/20

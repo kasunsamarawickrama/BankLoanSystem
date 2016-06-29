@@ -535,22 +535,22 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
         }
 
-        // GET: SetupProcess : As the initial Super Admin I should be able to create Super Admins, Admins, Users in the set up process.
-        /// <summary>
-        /// CreatedBy : Irfan MAM
-        /// CreatedDate: 2016/01/26
-        /// 
-        /// to create Users
-        /// 
-        /// 
-        /// 
-        /// </summary>
-        /// <returns></returns>
+
+      /*
+
+       Frontend page: Create User page on setup process
+       Title: creating users on the setup process -- step3
+       Designed: Irfan Mam
+       User story:  As the initial Super Admin I should be able to create Super Admins, Admins in the set up process.
+       Developed: Irfan MAM
+       Date created: 1/26/2016
+
+       */
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Step3(string lbls)
         {
 
-
+            // if there is no session exist - redirect to login -- wrong access
             if (Session["companyStep"] == null)
             {
                 if (HttpContext.Request.IsAjaxRequest())
@@ -565,30 +565,35 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 }
             }
 
-            // take firstsuperadmin userid....
-            int userId = userData.UserId;
+            
+            int userId = userData.UserId; // current user id
             StepAccess sa = new StepAccess();
 
-            // check he is a super admin or admin
+           
 
-            int roleId = userData.RoleId;
+            int roleId = userData.RoleId; // current user's role
 
+            // if he is not a super admin or admin , not allowed -- wrong access
             if (roleId > 2)
             {
                 return RedirectToAction("UserLogin", "Login");
             }
 
-            // check if   step is 3...
 
+            // check if the user completed the step 1 and 2, if not redirect to login -- wrong access
             if (Convert.ToInt32(Session["companyStep"]) < 3)
             {
                 return RedirectToAction("UserLogin", "Login");
             }
 
+            // after user created 
+            // if user scussefully created
             if (lbls != null && lbls.Equals("User Successfully Created"))
             {
+
+                // pass the sucessfull message to view
                 ViewBag.SuccessMsg = "User Successfully Created";
-                //sa.updateStepNumberByUserId(userId, 4);
+               
                 int rol = int.Parse(Session["abcRol"].ToString());
                 int br = int.Parse(Session["abcBrnc"].ToString());
                 if ((rol == 1) && (br == 0))
@@ -620,6 +625,8 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     return View();
                 }
             }
+
+            // if error occurs while creating the user
             else if (lbls != null && lbls.Equals("Failed to create user!"))
             {
 
@@ -2805,7 +2812,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (curtailmentAccess.InsertCurtailment(curtailmentList, loanData.loanId) == 1)
             {
                 ViewBag.SuccessMsg = "Curtailment Details added successfully";
-                //sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 6);
+                sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 6);
                
                     Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, loanData.loanId, "Curtailment", "Inserted curtailment details of loan : " + loanData.loanId, DateTime.Now);
 
@@ -2815,7 +2822,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-                //sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 6);
+                sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 6);
                 
                     Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, loanData.loanId, "Curtailment", "Edited curtailment details of loan : " + loanData.loanId, DateTime.Now);
 
