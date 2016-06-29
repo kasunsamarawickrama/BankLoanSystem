@@ -102,7 +102,7 @@ margin-left:1%;
                                         @Html.HiddenFor(x => x.ReportRightsList[j].rightId)
                                         @Html.CheckBoxFor(x => x.ReportRightsList[j].active, new { @class = "All2", @id = Model.ReportRightsList[j].rightId })
                                         @Html.Label(Model.ReportRightsList[j].name)
-                                        <a onclick="ViewDetails(@i)" id="@xx">View Details</a>
+                                        <a onclick="ViewDetails(@j)" id="@xx">View Details</a>
                                         <br id="@xy" />
                                     }
                                 </div>
@@ -129,19 +129,24 @@ margin-left:1%;
     var advanceFee = 0;
     var monthlyFee = 0;
     var lotFee = 0;
+    @*check loan list is not null and loan list count is 1*@
     @if(ViewBag.LoanId!=null && ViewBag.LoanId.Items.Count == 1)
     {
-
+        @*assign loan id to variable if loan count is 1*@
         <text>var loanId = @ViewBag.LoanId.Items[0].LoanId;</text>
-
+        @*check loan has at leat one fee and title need to be tracked*@
     <text> CheckLoanTitle(loanId);</text>
     };
+    @*check loan has at leat one fee and title need to be tracked for given loan id*@
     function CheckLoanTitle(loanId){
-
+        @*convert model to variable*@
         var model = @Html.Raw(Json.Encode(Model));
+        @*get length of loan list with branch details*@
         var len = model.BranchList.length;
         var count =0;
+        @*make visible true and false update titles and pay fees page according to the loan selected*@
         for (var j = 0 ; j < model.BranchList.length; j++){
+            @*no need to track title and no atleast one fee*@
             if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==0 && model.BranchList[j].HasFee==0){
                 title = 0;
                 hasFee = 0;
@@ -151,6 +156,7 @@ margin-left:1%;
                 $('[for="Update_Title_Status"]').hide();
 
             }
+                @*no need to track title and has atleast one fee*@
             else if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==0 && model.BranchList[j].HasFee==1){
                 title = 0;
                 hasFee = 1;
@@ -160,6 +166,7 @@ margin-left:1%;
                 $('[for="Update_Title_Status"]').hide();
 
             }
+                @*need to track title and has atleast one fee*@
             else if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==1 && model.BranchList[j].HasFee==1){
                 title = 1;
                 hasFee = 1;
@@ -169,6 +176,7 @@ margin-left:1%;
                 $('[for="Update_Title_Status"]').show();
 
             }
+                @*need to track title and no atleast one fee*@
             else if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==1 && model.BranchList[j].HasFee==0){
                 title = 1;
                 hasFee = 0;
@@ -178,21 +186,26 @@ margin-left:1%;
                 $('[for="Update_Title_Status"]').show();
 
             }
-            
+
         }
 
 
 
     };
-    //show report rights according to loan setup details
+    @*show report rights according to loan setup details*@
     function CheckLoanReportRights(loanId2){
+        @*check loan id is not 0*@
         if(loanId2>0){
-            
+            @*convert model to variable*@
             var model = @Html.Raw(Json.Encode(Model));
+            @*get length of loan list with branch details*@
             var len = model.BranchList.length;
             var count =0;
+            @*make visible true and false title report and all reports related to fees according to the loan selected*@
             for (var j = 0 ; j < model.BranchList.length; j++){
+                @*check list element loan id is equal to selected loan id*@
                 if(model.BranchList[j].LoanId==loanId2){
+                    @*if no need to title track hide update title report from report right section*@
                     if(!model.BranchList[j].IsTitleTrack){
                         title=0;
                         $('#R04').hide();
@@ -207,6 +220,7 @@ margin-left:1%;
                         $('#DescR04').show();
                         $('#Br_R04').show();
                     }
+                    @*if has advance fee show advance fee invoice and advance fee receipt reports in report right section*@
                     if(model.BranchList[j].HasAdvanceFee){
                         advanceFee=1;
                         $('#R07').show();
@@ -219,6 +233,7 @@ margin-left:1%;
                         $('#Br_R08').show();
 
                     }
+                        @*if no advance fee hide advance fee invoice and advance fee receipt reports from report right section*@
                     else{
                         advanceFee=0;
                         $('#R07').hide();
@@ -230,6 +245,7 @@ margin-left:1%;
                         $('#DescR08').hide();
                         $('#Br_R08').hide();
                     }
+                    @*if has monthly loan fee show monthly loan fee invoice and monthly loan fee receipt reports in report right section*@
                     if(model.BranchList[j].HasMonthlyFee){
                         monthlyFee=1;
                         $('#R09').show();
@@ -242,6 +258,7 @@ margin-left:1%;
                         $('#Br_R10').show();
 
                     }
+                        @*if no monthly loan fee hide monthly loan fee invoice and monthly loan fee receipt reports from report right section*@
                     else{
                         monthlyFee=0;
                         $('#R09').hide();
@@ -253,6 +270,7 @@ margin-left:1%;
                         $('#DescR10').hide();
                         $('#Br_R10').hide();
                     }
+                    @*if has lot inspection fee show lot inspection fee invoice and lot inspection fee receipt reports in report right section*@
                     if(model.BranchList[j].HasLotFee){
                         lotFee=1;
                         $('#R11').show();
@@ -265,6 +283,7 @@ margin-left:1%;
                         $('#Br_R12').show();
 
                     }
+                        @*if no lot inspection fee hide lot inspection fee invoice and lot inspection fee receipt reports from report right section*@
                     else{
                         lotFee=0;
                         $('#R11').hide();
@@ -278,9 +297,9 @@ margin-left:1%;
 
                     }
                 }
-                
-                
-               
+
+
+
             }
 
         }
@@ -289,64 +308,78 @@ margin-left:1%;
 
 
     };
+    @*change content according to the All check box in user right section*@
     $(function () {
         $('#CheckAll').on('change', function () {
             $('#checkBoxMessage span').text("");
+            @*check All is checked*@
             if ($(this).is(':checked')) {
-                //alert('checked');
+                @*make all check box related to .ALL class is checked*@
                 $('#checkBoxMessage span').text("");
                 $('.All').prop('checked', true);
+
                 var loanId2 = 0;
-            @if(ViewBag.LoanId!=null && ViewBag.LoanId.Items.Count == 1)
+                @*check loan list is not null and element count is 1*@
+                @if(ViewBag.LoanId!=null && ViewBag.LoanId.Items.Count == 1)
                 {
-
+                @*get loan id and assign to a variable*@
                     <text> loanId2 = @ViewBag.LoanId.Items[0].LoanId;</text>
-
+                @*send loan id to check the list of report rights according to the loan setup details*@
                 <text> CheckLoanReportRights(loanId);</text>
+                    <text>$('.All2').prop('checked',false);</text>
+                <text>$('.CBAll2').prop('checked',false);</text>
                     <text>$('#DivRptRights').show();</text>
-                }
-                else{
-
+                        }
+                        else if (ViewBag.LoanId != null){
+                @*if loan list count >1 assign selected loan id to variable*@
                     <text>loanId2 = $('#LoanIdUser2').val();</text>
+                @*get report right list according to the loan setup details*@
                      <text> CheckLoanReportRights(loanId2);</text>
+                    <text>$('.All2').prop('checked',false);</text>
+                <text>$('.CBAll2').prop('checked',false);</text>
                     <text>$('#DivRptRights').show();</text>
 
                 }
-                
+
 
             }
             else {
-                //alert('unchecked');
+                $('.All2').prop('checked',false);
+                $('.CBAll2').prop('checked',false);
                 $('.All').prop('checked', false);
                 $('#DivRptRights').hide();
             }
         });
 
     });
-    //for report rights
+    @*for report rights*@
+    @*change content according to the All check box in report right section*@
     $(function () {
         $('#CheckAll2').on('change', function () {
+            @*check All is checked*@
             $('#checkBoxMessage span').text("");
+            @*make all check box related to .ALL2 class is checked*@
             if ($(this).is(':checked')) {
-                
+
                 $('#checkBoxMessage span').text("");
                 $('.All2').prop('checked', true);
-                
-                //$('#CheckAll2').prop('checked', true);
-                //alert('checked');
+
+
             }
             else {
-                
+
                 $('.All2').prop('checked', false);
             }
         });
-       
+
     });
+    @*check loan lis count is 1*@
     if(@ViewBag.LoanId.Items.Count==1){
+        @*assign loan id to variable*@
         var loan = $('#LoanIdUser').val();
         SendParaTo(loan);
     }
-
+    @*clear error messages and make right section check boxes unchecked when select dropdown change*@
     $('#LoanIdUser2').change(function () {
         $('#loanIdMessage span').text("");
         $('#selectAll').prop('checked', false);
@@ -355,19 +388,22 @@ margin-left:1%;
         $('.All2').prop('checked', false);
         $('#DivRptRights').hide();
     });
+    @*change check boxes checked and unchecked property when change all check boxes belong to .All class*@
     $(function () {
         $('.All').on('change', function () {
             $('#checkBoxMessage span').text("");
             checkAll();
         });
     });
-    //report rights section
+    @*report rights section*@
+    @*change check boxes checked and unchecked property when change all check boxes belong to .All2 class*@
     $(function () {
         $('.All2').on('change', function () {
             $('#checkBoxMessage span').text("");
             checkAll2();
         });
     });
+    @*change check boxes checked property and CheckAll check box checked property *@
     function checkAll(){
         var model = @Html.Raw(Json.Encode(Model));
         var len = model.UserRightsList.length;
@@ -375,16 +411,19 @@ margin-left:1%;
         for (var j = 0 ; j < model.UserRightsList.length; j++){
             var str = '#'+(model.UserRightsList[j].rightId);
             if ($(str).is(':checked')) {
-                //alert('checked');
+
                 count++;
             }
         }
+        @*has fee and no need to track title*@
         if( title != 1 && hasFee === 1 && count === (len-1)){
             $('#CheckAll').prop('checked', true);
         }
+            @*has fee and  need to track title*@
         else if( title == 1 && hasFee != 1 && count === (len-1)){
             $('#CheckAll').prop('checked', true);
         }
+            @*no fee and no need to track title*@
         else if( title != 1 && hasFee != 1 && count === (len-2)){
             $('#CheckAll').prop('checked', true);
         }
@@ -397,50 +436,65 @@ margin-left:1%;
         $('#successSpn span').text("");
         $('#errSpn span').text("");
     };
-
+    @*change check boxes checked property and CheckAll2 check box checked property in report right section*@
     function checkAll2(){
+
         var model = @Html.Raw(Json.Encode(Model));
         var len = model.ReportRightsList.length;
+
         var count =0;
+        @*get count of all check boxes which display in the page in report section*@
         var len2 = $('.All2').filter(function() {
             return $(this).css('display') !== 'none';
         }).length;
+        @*get count of check boxes which checked*@
         for (var j = 0 ; j < model.ReportRightsList.length; j++){
             var str = '#'+ model.ReportRightsList[j].rightId;
-            if ($(str).is(':checked')) {
-                //alert('checked');
+            if ($(str).is(':checked') && $(str).css('display') !== 'none') {
+
                 count++;
             }
         }
-        //alert(len2);
+
+        @*check all are checked*@
         if(count===len2){
-           
+            @*checked All checkbox in report right section*@
+
             $('#CheckAll2').prop('checked', true);
+
         }
         else{
-           
+            @*unchecked All checkbox in report right section*@
             $('#CheckAll2').prop('checked', false);
-    }
-       
+
+        }
+
         $('#successSpn span').text("");
         $('#errSpn span').text("");
     };
+    @*change report right section according to the view reports check box change*@
     $('#U06').change(function(){
         if($(this).is(":checked")) {
 
             var loanId2 = 0;
+            @*check loan list is not null and element count is 1*@
             @if(ViewBag.LoanId!=null && ViewBag.LoanId.Items.Count == 1)
             {
-
+                @* assign loan id to variable *@
                 <text> loanId2 = @ViewBag.LoanId.Items[0].LoanId;</text>
-
+                @* send loan id to check report list according to the loan setup details*@
             <text> CheckLoanReportRights(loanId);</text>
+                <text>$('.All2').prop('checked',false);</text>
+                <text>$('.CBAll2').prop('checked',false);</text>
                 <text>$('#DivRptRights').show();</text>
-             }
-             else{
-
+                        }
+               else if (ViewBag.LoanId != null ){
+                 @* assign selected loan id in select loan drop down to variable *@
                 <text>loanId2 = $('#LoanIdUser2').val();</text>
+                @* send loan id to check report list according to the loan setup details*@
                  <text> CheckLoanReportRights(loanId2);</text>
+                <text>$('.All2').prop('checked',false);</text>
+                <text>$('.CBAll2').prop('checked',false);</text>
                 <text>$('#DivRptRights').show();</text>
 
                  }
@@ -454,9 +508,9 @@ margin-left:1%;
             $('#DivRptRights').hide();
         }
     });
-    //report popup
+    @*send selected reports description and image path to report popup*@
     function ViewDetails(rightId){
-        //alert(rightId);
+
         var model = @Html.Raw(Json.Encode(Model));
         $('#PopupDiv').show();
         showPopup('Rpt2');
@@ -491,41 +545,34 @@ margin-left:1%;
 
 <script>
 
-    // function to show our popups
+    @*function to show our popups*@
     function showPopup(whichpopup) {
-        var docHeight = $(document).height(); //grab the height of the page
-        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
-        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
-        $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+        var docHeight = $(document).height(); @*grab the height of the page*@
+        var scrollTop = $(window).scrollTop(); @*grab the px value from the top of the page to where you're scrolling*@
+        $('.overlay-bg').show().css({ 'height': docHeight }); @*display your popup background and set height to the page height*@
+        $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); @*show the appropriate popup and set the content 20px from the window top*@
     }
 
-    // function to close our popups
+   @* function to close our popups*@
     function closePopup() {
         $('.overlay-bg, .overlay-content').hide(); //hide the overlay
     }
 
-    // timer if we want to show a popup after a few seconds.
-    //get rid of this if you don't want a popup to show up automatically
-    // setTimeout(function() {
-    // Show popup3 after 2 seconds
-    //    showPopup(3);
-    // }, 2000);
-
-
-    // show popup when you click on the link
+    
+    @* show popup when you click on the link*@
     $('.show-popup').click(function (event) {
-        //event.preventDefault(); // disable normal link function so that it doesn't refresh the page
-        var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
+       
+        var selectedPopup = $(this).data('showpopup'); @*get the corresponding popup to show*@
 
-        showPopup(selectedPopup); //we'll pass in the popup number to our showPopup() function to show which popup we want
+        showPopup(selectedPopup); @*we'll pass in the popup number to our showPopup() function to show which popup we want*@
     });
 
-    // hide popup when user clicks on close button or if user clicks anywhere outside the container
+    @* hide popup when user clicks on close button or if user clicks anywhere outside the container*@
     $('.close-btn, .overlay-bg ,.close-pop').click(function () {
         closePopup();
     });
 
-    // hide the popup when user presses the esc key
+    @* hide the popup when user presses the esc key*@
     $(document).keyup(function (e) {
         if (e.keyCode == 27) { // if user presses esc key
             closePopup();
