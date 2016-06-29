@@ -469,6 +469,8 @@ namespace BankLoanSystem.DAL
         /// </summary>
         /// <param name="loanCode"></param>
         /// <returns></returns>
+        
+        
         internal LoanSetupStep1 GetLoanDetailsByLoanCode(string loanCode)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["AutoDealersConnection"].ConnectionString))

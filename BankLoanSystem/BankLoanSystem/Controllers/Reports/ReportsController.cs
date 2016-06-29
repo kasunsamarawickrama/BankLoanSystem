@@ -49,10 +49,16 @@ namespace BankLoanSystem.Controllers.Reports
             return View();
         }
 
-        /// <summary>
-        /// Reporting page
-        /// </summary>
-        /// <returns></returns>
+        /*
+
+            Frontend page: Report page
+            Title: Get active loans of user for grid
+            Designed: Kanishka SHM
+            User story: 
+            Developed: Kanishka SHM
+            Date created: 
+
+        */
         public ActionResult ReportIndex()
         {
             ReportAccess ra = new ReportAccess();
@@ -63,7 +69,7 @@ namespace BankLoanSystem.Controllers.Reports
             ViewBag.RoleId = _userData.RoleId; //user role
             ViewBag.BranchId = _userData.BranchId; // branch
 
-            // check user rile 
+            // check user role 
             if (_userData.RoleId == 1)
             {
                 loanNumbers = ra.GetAccountDetails(_userData.Company_Id, _userData.RoleId);
@@ -139,11 +145,13 @@ namespace BankLoanSystem.Controllers.Reports
                         }
                     }
                     else {
+                        //redirect to dash 
                         return RedirectToAction("UserDetails", "UserManagement");
                     }
 
                 }
             }
+
             ViewBag.LoanId = new SelectList(userLoanNumbers, "LoanId", "LoanNumberB");
 
             return View();

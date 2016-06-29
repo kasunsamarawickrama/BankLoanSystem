@@ -7,18 +7,18 @@ using BankLoanSystem.Models;
 
 namespace BankLoanSystem.Controllers.DeleteUnit
 {
+    /// <summary>
+    /// Get all advance and pending units to show on grid
+    /// can delete one units
+    /// can search unit by vin/year/make or model
+    /// after select unit and if unit advance then show payment details
+    /// </summary>
+    /// /*
     public class DeleteUnitController : Controller
     {
         User _userData = new User();
 
-
-        // GET: DeleteUnit
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-
+        // Check session in page initial stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             try
@@ -31,8 +31,6 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                 {
                     if (HttpContext.Request.IsAjaxRequest())
                     {
-
-                        //new HttpStatusCodeResult(404, "Failed to Setup company.");
                         filterContext.Result = new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
                     }
                     else
@@ -48,11 +46,21 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             }
         }
 
+        /*
 
+         Frontend page   : Delete units
+         Title           : Get all active and pending units
+         Designed        : Kanishka Mahanama
+         User story      : 
+         Developed       : Kanishka Mahanama
+         Date created    : 
+
+         */
         public ActionResult Delete()
         {
             string loanCode;
 
+            //get loan code, if it is null return to the login
             try
             {
                 loanCode = Session["loanCode"].ToString();
@@ -61,6 +69,8 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
+
+            //check user role, if it is user then check he has right to delete unit page
             if (_userData.RoleId == 3)
             {
                 if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
@@ -100,6 +110,9 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             {
                 return RedirectToAction("UserDetails", "UserManagement");
             }
+
+            //get loan details
+            int loanId = _userData.LoanId;
             LoanSetupStep1 loan = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
 
             UnitDeleteViewModel unitDeleteViewModel = new UnitDeleteViewModel();
