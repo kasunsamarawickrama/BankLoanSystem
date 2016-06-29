@@ -333,10 +333,9 @@
 <script src="~/scripts/CommonFunctions.js"></script>
 
 <script>
+   @*clear error messages of each input field when clear button is clicked*@
     $("#clear").click(function () {
-        //document.getElementsByTagName("form")[0].reset();
 
-        //$('#txtUserName').next('span').children().text('');
         $('#txtUserName').closest("div").siblings('div').children("p").children("span").text("");
         $('#txtUserName').next("div").children("p").children("span").text("");
         $('#txtPassword').closest("div").siblings('div').children("p").children("span").text("");
@@ -368,15 +367,14 @@
         $('#rightsSection').hide();
         $('#successSpn').text("");
         $('#errSpn').text("");
-        //report rights
+        @*report rights*@
         $('#CheckAll2').prop('checked', false);
         $('.All2').prop('checked', false);
         $('#DivRptRights').hide();
 
     });
-
+    @*clear error messages of each input field*@
     function clearValues_1() {
-        //alert('hi');
 
         $("input[type=text]").each(function () {
 
@@ -415,8 +413,7 @@
         $('#BranchIdUser').val('');
         $('#BranchId').val('');
         $('#LoanIdUser2').val('');
-        //$('#BranchId2').val('');
-        // $('#BranchIdUser2').val('');
+
         document.getElementById("branchid").innerHTML = "";
         document.getElementById("loanid").innerHTML = "";
         $('#loanIdMessage span').text("");
@@ -434,141 +431,129 @@
         $('#rbNo').prop('checked', false);
 
     };
+    @*when select role drop down change, change the content of remaining fields in the page*@
     $(document).on('change', '#RoleId', function () {
-        //alert('4');
-        //$('#BranchIdUser option:selected').val('');
-        //$('#LoanIdUser2 option:selected').val('');
-        //$('#BranchId option:selected').val('');
-        //$('#selectAll').prop('checked', false);
-        //$('.All').prop('checked', false);
+        @*clear error messages of all input fields*@
         clearValues_1();
+        @*get value of selected role*@
         var val = document.getElementById("RoleId").value;
+        @*val 1-super admin*@
         if (val == '1') {
+            @*hide branch section and right section*@
             $('#branchDiv').hide();
             $('#branchDivUser').hide();
             $('#rightsSection').hide();
             clearValues_1();
 
         }
+            @*val 2 - admin*@
         else if (val == '2') {
-            //$('#BranchId').val('');
+            @*show branch section for admin and hide branch section for user and right section*@
             $('#branchDiv').show();
             $('#branchDivUser').hide();
             $('#rightsSection').hide();
             clearValues_1();
         }
+            @*val 3 - user*@
         else if (val == '3') {
-            //alert('ggg');
-            //$('#BranchIdUser option:selected').val('');
-            //alert('3');
+            @*hide branch section for admin and show branch section for user and right section*@
             $('#branchDiv').hide();
             $('#LoanIdUser2').val('');
-            //$('#BranchId').val('');
             $('#selectAll').prop('checked', false);
             $('.All').prop('checked', false);
             clearValues_1();
             $('#branchDivUser').show();
-            //$('#rightsSection').show();
-            //$('#BranchIdUser').val('');
-            //document.getElementById("branchid").innerHTML = "";
-            //
 
+            @*check branch count which users can assigned is 1*@
             @if (ViewBag.BranchIdUser.Items.Count == 1){
-               
+               @*assign branch id for hidden field*@
                    <text> $('#BranchIdUser2').val(@ViewBag.BranchIdUser.Items[0].BranchId); </text>
-                
+                @*send branch id value to get active loan list*@
                     <text>GetLoan($('#BranchIdUser2').val()); </text>
-
+                @*show right section*@
             <text>$('#rightsSection').show(); </text>
+                @*hide admin branch section*@
             <text> $('#branchDiv').hide(); </text>
                 }
-            //}
+
             else{
+                @*show branch section for user and hide admin branch section*@
                     <text> $('#branchDivUser').show();</text>
             <text>$('#branchDiv').hide();</text>
             }
-            //$('#branchDivLoan').show();
 
         }
         else {
-
+            @*hide branch secions and right section*@
             clearValues_1();
             $('#branchDiv').hide();
             $('#branchDivUser').hide();
             $('#rightsSection').hide();
         }
     });
-
+    @*when select role drop down change, change the content of remaining fields in the page -*@
     $('#RoleId').change(function () {
-        //alert('4');
-        //$('#BranchIdUser option:selected').val('');
-        //$('#LoanIdUser2 option:selected').val('');
-        //$('#BranchId option:selected').val('');
-        //$('#selectAll').prop('checked', false);
-        //$('.All').prop('checked', false);
+        @*clear error messages of all input fields*@
         clearValues_1();
+        @*get value of selected role*@
         var val = document.getElementById("RoleId").value;
+        @*val 1-super admin*@
         if (val == '1') {
+            @*hide branch section and right section*@
             $('#branchDiv').hide();
             $('#branchDivUser').hide();
             $('#rightsSection').hide();
             clearValues_1();
 
         }
+            @*val 2 - admin*@
         else if (val == '2') {
-            //$('#BranchId').val('');
+            @*show branch section for admin and hide branch section for user and right section*@
             $('#branchDiv').show();
             $('#branchDivUser').hide();
             $('#rightsSection').hide();
             clearValues_1();
         }
+            @*val 3 - user*@
         else if (val == '3') {
-            //alert('ggg');
-            //$('#BranchIdUser option:selected').val('');
-            //alert('3');
+            @*hide branch section for admin and show branch section for user and right section*@
             $('#branchDiv').hide();
             $('#LoanIdUser2').val('');
-            //$('#BranchId').val('');
             $('#selectAll').prop('checked', false);
             $('.All').prop('checked', false);
             clearValues_1();
             $('#branchDivUser').show();
-            //$('#rightsSection').show();
-            //$('#BranchIdUser').val('');
-            //document.getElementById("branchid").innerHTML = "";
-            //
-
+            @*check branch count which users can assigned is 1*@
             @if (ViewBag.BranchIdUser.Items.Count == 1){
-                
+                @*assign branch id for hidden field*@
                  <text>$('#BranchIdUser2').val(@ViewBag.BranchIdUser.Items[0].BranchId); </text>
-                
+                @*send branch id value to get active loan list*@
                  <text>GetLoan($('#BranchIdUser2').val()); </text>
-
+               @*show right section*@
                  <text>$('#rightsSection').show(); </text>
+                @*hide admin branch section*@
                  <text>$('#branchDiv').hide(); </text>
             }
-                //}
-            else{
+            else {
+                @*show branch section for user and hide admin branch section*@
                  <text>$('#branchDivUser').show(); </text>
                  <text>$('#branchDiv').hide(); </text>
             }
-            //$('#branchDivLoan').show();
 
         }
         else {
-
+            @*hide branch secions and right section*@
             clearValues_1();
             $('#branchDiv').hide();
             $('#branchDivUser').hide();
             $('#rightsSection').hide();
         }
     });
+    @*when select branch drop down selected value change for user role admin, change remaining content of the page*@
     $('#BranchId').change(function () {
-        // $('#BranchId2').val('');
-        //alert('3');
+
         $('#BranchIdUser').val('');
         $('#LoanIdUser2').val('');
-        // $('#BranchId2').val('');
         $('#BranchIdUser2').val('');
         document.getElementById("branchid").innerHTML = "";
         document.getElementById("loanid").innerHTML = "";
@@ -577,23 +562,20 @@
         $('#successSpn').text("");
         $('#errSpn').text("");
     });
+    @*when select branch drop down selected value change for user role user, change remaining content of the page*@
     $(document).on('change', '#BranchIdUser', function () {
-
-
 
         $('#LoanIdUser2').val('');
         $('#loanIdMessage span').text("");
         $('#checkBoxMessage span').text("");
         $('#successSpn').text("");
         $('#errSpn').text("");
-        //alert(loan);
 
     });
+    @*when select branch drop down selected value change for user role user, change remaining content of the page*@
     $('#BranchIdUser').change(function () {
-        //alert('rtr');
         $('#BranchId').val('');
         $('#LoanIdUser2').val('');
-        //$('#BranchId2').val('');
         $('#BranchIdUser2').val('');
         document.getElementById("branchid").innerHTML = "";
         document.getElementById("loanid").innerHTML = "";
@@ -603,46 +585,35 @@
         $('#errSpn').text("");
 
         var val = document.getElementById("RoleId").value;
+        @*val 3- user*@
         if (val == '3') {
-
+            @*get selected value for branch*@
             var branchL = $('#BranchIdUser option:selected').val();
-            
+            @*check branch id >0*@
             if (branchL > 0) {
+                @*send selected branch id to return active loans*@
                 GetLoan(branchL);
             }
 
 
         }
-
-
-        //else if (val == '3') {
-        //    $('#branchDivUser').show();
-
-
-        //    //$('#branchDivLoan').show();
-
-        //    $('#branchDiv').hide();
-        //}
-        //else {
-        //    $('#branchDiv').hide();
-        //    $('#branchDivUser').hide();
-        //}
     });
+    @*assign loan id to field*@
     function SendParaTo(loan) {
-        //alert(document.getElementById("loanid").innerHTML);
+
         document.getElementById("loanid").innerHTML = loan;
-        //alert(loan);
+
     };
+    @*when selected loan change assign that loan id to field and clear error messages when loan change*@
     $(document).on('change', '#LoanIdUser2', function () {
 
         $('#successSpn').text("");
         $('#errSpn').text("");
         $('#loanIdMessage span').text("");
-        // $('#checkBoxMessage span').text("");
         var loan = $('#LoanIdUser2 option:selected').val();
-        //alert(loan);
         SendParaTo(loan)
     });
+    @*get loan list for selected branch id*@
     function GetLoan(branchL) {
         $.ajax({
             url: '/UserManagement/GetLoansByBranches',
@@ -656,9 +627,9 @@
                 $('#rightDiv').show();
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                // Your handler here...
+                @* Your handler here...*@
 
-                // if session expires
+                @* if session expires*@
                 if (jqXHR.status == "404") {
                     window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
                 }
@@ -680,18 +651,14 @@
 
     $(".tab.3").parent("li").addClass("active").siblings().removeClass('active');
 
-    //Progress(3);
-
-
-    //Validation
-
-    // User name validate
+   
+    @* User name validate*@
     $('#txtUserName').keypress(function (e) {
 
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
             var code = e.which;
             if (this.value.length === 0 && (48 <= code && code <= 57)) {
-                //$("#customError span[id^='spnUserName']").text("User name can't be start with numbers");
+                
                 this.focus();
                 e.preventDefault();
                 return;
@@ -699,24 +666,24 @@
 
             var res = BlockText(e.which);
             if (res === 1) {
-                //$("#customError span[id^='spnUserName']").text("Please use only letters (a-z) and numbers.");
+                
                 e.preventDefault();
                 return;
             }
         }
-        
+
     });
 
-    // change to title case
+    @* change to title case*@
 
     $('#txtFirstName, #txtLastName').blur(function (e) {
-        //ToTitleCase(this.id, this.value);
+        @*ToTitleCase(this.id, this.value);*@
         if (e.which !== 37 && e.which !== 8 && e.which !== 32)
             ToTitleCase(this.id, this.value);
     });
 
 
-    //Check maximum length
+    @*Check maximum length*@
     $('#txtUserName, #txtFirstName, #txtLastName, #txtPassword, #txtConfirmPassword').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
             if (e.which !== 8 && e.which !== 0) {
@@ -727,9 +694,9 @@
                 }
             }
         }
-        
-    });
 
+    });
+    @*block special characters in password and confirm password field*@
     $('#txtPassword, #txtConfirmPassword').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
             if (this.value.length === 0 && e.which === 32) {
@@ -744,15 +711,15 @@
                 return;
             }
             else if (e.which === 92) {
-                //$(this).siblings('div').children('span').text("Invalid character.");
+                
                 e.preventDefault();
                 return;
             }
         }
-        
+
     });
 
-    //Check maximum length for email address and valid characters
+    @*Check maximum length for email address and valid characters*@
     $('#txtNewEmail').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
             if (e.which !== 8 && e.which !== 0) {
@@ -770,17 +737,17 @@
                 return;
             }
             else if (e.which === 92 || e.which === 39) {
-                //$(this).siblings('div').children('span').text("Invalid character.");
+               
                 e.preventDefault();
                 return;
             }
         }
-        
-    });
 
+    });
+    @*block special characters in first name and last name text fields*@
     $('#txtFirstName, #txtLastName').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
-            //var array = [' ', '/', '`', '~', '!'];
+            
             var array = ['~', '`', '!', '#', '$', '%', '&', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ''];
             var res = InvalidCharacters(this, array, e.which);
 
@@ -790,14 +757,13 @@
             }
 
             if (e.which === 92) {
-                //$(this).siblings('div').children('span').text("Invalid character.");
                 e.preventDefault();
                 return;
             }
         }
-        
-    });
 
+    });
+@*block special characters for phone number text field*@
     $('#txtPhoneNumber').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
             var res = PhoneNumber(this, e.which);
@@ -813,37 +779,43 @@
                 }
             }
         }
-        
-    });
 
+    });
+    @*click event for create button*@
     $('#btnCreateUser').click(function () {
-   
+   @*check selected loan id is null or empty*@
         if (document.getElementById("loanid").innerHTML == "") {
-            
+            @*show error message*@
             $('#loanIdMessage span').text("please select a loan.");
 
         }
+        @*check selected user role is user*@
         if ($('#RoleId option:selected').val() == 3) {
+            @*get count of check box which has checked*@
             checked = $("input[type=checkbox]:checked").length;
-            
+            @*if not checked at least one*@
             if (!checked) {
-               
+               @*show error message*@
                 $('#checkBoxMessage span').text("please select at least one right.");
                 e.preventDefault();
             }
+                @*check view reports check box is checked*@
             else if ($('#7').is(':checked')) {
+                @*get count of check box which has checked*@
                 var chck = $(".All2:checked").length;
+                @*check count is 0*@
                 if (chck === 0) {
+                    @*show error message*@
                     $('#checkBoxMessage span').text("please select at least one right for reports.");
                     e.preventDefault();
                 }
-               
+
             }
         }
 
     });
-    
 
+    @*if click on any input field , clear error message or success message in top*@
     $("input[type=text]").click(function () {
 
         $('#successSpn').text("");

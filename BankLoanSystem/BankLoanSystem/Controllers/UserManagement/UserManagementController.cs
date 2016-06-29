@@ -1654,18 +1654,22 @@ Date created: 1/25/2016
                         //check created user's loan id
                         if (loanList[j].LoanId == userObj.LoanId)
                         {
-                            //check title is needed to be tracked for created user's loan
-                            if (!loanList[j].IsTitleTrack)
+                            foreach (Right rgt1 in userObj.UserRightsList)
                             {
-                                //assign title page rights as false if title is not needed to be tracked
-                                userObj.UserRightsList[3].active = false;
+                                //check title is needed to be tracked for created user's loan
+                                if (!loanList[j].IsTitleTrack && rgt1.rightId == "U02")
+                                {
+                                    //assign title page rights as false if title is not needed to be tracked
+                                    rgt1.active = false;
+                                }
+                                //check if there is atleast one fee for created user's loan
+                                if (!loanList[j].HasFee && rgt1.rightId == "U07")
+                                {
+                                    //assign fee page rights as false if there is no atleast one fee
+                                    rgt1.active = false;
+                                }
                             }
-                            //check if there is atleast one fee for created user's loan
-                            if (!loanList[j].HasFee)
-                            {
-                                //assign fee page rights as false if there is no atleast one fee
-                                userObj.UserRightsList[5].active = false;
-                            }
+                               
                             //check report rights according to the loan setup details
                             foreach(Right rgt in userObj.ReportRightsList)
                             {
