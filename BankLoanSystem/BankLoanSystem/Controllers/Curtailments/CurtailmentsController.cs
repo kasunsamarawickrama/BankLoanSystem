@@ -102,7 +102,7 @@ namespace BankLoanSystem.Controllers.Curtailments
                     {
                         foreach (var x in rgtList)
                         {
-                            if (x == "U005")
+                            if (x == "U05")
                             {
                                 checkPermission = true;
                             }

@@ -85,14 +85,14 @@ margin-left:1%;
                     {
                         <div id="rights">
                             @Html.HiddenFor(x => x.UserRightsList[i].rightId)
-                            @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = i + 1 })
+                            @Html.CheckBoxFor(x => x.UserRightsList[i].active, new { @class = "All", @id = Model.UserRightsList[i].rightId })
                             @Html.Label(Model.UserRightsList[i].description)
-                            @if (i == 6)
+                            @if (Model.UserRightsList[i].rightId == "U06")
                             {
                                 if (Model.ReportRightsList!=null && Model.ReportRightsList.Count > 0)
                                 {
                                 <div id="DivRptRights" hidden>
-                                    @Html.CheckBox("selectAll", new { @class = "All2", @id = "CheckAll2" })
+                                    @Html.CheckBox("selectAll2", new { @class = "CBAll2", @id = "CheckAll2" })
                                     @Html.Label("All")
                                     <br />
                                     @for (var j = 0; j < Model.ReportRightsList.Count; j++)
@@ -145,44 +145,40 @@ margin-left:1%;
             if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==0 && model.BranchList[j].HasFee==0){
                 title = 0;
                 hasFee = 0;
-                $('#6').hide();
+                $('#U07').hide();
                 $('[for="Pay_Fees"]').hide();
-                $('#4').hide();
+                $('#U02').hide();
                 $('[for="Update_Title_Status"]').hide();
 
             }
             else if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==0 && model.BranchList[j].HasFee==1){
                 title = 0;
                 hasFee = 1;
-                $('#6').show();
+                $('#U07').show();
                 $('[for="Pay_Fees"]').show();
-                $('#4').hide();
+                $('#U02').hide();
                 $('[for="Update_Title_Status"]').hide();
 
             }
             else if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==1 && model.BranchList[j].HasFee==1){
                 title = 1;
                 hasFee = 1;
-                $('#6').show();
+                $('#U07').show();
                 $('[for="Pay_Fees"]').show();
-                $('#4').show();
+                $('#U02').show();
                 $('[for="Update_Title_Status"]').show();
 
             }
             else if(model.BranchList[j].LoanId==loanId && model.BranchList[j].IsTitleTrack==1 && model.BranchList[j].HasFee==0){
                 title = 1;
                 hasFee = 0;
-                $('#6').hide();
+                $('#U07').hide();
                 $('[for="Pay_Fees"]').hide();
-                $('#4').show();
+                $('#U02').show();
                 $('[for="Update_Title_Status"]').show();
 
             }
-            //else{
-            //    title = 1;
-            //    $('#4').show();
-            //    $('[for="Update_Title_Status"]').show();
-            //}
+            
         }
 
 
@@ -332,20 +328,19 @@ margin-left:1%;
         $('#CheckAll2').on('change', function () {
             $('#checkBoxMessage span').text("");
             if ($(this).is(':checked')) {
-                //alert('checked');
+                
                 $('#checkBoxMessage span').text("");
                 $('.All2').prop('checked', true);
-
+                
+                //$('#CheckAll2').prop('checked', true);
+                //alert('checked');
             }
             else {
-                //alert('unchecked');
+                
                 $('.All2').prop('checked', false);
             }
         });
-        //$('.All').on('change', function () {
-        //    $('#checkBoxMessage span').text("");
-
-        //});
+       
     });
     if(@ViewBag.LoanId.Items.Count==1){
         var loan = $('#LoanIdUser').val();
@@ -378,7 +373,7 @@ margin-left:1%;
         var len = model.UserRightsList.length;
         var count =0;
         for (var j = 0 ; j < model.UserRightsList.length; j++){
-            var str = '#'+(j+1);
+            var str = '#'+(model.UserRightsList[j].rightId);
             if ($(str).is(':checked')) {
                 //alert('checked');
                 count++;
@@ -407,6 +402,9 @@ margin-left:1%;
         var model = @Html.Raw(Json.Encode(Model));
         var len = model.ReportRightsList.length;
         var count =0;
+        var len2 = $('.All2').filter(function() {
+            return $(this).css('display') !== 'none';
+        }).length;
         for (var j = 0 ; j < model.ReportRightsList.length; j++){
             var str = '#'+ model.ReportRightsList[j].rightId;
             if ($(str).is(':checked')) {
@@ -414,65 +412,20 @@ margin-left:1%;
                 count++;
             }
         }
-
-        //if( count === len){
-        //    $('#CheckAll2').prop('checked', true);
-        //}
-        if( title===1 && advanceFee===0 && monthlyFee===0 && lotFee===0 && count === (len-6)){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===1 && advanceFee===1 && monthlyFee===0 && lotFee===0 && count === (len-4)){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===1 && advanceFee===1 && monthlyFee===1 && lotFee===0 && count === (len-2)){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===1 && advanceFee===1 && monthlyFee===1 && lotFee===1 && count === len-4){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===0 && advanceFee===1 && monthlyFee===0 && lotFee===0 && count === len-5){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===0 && advanceFee===1 && monthlyFee===1 && lotFee===0 && count === len-3){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===0 && advanceFee===1 && monthlyFee===1 && lotFee===1 && count === len-1){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===0 && advanceFee===0 && monthlyFee===1 && lotFee===0 && count === len-5){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===0 && advanceFee===0 && monthlyFee===1 && lotFee===1 && count === len-3){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===0 && advanceFee===0 && monthlyFee===0 && lotFee===1 && count === len-5){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===0 && advanceFee===0 && monthlyFee===0 && lotFee===0 && count === len-7){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===1 && advanceFee===0 && monthlyFee===1 && lotFee===0 && count === len-4){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===1 && advanceFee===0 && monthlyFee===1 && lotFee===1 && count === len-2){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===1 && advanceFee===0 && monthlyFee===0 && lotFee===1 && count === len-4){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===1 && advanceFee===1 && monthlyFee===0 && lotFee===1 && count === len-2){
-            $('#CheckAll2').prop('checked', true);
-        }
-        else if( title===0 && advanceFee===1 && monthlyFee===0 && lotFee===1 && count === len-3){
+        //alert(len2);
+        if(count===len2){
+           
             $('#CheckAll2').prop('checked', true);
         }
         else{
+           
             $('#CheckAll2').prop('checked', false);
-        }
+    }
+       
         $('#successSpn span').text("");
         $('#errSpn span').text("");
     };
-    $('#7').change(function(){
+    $('#U06').change(function(){
         if($(this).is(":checked")) {
 
             var loanId2 = 0;
@@ -496,6 +449,8 @@ margin-left:1%;
 
         }
         else{
+            $('.CBAll2').prop('checked', false);
+            $('.All2').prop('checked', false);
             $('#DivRptRights').hide();
         }
     });
@@ -507,24 +462,29 @@ margin-left:1%;
         showPopup('Rpt2');
         $('#textForPopup').text(model.ReportRightsList[rightId].name);
         $('#desLbl').text(model.ReportRightsList[rightId].description);
-        $('#idimg').src(model.ReportRightsList[rightId].ImagePath);
+        var str = model.ReportRightsList[rightId].ImagePath;
+        $('#idimg').attr('src',str);
     };
     </script>
 <div id="PopupDiv">
     <div class="overlay-bg">
     </div>
-    <div class="overlay-content popupRpt2" style="width:auto;text-align:center;margin-left: 105px;">
+    <div class="overlay-content popupRpt2" style="width:auto;text-align:center;margin-top:-131px;margin-left:-246px">
+        <div class="close-pop icon-cross" style="float: right;font-size: 23px;"></div>
         <h3 id="textForPopup"></h3>
         <div style="padding:10px;">
-            <label>Description</label>
+            <label style="color:darkgreen;font-weight:bold">Description</label>
         </div>
         <div style="padding:10px;">
             <label id="desLbl"></label>
         </div>
         <div style="padding:10px;">
-            <label>Example</label>
+            <label style="color:darkgreen;font-weight:bold">Example</label>
         </div>
-        <button class="close-btn btn btn-info" style="margin-left: 700px;">Close</button>
+        <div style="padding: 10px;">
+            <img onclick="window.open(this.src)" alt="Image" style="max-width: 1500px;max-height: 500px" id="idimg" />
+        </div>
+        <input type="button" class="close-btn btn btn-info" value="Close" style="margin-left:893px;"/>
     </div>
 
 </div>
@@ -561,7 +521,7 @@ margin-left:1%;
     });
 
     // hide popup when user clicks on close button or if user clicks anywhere outside the container
-    $('.close-btn, .overlay-bg').click(function () {
+    $('.close-btn, .overlay-bg ,.close-pop').click(function () {
         closePopup();
     });
 

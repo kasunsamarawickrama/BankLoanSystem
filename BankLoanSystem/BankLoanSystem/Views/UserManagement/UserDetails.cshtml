@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
-
+@using BankLoanSystem.Controllers
 <script src="~/scripts/popup.js"></script>
 
 
@@ -25,6 +25,12 @@
         border: 1px solid #d4ea1a; 
      background: #eaec36; 
     }
+    .popup-report-no-permission{
+        width:640px;
+        text-align:center;
+        margin-left: 173px;
+        top:280px;
+    }
 </style>
 
 <div class="overlay-content popup1">
@@ -41,6 +47,21 @@
 </div>
 
 
+<div class="overlay-content popup-report-no-permission">
+
+    <h3>Message</h3>
+
+    <div class="alert alert-info" role="alert">
+        You don't have any report access for any loan
+    </div><br />
+    <span> Please Contact Your Admin</span><br />
+    <br />
+    
+    <button class="btn btn-info" style="width:200px" onclick="$('.overlay-bg, .overlay-content').hide();">OK</button>
+
+</div>
+
+
     @if (ViewBag.LoanCount > 0 && ((ViewBag.roleId == 1) || (ViewBag.roleId == 2) || (ViewBag.roleId == 3) || (ViewBag.roleId == 4)))
     {
        
@@ -52,11 +73,16 @@
                 <div class="select-loan">
 
                 @if (ViewBag.loanSelected == 1) { 
-                    <div>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" })</div>
+                   @Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "sel-loan a_demo_three icon-point-right nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" , style = "text-decoration: none;" })
                 }
                 @if (ViewBag.LoanCount > 1)
                 {
-                    <div>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" })</div>
+                    @*<div>@Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" })</div>*@
+
+                    
+
+                      @Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "sel-loan a_demo_three icon-point-right nrm-button show-popup", @id = "lkuni", @data_showpopup = "1" , style= "text-decoration: none;" })
+                    
                 }
                 else
                 {
@@ -177,7 +203,7 @@
                     {
 
 
-                        if (ViewBag.RightList.Contains("U004"))
+                        if (ViewBag.RightList.Contains("U04"))
                         {
                             <button id="lkuni" class="a_demo_three icon-automobile" onclick="window.location.href='/Unit/Addunit'">       
                                 Add Unit
@@ -185,7 +211,7 @@
 
                             @*@Html.ActionLink("Unit", "addunit", "unit", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkuni" })*@
                             }
-                            if (ViewBag.RightList.Contains("U001"))
+                            if (ViewBag.RightList.Contains("U01"))
                             {
                             <button id="lkadv" class="a_demo_three icon-dollar" onclick="window.location.href='/AdvanceUnit/Advance'">
                                
@@ -193,7 +219,7 @@
                             </button>
                             @*@Html.ActionLink("Advance", "Advance", "AdvanceUnit", null, new { @class = "btn btn-info btn-arrow-right link" , @id="lkadv" })*@
                             }
-                            if (ViewBag.RightList.Contains("U005"))
+                            if (ViewBag.RightList.Contains("U05"))
                             {
                             <button id="lkcrtl" class="a_demo_three icon-coin-dollar" onclick="window.location.href='/Curtailments/PayCurtailments'">
                                 
@@ -201,7 +227,7 @@
                             </button>
                             @*@Html.ActionLink("Curtailment", "PayCurtailments", "Curtailments", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkcrtl" })*@
                             }
-                            if (ViewBag.RightList.Contains("U002") && ViewBag.ttlAccess == 1 && ViewBag.IsTitleTrack == 1)
+                            if (ViewBag.RightList.Contains("U02") && ViewBag.ttlAccess == 1 && ViewBag.IsTitleTrack == 1)
                             {
                             <button id="lkttl" class="a_demo_three icon-files-empty" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
                                 
@@ -210,7 +236,7 @@
 
                             @*@Html.ActionLink("Title", "TitleStatusUpdate", "UnitTitle", null, new { @class = "btn btn-info btn-arrow-right link",   @id = "lkttl" })*@
                             }
-                            if (ViewBag.RightList.Contains("U003"))
+                            if (ViewBag.RightList.Contains("U03"))
                             {
                             <button id="lkpoff" class="a_demo_three icon-banknote" onclick="window.location.href='/UnitPayOff/PayOff'">
                                
@@ -219,22 +245,24 @@
 
                             @*@Html.ActionLink("Pay Off", "PayOff", "UnitPayOff", null, new { @class = "btn btn-info btn-arrow-right link", @id = "lkpoff" })*@
                         }
-                        if (ViewBag.RightList.Contains("U007")&&(ViewBag.Fee == 1))
+                        if (ViewBag.RightList.Contains("U07")&&(ViewBag.Fee == 1))
                         {
                             <button class="a_demo_three icon-credit" onclick="window.location.href='/Fee/PayFees'">
                               
                                Fees
                             </button>
                         }
-                                    // editted by irfan
-                       
+                        // editted by irfan
+
 
                         <button class="a_demo_three icon-stack withloanselectionUser">
 
                             Reports
                         </button>
 
-                        if (!ViewBag.RightList.Contains("U006"))
+                       
+
+                        if (!ViewBag.RightList.Contains("U06"))
                         {
                             <script>
 
@@ -253,7 +281,7 @@
                                 });
                             </script>
                         }
-                        if (ViewBag.RightList.Contains("U008"))
+                        if (ViewBag.RightList.Contains("U08"))
                         {
                             <button class="a_demo_three icon-bin2" onclick="window.location.href='/DeleteUnit/Delete'">
                                
@@ -327,6 +355,24 @@
                 
                 Renew Loan
             </button>
+            }
+
+            @using (Ajax.BeginForm(
+                "Selectloan",
+                "UserManagement", new { type = "tcaninaol" },
+                new AjaxOptions
+                {
+                    OnFailure = "handleError",
+                    HttpMethod = "GET",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "selcet-panel",
+                    LoadingElementId = "loadingSpan"
+                }, new { style = "display:inline-block" }))
+            {
+                <button type="submit" class="a_demo_three icon-clipboard show-popup" data-showpopup="1">
+
+                    Deactivate Loan
+                </button>
             }
 
             <button class="a_demo_three icon-user-tie"  onclick="window.location.href='/UserManagement/EditPartnerCompanyAtDashboard'" >
@@ -723,4 +769,17 @@ ids = grid.getDataIDs();
     // disable edit, add , false on pager
     jQuery("#grid").jqGrid('navGrid', '#pager2',
             { edit: false, add: false, del: false });
+
+
+    @* if there is no user rights give pop up message to user*@
+    @if (!(new UserManagementController()).IsAtleastOnePermissionForReport(ViewBag.Userid) && ViewBag.roleId == 3)
+    {
+    <text>
+    $('.icon-stack').addClass('show-popup').attr('data-showpopup','-report-no-permission').removeAttr('onclick');
+    
+    </text>
+    }
 </script>
+
+
+ 
