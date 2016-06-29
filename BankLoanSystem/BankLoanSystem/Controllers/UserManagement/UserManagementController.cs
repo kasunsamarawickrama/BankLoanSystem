@@ -802,32 +802,35 @@ namespace BankLoanSystem.Controllers
 
         }
 
-        /// <summary>
-        /// CreatedBy : Irfan
-        /// CreatedDate: 2016/01/25
-        /// 
-        /// to view the change Password model
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        /// 
+
+        /*
+
+   Frontend page: Change Password
+   Title:  view of the change Password page
+   Designed: Irfan Mam
+   User story: 
+   Developed: Irfan MAM
+   Date created: 1/25/2016
+
+*/
         public ActionResult ChangePassword()
         {
 
-
+            // returning the page
             return PartialView();
         }
 
 
-        /// <summary>
-        /// CreatedBy : Irfan
-        /// CreatedDate: 2016/01/25
-        /// 
-        /// update the password model
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        /// 
+        /*
+
+Frontend page: Change Password
+Title:  update the password
+Designed: Irfan Mam
+User story: 
+Developed: Irfan MAM
+Date created: 1/25/2016
+
+*/
         [HttpPost]
         public ActionResult ChangePassword(ResetPassword resetPasswordModel)
         {

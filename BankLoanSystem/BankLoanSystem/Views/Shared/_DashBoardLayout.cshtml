@@ -28,23 +28,22 @@
     <link href="~/Content/combo.css" rel="stylesheet" />
 
     <style>
-
-         .icon-help_outline{
-                color: #BDBBBB;
-                font-size: 16px;
-                padding-left: 6px;
+.icon-help_outline{
+      color: #BDBBBB;
+      font-size: 16px;
+      padding-left: 6px;
         }
-        .icon-help_outline:hover{
-            color: green;
-            cursor:help;
+.icon-help_outline:hover{
+      color: green;
+      cursor:help;
         }
-        .help-text > p{
+.help-text > p{
             color:white;
             padding-left:10px;
             padding-right:10px;
             text-align:justify;
         }
-        #squares div {
+#squares div {
     /* these styles will let the divs line up next to each other
        while accepting dimensions */
     display: block;
@@ -58,7 +57,7 @@
     margin-right: 5px;
 }
 
-         #messageContainer {
+#messageContainer {
         background-color: #fff;
         border: 1px solid rgba(100, 100, 100, .4);
         -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
@@ -71,21 +70,20 @@
         display: none;
         text-align: left;
     }
-
-        #messageContainer:before {
-            content: '';
-            display: block;
-            position: absolute;
-            width: 0;
-            height: 0;
-            color: transparent;
-            border: 10px solid black;
-            border-color: transparent transparent white;
-            margin-top: -20px;
-            margin-left: 188px;
+#messageContainer:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        color: transparent;
+        border: 10px solid black;
+        border-color: transparent transparent white;
+        margin-top: -20px;
+        margin-left: 188px;
         }
 
-    #messageTitle {
+#messageTitle {
         z-index: 1000;
         font-weight: bold;
         padding: 8px;
@@ -96,30 +94,28 @@
         color:#000000;
     }
 
-    #messageBody {
+#messageBody {
         padding: 5px 0px 0px 0px !important;
         min-height: 50px;
         color:#000000;
     }
 
-    #message_count {
+#message_count {
         padding: 3px 7px 3px 7px;
         background: #cc0000;
         color: #ffffff;
         font-weight: bold;
-        /*margin-left: 10px;*/
         border-radius: 9px;
         position: absolute;
-        /*margin-top: -35px;*/
         font-size: 11px;
         font-size: 11px;
-    position: absolute;
-    z-index: 1;
-    top: -33%;
-    left: 60%;
+        position: absolute;
+        z-index: 1;
+        top: -33%;
+        left: 60%;
     }
 
-    .messagediv {
+.messagediv {
         width: 100%;
         min-height: 5px;
         max-height: 100px;
@@ -131,7 +127,7 @@
     }
 
     
-    .loandetails {
+.loandetails {
     border-collapse: collapse;
 }
 
@@ -142,10 +138,8 @@
 
 
 
-/**Loading */
-
-
     </style>
+
     <link href="~/Content/overlaypopup.css" rel="stylesheet" />
    
     @if (IsSectionDefined("AddToHead"))
@@ -215,11 +209,11 @@
 
 
         <script>
-
+        @*function of showing please wait message after 3 seconds*@
             function showPleaseWait() {
                 myTimer = setTimeout(function () {
 
-                    $('body').css({ 'cursor': 'wait' });
+                    $('body').css({ 'cursor': 'wait' }); // changing cursor
 
                     var docHeight = $(document).height(); //grab the height of the page
                     var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
@@ -227,11 +221,11 @@
                     $('.pleasewait').show().css({ 'top': scrollTop + 200 + 'px' }); //show the appropriate popup and set the content 20px from the window top
                 },3000);
             }
-
+           @*function of showing searching message after 3 seconds*@
             function showSearching() {
                 myTimer = setTimeout(function () {
 
-                    $('body').css({ 'cursor': 'wait' });
+                    $('body').css({ 'cursor': 'wait' }); // changing cursor
 
                     var docHeight = $(document).height(); //grab the height of the page
                     var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
@@ -240,11 +234,11 @@
                 },3000);
             }
 
-
+            @*function of showing loading message after 3 seconds*@
             function showLoading() {
                 myTimer = setTimeout(function () {
 
-                    $('body').css({ 'cursor': 'wait' });
+                    $('body').css({ 'cursor': 'wait' }); // changing cursor
 
                     var docHeight = $(document).height(); //grab the height of the page
                     var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
@@ -253,29 +247,14 @@
                 },3000);
             }
 
-
+            @*stop the process of loading or searching or please wait message*@
             function hideLoading() {
                 clearTimeout(myTimer);
                 $('body').css({ 'cursor': 'default' });
                  $('.overlay-bg, .overlay-content').hide();
-                //$('.overlay-bg, .overlay-content').hide();
+               
             }
 
-
-            @if (ViewBag.Page == 1 || ViewBag.Page == 2 || ViewBag.Page == 3 || ViewBag.Page == 5 )
-             {
-                 <text>
-            
-            //myTimer =setTimeout(function () { 
-                
-            //        showLoading();
-                
-            //}, 3000);
-          
-    
-    </text>
-             }
-          
         </script>
 
 
@@ -288,11 +267,7 @@
 
                     <div class="soft-info">
 
-                        @*<h1>
-                            Floor Plan Financing
-
-                        </h1>
-                        <small><strong> Management Software </strong></small>*@
+                       
                         <img src="~/Images/logo4.png" style="width: 332px;" /><br/>
 
                         <small><strong> INVENTORY FINANCING MANAGEMENT SOFTWARE </strong></small>
@@ -307,7 +282,7 @@
                     <div>
                         <span class="icon-500" >
                             <span>@Html.ActionLink("Log Out", "UserLogin", "Login", null, new { @class = "show-logout-popup", @data_showpopup = "7" })</span>
-                            @*<span class="icon-exit"></span>*@
+                            
                         </span>
                     </div>
 
@@ -334,11 +309,6 @@
                     </div>
 
 
-                    @*<div>
-                        <button id="c-button--slide-right" class="c-button">Slide Right</button>
-                    </div>*@
-                    <!---->
-                    <!---->
 
 
                 </div>
@@ -375,7 +345,7 @@
                         <div class="pos-name-panel">
                             <div>
                                 <div>
-                                    <span>@*@ViewBag.Username*@ @(((User)Session["AuthenticatedUser"]).UserName) </span>
+                                    <span>@(((User)Session["AuthenticatedUser"]).UserName) </span>
                                 </div>
 
                                 <div style="margin-top:10px">
@@ -399,7 +369,7 @@
                                             roleName = "Dealer User";
                                         }
                                     }
-                                    <span>@*@ViewBag.Position*@ @roleName</span>
+                                    <span>@roleName</span>
 
                                 </div>
                             </div>
@@ -426,13 +396,13 @@
 
                             <div>
                                 <div>
-                                    <span>@*@ViewBag.Company*@ @(((User)Session["AuthenticatedUser"]).CompanyName)</span>
+                                    <span>@(((User)Session["AuthenticatedUser"]).CompanyName)</span>
                                 </div>
 
                                 <div style="margin-top:10px">
                                     @if (role != 1)
                                 {
-                                        <span>@*@ViewBag.Branch*@ @(((User)Session["AuthenticatedUser"]).BranchName)</span>
+                                        <span>@(((User)Session["AuthenticatedUser"]).BranchName)</span>
                                 }
                                 else
                                 {
@@ -445,6 +415,7 @@
 
                         </div>
                     </div>
+                    @*body section*@
                     @RenderBody()
                 </div>
             </div>
@@ -476,16 +447,13 @@
                                     <span style="margin-left:30px;margin-top:10px;">Hours: 8am-6pm Central</span>
                                 </div>
 
-                                @*<div>
-                                    <span>Billing (800) ###-####</span>
-                                    <div class="hor-sp"></div>
-                                    <span style="margin-left:30px;margin-top:10px;">Hours: 9am-5pm Central</span>
-                                </div>*@
+                              
                             </div>
 
                         </div>
 
                     </div>
+                    @*this is for message section on footer bar*@
                     <div id="UserRequestMessage">
                         @{
                         Html.RenderAction("UserRequestMessage", "UserManagement");
@@ -529,21 +497,11 @@
 </html>
 
 <script>
-    /**
-   * Slide right instantiation and action.
-   */
+  
     $(document).ready(function () {
 
-        // sleep(4000);
 
-       
-
-         @if (ViewBag.Page == 1 || ViewBag.Page == 2 || ViewBag.Page == 3 || ViewBag.Page == 5)
-        {
-             @*<text>hideLoading();</text>*@
-         }
-
-
+        // when click the help button, show the help section
         $(document).on('click' , '.icon-help_outline', function (e) {
             e.preventDefault;
             slideRight_open();
