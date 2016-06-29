@@ -49,10 +49,16 @@ namespace BankLoanSystem.Controllers.Reports
             return View();
         }
 
-        /// <summary>
-        /// Reporting page
-        /// </summary>
-        /// <returns></returns>
+        /*
+
+            Frontend page: Report page
+            Title: Get active loans of user for grid
+            Designed: Kanishka SHM
+            User story: 
+            Developed: Kanishka SHM
+            Date created: 
+
+        */
         public ActionResult ReportIndex()
         {
             DashBoardAccess da = new DashBoardAccess();
@@ -74,7 +80,7 @@ namespace BankLoanSystem.Controllers.Reports
                 if (loanCount < 1)
                 {
                     return RedirectToAction("UserLogin", "Login");
-                }
+            }
             }
             // if user is a admin
             else if (_userData.RoleId == 2)
@@ -106,10 +112,10 @@ namespace BankLoanSystem.Controllers.Reports
 
 
                     // pass the user rights to view
-                }
+            }
                 // if user selected the non authorized loan from dashboard
                 else if (Session["CurrentLoanRights"] != null && !Session["CurrentLoanRights"].ToString().Contains("U06"))
-                {
+            {
 
 
                     // clear the session selected loan

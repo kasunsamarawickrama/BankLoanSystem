@@ -2812,7 +2812,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             if (curtailmentAccess.InsertCurtailment(curtailmentList, loanData.loanId) == 1)
             {
                 ViewBag.SuccessMsg = "Curtailment Details added successfully";
-                //sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 6);
+                sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 6);
                
                     Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, loanData.loanId, "Curtailment", "Inserted curtailment details of loan : " + loanData.loanId, DateTime.Now);
 
@@ -2822,7 +2822,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             }
             else
             {
-                //sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 6);
+                sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 6);
                 
                     Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, loanData.loanId, "Curtailment", "Edited curtailment details of loan : " + loanData.loanId, DateTime.Now);
 
