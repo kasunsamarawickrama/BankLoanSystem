@@ -216,6 +216,7 @@ namespace BankLoanSystem.Controllers
             {
                 DashBoardAccess da = new DashBoardAccess();
                 ViewBag.Username = userData.UserName;
+                ViewBag.Userid = userData.UserId;
                 ViewBag.Company = userData.CompanyName;
                 ViewBag.roleId = userData.RoleId;
                 if (Session["loanDashboard"] != null)
@@ -422,6 +423,31 @@ namespace BankLoanSystem.Controllers
 
 
         }
+
+
+
+        /// <summary>
+        /// Frontend page:    dashboard page
+        /// title:              checking is atleast one permission for report access
+        /// designed:           irfan mam
+        /// User story:         DFP 476
+        /// developed:          irfan mam
+        /// date creaed:        6/28/2016
+        /// 
+        /// </summary>
+        /// 
+        /// <returns>
+        /// if there is no loan has user rights -> false
+        ///  if there is atleast one user right for any loan -> true
+        /// </returns>
+        public bool IsAtleastOnePermissionForReport(int userId)
+        {
+
+            return (new DashBoardAccess()).IsAtleastOnePermissionForReport(userId);
+
+
+        }
+
 
 
 

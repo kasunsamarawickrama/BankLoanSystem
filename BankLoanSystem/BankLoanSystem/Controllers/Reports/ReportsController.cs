@@ -49,92 +49,102 @@ namespace BankLoanSystem.Controllers.Reports
             return View();
         }
 
-        /// <summary>
-        /// Reporting page
-        /// </summary>
-        /// <returns></returns>
+        /*
+
+            Frontend page: Report page
+            Title: Get active loans of user for grid
+            Designed: Kanishka SHM
+            User story: 
+            Developed: Kanishka SHM
+            Date created: 
+
+        */
         public ActionResult ReportIndex()
         {
-            ReportAccess ra = new ReportAccess();
-            List<Account> loanNumbers = new List<Account>(); 
+            DashBoardAccess da = new DashBoardAccess();
+           int loanCount = 0; 
 
             List<Account> userLoanNumbers = new List<Account>();
 
             ViewBag.RoleId = _userData.RoleId; //user role
             ViewBag.BranchId = _userData.BranchId; // branch
 
-            // check user rile 
+            // check user role 
             if (_userData.RoleId == 1)
             {
-                loanNumbers = ra.GetAccountDetails(_userData.Company_Id, _userData.RoleId);
-                userLoanNumbers = loanNumbers;
+                loanCount = da.GetLoanCount(_userData.Company_Id, _userData.RoleId);
+                //userLoanNumbers = loanNumbers;
                 ViewBag.ComId = _userData.Company_Id;
             }
-            else if (_userData.RoleId == 2 || _userData.RoleId == 3)
+            else if (_userData.RoleId == 2)
             {
-                loanNumbers = ra.GetAccountDetails(_userData.BranchId, _userData.RoleId);
-                userLoanNumbers = loanNumbers;
+                loanCount = da.GetLoanCount(_userData.BranchId, _userData.RoleId);
+                //userLoanNumbers = loanNumbers;
 
             }
             if (_userData.RoleId == 3 || _userData.RoleId == 4)
             {
-                if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
-                {
-                    return RedirectToAction("UserDetails", "UserManagement");
-                }
-                else {
-                    bool checkPermission = false;
-                    string rgts = "";
-                    rgts = (string)Session["CurrentLoanRights"];
-                    string[] rgtList = null;
-                    if (rgts != "")
-                    {
-                        rgtList = rgts.Split(',');
-                    }
-                    if (rgtList != null)
-                    {
-                        foreach (string x in rgtList)
-                        {
-                            if (x == "U06")
-                            {
-                                checkPermission = true;
-                            }
-                        }
-                        if (checkPermission == false)
-                        {
-                            return RedirectToAction("UserDetails", "UserManagement");
-                        }
-                        else if (Session["oneLoanDashboard"] != null)
-                        {
-                            Loan loan = (Loan) Session["oneLoanDashboard"];
-                            userLoanNumbers = new List<Account>();
-                            Account uLoans = new Account();
-                            uLoans.LoanId = loan.LoanId;
-                            uLoans.LoanNumber = loan.LoanNumber;
-                            uLoans.BranchId = loan.BranchId;
-                            userLoanNumbers.Add(uLoans);
-                        }
-                        else if (checkPermission && Session["oneLoanDashboard"] == null)
-                        {
-                            List<UserRights> userLoanRights = ra.GeUserRightsForReporting(_userData.UserId);
-                            List<Account> loanNumbersUsers = new List<Account>();
-                            foreach (UserRights item in userLoanRights)
-                            {
-                                string[] tokens = null;
-                                string loanRights = item.PermissionList;
-                                if (loanRights != "") tokens = loanRights.Split(',');
-                                if (tokens != null)
-                                {
-                                    foreach (string x in tokens)
-                                    {
-                                        if (x == "U06")
-                                        {
-                                            loanNumbersUsers.AddRange(loanNumbers.Where(loans => item.LoanId == loans.LoanId));
-                                        }
-                                    }
-                                }
-                            }
-                            userLoanNumbers = loanNumbersUsers;
+
+                loanCount = da.GetLoanCount(_userData.UserId, _userData.RoleId);
+
+
+                //if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
+                //{
+                //    return RedirectToAction("UserDetails", "UserManagement");
+                //}
+                //else {
+                //    bool checkPermission = false;
+                //    string rgts = "";
+                //    rgts = (string)Session["CurrentLoanRights"];
+                //    string[] rgtList = null;
+                //    if (rgts != "")
+                //    {
+                //        rgtList = rgts.Split(',');
+                //    }
+                //    if (rgtList != null)
+                //    {
+                //        foreach (string x in rgtList)
+                //        {
+                //            if (x == "U06")
+                //            {
+                //                checkPermission = true;
+                //            }
+                //        }
+                //        if (checkPermission == false)
+                //        {
+                //            return RedirectToAction("UserDetails", "UserManagement");
+                //        }
+                //        else if (Session["oneLoanDashboard"] != null)
+                //        {
+                //            Loan loan = (Loan) Session["oneLoanDashboard"];
+                //            userLoanNumbers = new List<Account>();
+                //            Account uLoans = new Account();
+                //            uLoans.LoanId = loan.LoanId;
+                //            uLoans.LoanNumber = loan.LoanNumber;
+                //            uLoans.BranchId = loan.BranchId;
+                //            userLoanNumbers.Add(uLoans);
+                //        }
+                //        else if (checkPermission && Session["oneLoanDashboard"] == null)
+                //        {
+                //            List<UserRights> userLoanRights = ra.GeUserRightsForReporting(_userData.UserId);
+                //            List<Account> loanNumbersUsers = new List<Account>();
+                //            foreach (UserRights item in userLoanRights)
+                //            {
+                //                string[] tokens = null;
+                //                string loanRights = item.PermissionList;
+                //                if (loanRights != "") tokens = loanRights.Split(',');
+                //                if (tokens != null)
+                //                {
+                //                    foreach (string x in tokens)
+                //                    {
+                //                        if (x == "U06")
+                //                        {
+                //                            loanNumbersUsers.AddRange(loanNumbers.Where(loans => item.LoanId == loans.LoanId));
+                //                        }
+                //                    }
+                //                }
+                //            }
+                //            userLoanNumbers = loanNumbersUsers;
 
                         }
                     }
@@ -142,7 +152,7 @@ namespace BankLoanSystem.Controllers.Reports
                         return RedirectToAction("UserDetails", "UserManagement");
                     }
 
-                }
+                //}
             }
             ViewBag.LoanId = new SelectList(userLoanNumbers, "LoanId", "LoanNumberB");
 

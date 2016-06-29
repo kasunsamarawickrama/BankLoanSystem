@@ -831,7 +831,7 @@
                 $('#checkBoxMessage span').text("please select at least one right.");
                 e.preventDefault();
             }
-            if ($('#7').is(':checked')) {
+            else if ($('#7').is(':checked')) {
                 var chck = $(".All2:checked").length;
                 if (chck === 0) {
                     $('#checkBoxMessage span').text("please select at least one right for reports.");

@@ -65,7 +65,7 @@ namespace BankLoanSystem.DAL
         /// Frontend page:    dashboard page
         /// title:              checking is atleast one permission for report access
         /// designed:           irfan mam
-        /// User story:         DFP 442
+        /// User story:         DFP 476
         /// developed:          irfan mam
         /// date creaed:        6/23/2016
         /// 
