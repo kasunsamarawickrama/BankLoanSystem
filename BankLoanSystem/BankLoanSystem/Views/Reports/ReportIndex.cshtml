@@ -46,7 +46,29 @@
         border-color:#8e8a8a;
 
     }
-</style>}
+
+     .icon-help_outline{
+         color:#1263dc;
+     }
+
+
+
+</style>
+
+@if ((ViewBag.RoleId == 3 || ViewBag.RoleId == 4) && ViewBag.loanCount > 1)
+{
+    <style>
+        .btn.btn-info1 {
+            display: none;
+        }
+    </style>
+
+}
+
+    }
+
+
+
 
 @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
 }
@@ -81,97 +103,97 @@
         {
             if (report.rightId=="R01")
             {
-                <button type="button" id="btnLotInspection" class="btn btn-info1">Lot Inspection <span class="icon-help_outline help-lot-insp" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnLotInspection" class="btn btn-info1">Lot Inspection <span class="icon-help_outline help-lot-insp" ></span></button>
             }
 
             else if (report.rightId == "R02")
             {
-                <button type="button" id="btnCurtailmentInvoice" class="btn btn-info1">Curtailment Invoice <span class="icon-help_outline help-curt-inv" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnCurtailmentInvoice" class="btn btn-info1">Curtailment Invoice <span class="icon-help_outline help-curt-inv" ></span></button>
             }
 
             else if (report.rightId == "R03")
             {
-                <button type="button" id="btnCurtailmentReceipt" class="btn btn-info1">Curtailment Receipt <span class="icon-help_outline help-curt-rcpt" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnCurtailmentReceipt" class="btn btn-info1">Curtailment Receipt <span class="icon-help_outline help-curt-rcpt" ></span></button>
             }
 
             else if (report.rightId == "R04")
             {
-                <button type="button" id="btnTitlesStatus" class="btn btn-info1">Title Status <span class="icon-help_outline help-titl-stat" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnTitlesStatus" class="btn btn-info1">Title Status <span class="icon-help_outline help-titl-stat" ></span></button>
             }
 
             else if (report.rightId == "R05")
             {
-                <button type="button" id="btnFullInventory" class="btn btn-info1">Full Active Inventory <span class="icon-help_outline help-full-inv" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnFullInventory" class="btn btn-info1">Full Active Inventory <span class="icon-help_outline help-full-inv" ></span></button>
             }
 
             else if (report.rightId == "R06")
             {
-                <button type="button" id="btnAdvanceUnit" class="btn btn-info1">Advance Unit <span class="icon-help_outline help-adv-unit" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnAdvanceUnit" class="btn btn-info1">Advance Unit <span class="icon-help_outline help-adv-unit" ></span></button>
             }
 
             else if (report.rightId == "R07")
             {
-                <button type="button" id="btnAdvFeeInv" class="btn btn-info1">Advance Fee Invoice <span class="icon-help_outline help-adv-fee" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnAdvFeeInv" class="btn btn-info1">Advance Fee Invoice <span class="icon-help_outline help-adv-fee" ></span></button>
             }
 
             else if (report.rightId == "R08")
             {
-                <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info1">Advance Fee Receipt <span class="icon-help_outline help-adv-fee-rcpt" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info1">Advance Fee Receipt <span class="icon-help_outline help-adv-fee-rcpt" ></span></button>
             }
 
             else if (report.rightId == "R09")
             {
-                <button type="button" id="btnLoanFeeInv" class="btn btn-info1">Monthly Loan Fee Invoice <span class="icon-help_outline help-mon-fee" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnLoanFeeInv" class="btn btn-info1">Monthly Loan Fee Invoice <span class="icon-help_outline help-mon-fee" ></span></button>
             }
 
             else if (report.rightId == "R10")
             {
-                <button type="button" id="btnMonthlyLoanFeeReceipt" class="btn btn-info1">Monthly Loan Fee Receipt <span class="icon-help_outline help-mon-fee-rcpt" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnMonthlyLoanFeeReceipt" class="btn btn-info1">Monthly Loan Fee Receipt <span class="icon-help_outline help-mon-fee-rcpt" ></span></button>
             }
 
             else if (report.rightId == "R11")
             {
-                <button type="button" id="btnLotInsFeeInv" class="btn btn-info1">Lot Inspection Fee Invoice <span class="icon-help_outline help-lot-fee" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnLotInsFeeInv" class="btn btn-info1">Lot Inspection Fee Invoice <span class="icon-help_outline help-lot-fee" ></span></button>
             }
 
             else if (report.rightId == "R12")
             {
-                <button type="button" id="btnLotInspectionFeeReceipt" class="btn btn-info1">Lot Inspection Fee Receipt <span class="icon-help_outline help-lot-fee-rcpt" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnLotInspectionFeeReceipt" class="btn btn-info1">Lot Inspection Fee Receipt <span class="icon-help_outline help-lot-fee-rcpt" ></span></button>
             }
 
             else if (report.rightId == "R13")
             {
-                <button type="button" id="btnPayOff" class="btn btn-info1">Pay Off <span class="icon-help_outline help-pay-off" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnPayOff" class="btn btn-info1">Pay Off <span class="icon-help_outline help-pay-off" ></span></button>
             }
 
             else if (report.rightId == "R14")
             {
-                <button type="button" id="btnTransactionHistory" class="btn btn-info1">Transaction History <span class="icon-help_outline help-trans-his" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnTransactionHistory" class="btn btn-info1">Transaction History <span class="icon-help_outline help-trans-his" ></span></button>
             }
 
             else if (report.rightId == "R15")
             {
-                <button type="button" id="btnLoanTerms" class="btn btn-info1">Loan Terms <span class="icon-help_outline help-loan-terms" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnLoanTerms" class="btn btn-info1">Loan Terms <span class="icon-help_outline help-loan-terms" ></span></button>
             }
 
             else if (report.rightId == "R16")
             {
-                <button type="button" id="btnDeletedUnits" class="btn btn-info1">Deleted Units <span class="icon-help_outline help-del-unit" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnDeletedUnits" class="btn btn-info1">Deleted Units <span class="icon-help_outline help-del-unit" ></span></button>
             }
 
             else if (report.rightId == "R19")
             {
-                <button type="button" id="btnLoanSummary" class="btn btn-info1">Loan Summary <span class="icon-help_outline help-loan-smry" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnLoanSummary" class="btn btn-info1">Loan Summary <span class="icon-help_outline help-loan-smry" ></span></button>
             }
 
             else if (report.rightId == "R20")
             {
-                <button type="button" id="btnBranchSummary" class="btn btn-info1">Branch Summary <span class="icon-help_outline help-brn-smry" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnBranchSummary" class="btn btn-info1">Branch Summary <span class="icon-help_outline help-brn-smry" ></span></button>
             }
 
             else if (report.rightId == "R21" && ViewBag.RoleId == 1)
             {
-                <button type="button" id="btnCompanySummary" class="btn btn-info1">Company Summary <span class="icon-help_outline help-cmp-smry" style="color:#1263dc;"></span></button>
+                <button type="button" id="btnCompanySummary" class="btn btn-info1">Company Summary <span class="icon-help_outline help-cmp-smry" ></span></button>
                 }
 
 
@@ -179,7 +201,7 @@
 
             }
         }
-        // if user is normal user or dealer and if he has one loan
+        // if user is normal user or dealer and if he has only one loan
         else if ((ViewBag.RoleId == 3 || ViewBag.RoleId == 4) && ViewBag.loan != null)
         {
             string reportRights = ((List<Account>)ViewBag.loan)[0].userReportRights;
@@ -187,93 +209,198 @@
             {
                 if (report.rightId == "R01" && reportRights.Contains("R01"))
                 {
-                    <button type="button" id="btnLotInspection" class="btn btn-info1">Lot Inspection <span class="icon-help_outline help-lot-insp" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnLotInspection" class="btn btn-info1">Lot Inspection <span class="icon-help_outline help-lot-insp" ></span></button>
                 }
 
                 else if (report.rightId == "R02" && reportRights.Contains("R02"))
                 {
-                    <button type="button" id="btnCurtailmentInvoice" class="btn btn-info1">Curtailment Invoice <span class="icon-help_outline help-curt-inv" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnCurtailmentInvoice" class="btn btn-info1">Curtailment Invoice <span class="icon-help_outline help-curt-inv" ></span></button>
                 }
 
                 else if (report.rightId == "R03" && reportRights.Contains("R03"))
                 {
-                    <button type="button" id="btnCurtailmentReceipt" class="btn btn-info1">Curtailment Receipt <span class="icon-help_outline help-curt-rcpt" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnCurtailmentReceipt" class="btn btn-info1">Curtailment Receipt <span class="icon-help_outline help-curt-rcpt" ></span></button>
                 }
 
                 else if (report.rightId == "R04" && reportRights.Contains("R04"))
                 {
-                    <button type="button" id="btnTitlesStatus" class="btn btn-info1">Title Status <span class="icon-help_outline help-titl-stat" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnTitlesStatus" class="btn btn-info1">Title Status <span class="icon-help_outline help-titl-stat" ></span></button>
                 }
 
                 else if (report.rightId == "R05" && reportRights.Contains("R05"))
                 {
-                    <button type="button" id="btnFullInventory" class="btn btn-info1">Full Active Inventory <span class="icon-help_outline help-full-inv" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnFullInventory" class="btn btn-info1">Full Active Inventory <span class="icon-help_outline help-full-inv" ></span></button>
                 }
 
                 else if (report.rightId == "R06" && reportRights.Contains("R06"))
                 {
-                    <button type="button" id="btnAdvanceUnit" class="btn btn-info1">Advance Unit <span class="icon-help_outline help-adv-unit" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnAdvanceUnit" class="btn btn-info1">Advance Unit <span class="icon-help_outline help-adv-unit" ></span></button>
                 }
 
                 else if (report.rightId == "R07" && reportRights.Contains("R07"))
                 {
-                    <button type="button" id="btnAdvFeeInv" class="btn btn-info1">Advance Fee Invoice <span class="icon-help_outline help-adv-fee" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnAdvFeeInv" class="btn btn-info1">Advance Fee Invoice <span class="icon-help_outline help-adv-fee" ></span></button>
                 }
 
                 else if (report.rightId == "R08" && reportRights.Contains("R08"))
                 {
-                    <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info1">Advance Fee Receipt <span class="icon-help_outline help-adv-fee-rcpt" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info1">Advance Fee Receipt <span class="icon-help_outline help-adv-fee-rcpt" ></span></button>
                 }
 
                 else if (report.rightId == "R09" && reportRights.Contains("R09"))
                 {
-                    <button type="button" id="btnLoanFeeInv" class="btn btn-info1">Monthly Loan Fee Invoice <span class="icon-help_outline help-mon-fee" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnLoanFeeInv" class="btn btn-info1">Monthly Loan Fee Invoice <span class="icon-help_outline help-mon-fee" ></span></button>
                 }
 
                 else if (report.rightId == "R10" && reportRights.Contains("R10"))
                 {
-                    <button type="button" id="btnMonthlyLoanFeeReceipt" class="btn btn-info1">Monthly Loan Fee Receipt <span class="icon-help_outline help-mon-fee-rcpt" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnMonthlyLoanFeeReceipt" class="btn btn-info1">Monthly Loan Fee Receipt <span class="icon-help_outline help-mon-fee-rcpt" ></span></button>
                 }
 
                 else if (report.rightId == "R11" && reportRights.Contains("R11"))
                 {
-                    <button type="button" id="btnLotInsFeeInv" class="btn btn-info1">Lot Inspection Fee Invoice <span class="icon-help_outline help-lot-fee" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnLotInsFeeInv" class="btn btn-info1">Lot Inspection Fee Invoice <span class="icon-help_outline help-lot-fee" ></span></button>
                 }
 
                 else if (report.rightId == "R12" && reportRights.Contains("R12"))
                 {
-                    <button type="button" id="btnLotInspectionFeeReceipt" class="btn btn-info1">Lot Inspection Fee Receipt <span class="icon-help_outline help-lot-fee-rcpt" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnLotInspectionFeeReceipt" class="btn btn-info1">Lot Inspection Fee Receipt <span class="icon-help_outline help-lot-fee-rcpt" ></span></button>
                 }
 
                 else if (report.rightId == "R13" && reportRights.Contains("R13"))
                 {
-                    <button type="button" id="btnPayOff" class="btn btn-info1">Pay Off <span class="icon-help_outline help-pay-off" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnPayOff" class="btn btn-info1">Pay Off <span class="icon-help_outline help-pay-off" ></span></button>
                 }
 
                 else if (report.rightId == "R14" && reportRights.Contains("R14"))
                 {
-                    <button type="button" id="btnTransactionHistory" class="btn btn-info1">Transaction History <span class="icon-help_outline help-trans-his" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnTransactionHistory" class="btn btn-info1">Transaction History <span class="icon-help_outline help-trans-his" ></span></button>
                 }
 
                 else if (report.rightId == "R15" && reportRights.Contains("R15"))
                 {
-                    <button type="button" id="btnLoanTerms" class="btn btn-info1">Loan Terms <span class="icon-help_outline help-loan-terms" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnLoanTerms" class="btn btn-info1">Loan Terms <span class="icon-help_outline help-loan-terms" ></span></button>
                 }
 
                 else if (report.rightId == "R16" && reportRights.Contains("R16"))
                 {
-                    <button type="button" id="btnDeletedUnits" class="btn btn-info1">Deleted Units <span class="icon-help_outline help-del-unit" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnDeletedUnits" class="btn btn-info1">Deleted Units <span class="icon-help_outline help-del-unit" ></span></button>
                 }
 
                 else if (report.rightId == "R19" && reportRights.Contains("R19"))
                 {
-                    <button type="button" id="btnLoanSummary" class="btn btn-info1">Loan Summary <span class="icon-help_outline help-loan-smry" style="color:#1263dc;"></span></button>
+                    <button type="button" id="btnLoanSummary" class="btn btn-info1">Loan Summary <span class="icon-help_outline help-loan-smry" ></span></button>
                 }
 
 
 
-            
+
+            }
+
         }
+        // if user is normal user or dealer and if he has multiple loan
+        else if ((ViewBag.RoleId == 3 || ViewBag.RoleId == 4) && ViewBag.loanCount > 1)
+        {
+            
+
+            @*//Ordering the buttons according to the list*@
+        foreach (Right report in (List<Right>)ViewBag.getReportRights)
+        {
+            if (report.rightId == "R01")
+            {
+                <button type="button" id="btnLotInspection" class="btn btn-info1">Lot Inspection <span class="icon-help_outline help-lot-insp"></span></button>
+            }
+
+            else if (report.rightId == "R02")
+            {
+                <button type="button" id="btnCurtailmentInvoice" class="btn btn-info1">Curtailment Invoice <span class="icon-help_outline help-curt-inv"></span></button>
+            }
+
+            else if (report.rightId == "R03")
+            {
+                <button type="button" id="btnCurtailmentReceipt" class="btn btn-info1">Curtailment Receipt <span class="icon-help_outline help-curt-rcpt"></span></button>
+            }
+
+            else if (report.rightId == "R04")
+            {
+                <button type="button" id="btnTitlesStatus" class="btn btn-info1">Title Status <span class="icon-help_outline help-titl-stat"></span></button>
+            }
+
+            else if (report.rightId == "R05")
+            {
+                <button type="button" id="btnFullInventory" class="btn btn-info1">Full Active Inventory <span class="icon-help_outline help-full-inv"></span></button>
+            }
+
+            else if (report.rightId == "R06")
+            {
+                <button type="button" id="btnAdvanceUnit" class="btn btn-info1">Advance Unit <span class="icon-help_outline help-adv-unit"></span></button>
+            }
+
+            else if (report.rightId == "R07")
+            {
+                <button type="button" id="btnAdvFeeInv" class="btn btn-info1">Advance Fee Invoice <span class="icon-help_outline help-adv-fee"></span></button>
+            }
+
+            else if (report.rightId == "R08")
+            {
+                <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info1">Advance Fee Receipt <span class="icon-help_outline help-adv-fee-rcpt"></span></button>
+            }
+
+            else if (report.rightId == "R09")
+            {
+                <button type="button" id="btnLoanFeeInv" class="btn btn-info1">Monthly Loan Fee Invoice <span class="icon-help_outline help-mon-fee"></span></button>
+            }
+
+            else if (report.rightId == "R10")
+            {
+                <button type="button" id="btnMonthlyLoanFeeReceipt" class="btn btn-info1">Monthly Loan Fee Receipt <span class="icon-help_outline help-mon-fee-rcpt"></span></button>
+            }
+
+            else if (report.rightId == "R11")
+            {
+                <button type="button" id="btnLotInsFeeInv" class="btn btn-info1">Lot Inspection Fee Invoice <span class="icon-help_outline help-lot-fee"></span></button>
+            }
+
+            else if (report.rightId == "R12")
+            {
+                <button type="button" id="btnLotInspectionFeeReceipt" class="btn btn-info1">Lot Inspection Fee Receipt <span class="icon-help_outline help-lot-fee-rcpt"></span></button>
+            }
+
+            else if (report.rightId == "R13")
+            {
+                <button type="button" id="btnPayOff" class="btn btn-info1">Pay Off <span class="icon-help_outline help-pay-off"></span></button>
+            }
+
+            else if (report.rightId == "R14")
+            {
+                <button type="button" id="btnTransactionHistory" class="btn btn-info1">Transaction History <span class="icon-help_outline help-trans-his"></span></button>
+            }
+
+            else if (report.rightId == "R15")
+            {
+                <button type="button" id="btnLoanTerms" class="btn btn-info1">Loan Terms <span class="icon-help_outline help-loan-terms"></span></button>
+            }
+
+            else if (report.rightId == "R16")
+            {
+                <button type="button" id="btnDeletedUnits" class="btn btn-info1">Deleted Units <span class="icon-help_outline help-del-unit"></span></button>
+            }
+
+            else if (report.rightId == "R19")
+            {
+                <button type="button" id="btnLoanSummary" class="btn btn-info1">Loan Summary <span class="icon-help_outline help-loan-smry"></span></button>
+                }
+
+            }
+
+
+            if ((Loan)Session["loanDashboard"] != null)
+            {
+                
+                // take the user right from grid 
+
+                // display the buttons
+            }
 
         }
 
@@ -1360,6 +1487,9 @@ else
                 }
                     isFirstTime = 1;
                 }
+
+                //  change buttons according to the loan
+                changeButtons( $("#loanId").val()); 
             </text>
         }
 
@@ -1395,7 +1525,8 @@ else
 
             // if user change the loan
             if (currentLoan != id) {
-                $("#loanId").val(id); // set the loan
+                // set the loan
+                $("#loanId").val(id); 
 
 
                 // change the loan detail bar on top the page
@@ -1412,7 +1543,13 @@ else
                 // set the loan number on the bar
                 $('.loanumber').html('<strong>Loan Number : &nbsp; </strong> ' + LoanNumber);
 
-
+                @if(ViewBag.RoleId == 3 || ViewBag.RoleId == 4)
+                {
+                    <text>
+                            //  change buttons according to the loan
+                            changeButtons($("#loanId").val());
+                    </text>
+                }
             }
 
 
@@ -1451,9 +1588,113 @@ else
 
 
 
+        
+
 
 
     });
+
+
+    function changeButtons(loanid) {
+
+        $('.btn-info1').hide();
+
+        var myGrid = jQuery("#grid"); // select grid
+
+        // get user right of that loan
+
+        var userRights = myGrid.jqGrid('getCell', loanid, 'userReportRights'); // get user rights
+
+        if (userRights.indexOf("R01") > -1) {
+            $("#btnLotInspection").show();
+        }
+
+         if (userRights.indexOf("R02") > -1) {
+
+
+            $("#btnCurtailmentInvoice").show();
+        }
+
+         if (userRights.indexOf("R03") > -1) {
+
+            $("#btnCurtailmentReceipt").show();
+        }
+
+         if (userRights.indexOf("R04") > -1) {
+
+            $("#btnTitlesStatus").show();
+        }
+
+         if (userRights.indexOf("R05") > -1) {
+
+            $("#btnFullInventory").show();
+        }
+
+         if (userRights.indexOf("R06") > -1) {
+
+            $("#btnAdvanceUnit").show();
+        }
+
+         if (userRights.indexOf("R07") > -1) {
+
+            $("#btnAdvFeeInv").show();
+        }
+
+         if (userRights.indexOf("R08") > -1) {
+
+            $("#btnAdvanceFeeReceipt").show();
+        }
+
+         if (userRights.indexOf("R09") > -1) {
+
+            $("#btnLoanFeeInv").show();
+        }
+
+         if (userRights.indexOf("R10") > -1) {
+
+            $("#btnMonthlyLoanFeeReceipt").show();
+        }
+
+         if (userRights.indexOf("R11") > -1) {
+
+            $("#btnLotInsFeeInv").show();
+        }
+
+         if (userRights.indexOf("R12") > -1) {
+
+            $("#btnLotInspectionFeeReceipt").show();
+        }
+
+         if (userRights.indexOf("R13") > -1) {
+
+            $("#btnPayOff").show();
+        }
+
+         if (userRights.indexOf("R14") > -1) {
+
+            $("#btnTransactionHistory").show();
+        }
+
+         if (userRights.indexOf("R15") > -1) {
+
+            $("#btnLoanTerms").show();
+        }
+
+         if (userRights.indexOf("R16") > -1) {
+
+            $("#btnDeletedUnits").show();
+        }
+
+         if (userRights.indexOf("R19") > -1) {
+
+            $("#btnLoanSummary").show();
+        }
+
+
+
+    }
+
+
     $('.title-help').click(function () {
 
         $('.help-text h4').html("About this page");
