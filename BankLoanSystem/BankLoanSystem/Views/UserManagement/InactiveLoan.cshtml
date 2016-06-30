@@ -43,14 +43,14 @@
                             </div>*@
                         <div style="clear:both;"></div>
                         <div class="form-horizontal new_form_horizontal">
-                            @*<div class="topErrors">
-                                    <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
-                                </div>*@
                             <div class="topErrors">
+                                    <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
+                                </div>
+                            @*<div class="topErrors">
                                 <p class="err_msg">@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
                                 <div id="errSpn" class="text-danger"><span>@ViewBag.ErrorMsg</span></div>
                                 @*<div class="text-danger">@ViewBag.Error</div>*@
-                            </div>
+                            @*</div>*@
 
                             <div class="form-horizontal">
 
@@ -184,11 +184,25 @@
         </div>
     </div>
 </div>
+<div class="overlay-bg">
+</div>
+<div class="overlay-content popupInactiveLoan" style="margin-left:300px;width:355px">
 
+    <h3>Deactivate Loan</h3>
+
+    <span> Do you wish to deactivate loan?</span><br />
+    <br />
+    <button type="button" class="btn btn-info" id="btnYes" style="width:100px">Yes</button>
+    <button type="button" class="btn btn-info" id="btnNo" style="width:100px;margin-left:20px;">No</button>
+</div>
 <script>
     $('#btnActiveLoan').click(function () {
+        showPopup('InactiveLoan');
+
+    });
+    function InactiveLoan(){
         var model = @Html.Raw(Json.Encode(Model));
-       // alert(model.LoanId+model.LoanCode);
+        // alert(model.LoanId+model.LoanCode);
         // document.getElementById('#btnActiveLoan').innerHTML = model.LoanId;
         $.ajax({
             url: '/UserManagement/UpdateLoanStatus_ActiveInactive/',
@@ -212,8 +226,46 @@
 
 
         });
-
+    };
+    $('#btnNo').click(function(){
+        closePopup();
     });
+    $('#btnYes').click(function(){
+        InactiveLoan();
+    });
+
+     @* function to show our popups*@
+        function showPopup(whichpopup) {
+            var docHeight = $(document).height(); //grab the height of the page
+            var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+            $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+            $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+        }
+
+        @* function to close our popups*@
+        function closePopup() {
+            $('.overlay-bg, .overlay-content').hide(); //hide the overlay
+        }
+
+        @* show popup when you click on the link*@
+        $('.show-popup').click(function (event) {
+            @*event.preventDefault(); // disable normal link function so that it doesn't refresh the page*@
+            var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
+
+            showPopup(selectedPopup);  @*we'll pass in the popup number to our showPopup() function to show which popup we want*@
+        });
+
+        @* hide popup when user clicks on close button or if user clicks anywhere outside the container*@
+        $('.close-btn, .overlay-bg').click(function () {
+            closePopup();
+        });
+
+        @* hide the popup when user presses the esc key*@
+        $(document).keyup(function (e) {
+            if (e.keyCode == 27) { // if user presses esc key
+                closePopup();
+            }
+        });
 </script>
 
 
