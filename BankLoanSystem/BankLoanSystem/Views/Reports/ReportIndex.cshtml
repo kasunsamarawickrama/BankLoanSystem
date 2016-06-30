@@ -3,6 +3,7 @@
 @{
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     ViewBag.Title = "Reports";
+    ViewBag.Page = 7;
 }
 
 @using BankLoanSystem.Models
@@ -1273,7 +1274,12 @@ else
 
 
     });
+    $('.title-help').click(function () {
 
+        $('.help-text h4').html("About this page");
+        $('.help-text p').html(" &nbsp;&nbsp; On the reports page you are able to select a report from the list below and gather valuable information on the loan. Please select a specific report to view more details about that report.");
+
+    });
     $('.help-lot-insp').click(function () {
 
         $('.help-text h4').html("Lot Inspection");
