@@ -235,11 +235,25 @@
 
             if (!checked) {
                 //alert("You must check at least one checkbox.");
-                $('#checkBoxMessage span').text("please select at least one right.");
+                $('#checkBoxMessage span').text("Please assign at least one right to this user.");
                 if($('#SelectUser').val() != ""){
                     e.preventDefault();
                 }
             }
+
+            if($('#U06').prop('checked')== true){
+                var reportChecked = $(".report:checked").length;
+
+                if (!reportChecked) {
+                    //alert("You must check at least one checkbox.");
+                    $('#checkBoxMessage span').text("Please assign at least one report to this user.");
+                    if($('#SelectUser').val() != ""){
+                        e.preventDefault();
+                    }
+                }
+            }
+            
+
 
         });
 
@@ -411,9 +425,9 @@
         };
 
         $('.report').on('change', function () {
-            //$('#checkBoxMessage span').text("");
-            //$('#success').text("");
-            //$('#fail').text("");
+            $('#checkBoxMessage span').text("");
+            $('#success').text("");
+            $('#fail').text("");
             checkReportAll();
         });
         $('#U06').on('change', function () {
