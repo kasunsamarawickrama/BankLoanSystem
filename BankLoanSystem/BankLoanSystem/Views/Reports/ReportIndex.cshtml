@@ -111,11 +111,31 @@
 @if (ViewBag.loanCount == 1)
 {
             <div id="lnum" class="form-group" style="width:50%;">
-                @*<label for="">Account Detail</label><br/>*@
+               
+            @if (Session["LoanOne"] != null)
+            {
 
                 <input type="hidden" id="loanId" value="@(((Loan)Session["LoanOne"]).LoanId)" />
-                    @*@Html.HiddenFor(model => model.LoanId, new {id= "loanId",  @Value = (int)ViewBag.LoanId.Items[0].LoanId, })*@
-                 @*//   @Html.LabelFor(model => model.LoanId, (string)ViewBag.LoanId.Items[0].LoanNumberB, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })*@ @*-- irfan*@
+            }
+            else if (ViewBag.loan != null)
+            {
+                List<Account> acc = (List<Account>)ViewBag.loan;
+
+                string PatBranchAddress = acc[0].PatBranchAddress1 + (acc[0].PatBranchAddress2 != "" ? ", " + acc[0].PatBranchAddress2 : "") + (acc[0].PatCity != "" ? ", " + acc[0].PatCity : ""); // combine address using name, address1, address2 and city
+
+                <input type="hidden" id="loanId" value="@(acc[0].LoanId)" />
+                <script>
+                    $(document).ready(function () {
+                    // set the address on the bar
+                        $('#Pataddress').html('<span class="parbranchname">@(acc[0].PatBranchName)</span> -  <span class="parbarnchaddress"> @PatBranchAddress</span>  ');
+                    // set the loan number on the bar
+                        $('.loanumber').html('<strong>Loan Number : &nbsp; </strong> @(acc[0].LoanNumber)');
+
+                    });
+                </script>
+            }
+
+                    
                     </div>
 }
 else
@@ -123,9 +143,7 @@ else
     <div id="lnum" class="form-group" style="width:50%;">
         <input type="hidden" id="loanId" value="" />
     </div>
-        @*// @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" , @style="width:100%" })
-            // @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
-            // <div id="tagscloudLoanId" class="field-validation-error"><span class="text-danger"></span></div>*@
+       
         }
 
 
@@ -216,7 +234,7 @@ else
         $('#reportViewerDiv').hide();
         $('#btnPrint').hide();
         $('#LoanId').removeClass('input-validation-error');
-        //$('#tagscloudLoanId').children('span').text('');
+       
     }
 
     $('#btnLotInspection').click(function () {
@@ -872,19 +890,7 @@ else
 
     });
 
-    //$('#LoanId').change(function () {
-    //    $('#tagscloudLoanId').children('span').text('');
-    //    $(this).removeClass('input-validation-error');
-
-    //    var rptType = $('#hdnSelectedButton').val();
-
-    //    if (rptType === 'FullInventory' || rptType === 'LotInspection')
-    //        $('.centered h5 span').text("");
-    //    else if (rptType === 'TitlesStatus') {
-    //        if (this.value !== '' && $("#titleStatus option:selected").index() !== 0)
-    //            $('.centered h5 span').text("");
-    //    }
-    //});
+  
 
     $('#titleStatus').change(function () {
         $('#tagscloudTitleStatus').children('span').text('');
@@ -1002,12 +1008,12 @@ else
                 @if ((Loan)Session["loanDashboard"] != null)
     {
         <text>
-                if (isFirstTime == 0){
-                var ids = $("#grid").jqGrid("getDataIDs");
-                if (ids.length > 0) {
-                    $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
-                    $("#loanId").val('@(((Loan)Session["loanDashboard"]).LoanId)');
-                }
+                if (isFirstTime == 0) {
+                    var ids = $("#grid").jqGrid("getDataIDs");
+                    if (ids.length > 0) {
+                        $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
+                        $("#loanId").val('@(((Loan)Session["loanDashboard"]).LoanId)');
+                    }
 
                     isFirstTime = 1;
                 }
@@ -1083,6 +1089,88 @@ else
         {
            <text>
                 if (isFirstTime == 0) {
+                    var ids = $("#grid").jqGrid("getDataIDs");
+                    if (ids.length > 0) {
+                        $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
+                        $("#loanId").val('@(((Loan)Session["loanDashboard"]).LoanId)');
+                    }
+                    isFirstTime = 1;
+                }
+                </text>
+        }
+
+            }
+        });  </text>
+
+        }
+        else
+        {
+
+             <text>
+        // getting and binding datas to the grid
+        $("#grid").jqGrid({
+            url: '@Href("~/Reports/GetActiveLoans")',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
+            colNames: [ 'Partner Branch Name', 'Loan Number',
+                 'Loan Amount', 'Used Amount', 'No. of Active Units', 'PatBranchAddress1', 'PatBranchAddress2', 'PatCity', 'userReportRights'],
+            colModel: [
+
+                      { name: 'PatBranchName', index: 'PatBranchName', width: 232 },
+
+                    { name: 'LoanNumber', index: 'LoanNumber', width: 232 },
+
+
+                {
+                    name: 'LoanAmount', index: 'LoanAmount', width: 174,
+                    align: "right", sorttype: 'float', formatter: 'currency',
+                    formatoptions: { prefix: '$ ', thousandsSeparator: ',' }
+                },
+                 {
+                     name: 'UsedAmount', index: 'UsedAmount', width: 174,
+                     align: "right", sorttype: 'float', formatter: 'currency',
+                     formatoptions: { prefix: '$ ', thousandsSeparator: ',' }
+                 },
+                      {
+                          name: 'ActiveUnits', index: 'ActiveUnits', width: 150,
+                          align: "right", sorttype: 'int'
+                      },
+
+                       { name: 'PatBranchAddress1', index: 'PatBranchAddress1', width: 194, hidden: true },
+
+                    { name: 'PatBranchAddress2', index: 'PatBranchAddress2', width: 194, hidden: true },
+
+                     { name: 'PatCity', index: 'PatCity', width: 194, hidden: true },
+
+                     { name: 'userReportRights', index: 'userReportRights', width: 194, hidden: true }
+
+            ],
+
+            rowList: [],        // disable page size dropdown
+            pgbuttons: false,     // disable page control like next, back button
+            pgtext: null,         // disable pager text like 'Page 0 of 10'
+            viewrecords: false,    // disable current view record text like 'View 1-10 of 100'
+            pager: '#pager2',
+            sortname: 'id',
+            loadonce: true,
+            scrollrows: true,
+            sortorder: "asc",
+            caption: "Active Loans",
+            // changing grid height
+            loadComplete: function () {
+                var grid = $("#grid"),
+                    ids = grid.getDataIDs();
+
+                for (var i = 0; i < ids.length; i++) {
+                    grid.setRowData(ids[i], false, { height: 27 });
+                }
+
+                // if loan selected from dashboard autoselect the row
+                @if ((Loan)Session["loanDashboard"] != null)
+        {
+           <text>
+                if (isFirstTime == 0) {
                 var ids = $("#grid").jqGrid("getDataIDs");
                 if (ids.length > 0) {
                     $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
@@ -1101,8 +1189,8 @@ else
 
 
 
-    // disable edit, add , false on pager
-    jQuery("#grid").jqGrid('navGrid', '#pager2',
+        // disable edit, add , false on pager
+        jQuery("#grid").jqGrid('navGrid', '#pager2',
             { edit: false, add: false, del: false });
 
 
@@ -1166,7 +1254,7 @@ else
         });
 
         // reset the loan id to empty if search button click and reset selection on the grid
-        $('.ui-icon-search').parent().click(function () {
+        $('.ui-icon-search, .ui-jqgrid-sortable').parent().click(function () {
 
             $("#loanId").val('');
             // set the address on the bar
