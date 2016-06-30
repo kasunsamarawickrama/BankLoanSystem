@@ -456,6 +456,8 @@ else
         }
 
 
+
+
         <div id="strdate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
             <label for="">Start Date <span class="icon-help_outline help-start-date"></span></label>
             @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "startDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", style = "width:100%" } })
@@ -543,7 +545,7 @@ else
         $('#reportViewerDiv').hide();
         $('#btnPrint').hide();
         $('#LoanId').removeClass('input-validation-error');
-       
+
     }
 
     $('#btnLotInspection').click(function () {
@@ -660,7 +662,7 @@ else
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
     });
-    
+
     $('#btnAdvanceUnit').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceUnit');
@@ -886,184 +888,18 @@ else
 
         errorCount = 0;
         var rptType = $('#hdnSelectedButton').val();
-        
-        var selectedIndex;
-        
 
-        selectedIndex = $("#loanId").val();
-        if (selectedIndex === '') {
-           
-            $("#LoanId").addClass('input-validation-error');
-            $('.centered h5 span').text("Please select a loan");
-            errorCount = errorCount + 1;
-        } else {
-            
-            $("#LoanId").removeClass('input-validation-error');
-            $('.centered h5 span').text("");
+        // if report type is company summary or branch summary
+        if (rptType === 'CompanySummary' || rptType === 'BranchSummary') {
 
-        if (rptType !== '') {
-            var input = $("#loanId");
-
-            var urlPrefix = "";
-
-            if (rptType === 'LotInspection') {
-                urlPrefix = "../Reports/RptDivLotInspection.aspx?loanId=";
-            }
-            else if (rptType === 'CurtailmentInvoice') {
-                urlPrefix = "../Reports/RptDivCurtailmentInvoice.aspx?loanId=";
-            }
-            else if (rptType === 'CurtailmentReceipt') {
-                urlPrefix = "../Reports/RptDivCurtailmentReceipt.aspx?loanId=";
-            }
-            else if (rptType === 'TitlesStatus') {
-                urlPrefix = "../Reports/RptDivTitleStatus.aspx?loanId=";
-            }
-            else if (rptType === 'FullInventory') {
-                urlPrefix = "../Reports/RptDivFullInventory.aspx?loanId=";
-            }
-            else if (rptType === 'PayOff') {
-                urlPrefix = "../Reports/RptDivPayOff.aspx?loanId=";
-            }
-            else if (rptType === 'AdvanceFeeReceipt') {
-                urlPrefix = "../Reports/RptDivAdvanceFeeReceipt.aspx?loanId=";
-            }
-            else if (rptType === 'AdvanceFeeInvoice') {
-                urlPrefix = "../Reports/RptDivAdvanceFeeInvoice.aspx?loanId=";
-            }
-            else if (rptType === 'LoanFeeInvoice') {
-                urlPrefix = "../Reports/RptDivMonthlyLoanFeeInvoice.aspx?loanId=";
-            }
-            else if (rptType === 'LotInspectionFeeInvoice') {
-                urlPrefix = "../Reports/RptDivLotInspectionFeeInvoice.aspx?loanId=";
-            }
-            else if (rptType === 'MonthlyLoanFeeReceipt') {
-                urlPrefix = "../Reports/RptDivMonthlyLoanFeeReceipt.aspx?loanId=";
-            }
-            else if (rptType === 'LotInspectionFeeReceipt') {
-                urlPrefix = "../Reports/RptDivLotInspectionFeeReceipt.aspx?loanId=";
-            }
-            else if (rptType === 'TransactionHistory') {
-                urlPrefix = "../Reports/RptDivTransactionHistory.aspx?loanId=";
-            }
-            else if (rptType === 'AdvanceUnit') {
-                urlPrefix = "../Reports/RptAdvanceUnitReport.aspx?loanId=";
-            }
-            else if (rptType === 'LoanTerms') {
-                urlPrefix = "../Reports/RptDivLoanTerms.aspx?loanId=";
-            }
-            else if (rptType === 'CompanySummary') {
+            if (rptType === 'CompanySummary') {
                 urlPrefix = "../Reports/RptDivCompanySummary.aspx?companyId=";//
             }
             else if (rptType === 'BranchSummary') {
                 urlPrefix = "../Reports/RptDivBranchSummary.aspx?branchId=";
             }
-            else if (rptType === 'DeletedUnits') {
-                urlPrefix = "../Reports/RptDivDeletedUnits.aspx?loanId=";
-            }
-            else if (rptType === 'LoanSummary') {
-                urlPrefix = "../Reports/RptDivLoanSummary.aspx?loanId=";
-            }
 
-
-
-                var val = selectedIndex;
-
-            var myFrame;
-            var frameDoc;
-
-            if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice' || rptType === 'PayOff' || rptType === 'AdvanceFeeReceipt' ||
-                rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt' || rptType === 'TransactionHistory' || rptType === 'AdvanceUnit' || rptType === 'DeletedUnits' || rptType === 'LoanSummary') {
-                
-                var startDate = $('#startDate').val();
-                if (startDate === '') {
-                    $('#tagscloudStartDate').children('span').text("Please select start date");
-                    $("#startDate").addClass('input-validation-error');
-                    $('.centered h5 span').text("Error in Page");
-                    errorCount = errorCount + 1;
-                } else {
-                    $('#tagscloudStartDate').children('span').text("");
-                    $("#startDate").removeClass('input-validation-error');
-                    $('.centered h5 span').text("");
-                }
-
-                var endDate = $('#endDate').val();
-                if (endDate === '') {
-                    $('#tagscloudEndDate').children('span').text("Please select end date");
-                    $("#endDate").addClass('input-validation-error');
-                    errorCount = errorCount + 1;
-                } else {
-                    $('#tagscloudEndDate').children('span').text("");
-                    $("#endDate").removeClass('input-validation-error');
-                }
-
-                if (errorCount > 0) {
-                    $('.centered h5 span').text("Error in Page");
-                }
-
-                if (errorCount <= 0) {
-
-                    if (new Date(startDate) >= new Date(endDate)) {
-                        $('#tagscloudEndDate').children('span').text("Please select an end date which falls after the start date selected.");
-                        $("#startDate").addClass('input-validation-error');
-                        $("#endDate").addClass('input-validation-error');
-                        $('.centered h5 span').text("Error in Page");
-                        return;
-                    }
-
-                    $('#tagscloudEndDate').children('span').text("");
-                    $("#startDate").removeClass('input-validation-error');
-                    $("#endDate").removeClass('input-validation-error');
-
-                    myFrame = document.getElementById('ifrmReportViewer');
-                    frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
-                    frameDoc.removeChild(frameDoc.documentElement);
-
-
-                    urlPrefix = urlPrefix + val + "&startDate=" + formatDate(startDate) + "&endDate=" + formatDate(endDate);
-                    ReportCurtailmentInvoice(val, urlPrefix);
-                }
-            } else if (rptType === 'LotInspection' || rptType === 'LoanTerms') {
-                if (errorCount <= 0) {
-                    myFrame = document.getElementById('ifrmReportViewer');
-                    frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
-                    frameDoc.removeChild(frameDoc.documentElement);
-
-                    urlPrefix = urlPrefix + val;
-                    ReportCurtailmentInvoice(val, urlPrefix);
-                }
-            } else if (rptType === 'TitlesStatus') {
-                selectedIndex = $("#titleStatus option:selected").index();
-                if (selectedIndex === 0) {
-                    $('#tagscloudTitleStatus').children('span').text("Please select title status");
-                    $("#titleStatus").addClass('input-validation-error');
-                    $('.centered h5 span').text("Error in Page");
-                    errorCount = errorCount + 1;
-                } else {
-
-                    if (errorCount <= 0) {
-                    $('#tagscloudTitleStatus').children('span').text("");
-                    $("#titleStatus").removeClass('input-validation-error');
-                    $('.centered h5 span').text("");
-                        myFrame = document.getElementById('ifrmReportViewer');
-                        frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
-                        frameDoc.removeChild(frameDoc.documentElement);
-
-                        urlPrefix = urlPrefix + val + '&titleStatus=' + $('#titleStatus').val();
-                        ReportCurtailmentInvoice(val, urlPrefix);
-                    }
-                }
-            }
-            else if (rptType === 'FullInventory') {
-                if (errorCount <= 0) {
-                    myFrame = document.getElementById('ifrmReportViewer');
-                    frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
-                    frameDoc.removeChild(frameDoc.documentElement);
-
-                    urlPrefix = urlPrefix + val;
-                    ReportCurtailmentInvoice(val, urlPrefix);
-                }
-            }
-            else if (rptType === 'CompanySummary' && '@ViewBag.RoleId' === '1') {
+            if (rptType === 'CompanySummary' && '@ViewBag.RoleId' === '1') {
                 var comId = '@ViewBag.ComId';
 
                 myFrame = document.getElementById('ifrmReportViewer');
@@ -1082,12 +918,193 @@ else
                 urlPrefix = urlPrefix + branchId;
                 ReportCurtailmentInvoice(val, urlPrefix);
             }
+
+            return;
+
+
+        }
+
+
+
+        var selectedIndex;
+
+
+        selectedIndex = $("#loanId").val(); @*// set the loan id*@
+        @*// if loan id is not selected*@
+        if (selectedIndex === '') {
+
+            $("#LoanId").addClass('input-validation-error');
+            $('.centered h5 span').text("Please select a loan");
+            errorCount = errorCount + 1;
         } else {
-            $('.centered h5 span').text("Please select report type");
+
+            $("#LoanId").removeClass('input-validation-error');
+            $('.centered h5 span').text("");
+
+            if (rptType !== '') {
+                var input = $("#loanId");
+
+                var urlPrefix = "";
+
+                if (rptType === 'LotInspection') {
+                    urlPrefix = "../Reports/RptDivLotInspection.aspx?loanId=";
+                }
+                else if (rptType === 'CurtailmentInvoice') {
+                    urlPrefix = "../Reports/RptDivCurtailmentInvoice.aspx?loanId=";
+                }
+                else if (rptType === 'CurtailmentReceipt') {
+                    urlPrefix = "../Reports/RptDivCurtailmentReceipt.aspx?loanId=";
+                }
+                else if (rptType === 'TitlesStatus') {
+                    urlPrefix = "../Reports/RptDivTitleStatus.aspx?loanId=";
+                }
+                else if (rptType === 'FullInventory') {
+                    urlPrefix = "../Reports/RptDivFullInventory.aspx?loanId=";
+                }
+                else if (rptType === 'PayOff') {
+                    urlPrefix = "../Reports/RptDivPayOff.aspx?loanId=";
+                }
+                else if (rptType === 'AdvanceFeeReceipt') {
+                    urlPrefix = "../Reports/RptDivAdvanceFeeReceipt.aspx?loanId=";
+                }
+                else if (rptType === 'AdvanceFeeInvoice') {
+                    urlPrefix = "../Reports/RptDivAdvanceFeeInvoice.aspx?loanId=";
+                }
+                else if (rptType === 'LoanFeeInvoice') {
+                    urlPrefix = "../Reports/RptDivMonthlyLoanFeeInvoice.aspx?loanId=";
+                }
+                else if (rptType === 'LotInspectionFeeInvoice') {
+                    urlPrefix = "../Reports/RptDivLotInspectionFeeInvoice.aspx?loanId=";
+                }
+                else if (rptType === 'MonthlyLoanFeeReceipt') {
+                    urlPrefix = "../Reports/RptDivMonthlyLoanFeeReceipt.aspx?loanId=";
+                }
+                else if (rptType === 'LotInspectionFeeReceipt') {
+                    urlPrefix = "../Reports/RptDivLotInspectionFeeReceipt.aspx?loanId=";
+                }
+                else if (rptType === 'TransactionHistory') {
+                    urlPrefix = "../Reports/RptDivTransactionHistory.aspx?loanId=";
+                }
+                else if (rptType === 'AdvanceUnit') {
+                    urlPrefix = "../Reports/RptAdvanceUnitReport.aspx?loanId=";
+                }
+                else if (rptType === 'LoanTerms') {
+                    urlPrefix = "../Reports/RptDivLoanTerms.aspx?loanId=";
+                }
+
+                else if (rptType === 'DeletedUnits') {
+                    urlPrefix = "../Reports/RptDivDeletedUnits.aspx?loanId=";
+                }
+                else if (rptType === 'LoanSummary') {
+                    urlPrefix = "../Reports/RptDivLoanSummary.aspx?loanId=";
+                }
+
+
+
+                var val = selectedIndex;
+
+                var myFrame;
+                var frameDoc;
+
+                if (rptType === 'CurtailmentInvoice' || rptType === 'CurtailmentReceipt' || rptType === 'PayOff' || rptType === 'AdvanceFeeInvoice' || rptType === 'LoanFeeInvoice' || rptType === 'LotInspectionFeeInvoice' || rptType === 'PayOff' || rptType === 'AdvanceFeeReceipt' ||
+                    rptType === 'MonthlyLoanFeeReceipt' || rptType === 'LotInspectionFeeReceipt' || rptType === 'TransactionHistory' || rptType === 'AdvanceUnit' || rptType === 'DeletedUnits' || rptType === 'LoanSummary') {
+
+                    var startDate = $('#startDate').val();
+                    if (startDate === '') {
+                        $('#tagscloudStartDate').children('span').text("Please select start date");
+                        $("#startDate").addClass('input-validation-error');
+                        $('.centered h5 span').text("Error in Page");
+                        errorCount = errorCount + 1;
+                    } else {
+                        $('#tagscloudStartDate').children('span').text("");
+                        $("#startDate").removeClass('input-validation-error');
+                        $('.centered h5 span').text("");
+                    }
+
+                    var endDate = $('#endDate').val();
+                    if (endDate === '') {
+                        $('#tagscloudEndDate').children('span').text("Please select end date");
+                        $("#endDate").addClass('input-validation-error');
+                        errorCount = errorCount + 1;
+                    } else {
+                        $('#tagscloudEndDate').children('span').text("");
+                        $("#endDate").removeClass('input-validation-error');
+                    }
+
+                    if (errorCount > 0) {
+                        $('.centered h5 span').text("Error in Page");
+                    }
+
+                    if (errorCount <= 0) {
+
+                        if (new Date(startDate) >= new Date(endDate)) {
+                            $('#tagscloudEndDate').children('span').text("Please select an end date which falls after the start date selected.");
+                            $("#startDate").addClass('input-validation-error');
+                            $("#endDate").addClass('input-validation-error');
+                            $('.centered h5 span').text("Error in Page");
+                            return;
+                        }
+
+                        $('#tagscloudEndDate').children('span').text("");
+                        $("#startDate").removeClass('input-validation-error');
+                        $("#endDate").removeClass('input-validation-error');
+
+                        myFrame = document.getElementById('ifrmReportViewer');
+                        frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                        frameDoc.removeChild(frameDoc.documentElement);
+
+
+                        urlPrefix = urlPrefix + val + "&startDate=" + formatDate(startDate) + "&endDate=" + formatDate(endDate);
+                        ReportCurtailmentInvoice(val, urlPrefix);
+                    }
+                } else if (rptType === 'LotInspection' || rptType === 'LoanTerms') {
+                    if (errorCount <= 0) {
+                        myFrame = document.getElementById('ifrmReportViewer');
+                        frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                        frameDoc.removeChild(frameDoc.documentElement);
+
+                        urlPrefix = urlPrefix + val;
+                        ReportCurtailmentInvoice(val, urlPrefix);
+                    }
+                } else if (rptType === 'TitlesStatus') {
+                    selectedIndex = $("#titleStatus option:selected").index();
+                    if (selectedIndex === 0) {
+                        $('#tagscloudTitleStatus').children('span').text("Please select title status");
+                        $("#titleStatus").addClass('input-validation-error');
+                        $('.centered h5 span').text("Error in Page");
+                        errorCount = errorCount + 1;
+                    } else {
+
+                        if (errorCount <= 0) {
+                            $('#tagscloudTitleStatus').children('span').text("");
+                            $("#titleStatus").removeClass('input-validation-error');
+                            $('.centered h5 span').text("");
+                            myFrame = document.getElementById('ifrmReportViewer');
+                            frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                            frameDoc.removeChild(frameDoc.documentElement);
+
+                            urlPrefix = urlPrefix + val + '&titleStatus=' + $('#titleStatus').val();
+                            ReportCurtailmentInvoice(val, urlPrefix);
+                        }
+                    }
+                }
+                else if (rptType === 'FullInventory') {
+                    if (errorCount <= 0) {
+                        myFrame = document.getElementById('ifrmReportViewer');
+                        frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                        frameDoc.removeChild(frameDoc.documentElement);
+
+                        urlPrefix = urlPrefix + val;
+                        ReportCurtailmentInvoice(val, urlPrefix);
+                    }
+                }
+
+            } else {
+                $('.centered h5 span').text("Please select report type");
+            }
         }
-        }
-    
-        
+
+
 
     });
 
@@ -1199,7 +1216,7 @@ else
 
     });
 
-  
+
 
     $('#titleStatus').change(function () {
         $('#tagscloudTitleStatus').children('span').text('');
