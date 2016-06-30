@@ -2194,7 +2194,7 @@ Date created: 1/25/2016
                     foreach (Right rgt in ReportRightsList)
                     {
                         //Check dealer user can view the report
-                        if (!rgt.DealerView)
+                        if (!rgt.UserView)
                         {
                             continue;
                         }
