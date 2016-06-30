@@ -150,7 +150,7 @@ else
 
 
         <div id="strdate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
-            <label for="">Start Date</label>
+            <label for="">Start Date <span class="icon-help_outline help-start-date"></span></label>
             @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control dateKeyPressValidate", @id = "startDate", Value = "", @placeholder = "MM/DD/YYYY", autocomplete = "off", style = "width:100%" } })
             @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger", style = "left:25%" })
             <div id="tagscloudStartDate" class="field-validation-error"><span class="text-danger"></span></div>
@@ -164,7 +164,7 @@ else
         </div>
 
         <div id="ttlsts" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
-            <label for="">Title Status</label>
+            <label for="">Title Status <span class="icon-help_outline help-titl-slct"></span></label>
             @{
                     List<SelectListItem> titleStatus = new List<SelectListItem>();
 
@@ -1278,6 +1278,18 @@ else
 
         $('.help-text h4').html("About this page");
         $('.help-text p').html(" &nbsp;&nbsp; On the reports page you are able to select a report from the list below and gather valuable information on the loan. Please select a specific report to view more details about that report.");
+
+    });
+    $('.help-start-date').click(function () {
+
+        $('.help-text h4').html("Start and End date");
+        $('.help-text p').html(" &nbsp;&nbsp; Select the date range you would like to view. Any transactions which took place during the selected date range will be displayed in the report.");
+
+    });
+    $('.help-titl-slct').click(function () {
+
+        $('.help-text h4').html("Title Status Selection");
+        $('.help-text p').html(" &nbsp;&nbsp; All active units with a title status which matches the selection will be displayed.");
 
     });
     $('.help-lot-insp').click(function () {
