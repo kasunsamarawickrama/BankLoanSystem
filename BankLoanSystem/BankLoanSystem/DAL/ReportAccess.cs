@@ -134,7 +134,7 @@ namespace BankLoanSystem.DAL
                     account.PatBranchAddress1 = dataRow["branch_address_1"].ToString();
                     account.PatBranchAddress2 = dataRow["branch_address_2"].ToString();
                     account.PatCity = dataRow["city"].ToString();
-                    account.PatCity = dataRow["report_rights"].ToString();
+                    account.userReportRights = dataRow["report_rights"].ToString();
                     Accounts.Add(account);
 
                 }
