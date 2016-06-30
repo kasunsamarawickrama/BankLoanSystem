@@ -70,6 +70,7 @@ namespace BankLoanSystem.DAL
                 {
                     Account account = new Account();
                     account.LoanId = Convert.ToInt32(dataRow["loan_id"]);
+                    account.LoanCode = dataRow["loan_code"].ToString();
                     account.BranchId = Convert.ToInt32(dataRow["branch_id"]);
                     account.LoanNumber = dataRow["loan_number"].ToString();
                     account.BranchName = dataRow["branch_name"].ToString();
@@ -126,7 +127,7 @@ namespace BankLoanSystem.DAL
                     account.LoanId = Convert.ToInt32(dataRow["loan_id"]);
                     
                     account.LoanNumber = dataRow["loan_number"].ToString();
-                    
+                    account.LoanCode = dataRow["loan_code"].ToString();
                     account.PatBranchName = dataRow["branch_name"].ToString();
                     account.LoanAmount = Convert.ToDecimal(dataRow["loan_amount"].ToString());
                     account.UsedAmount = Convert.ToDecimal(dataRow["used_amount"].ToString());

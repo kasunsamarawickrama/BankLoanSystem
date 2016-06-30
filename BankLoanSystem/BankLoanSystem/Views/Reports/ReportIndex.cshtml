@@ -68,6 +68,21 @@
     }
 
 
+<div class="overlay-content popup-changed-loan">
+
+    <h3>Message</h3>
+
+    <div class="alert alert-info" role="alert" id="loanChangedtext">
+        You have changed the loan to ....... Do you like to continue work with this Loan? 
+    </div><br />
+    <span> Press OK to continue to work with this loan or Cancel to stay on previuous selected loan on dashboard. </span><br />
+    <br />
+
+    <button class="close-btn btn btn-info" id="chanegLoan" style = "width: 70px;margin-right: 20px;">OK</button>
+    <button class="close-btn btn btn-info" onclick="window.location.href = '/UserManagement/UserDetails';">Cancel</button>
+
+</div>
+
 
 
 @{Html.RenderAction("LoanInfo", "Unit", new { title = @ViewBag.Title, msg = @ViewBag.Msg });
@@ -393,14 +408,7 @@
 
             }
 
-
-            if ((Loan)Session["loanDashboard"] != null)
-            {
-                
-                // take the user right from grid 
-
-                // display the buttons
-            }
+           
 
         }
 
@@ -1277,9 +1285,11 @@ else
             datatype: "json",
             contentType: "application/json; charset-utf-8",
             mtype: 'GET',
-            colNames: ['Branch Name', 'Partner Branch Name', 'Loan Number',
+            colNames: ['LoanCode', 'Branch Name', 'Partner Branch Name', 'Loan Number',
              'Loan Amount', 'Used Amount', 'No. of Active Units', 'PatBranchAddress1', 'PatBranchAddress2', 'PatCity'],
             colModel: [
+                { name: 'LoanCode', index: 'LoanCode', width: 194, hidden: true },
+
                  { name: 'BranchName', index: 'BranchName', width: 194 },
 
                   { name: 'PatBranchName', index: 'PatBranchName', width: 194 },
@@ -1339,6 +1349,8 @@ else
                     if (ids.length > 0) {
                         $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
                         $("#loanId").val('@(((Loan)Session["loanDashboard"]).LoanId)');
+
+                        DefaultLoanID = $("#loanId").val(); // set global loan id to check change loan
                     }
 
                     isFirstTime = 1;
@@ -1358,9 +1370,11 @@ else
             datatype: "json",
             contentType: "application/json; charset-utf-8",
             mtype: 'GET',
-            colNames: ['Branch Name', 'Partner Branch Name', 'Loan Number',
+            colNames: ['LoanCode', 'Branch Name', 'Partner Branch Name', 'Loan Number',
                  'Loan Amount', 'Used Amount', 'No. of Active Units', 'PatBranchAddress1', 'PatBranchAddress2', 'PatCity'],
             colModel: [
+                    { name: 'LoanCode', index: 'LoanCode', width: 194, hidden: true },
+
                      { name: 'BranchName', index: 'BranchName', width: 194, hidden: true },
 
                       { name: 'PatBranchName', index: 'PatBranchName', width: 232 },
@@ -1419,6 +1433,8 @@ else
                     if (ids.length > 0) {
                         $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
                         $("#loanId").val('@(((Loan)Session["loanDashboard"]).LoanId)');
+
+                        DefaultLoanID = $("#loanId").val(); // set global loan id to check change loan
                     }
                     isFirstTime = 1;
                 }
@@ -1439,10 +1455,10 @@ else
             datatype: "json",
             contentType: "application/json; charset-utf-8",
             mtype: 'GET',
-            colNames: [ 'Partner Branch Name', 'Loan Number',
+            colNames: ['LoanCode', 'Partner Branch Name', 'Loan Number',
                  'Loan Amount', 'Used Amount', 'No. of Active Units', 'PatBranchAddress1', 'PatBranchAddress2', 'PatCity', 'userReportRights'],
             colModel: [
-
+                    { name: 'LoanCode', index: 'LoanCode', width: 194, hidden: true },
                       { name: 'PatBranchName', index: 'PatBranchName', width: 232 },
 
                     { name: 'LoanNumber', index: 'LoanNumber', width: 232 },
@@ -1504,7 +1520,7 @@ else
                 }
                     isFirstTime = 1;
                 }
-
+                DefaultLoanID = $("#loanId").val(); // set global loan id to check change loan
                 //  change buttons according to the loan
                 changeButtons( $("#loanId").val()); 
             </text>
@@ -1606,8 +1622,45 @@ else
 
 
         
+        DefaultLoanID = $("#loanId").val();  // set first selected loanId
+        $('.icon-home3').removeAttr('onclick'); // remove on click dashboard action
 
 
+        $('.icon-home3').click(function () {
+            
+            if ($("#loanId").val() != DefaultLoanID) {
+
+                if (DefaultLoanID == "") {
+                    if ($("#loanId").val() != undefined && $("#loanId").val() != "") {
+                        window.location.href = '/UserManagement/setLoanCode?loanCode=' + jQuery("#grid").jqGrid('getCell', $("#loanId").val(), 'LoanCode');
+                    } else {
+                        window.location.href = '/UserManagement/UserDetails';
+                    }
+                    
+                } else {
+                   
+                    $('#loanChangedtext').text('You have changed the loan to ' + jQuery("#grid").jqGrid('getCell', $("#loanId").val(), 'LoanCode') + '. Do you like to continue work with this loan?');
+                    var docHeight = $(document).height(); //grab the height of the page
+                    var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+                    $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+                    $('.popup-changed-loan').show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+                    $('#chanegLoan').attr('onclick', 'window.location.href = "/UserManagement/setLoanCode?loanCode=' + jQuery("#grid").jqGrid('getCell', $("#loanId").val(), 'LoanCode') + '"');
+
+                }
+               
+                
+                
+            } else if ($("#loanId").val() != "") {
+                window.location.href = '/UserManagement/setLoanCode?loanCode=' + jQuery("#grid").jqGrid('getCell', $("#loanId").val(), 'LoanCode');
+
+            }
+
+            else {
+                window.location.href = '/UserManagement/UserDetails';
+            }
+    
+
+        });
 
     });
 
