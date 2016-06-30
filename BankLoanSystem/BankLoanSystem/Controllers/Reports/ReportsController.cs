@@ -166,7 +166,7 @@ namespace BankLoanSystem.Controllers.Reports
                 }
                 
             }
-
+            ViewBag.getReportRights = (new UserRightsAccess()).getReportRights();
                 ViewBag.loanCount = loanCount;
             return View();
         }
