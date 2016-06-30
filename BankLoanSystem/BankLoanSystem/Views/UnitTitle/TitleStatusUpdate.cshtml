@@ -50,14 +50,7 @@
 
         <div class="details-container">
 
-            @*<div class="right-panel">
-                                @{
-                //Html.RenderAction("LoanPaymentDetails", "Unit");
-                                }
-
-                            </div>*@
-
-
+       
             <div class="body-content" style="float:right;margin-bottom:15px;width:100%;height:auto">
               
                 <div class="info-bar">
@@ -136,12 +129,14 @@
                                             <label class="radio-inline">
                                                 <input type="radio" name="inlineRadioOptions" id="received" value="1"> Recieved
                                             </label>
+                                            @*company type 1- lender company*@
                                             @if (ViewBag.CompanyType == 1)
                                             {
                                                 <label class="radio-inline">
                                                     <input type="radio" name="inlineRadioOptions" id="returnDealer" value="2"> Returned to Dealer
                                                 </label>
                                             }
+                                            @*company type 2- dealer company*@
                                             else if (ViewBag.CompanyType == 2)
                                             {
                                                 <label class="radio-inline">
@@ -193,7 +188,6 @@
 
         <h3>This unit has not been paid off, do you wish to proceed?</h3>
 
-        @*<span class="text-warning">Do you wish to proceed?</span><br />*@
         <span> Press YES to update the title status, or NO to cancel the update.</span><br />
         <br />
         <button type="button" class="btn btn-info" id="btnYes" style="width:100px">Yes</button>
@@ -203,14 +197,15 @@
 
     <script src="~/scripts/CommonFunctions.js"></script>
     <script>
-
+@*document load hide search grid*@
         $(document).ready(function () {
             $('#searchGrid1').hide();
         });
+        @*clear input field values*@
         function ClearValues() {
 
-           $('#searchGrid1').show();
-            //$('#identificationNumberSearch').val('');
+            $('#searchGrid1').show();
+
             $('#identificationNumber').val('');
             $('#unitYear').val('');
             $('#unitMake').val('');
@@ -227,7 +222,7 @@
             $('#updateTitleDiv span').text('');
             $('#identificationNumberSearch').removeClass('input-validation-error');
         };
-        //cancel button click event
+        @*cancel button click event*@
         $('#btnCancel').click(function () {
             $('#searchGrid1').hide();
             $('#identificationNumberSearch').val('');
@@ -246,24 +241,23 @@
             $('.centered span').text('');
             $('#updateTitleDiv span').text('');
             $('#identificationNumberSearch').removeClass('input-validation-error');
-            
+
         });
-        //click event of popup "Yes"
+        @*click event of popup "Yes"*@
         $('#btnYes').click(function () {
             UpdateTitleStatus();
         });
-        //click event of popup "No"
+        @*click event of popup "No"*@
         $('#btnNo').click(function () {
             closePopup();
         });
-        //show search grid
+        @*show search grid*@
         function ShowDivs() {
             $('#searchGrid1').show();
         }
-        //fill text box values if search grid row count=1
-        function SetTextBoxValues_2(vinNum, yr, make1, model1, tit,uit,uid)
-        {
-           
+        @*fill text box values if search grid row count=1*@
+        function SetTextBoxValues_2(vinNum, yr, make1, model1, tit, uit, uid) {
+
             $('#searchGrid1').hide();
             $('#identificationNumber').val(vinNum);
             $('#unitYear').val(yr);
@@ -277,36 +271,37 @@
             $('#returnDealer').prop('checked', false);
             $('#sentBank').prop('checked', false);
         };
-        //clear error span
-        $('#notReceived').click(function ()
-        {
+        @*clear error span*@
+        $('#notReceived').click(function () {
             $('#updateTitleDiv span').text("");
             if ($('#searchIdentificationNumber span').text() == "") {
                 $('.centered span').text('');
             }
-            
+
         });
+        @*received radio button click event*@
         $('#received').click(function () {
             $('#updateTitleDiv span').text("");
             if ($('#searchIdentificationNumber span').text() == "") {
                 $('.centered span').text('');
             }
         });
+        @*returnDealer radio button click event*@
         $('#returnDealer').click(function () {
             $('#updateTitleDiv span').text("");
             if ($('#searchIdentificationNumber span').text() == "") {
                 $('.centered span').text('');
             }
         });
+        @*sentBank radio button click event*@
         $('#sentBank').click(function () {
             $('#updateTitleDiv span').text("");
             if ($('#searchIdentificationNumber span').text() == "") {
                 $('.centered span').text('');
             }
         });
-        //click event of Display button
-        $('#btnDisplay').click(function ()
-        {
+        @*click event of Display button*@
+        $('#btnDisplay').click(function () {
             $('.centered span').text('');
             $('#identificationNumber').val('');
             $('#unitYear').val('');
@@ -315,10 +310,13 @@
             $('#titleStatus').val('');
             $('#unitStatus').val('');
             var para1 = $('#identificationNumberSearch').val();
-            if ((para1 == null) || (para1 == "")||(para1.length<6)) {
+            @*check entered last 6 of identification number is null,empty or less than 6*@
+            if ((para1 == null) || (para1 == "") || (para1.length < 6)) {
+                @*show error message*@
                 FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch', para1);
-                
+
             }
+                @*get search results for entered last 6 of identification number *@
             else {
                 $.ajax({
                     url: '/UnitTitle/SearchTitleStatus',
@@ -328,38 +326,32 @@
                     success: function (View) {
                         $('#searchGrid1').html(View);
                         window.scrollTo(0, 0);
-                        //$('#searchGrid1').show();
+
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        // Your handler here...
+                        @*Your handler here...*@
 
-                        // if session expires
+                        @* if session expires*@
                         if (jqXHR.status == "404") {
                             window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
                         }
                     }
                 });
             }
-           
-            //alert(para1);
+
+
         });
 
-        //$("#lkttl").before($(".link")).addClass('active').attr("disabled", "disabled").css('cursor', 'default').css('opacity', 'initial').siblings().removeClass('active').removeAttr('disabled');
-        //$("#lkttl").click(function (e) { e.preventDefault(); });
-        //$("#lkttl").siblings().click(function (e) {
-        //    return true;
-        //});
 
 
         $("#lkttl").hide();
-        
 
-        //capitalize letters when typing
-        $('#identificationNumberSearch').keyup(function ()
-        {
+
+        @*capitalize letters when typing*@
+        $('#identificationNumberSearch').keyup(function () {
             $('#identificationNumberSearch').val(($('#identificationNumberSearch').val()).toUpperCase());
         });
-        //block invalid characters
+        @*block invalid characters*@
         $("#identificationNumberSearch").keypress(function (e) {
             if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
                 var ch = e.which;
@@ -372,44 +364,28 @@
                 }
             }
 
-           
-            //alert(ch);
         });
-      
-        //$('#identificationNumberSearch').blur(function () {
-        //    var val1 = $('#identificationNumberSearch').val();
-        //    if (val1.length < 6) {identificationNumberSearch
-        //        FocusOutCall('#searchIdentificationNumber span,#identificationNumberSearch', val1);
-        //    }
-        //});
-        function FocusOutCall(span, vareditor, val)
-        {
+
+        @*show error message if there is an error in search input field*@
+        function FocusOutCall(span, vareditor, val) {
             $(span).text("Please confirm the last 6 characters of the VIN/HIN/Serial No.");
             $(vareditor).val("");
-            
+
             $('.centered span').text('Error');
             $('#identificationNumberSearch').addClass('input-validation-error')
             $('#searchGrid1').hide();
             e.preventDefault();
         }
+        @*when click on search input field*@
         $('#identificationNumberSearch').click(function () {
             $('#searchIdentificationNumber span').text('');
             $('#identificationNumberSearch').removeClass('input-validation-error');
             $('.centered span').text('');
-            //if ($('#titleGrid').children('tbody').children('tr').length == 0) {
-            //    $('#searchGrid1').hide();
-            //}
+
             $('#updateTitleDiv span').text("");
-            //$('#notReceived').prop('checked', false);
-            //$('#received').prop('checked', false);
-            //$('#returnDealer').prop('checked', false);
-            //$('#sentBank').prop('checked', false);
-
-            //if ($('#identificationNumberSearch').val() == '') {
-
-            //}
 
         });
+        @*when change search input field text*@
         $('#identificationNumberSearch').change(function () {
 
             $('#searchIdentificationNumber span').text('');
@@ -431,7 +407,7 @@
             $('#sentBank').prop('checked', false);
 
         });
-        //set text box values when row is selected in grid
+        @*set text box values when row is selected in grid*@
         function SetTextBoxValues(tr) {
             $('#updateTitleDiv span').text('');
             $('#identificationNumber').val(tr.find('#vin').text());
@@ -445,12 +421,12 @@
             $('#received').prop('checked', false);
             $('#returnDealer').prop('checked', false);
             $('#sentBank').prop('checked', false);
-            
+
         };
-        //update title status function
+        @*update title status function*@
         function UpdateTitleStatus() {
             var unitTitle = {
-                "UnitId":$('#unitid').text(),
+                "UnitId": $('#unitid').text(),
                 "IdentificationNumber": $('#identificationNumber').val(),
                 "Year": $('#unitYear').val(),
                 "Make": $('#unitMake').val(),
@@ -458,7 +434,7 @@
                 "CurrentTitleStatus": $('#titleStatus').val(),
                 "TitleStatus": $('input[name = inlineRadioOptions]:checked').val()
             };
-
+            @*0-not received,1-received,2-returned to dealer,3-sent bank*@
             if ((para1 = 0) || (para1 = 1) || (para1 = 2) || (para1 = 3)) {
                 $.ajax({
                     url: '/UnitTitle/UpdateTitleStatus',
@@ -473,9 +449,9 @@
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        // Your handler here...
+                        @*Your handler here...*@
 
-                        // if session expires
+                        @*if session expires*@
                         if (jqXHR.status == "404") {
                             window.location.href = '/Login/UserLogin?lbl=Due to inactivity your session has timed out, please log in again.';
                         }
@@ -483,123 +459,116 @@
                 });
             }
         };
-        //click event of Update button
+        @*click event of Update button*@
         $('#btnUpdate').click(function () {
-
+            @*get selected radio button value for title status*@
             var para1 = $('input[name = inlineRadioOptions]:checked').val();
-            
-            //alert(para1);
-            if (($('#identificationNumberSearch').val() == "") &&( ($('#identificationNumber').val() == "") || ($('#unitYear').val() == "") || ($('#unitMake').val() == "") || ($('#unitModel').val() == "") || ($('#unitStatus').val() == "") || ($('#titleStatus').val() == "")))
-            {
-                
+            @*check identification number,year,make,model,unit status and title status text filds are empty*@
+            if (($('#identificationNumberSearch').val() == "") && (($('#identificationNumber').val() == "") || ($('#unitYear').val() == "") || ($('#unitMake').val() == "") || ($('#unitModel').val() == "") || ($('#unitStatus').val() == "") || ($('#titleStatus').val() == ""))) {
+                @*show eror message*@
                 $('.centered span').text('Please search a unit you would like the title to be changed to');
-               
+
             }
-            else if ((para1!='')&&(($('#identificationNumber').val() != "") || ($('#unitYear').val() != "") || ($('#unitMake').val() != "") || ($('#unitModel').val() != "") || ($('#unitStatus').val() != "") || ($('#titleStatus').val() != "")))
-            {
-               
+                @*check identification number,year,make,model,unit status and title status text filds are not empty*@
+            else if ((para1 != '') && (($('#identificationNumber').val() != "") || ($('#unitYear').val() != "") || ($('#unitMake').val() != "") || ($('#unitModel').val() != "") || ($('#unitStatus').val() != "") || ($('#titleStatus').val() != ""))) {
+                @*if updated status in return to dealer and unit is not paid off show popup to get confirmation*@
                 if (para1 == 2) {
                     var current = $('#unitStatus').val();
-                    
+
                     if ((current != "Paid")) {
-                    
+
                         showPopup('2');
                         e.preventDefault();
 
                     }
                     else {
+                        @*update title status*@
                         UpdateTitleStatus();
                     }
-                } else if ((para1 == 0) || (para1 == 1) || (para1 == 3)) {
+                }
+                    @*update title status*@
+                else if ((para1 == 0) || (para1 == 1) || (para1 == 3)) {
 
                     UpdateTitleStatus();
                 }
-           
+
                 else {
-                   
+                    @*show error message for not selecting any updated status*@
                     $('#updateTitleDiv span').text("Please choose the status you would like the title to be changed to");
                     $('.centered span').text('Error');
                     e.preventDefault();
                 }
             }
-            else if ((para1 != '') && (($('#identificationNumber').val() == "") || ($('#unitYear').val() == "") || ($('#unitMake').val() == "") || ($('#unitModel').val() == "") || ($('#unitStatus').val() == "") || ($('#titleStatus').val() == "")))
-            {
+                @*show error message if all input fields are empty*@
+            else if ((para1 != '') && (($('#identificationNumber').val() == "") || ($('#unitYear').val() == "") || ($('#unitMake').val() == "") || ($('#unitModel').val() == "") || ($('#unitStatus').val() == "") || ($('#titleStatus').val() == ""))) {
                 $('.centered span').text('Please choose a unit you would like the title to be changed to');
             }
 
             else {
-                
+
                 $('#updateTitleDiv span').text("Please choose the status you would like the title to be changed to");
-                
+
 
                 $('.centered span').text('Error');
-                
+
                 e.preventDefault();
             }
         });
 
 
-        
-
-            // function to show our popups
-            function showPopup(whichpopup) {
-                var docHeight = $(document).height(); //grab the height of the page
-                var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
-                $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
-                $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
-            }
-
-            // function to close our popups
-            function closePopup() {
-                $('.overlay-bg, .overlay-content').hide(); //hide the overlay
-            }
-
-            // timer if we want to show a popup after a few seconds.
-            //get rid of this if you don't want a popup to show up automatically
-            // setTimeout(function() {
-            // Show popup3 after 2 seconds
-            //    showPopup(3);
-            // }, 2000);
 
 
-            // show popup when you click on the link
-            $('.show-popup').click(function (event) {
-                //event.preventDefault(); // disable normal link function so that it doesn't refresh the page
-                var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
+        @* function to show our popups*@
+        function showPopup(whichpopup) {
+            var docHeight = $(document).height(); //grab the height of the page
+            var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+            $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+            $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+        }
 
-                showPopup(selectedPopup); //we'll pass in the popup number to our showPopup() function to show which popup we want
-            });
+        @* function to close our popups*@
+        function closePopup() {
+            $('.overlay-bg, .overlay-content').hide(); //hide the overlay
+        }
 
-            // hide popup when user clicks on close button or if user clicks anywhere outside the container
-            $('.close-btn, .overlay-bg').click(function () {
+        @* show popup when you click on the link*@
+        $('.show-popup').click(function (event) {
+            @*event.preventDefault(); // disable normal link function so that it doesn't refresh the page*@
+            var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
+
+            showPopup(selectedPopup);  @*we'll pass in the popup number to our showPopup() function to show which popup we want*@
+        });
+
+        @* hide popup when user clicks on close button or if user clicks anywhere outside the container*@
+        $('.close-btn, .overlay-bg').click(function () {
+            closePopup();
+        });
+
+        @* hide the popup when user presses the esc key*@
+        $(document).keyup(function (e) {
+            if (e.keyCode == 27) { // if user presses esc key
                 closePopup();
-            });
-
-            // hide the popup when user presses the esc key
-            $(document).keyup(function (e) {
-                if (e.keyCode == 27) { // if user presses esc key
-                    closePopup();
-                }
-            });
+            }
+        });
 
 
-        // help 
-            $('.title-help').click(function () {
+        @*help*@
+        $('.title-help').click(function () {
 
-                $('.help-text h4').html("About this page");
-                $('.help-text p').html(" &nbsp;&nbsp; On the title update page you are able to update the status of the title(s) for any unit which is / has been in the loan. You will need to have the last 6 characters of the VIN / HIN / Serial Number to search for the unit.");
+            $('.help-text h4').html("About this page");
+            $('.help-text p').html(" &nbsp;&nbsp; On the title update page you are able to update the status of the title(s) for any unit which is / has been in the loan. You will need to have the last 6 characters of the VIN / HIN / Serial Number to search for the unit.");
 
-            });
+        });
 
-            $('.help-status').click(function () {
+        $('.help-status').click(function () {
 
-                $('.help-text h4').html("Update title status");
-                $('.help-text p').html(' &nbsp;&nbsp; Select what the new title status should be changed to. For example: If the title was just received today you would be selecting "Received" which will update the title status as being in the possession of the lender.');
+            $('.help-text h4').html("Update title status");
+            $('.help-text p').html(' &nbsp;&nbsp; Select what the new title status should be changed to. For example: If the title was just received today you would be selecting "Received" which will update the title status as being in the possession of the lender.');
 
-            });
+        });
 
 
-        
+
     </script>
 
 

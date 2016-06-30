@@ -1654,18 +1654,22 @@ Date created: 1/25/2016
                         //check created user's loan id
                         if (loanList[j].LoanId == userObj.LoanId)
                         {
-                            //check title is needed to be tracked for created user's loan
-                            if (!loanList[j].IsTitleTrack)
+                            foreach (Right rgt1 in userObj.UserRightsList)
                             {
-                                //assign title page rights as false if title is not needed to be tracked
-                                userObj.UserRightsList[3].active = false;
+                                //check title is needed to be tracked for created user's loan
+                                if (!loanList[j].IsTitleTrack && rgt1.rightId == "U02")
+                                {
+                                    //assign title page rights as false if title is not needed to be tracked
+                                    rgt1.active = false;
+                                }
+                                //check if there is atleast one fee for created user's loan
+                                if (!loanList[j].HasFee && rgt1.rightId == "U07")
+                                {
+                                    //assign fee page rights as false if there is no atleast one fee
+                                    rgt1.active = false;
+                                }
                             }
-                            //check if there is atleast one fee for created user's loan
-                            if (!loanList[j].HasFee)
-                            {
-                                //assign fee page rights as false if there is no atleast one fee
-                                userObj.UserRightsList[5].active = false;
-                            }
+                               
                             //check report rights according to the loan setup details
                             foreach(Right rgt in userObj.ReportRightsList)
                             {
@@ -2246,16 +2250,37 @@ Date created: 1/25/2016
         [HttpPost]
         public ActionResult AssignRights(User user)
         {
-            // add rigts list to array and check active rights to a permission strinng which contain comma seperated rights
+            // add page rigts list to array and check active rights to a permission strinng which contain comma seperated rights
             string[] arrList = new string[user.UserRightsList.Count];
+
+            // add report rigts list to array and check active rights to a permission strinng which contain comma seperated rights
+            string[] arrList2 = new string[user.ReportRightsList.Count];
             int i = 0;
+            // check page rights which have active status
             foreach (var x in user.UserRightsList) {
                 if (x.active) {
                     arrList[i] = x.rightId;
                     i++;
+                    //if report rights contain
+                    if (x.rightId == "U06") {
+                        int j = 0;
+
+                        // check report rights which have active status
+                        foreach (var y in user.ReportRightsList)
+                        {
+                            if (y.active)
+                            {
+                                arrList2[j] = y.rightId ;
+                                j++;                             
+                            }
+                        }
+                        arrList2 = arrList2.Where(y => !string.IsNullOrEmpty(y)).ToArray();
+                        //report rights
+                        user.ReportRights = string.Join(",", arrList2);
+                    }
                 }
             }
-
+            // page rights
             arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
             // converting user right list to comma seperated string.
