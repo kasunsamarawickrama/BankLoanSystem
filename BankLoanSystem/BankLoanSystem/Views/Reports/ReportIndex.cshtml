@@ -3,6 +3,7 @@
 @{
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     ViewBag.Title = "Reports";
+    ViewBag.Page = 7;
 }
 
 @using BankLoanSystem.Models
@@ -24,7 +25,7 @@
 @section AddToHead{
 <style>
     .btns-clm > button {
-        width: 180px;
+        width: 210px;
         height: 40px;
             margin-bottom: 10px;
         margin-left: 5px;
@@ -72,32 +73,33 @@
     <div id="errPage" class="field-validation-error"><span class="text-danger"></span></div>
     <div class="btns-clm" id="divRptType">
         <input type="hidden" name="selectedButton" id="hdnSelectedButton" value="" />
-        <button type="button" id="btnLotInspection" class="btn btn-info1">Lot Inspection</button>
-        <button type="button" id="btnCurtailmentInvoice" class="btn btn-info1">Curtailment Invoice </button>
+        <button type="button" id="btnLotInspection" class="btn btn-info1">Lot Inspection <span class="icon-help_outline help-lot-insp" style="color:#1263dc;"></span></button>
+        <button type="button" id="btnCurtailmentInvoice" class="btn btn-info1">Curtailment Invoice <span class="icon-help_outline help-curt-inv" style="color:#1263dc;"></span></button>
 
-        <button type="button" id="btnCurtailmentReceipt" class="btn btn-info1">Curtailment Receipt </button>
+        <button type="button" id="btnCurtailmentReceipt" class="btn btn-info1">Curtailment Receipt <span class="icon-help_outline help-curt-rcpt" style="color:#1263dc;"></span></button>
 
-        <button type="button" id="btnTitlesStatus" class="btn btn-info1">Title Status</button>
-        <button type="button" id="btnFullInventory" class="btn btn-info1">Full Inventory</button>
+        <button type="button" id="btnTitlesStatus" class="btn btn-info1">Title Status <span class="icon-help_outline help-titl-stat" style="color:#1263dc;"></span></button>
+        <button type="button" id="btnFullInventory" class="btn btn-info1">Full Inventory <span class="icon-help_outline help-full-inv" style="color:#1263dc;"></span></button>
 
-        <button type="button" id="btnAdvanceUnit" class="btn btn-info1">Advance Unit</button>
+        <button type="button" id="btnAdvanceUnit" class="btn btn-info1">Advance Unit <span class="icon-help_outline help-adv-unit" style="color:#1263dc;"></span></button>
 
-        <button type="button" id="btnAdvFeeInv" class="btn btn-info1">Advance Fee Invoice</button>
-        <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info1">Advance Fee Receipt</button>
-        <button type="button" id="btnLoanFeeInv" class="btn btn-info1">Monthly Loan Fee Invoice</button>
-        <button type="button" id="btnMonthlyLoanFeeReceipt" class="btn btn-info1">Monthly Loan Fee Receipt</button>
-        <button type="button" id="btnLotInsFeeInv" class="btn btn-info1">Lot Inspection Fee Invoice</button>
-        <button type="button" id="btnLotInspectionFeeReceipt" class="btn btn-info1">Lot Inspection Fee Receipt</button>
-        <button type="button" id="btnPayOff" class="btn btn-info1">Pay Off</button>
-        <button type="button" id="btnTransactionHistory" class="btn btn-info1">Transaction History</button>
-        <button type="button" id="btnLoanTerms" class="btn btn-info1">Loan Terms</button>
+        <button type="button" id="btnAdvFeeInv" class="btn btn-info1">Advance Fee Invoice <span class="icon-help_outline help-adv-fee" style="color:#1263dc;"></span></button>
+        <button type="button" id="btnAdvanceFeeReceipt" class="btn btn-info1">Advance Fee Receipt <span class="icon-help_outline help-adv-fee-rcpt" style="color:#1263dc;"></span></button>
+        <button type="button" id="btnLoanFeeInv" class="btn btn-info1">Monthly Loan Fee Invoice <span class="icon-help_outline help-mon-fee" style="color:#1263dc;"></span></button>
+        <button type="button" id="btnMonthlyLoanFeeReceipt" class="btn btn-info1">Monthly Loan Fee Receipt <span class="icon-help_outline help-mon-fee-rcpt" style="color:#1263dc;"></span></button>
+        <button type="button" id="btnLotInsFeeInv" class="btn btn-info1">Lot Inspection Fee Invoice <span class="icon-help_outline help-lot-fee" style="color:#1263dc;"></span></button>
+        <button type="button" id="btnLotInspectionFeeReceipt" class="btn btn-info1">Lot Inspection Fee Receipt <span class="icon-help_outline help-lot-fee-rcpt" style="color:#1263dc;"></span></button>
+        <button type="button" id="btnPayOff" class="btn btn-info1">Pay Off <span class="icon-help_outline help-pay-off" style="color:#1263dc;"></span></button>
+        <button type="button" id="btnTransactionHistory" class="btn btn-info1">Transaction History <span class="icon-help_outline help-trans-his" style="color:#1263dc;"></span></button>
+        <button type="button" id="btnLoanTerms" class="btn btn-info1">Loan Terms <span class="icon-help_outline help-loan-terms" style="color:#1263dc;"></span></button>
 
-        @if(ViewBag.RoleId == 1) {
-        <button type="button" id="btnCompanySummary" class="btn btn-info1">Company Summary</button>
+                @if (ViewBag.RoleId == 1)
+                {
+                <button type="button" id="btnCompanySummary" class="btn btn-info1">Company Summary <span class="icon-help_outline help-cmp-smry" style="color:#1263dc;"></span></button>
         }
-        <button type="button" id="btnBranchSummary" class="btn btn-info1">Branch Summary</button>
-        <button type="button" id="btnDeletedUnits" class="btn btn-info1">Deleted Units</button>
-        <button type="button" id="btnLoanSummary" class="btn btn-info1">Loan Summary</button>
+        <button type="button" id="btnBranchSummary" class="btn btn-info1">Branch Summary <span class="icon-help_outline help-brn-smry" style="color:#1263dc;"></span></button>
+        <button type="button" id="btnDeletedUnits" class="btn btn-info1">Deleted Units <span class="icon-help_outline help-del-unit" style="color:#1263dc;"></span></button>
+        <button type="button" id="btnLoanSummary" class="btn btn-info1">Loan Summary <span class="icon-help_outline help-loan-smry" style="color:#1263dc;"></span></button>
         @*<div id="2" href="#">
     <p style="color: white">advance a unit</p>*@
             </div>
@@ -111,11 +113,31 @@
 @if (ViewBag.loanCount == 1)
 {
             <div id="lnum" class="form-group" style="width:50%;">
-                @*<label for="">Account Detail</label><br/>*@
+               
+            @if (Session["LoanOne"] != null)
+            {
 
                 <input type="hidden" id="loanId" value="@(((Loan)Session["LoanOne"]).LoanId)" />
-                    @*@Html.HiddenFor(model => model.LoanId, new {id= "loanId",  @Value = (int)ViewBag.LoanId.Items[0].LoanId, })*@
-                 @*//   @Html.LabelFor(model => model.LoanId, (string)ViewBag.LoanId.Items[0].LoanNumberB, htmlAttributes: new { @class = "form-control text_field_input", style = "border:none;border-radius:none;-webkit-box-shadow:nonr;box-shadow:none;margin-top: 3px;display: block;" })*@ @*-- irfan*@
+            }
+            else if (ViewBag.loan != null)
+            {
+                List<Account> acc = (List<Account>)ViewBag.loan;
+
+                string PatBranchAddress = acc[0].PatBranchAddress1 + (acc[0].PatBranchAddress2 != "" ? ", " + acc[0].PatBranchAddress2 : "") + (acc[0].PatCity != "" ? ", " + acc[0].PatCity : ""); // combine address using name, address1, address2 and city
+
+                <input type="hidden" id="loanId" value="@(acc[0].LoanId)" />
+                <script>
+                    $(document).ready(function () {
+                    // set the address on the bar
+                        $('#Pataddress').html('<span class="parbranchname">@(acc[0].PatBranchName)</span> -  <span class="parbarnchaddress"> @PatBranchAddress</span>  ');
+                    // set the loan number on the bar
+                        $('.loanumber').html('<strong>Loan Number : &nbsp; </strong> @(acc[0].LoanNumber)');
+
+                    });
+                </script>
+            }
+
+                    
                     </div>
 }
 else
@@ -123,9 +145,7 @@ else
     <div id="lnum" class="form-group" style="width:50%;">
         <input type="hidden" id="loanId" value="" />
     </div>
-        @*// @Html.DropDownListFor(model => model.LoanId, null, "--Select account--", htmlAttributes: new { @class = "form-control text_field_input", id = "LoanId" , @style="width:100%" })
-            // @Html.ValidationMessageFor(model => model.LoanId, "", new { @class = "text-danger", style = "left:25%" })
-            // <div id="tagscloudLoanId" class="field-validation-error"><span class="text-danger"></span></div>*@
+       
         }
 
 
@@ -216,7 +236,7 @@ else
         $('#reportViewerDiv').hide();
         $('#btnPrint').hide();
         $('#LoanId').removeClass('input-validation-error');
-        //$('#tagscloudLoanId').children('span').text('');
+       
     }
 
     $('#btnLotInspection').click(function () {
@@ -872,19 +892,7 @@ else
 
     });
 
-    //$('#LoanId').change(function () {
-    //    $('#tagscloudLoanId').children('span').text('');
-    //    $(this).removeClass('input-validation-error');
-
-    //    var rptType = $('#hdnSelectedButton').val();
-
-    //    if (rptType === 'FullInventory' || rptType === 'LotInspection')
-    //        $('.centered h5 span').text("");
-    //    else if (rptType === 'TitlesStatus') {
-    //        if (this.value !== '' && $("#titleStatus option:selected").index() !== 0)
-    //            $('.centered h5 span').text("");
-    //    }
-    //});
+  
 
     $('#titleStatus').change(function () {
         $('#tagscloudTitleStatus').children('span').text('');
@@ -1002,12 +1010,12 @@ else
                 @if ((Loan)Session["loanDashboard"] != null)
     {
         <text>
-                if (isFirstTime == 0){
-                var ids = $("#grid").jqGrid("getDataIDs");
-                if (ids.length > 0) {
-                    $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
-                    $("#loanId").val('@(((Loan)Session["loanDashboard"]).LoanId)');
-                }
+                if (isFirstTime == 0) {
+                    var ids = $("#grid").jqGrid("getDataIDs");
+                    if (ids.length > 0) {
+                        $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
+                        $("#loanId").val('@(((Loan)Session["loanDashboard"]).LoanId)');
+                    }
 
                     isFirstTime = 1;
                 }
@@ -1083,6 +1091,88 @@ else
         {
            <text>
                 if (isFirstTime == 0) {
+                    var ids = $("#grid").jqGrid("getDataIDs");
+                    if (ids.length > 0) {
+                        $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
+                        $("#loanId").val('@(((Loan)Session["loanDashboard"]).LoanId)');
+                    }
+                    isFirstTime = 1;
+                }
+                </text>
+        }
+
+            }
+        });  </text>
+
+        }
+        else
+        {
+
+             <text>
+        // getting and binding datas to the grid
+        $("#grid").jqGrid({
+            url: '@Href("~/Reports/GetActiveLoans")',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
+            colNames: [ 'Partner Branch Name', 'Loan Number',
+                 'Loan Amount', 'Used Amount', 'No. of Active Units', 'PatBranchAddress1', 'PatBranchAddress2', 'PatCity', 'userReportRights'],
+            colModel: [
+
+                      { name: 'PatBranchName', index: 'PatBranchName', width: 232 },
+
+                    { name: 'LoanNumber', index: 'LoanNumber', width: 232 },
+
+
+                {
+                    name: 'LoanAmount', index: 'LoanAmount', width: 174,
+                    align: "right", sorttype: 'float', formatter: 'currency',
+                    formatoptions: { prefix: '$ ', thousandsSeparator: ',' }
+                },
+                 {
+                     name: 'UsedAmount', index: 'UsedAmount', width: 174,
+                     align: "right", sorttype: 'float', formatter: 'currency',
+                     formatoptions: { prefix: '$ ', thousandsSeparator: ',' }
+                 },
+                      {
+                          name: 'ActiveUnits', index: 'ActiveUnits', width: 150,
+                          align: "right", sorttype: 'int'
+                      },
+
+                       { name: 'PatBranchAddress1', index: 'PatBranchAddress1', width: 194, hidden: true },
+
+                    { name: 'PatBranchAddress2', index: 'PatBranchAddress2', width: 194, hidden: true },
+
+                     { name: 'PatCity', index: 'PatCity', width: 194, hidden: true },
+
+                     { name: 'userReportRights', index: 'userReportRights', width: 194, hidden: true }
+
+            ],
+
+            rowList: [],        // disable page size dropdown
+            pgbuttons: false,     // disable page control like next, back button
+            pgtext: null,         // disable pager text like 'Page 0 of 10'
+            viewrecords: false,    // disable current view record text like 'View 1-10 of 100'
+            pager: '#pager2',
+            sortname: 'id',
+            loadonce: true,
+            scrollrows: true,
+            sortorder: "asc",
+            caption: "Active Loans",
+            // changing grid height
+            loadComplete: function () {
+                var grid = $("#grid"),
+                    ids = grid.getDataIDs();
+
+                for (var i = 0; i < ids.length; i++) {
+                    grid.setRowData(ids[i], false, { height: 27 });
+                }
+
+                // if loan selected from dashboard autoselect the row
+                @if ((Loan)Session["loanDashboard"] != null)
+        {
+           <text>
+                if (isFirstTime == 0) {
                 var ids = $("#grid").jqGrid("getDataIDs");
                 if (ids.length > 0) {
                     $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
@@ -1101,8 +1191,8 @@ else
 
 
 
-    // disable edit, add , false on pager
-    jQuery("#grid").jqGrid('navGrid', '#pager2',
+        // disable edit, add , false on pager
+        jQuery("#grid").jqGrid('navGrid', '#pager2',
             { edit: false, add: false, del: false });
 
 
@@ -1166,7 +1256,7 @@ else
         });
 
         // reset the loan id to empty if search button click and reset selection on the grid
-        $('.ui-icon-search').parent().click(function () {
+        $('.ui-icon-search, .ui-jqgrid-sortable').parent().click(function () {
 
             $("#loanId").val('');
             // set the address on the bar
@@ -1183,5 +1273,90 @@ else
 
 
 
+    });
+    $('.title-help').click(function () {
+
+        $('.help-text h4').html("About this page");
+        $('.help-text p').html(" &nbsp;&nbsp; On the reports page you are able to select a report from the list below and gather valuable information on the loan. Please select a specific report to view more details about that report.");
+
+    });
+    $('.help-lot-insp').click(function () {
+
+        $('.help-text h4').html("Lot Inspection");
+        $('.help-text p').html(" &nbsp;&nbsp; The lot inspection report will display all active units on the loan with the basic details needed to complete a lot inspection.");
+
+    });
+    $('.help-curt-inv').click(function () {
+        $('.help-text h4').html("Curtailment Invoice");
+        $('.help-text p').html("&nbsp;&nbsp;The curtailment invoice will display all curtailments for active units which are due during the date range selected.");
+    });
+    $('.help-curt-rcpt').click(function () {
+        $('.help-text h4').html("Curtailment Receipt");
+        $('.help-text p').html("&nbsp;&nbsp;The curtailment receipt will display all curtailments which were paid during the date range selected.");
+
+    });
+    $('.help-titl-stat').click(function () {
+        $('.help-text h4').html("Title Status");
+        $('.help-text p').html("&nbsp;&nbsp;The title status report will display active units with a title status matching the selection made from the drop down menu.");
+    });
+    $('.help-full-inv').click(function () {
+        $('.help-text h4').html("Full Inventry");
+        $('.help-text p').html("&nbsp;&nbsp;The full inventory report will display all active units in the loan along with the important details.");
+    });
+    $('.help-adv-unit').click(function () {
+        $('.help-text h4').html("Advance Unit");
+        $('.help-text p').html("&nbsp;&nbsp;The advance unit report will display all units which were advanced during the date range specified.");
+    });
+    $('.help-adv-fee').click(function () {
+        $('.help-text h4').html("Advance Fee Invoice");
+        $('.help-text p').html("&nbsp;&nbsp;The advance fee invoice will display all advance fees which are due during the date range selected.");
+    });
+    $('.help-adv-fee-rcpt').click(function () {
+        $('.help-text h4').html("Advance Fee Receipt");
+        $('.help-text p').html("&nbsp;&nbsp;The advance fee receipt will display all advance fees which were paid during the date range selected.");
+    });
+    $('.help-mon-fee').click(function () {
+        $('.help-text h4').html("Monthly Loan Fee Invoice");
+        $('.help-text p').html("&nbsp;&nbsp;The monthly loan fee invoice will display the monthly loan fee amounts which are due for the date range selected.");
+    });
+    $('.help-mon-fee-rcpt').click(function () {
+        $('.help-text h4').html("Monthly Loan Fee Receipt");
+        $('.help-text p').html("&nbsp;&nbsp;The monthly loan fee receipt will display the monthly loan fee amounts which were paid during the date range selected.");
+    });
+    $('.help-lot-fee').click(function () {
+        $('.help-text h4').html("Lot Inspection Fee Invoice");
+        $('.help-text p').html("&nbsp;&nbsp;The lot inspecion fee invoice will display the lot inspection fee amounts which are due during the date range selected. ");
+    });
+    $('.help-lot-fee-rcpt').click(function () {
+        $('.help-text h4').html("Lot Inspection Fee Receipt");
+        $('.help-text p').html("&nbsp;&nbsp;The lot inspection fee receipt will display the lot inspection fee amounts which were paid during the date range selected.");
+    });
+    $('.help-pay-off').click(function () {
+        $('.help-text h4').html("Pay Off");
+        $('.help-text p').html("&nbsp;&nbsp;The pay off report will display the details of all units which were paid off during the date range selected.");
+    });
+    $('.help-trans-his').click(function () {
+        $('.help-text h4').html("Transaction History");
+        $('.help-text p').html("&nbsp;&nbsp;The transaction history report will display a full list of all transactions which took place for the loan during the date range selected.");
+    });
+    $('.help-loan-terms').click(function () {
+        $('.help-text h4').html("Loan Terms");
+        $('.help-text p').html("&nbsp;&nbsp;The loan terms report will display all details of the Terms for the selected loan.");
+    });
+    $('.help-cmp-smry').click(function () {
+        $('.help-text h4').html("Company Summary");
+        $('.help-text p').html("&nbsp;&nbsp;The company summary report will display details of active loans for each branch including active units and loan amounts.");
+    });
+    $('.help-brn-smry').click(function () {
+        $('.help-text h4').html("Branch Summary");
+        $('.help-text p').html("&nbsp;&nbsp;The branch summary report will display all active loans for the branch with details about the loan including unit numbers and loan amounts.");
+    });
+    $('.help-del-unit').click(function () {
+        $('.help-text h4').html("Deleted Unit");
+        $('.help-text p').html("&nbsp;&nbsp;The deleted units report will display all details of any unit which was deleted during the date range selected.");
+    });
+    $('.help-loan-smry').click(function () {
+        $('.help-text h4').html("Loan Summary");
+        $('.help-text p').html("&nbsp;&nbsp;The loan summary report will display a summary of all transaction types which took place for the loan during the date range selected.");
     });
 </script>
