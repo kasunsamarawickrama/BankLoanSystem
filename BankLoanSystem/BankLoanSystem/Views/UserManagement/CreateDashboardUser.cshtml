@@ -786,7 +786,7 @@
    @*check selected loan id is null or empty*@
         if (document.getElementById("loanid").innerHTML == "") {
             @*show error message*@
-            $('#loanIdMessage span').text("please select a loan.");
+            $('#loanIdMessage span').text("");
 
         }
         @*check selected user role is user*@
@@ -800,7 +800,7 @@
                 e.preventDefault();
             }
                 @*check view reports check box is checked*@
-            else if ($('#7').is(':checked')) {
+            else if ($('#U06').is(':checked')) {
                 @*get count of check box which has checked*@
                 var chck = $(".All2:checked").length;
                 @*check count is 0*@

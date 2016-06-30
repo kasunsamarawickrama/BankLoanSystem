@@ -367,7 +367,17 @@
         </div>
     </div>
 </div>
+<div class="overlay-bg">
+</div>
+<div class="overlay-content popupEditUser" style="margin-left:300px;width:355px">
 
+    <h3>Edit User</h3>
+
+    <span> Do you wish to inactive user?</span><br />
+    <br />
+    <button type="button" class="btn btn-info" id="btnYes" style="width:100px">Yes</button>
+    <button type="button" class="btn btn-info" id="btnNo" style="width:100px;margin-left:20px;">No</button>
+</div>
 <script>
 
     // for input mask
@@ -427,24 +437,29 @@
         }
       
     };
+    $('#btnNo').click(function(){
+        closePopup();
+    });
+    $('#btnYes').click(function(){
+        $('#form').unbind('submit').submit();
+    });
     $('#btnUpdateUser').click(function(e){
-        //$('#txtUserId2').text("for");
+        
         if($('#txtCurrentPassword').closest("div").siblings('div').children("p").children("span").text() != ""){
             e.preventDefault();
         }
-        //if($('#txtUserId2').text()==='No users found'){
-        //    $('#errSpn2').text('Failed to update');
-        //    e.preventDefault();
-        //}
-        
-        if( $('#UserIdSA').val()==null || $('#UserIdSA').val()==""||$('#UserIdSA').val()==0){
-            //$('#UserIdSA').closest("div").siblings('div').children("p").children("span").text("Please indicate the username.");
-            //alert( $('#UserIdValidate').text());
+       
+        if( ($('#UserIdSA').val()==null || $('#UserIdSA').val()==""||$('#UserIdSA').val()==0) &&( $('#hdnUserId3').val()==0 ||$('#hdnUserId3').val()=="")){
+            alert($('#hdnUserId3').val());
             $('#errortxtUserId').text("Please indicate the username.");
             $('#UserIdSA').addClass('input-validation-error');
+            e.preventDefault();
             
         }
-       
+        if($('#rbStatusN').is(':checked')){
+            showPopup('EditUser');
+            e.preventDefault();
+        }
     });
    
     $('#txtCurrentPassword').focusout(function () {
@@ -1199,4 +1214,37 @@
 
     $('input').prop('autocomplete', 'off');
 
+    
+        @* function to show our popups*@
+        function showPopup(whichpopup) {
+            var docHeight = $(document).height(); //grab the height of the page
+            var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+            $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+            $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+        }
+
+        @* function to close our popups*@
+        function closePopup() {
+            $('.overlay-bg, .overlay-content').hide(); //hide the overlay
+        }
+
+        @* show popup when you click on the link*@
+        $('.show-popup').click(function (event) {
+            @*event.preventDefault(); // disable normal link function so that it doesn't refresh the page*@
+            var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
+
+            showPopup(selectedPopup);  @*we'll pass in the popup number to our showPopup() function to show which popup we want*@
+        });
+
+        @* hide popup when user clicks on close button or if user clicks anywhere outside the container*@
+        $('.close-btn, .overlay-bg').click(function () {
+            closePopup();
+        });
+
+        @* hide the popup when user presses the esc key*@
+        $(document).keyup(function (e) {
+            if (e.keyCode == 27) { // if user presses esc key
+                closePopup();
+            }
+        });
 </script>

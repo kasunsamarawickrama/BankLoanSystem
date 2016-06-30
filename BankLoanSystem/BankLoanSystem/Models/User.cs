@@ -130,7 +130,7 @@ namespace BankLoanSystem.Models
         
         public int Company_Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "please select a loan.")]
         public int LoanId { get; set; }
 
         public string LoanNumber { get; set; }
