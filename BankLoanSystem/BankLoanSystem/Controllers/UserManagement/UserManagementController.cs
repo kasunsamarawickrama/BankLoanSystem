@@ -1556,13 +1556,28 @@ Date created: 1/25/2016
             }
             ViewBag.LoanId = new SelectList(listLoan,"LoanId","LoanNumber");
             List<Right> rightLists = new List<Right>();
+            List<Right> reportLists = new List<Right>();
 
             //get all rights list
             rightLists = (new UserRightsAccess()).getRights();
 
             us.UserRightsList = rightLists;
             //get all report list
-            us.ReportRightsList = (new UserRightsAccess()).getReportRights();
+            reportLists = (new UserRightsAccess()).getReportRights();
+            us.ReportRightsList = new List<Right>();
+            if (reportLists != null && reportLists.Count > 0)
+            {
+                foreach (Right rgt in reportLists)
+                {
+                    //Check user can view the report
+                    if (!rgt.UserView)
+                    {
+                        continue;
+                    }
+
+                    us.ReportRightsList.Add(rgt);
+                }
+            }
             //check request is ajax request
             if (HttpContext.Request.IsAjaxRequest())
             {
