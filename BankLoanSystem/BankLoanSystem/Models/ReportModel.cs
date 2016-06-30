@@ -54,6 +54,11 @@ namespace BankLoanSystem.Models
         public string PatBranchAddress1 { get; set; }
         public string PatBranchAddress2 { get; set; }
         public string PatCity { get; set; }
+        public bool hasAdvanceFee { get; set; }
+        public bool hasMonthFee { get; set; }
+        public bool hasLotInsFee { get; set; }
+        public bool hasTitleTrack { get; set; }
+        public string userReportRights { get; set; }
     }
 
     public class UserRights
