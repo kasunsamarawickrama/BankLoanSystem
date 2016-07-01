@@ -12,7 +12,6 @@ namespace BankLoanSystem.Controllers
     public class SetupProcessTestController : Controller
     {
         private static CompanyBranchModel userCompany = null;
-        private static CompanyBranchModel userNonRegCompany = null;
         private static string CompanyType = "Lender";
         private static string _comCode;
         User userData = new User();

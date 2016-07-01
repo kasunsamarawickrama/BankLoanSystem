@@ -63,7 +63,7 @@ namespace BankLoanSystem.Models
                 }
 
             }
-            catch (Exception ex)
+            catch
             {
                 Console.WriteLine("error in sending mail");
                 success = 0;

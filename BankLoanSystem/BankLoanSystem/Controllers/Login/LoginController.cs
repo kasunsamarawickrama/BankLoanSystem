@@ -565,7 +565,7 @@ namespace BankLoanSystem.Controllers
                     return RedirectToAction("UserLogin", "Login", new { lbl = "Incorrect Username & Password combination. Please confirm entry and resubmit." });
                 }     
             }
-            catch(System.Exception ex)
+            catch
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "An error has occurred.Please try again later" });
             }

@@ -172,7 +172,7 @@ namespace BankLoanSystem.DAL
                 {
                     return dataHandler.ExecuteSQLWithReturnVal("spUpdateFee", paramertList2);
                 }
-                catch (Exception ex)
+                catch 
                 {
                     return 0;
                 }
