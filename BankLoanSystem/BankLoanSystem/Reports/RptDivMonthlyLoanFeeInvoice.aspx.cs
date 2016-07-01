@@ -32,6 +32,9 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int loanId, DateTime startDate, DateTime endDate, string feeType)
         {
+            if (Session["AuthenticatedUser"] == null) return;
+            User userData = (User)Session["AuthenticatedUser"];
+
             rptViewerMonthlyLoanFeeInvoice.ProcessingMode = ProcessingMode.Local;
             rptViewerMonthlyLoanFeeInvoice.Reset();
             rptViewerMonthlyLoanFeeInvoice.LocalReport.EnableExternalImages = true;
@@ -39,7 +42,7 @@ namespace BankLoanSystem.Reports
             rptViewerMonthlyLoanFeeInvoice.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId, userData.UserId);
 
             foreach (var dates in details)
             {
@@ -56,6 +59,9 @@ namespace BankLoanSystem.Reports
         }
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
+            if (Session["AuthenticatedUser"] == null) return null;
+            User userData = (User)Session["AuthenticatedUser"];
+
             ReportViewer rptViewerMonthlyLoanFeeInvoicePrint = new ReportViewer();
             rptViewerMonthlyLoanFeeInvoicePrint.ProcessingMode = ProcessingMode.Local;
             rptViewerMonthlyLoanFeeInvoicePrint.Reset();
@@ -63,7 +69,7 @@ namespace BankLoanSystem.Reports
             rptViewerMonthlyLoanFeeInvoicePrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptMonthlyLoanFeeInvoice.rdlc");
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId, userData.UserId);
 
             foreach (var dates in details)
             {

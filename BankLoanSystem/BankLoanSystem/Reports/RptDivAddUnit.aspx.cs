@@ -15,7 +15,6 @@ namespace BankLoanSystem.Reports
             if (!IsPostBack)
             {
                 int loanId = 0;
-                int userId = 0;
 
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);

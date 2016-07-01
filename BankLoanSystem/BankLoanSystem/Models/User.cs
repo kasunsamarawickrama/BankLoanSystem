@@ -190,7 +190,6 @@ namespace BankLoanSystem.Models
     {
         public int NonRegCompanyId { get; set; }
         public int NonRegBranchId { get; set; }
-        public int LoanId { get; set; }
     }
 
    

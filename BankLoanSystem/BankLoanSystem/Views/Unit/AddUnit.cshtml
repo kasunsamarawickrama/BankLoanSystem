@@ -908,7 +908,7 @@
                                 @*@Html.LabelFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 57px;" })*@
                                 <label class="control-label col-md-3" for="AdvanceAmount" style="padding-left: 35px;margin-top: -5px;">Advance Amount  <span class="icon-help_outline help-adv_amount"></span></label>
                                 <div class="col-md-3">
-                                    @if (ViewBag.Editable == "Yes")
+                                    @if (ViewBag.Editable == "Yes" && ViewBag.RoleId != 4)
                                     {
                                         <p style="font-size: 18px;padding-right: 200px;">$</p>
                                         @Html.EditorFor(model => model.AdvanceAmount, new { htmlAttributes = new { @class = "form-control unset", @id = "txtLoanAdvanceAmount", @placeholder = "0.00", autocomplete = "off", @style = "text-align: right;;margin-left: 17px;margin-top: -35px;", @tabindex = "-1" } })

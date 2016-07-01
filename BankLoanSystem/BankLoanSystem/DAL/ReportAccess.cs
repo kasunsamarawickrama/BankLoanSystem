@@ -262,13 +262,13 @@ namespace BankLoanSystem.DAL
             return loanDetails;
         }
 
-        public List<LoanDetailsRpt> GetLoanDetailsRpt(int loanId)
+        public List<LoanDetailsRpt> GetLoanDetailsRpt(int loanId, int userId)
         {
             List<LoanDetailsRpt> loanDetails = new List<LoanDetailsRpt>();
 
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
-            //paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@user_id", userId });
             paramertList.Add(new object[] { "@loan_id", loanId });
 
             DataSet dataSet = dataHandler.GetDataSet("spGetLoanDetailsByLoanIdRpts", paramertList);
@@ -279,10 +279,40 @@ namespace BankLoanSystem.DAL
                 {
                     LoanDetailsRpt details = new LoanDetailsRpt();
 
-                    
+                    details.CreaterName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(dataRow["first_name"] + " " + dataRow["last_name"]);
                     details.LenderBrnchName = dataRow["branch_name"].ToString();
                     details.DealerBrnchName = dataRow["nr_branch_name"].ToString();
                     details.LoanNumber = dataRow["loan_number"].ToString();
+
+                    loanDetails.Add(details);
+
+                    break;
+                }
+            }
+
+            return loanDetails;
+        }
+
+        public List<LoanDetailsRpt> GetLoanDetailsRptforCompanySummary(int companyId, int userId)
+        {
+            List<LoanDetailsRpt> loanDetails = new List<LoanDetailsRpt>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@company_id", companyId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetLoanDetailsByLoanIdRpts_CompanySummary", paramertList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    LoanDetailsRpt details = new LoanDetailsRpt();
+
+                    details.CreaterName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(dataRow["first_name"] + " " + dataRow["last_name"]);
+                    details.CompanyName = dataRow["company_name"].ToString();
+                    details.ReportDate = DateTime.Now.ToString("MM/dd/yyyy"); 
 
                     loanDetails.Add(details);
 

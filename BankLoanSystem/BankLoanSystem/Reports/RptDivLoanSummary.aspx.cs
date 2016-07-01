@@ -46,7 +46,7 @@ namespace BankLoanSystem.Reports
             rptViewerLoanSummary.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId, userData.UserId);
 
             foreach (var dates in details)
             {
@@ -77,7 +77,7 @@ namespace BankLoanSystem.Reports
             rptViewerLoanSummaryPrint.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId, userData.UserId);
 
             foreach (var dates in details)
             {

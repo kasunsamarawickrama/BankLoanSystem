@@ -38,6 +38,10 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int loanId, DateTime startDate, DateTime endDate, string feeType)
         {
+            //check authentication session is null, if null return
+            if (Session["AuthenticatedUser"] == null) return;
+            User userData = (User)Session["AuthenticatedUser"];
+
             rptViewerLotInspectionFeeInvoice.ProcessingMode = ProcessingMode.Local;
             rptViewerLotInspectionFeeInvoice.Reset();
             rptViewerLotInspectionFeeInvoice.LocalReport.EnableExternalImages = true;
@@ -45,7 +49,7 @@ namespace BankLoanSystem.Reports
             rptViewerLotInspectionFeeInvoice.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId, userData.UserId);
 
             foreach (var dates in details)
             {
@@ -62,6 +66,10 @@ namespace BankLoanSystem.Reports
         }
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
+            //check authentication session is null, if null return
+            if (Session["AuthenticatedUser"] == null) return null;
+            User userData = (User)Session["AuthenticatedUser"];
+
             ReportViewer rptViewerLotInspectionFeeInvoicePrint = new ReportViewer();
             rptViewerLotInspectionFeeInvoicePrint.ProcessingMode = ProcessingMode.Local;
             rptViewerLotInspectionFeeInvoicePrint.Reset();
@@ -69,7 +77,7 @@ namespace BankLoanSystem.Reports
             rptViewerLotInspectionFeeInvoicePrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptLotInspectionFeeInvoice.rdlc");
 
             ReportAccess ra = new ReportAccess();
-            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId);
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId, userData.UserId);
 
             foreach (var dates in details)
             {
