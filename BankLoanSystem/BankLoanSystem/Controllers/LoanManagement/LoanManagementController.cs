@@ -57,7 +57,10 @@ namespace BankLoanSystem.Controllers
             return View();
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult RenewLoan()
         {
 
@@ -127,6 +130,11 @@ namespace BankLoanSystem.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="l"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult RenewLoan(Loan l) {
 
@@ -138,6 +146,7 @@ namespace BankLoanSystem.Controllers
             }
 
             if ((new LoanManagementAccess()).LoanRenew(loanPost, userData.UserId)) {
+                //Trace the action - create a new record for log table
                 Log log = new Log(userData.UserId, userData.Company_Id, loanPost.BranchId, loanPost.LoanId, "Renew Loan", "Renew Loan Number" + loanPost.LoanNumber + " , Renewal Date: " + loanPost.RenewalDate, DateTime.Now);
 
                 int islog = (new LogAccess()).InsertLog(log);
