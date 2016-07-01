@@ -509,12 +509,16 @@ else
             @Html.DropDownList("Title Status", titleStatus, "-- select type --", new { @class = "form-control", @id = "titleStatus" })
             <div id="tagscloudTitleStatus" class="field-validation-error"><span class="text-danger"></span></div>
         </div>
-            <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
-                <label for="">Branch <span class="icon-help_outline"></span></label>
-               
-                @Html.DropDownList("Branch",new SelectList(ViewBag.BranchSelectList, "Value","Text"), "-- select branch --", new { @class = "form-control",@style= "width: 253px;", @id = "branchSelect" })
-                <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
-            </div>
+            @if (ViewBag.RoleId == 1)
+            {
+                <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
+                    <label for="">Branch <span class="icon-help_outline"></span></label>
+
+                    @Html.DropDownList("Branch", new SelectList(ViewBag.BranchSelectList, "Value", "Text"), "-- select branch --", new { @class = "form-control", @style = "width: 253px;", @id = "branchSelect" })
+                    <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
+                </div>
+            }
+           
     </div>
 
         <div class="form-inline" style="width: 30%;float: left;padding-top: 5px;">
