@@ -1513,17 +1513,17 @@ else
         {
            <text>
                 if (isFirstTime == 0) {
-                var ids = $("#grid").jqGrid("getDataIDs");
-                if (ids.length > 0) {
-                    $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
-                    $("#loanId").val('@(((Loan)Session["loanDashboard"]).LoanId)');
-                }
+                    var ids = $("#grid").jqGrid("getDataIDs");
+                    if (ids.length > 0) {
+                        $("#grid").jqGrid("setSelection", '@(((Loan)Session["loanDashboard"]).LoanId)');
+                        $("#loanId").val('@(((Loan)Session["loanDashboard"]).LoanId)');
+                    }
                     isFirstTime = 1;
                 }
                 DefaultLoanID = $("#loanId").val(); // set global loan id to check change loan
                 //  change buttons according to the loan
-                changeButtons( $("#loanId").val()); 
-            </text>
+                changeButtons($("#loanId").val());
+                </text>
         }
 
             }
@@ -1559,7 +1559,7 @@ else
             // if user change the loan
             if (currentLoan != id) {
                 // set the loan
-                $("#loanId").val(id); 
+                $("#loanId").val(id);
 
 
                 // change the loan detail bar on top the page
@@ -1579,9 +1579,9 @@ else
                 @if(ViewBag.RoleId == 3 || ViewBag.RoleId == 4)
                 {
                     <text>
-                            //  change buttons according to the loan
-                            changeButtons($("#loanId").val());
-                    </text>
+                //  change buttons according to the loan
+                changeButtons($("#loanId").val());
+                </text>
                 }
             }
 
@@ -1621,13 +1621,14 @@ else
 
 
 
-        
+
         DefaultLoanID = $("#loanId").val();  // set first selected loanId
         $('.icon-home3').removeAttr('onclick'); // remove on click dashboard action
 
 
         $('.icon-home3').click(function () {
-            
+
+            /// if user change the loan on dashboard
             if ($("#loanId").val() != DefaultLoanID) {
 
                 if (DefaultLoanID == "") {
@@ -1636,9 +1637,9 @@ else
                     } else {
                         window.location.href = '/UserManagement/UserDetails';
                     }
-                    
+
                 } else {
-                   
+
                     $('#loanChangedtext').text('You have changed the loan to ' + jQuery("#grid").jqGrid('getCell', $("#loanId").val(), 'LoanCode') + '. Do you like to continue work with this loan?');
                     var docHeight = $(document).height(); //grab the height of the page
                     var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
@@ -1647,18 +1648,33 @@ else
                     $('#chanegLoan').attr('onclick', 'window.location.href = "/UserManagement/setLoanCode?loanCode=' + jQuery("#grid").jqGrid('getCell', $("#loanId").val(), 'LoanCode') + '"');
 
                 }
-               
-                
-                
-            } else if ($("#loanId").val() != "") {
+
+
+
+            }
+                // if user doesn't change the loan
+            else if ($("#loanId").val() != "") {
+                @if(ViewBag.loan != null)
+                {
+                    <text>
+                window.location.href = '/UserManagement/setLoanCode?loanCode=@(((List<Account>)ViewBag.loan)[0].LoanCode)';
+
+                </text>
+                }
+                else
+                {
+                    <text>
                 window.location.href = '/UserManagement/setLoanCode?loanCode=' + jQuery("#grid").jqGrid('getCell', $("#loanId").val(), 'LoanCode');
+                </text>
+                }
+
 
             }
 
             else {
                 window.location.href = '/UserManagement/UserDetails';
             }
-    
+
 
         });
 
@@ -1679,83 +1695,83 @@ else
             $("#btnLotInspection").show();
         }
 
-         if (userRights.indexOf("R02") > -1) {
+        if (userRights.indexOf("R02") > -1) {
 
 
             $("#btnCurtailmentInvoice").show();
         }
 
-         if (userRights.indexOf("R03") > -1) {
+        if (userRights.indexOf("R03") > -1) {
 
             $("#btnCurtailmentReceipt").show();
         }
 
-         if (userRights.indexOf("R04") > -1) {
+        if (userRights.indexOf("R04") > -1) {
 
             $("#btnTitlesStatus").show();
         }
 
-         if (userRights.indexOf("R05") > -1) {
+        if (userRights.indexOf("R05") > -1) {
 
             $("#btnFullInventory").show();
         }
 
-         if (userRights.indexOf("R06") > -1) {
+        if (userRights.indexOf("R06") > -1) {
 
             $("#btnAdvanceUnit").show();
         }
 
-         if (userRights.indexOf("R07") > -1) {
+        if (userRights.indexOf("R07") > -1) {
 
             $("#btnAdvFeeInv").show();
         }
 
-         if (userRights.indexOf("R08") > -1) {
+        if (userRights.indexOf("R08") > -1) {
 
             $("#btnAdvanceFeeReceipt").show();
         }
 
-         if (userRights.indexOf("R09") > -1) {
+        if (userRights.indexOf("R09") > -1) {
 
             $("#btnLoanFeeInv").show();
         }
 
-         if (userRights.indexOf("R10") > -1) {
+        if (userRights.indexOf("R10") > -1) {
 
             $("#btnMonthlyLoanFeeReceipt").show();
         }
 
-         if (userRights.indexOf("R11") > -1) {
+        if (userRights.indexOf("R11") > -1) {
 
             $("#btnLotInsFeeInv").show();
         }
 
-         if (userRights.indexOf("R12") > -1) {
+        if (userRights.indexOf("R12") > -1) {
 
             $("#btnLotInspectionFeeReceipt").show();
         }
 
-         if (userRights.indexOf("R13") > -1) {
+        if (userRights.indexOf("R13") > -1) {
 
             $("#btnPayOff").show();
         }
 
-         if (userRights.indexOf("R14") > -1) {
+        if (userRights.indexOf("R14") > -1) {
 
             $("#btnTransactionHistory").show();
         }
 
-         if (userRights.indexOf("R15") > -1) {
+        if (userRights.indexOf("R15") > -1) {
 
             $("#btnLoanTerms").show();
         }
 
-         if (userRights.indexOf("R16") > -1) {
+        if (userRights.indexOf("R16") > -1) {
 
             $("#btnDeletedUnits").show();
         }
 
-         if (userRights.indexOf("R19") > -1) {
+        if (userRights.indexOf("R19") > -1) {
 
             $("#btnLoanSummary").show();
         }
