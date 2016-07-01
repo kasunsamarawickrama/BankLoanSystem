@@ -303,12 +303,13 @@ namespace BankLoanSystem.DAL
     
 */
 
-        public Loan GetALoanDetailsbyLoanCode( string loancode, int role)
+        public Loan GetALoanDetailsbyLoanCode( string loancode, int role, int userId)
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             // add a parameters to a list
             paramertList.Add(new object[] { "@role", role });
+            paramertList.Add(new object[] { "@user_id", userId });
             paramertList.Add(new object[] { "@loan_code", loancode });
             try
             {
