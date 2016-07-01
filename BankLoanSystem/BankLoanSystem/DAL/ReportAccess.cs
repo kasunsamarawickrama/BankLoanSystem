@@ -70,6 +70,7 @@ namespace BankLoanSystem.DAL
                 {
                     Account account = new Account();
                     account.LoanId = Convert.ToInt32(dataRow["loan_id"]);
+                    account.LoanCode = dataRow["loan_code"].ToString();
                     account.BranchId = Convert.ToInt32(dataRow["branch_id"]);
                     account.LoanNumber = dataRow["loan_number"].ToString();
                     account.BranchName = dataRow["branch_name"].ToString();
@@ -90,6 +91,109 @@ namespace BankLoanSystem.DAL
 
             // returning the List of account details of relevant user (Super Admin/ Admin)
             return Accounts;
+        }
+
+        /*
+
+       Frontend page: Report Page
+       Title: Get active account details of Users who has report rights(User/ Dealer User)
+       Designed: Irfan Mam
+       User story: DFP-474
+       Developed: Irfan MAM
+       Date created: 6/29/2016
+
+*/
+
+        public List<Account> GetAccountDetailsForUser( int userId)
+        {
+            List<Account> Accounts = new List<Account>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+           
+           // add user id to parameter list
+            paramertList.Add(new object[] { "@user_id", userId });
+
+            // calling stored procedure
+            DataSet dataSet = dataHandler.GetDataSet("GetAccountDetailsByUserId", paramertList);
+
+            // biding data to list
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    Account account = new Account();
+                    account.LoanId = Convert.ToInt32(dataRow["loan_id"]);
+                    
+                    account.LoanNumber = dataRow["loan_number"].ToString();
+                    account.LoanCode = dataRow["loan_code"].ToString();
+                    account.PatBranchName = dataRow["branch_name"].ToString();
+                    account.LoanAmount = Convert.ToDecimal(dataRow["loan_amount"].ToString());
+                    account.UsedAmount = Convert.ToDecimal(dataRow["used_amount"].ToString());
+                    account.ActiveUnits = Convert.ToInt32(dataRow["active_units"]);
+                    account.PatBranchAddress1 = dataRow["branch_address_1"].ToString();
+                    account.PatBranchAddress2 = dataRow["branch_address_2"].ToString();
+                    account.PatCity = dataRow["city"].ToString();
+                    account.userReportRights = dataRow["report_rights"].ToString();
+                    Accounts.Add(account);
+
+                }
+
+
+            }
+
+
+            // returning the List of account details of relevant user
+            return Accounts;
+        }
+
+
+
+
+        /*
+
+     Frontend page: Report Page
+     Title: Get number of authorized loan details of the User who has report rights (User/ Dealer User)
+     Designed: Irfan Mam
+     User story: DFP-474
+     Developed: Irfan MAM
+     Date created: 6/29/2016
+
+*/
+
+        public int GetLoanCountAccountDetailsForUser(int userId)
+        {
+            int numberOfAccounts = 0;
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+
+
+            // add user id to parameter list
+            paramertList.Add(new object[] { "@user_id", userId });
+
+            // calling stored procedure
+            DataSet dataSet = dataHandler.GetDataSet("GetLoanCountAccountUserId", paramertList);
+
+            // biding data to list
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    
+                    numberOfAccounts = Convert.ToInt32(dataRow["loan_count"]);
+   
+                    
+
+                }
+
+
+            }
+
+
+            // returning the number of accounts
+            return numberOfAccounts;
         }
 
         public List<UserRights> GeUserRightsForReporting(int userId)

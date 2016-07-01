@@ -192,6 +192,7 @@ namespace BankLoanSystem.DAL
                         right.name = dataRow["report_name"].ToString();
                         right.ImagePath = dataRow["image_path"].ToString();
                         right.DealerView = bool.Parse(dataRow["dealer_can_view"].ToString());
+                        right.UserView = bool.Parse(dataRow["user_can_view"].ToString());
                         RightsLists.Add(right);
                     }
 

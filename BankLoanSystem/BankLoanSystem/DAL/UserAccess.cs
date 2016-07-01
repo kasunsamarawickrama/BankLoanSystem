@@ -575,6 +575,14 @@ namespace BankLoanSystem.DAL
             paramertList.Add(new object[] { "@logged_user_Id", loggedUser });
             paramertList.Add(new object[] { "@loan_id", user.LoanId });
             paramertList.Add(new object[] { "@right_id", user.UserRights });
+            if (user.ReportRights != null && user.ReportRights != "")
+            {
+                paramertList.Add(new object[] { "@report_right_id", user.ReportRights });
+            }
+            else {
+                paramertList.Add(new object[] { "@report_right_id", "" });
+            }
+            
             paramertList.Add(new object[] { "@modify_date", DateTime.Now });
 
             try

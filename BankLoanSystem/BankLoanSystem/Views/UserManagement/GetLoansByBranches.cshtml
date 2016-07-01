@@ -516,8 +516,11 @@ margin-left:1%;
         showPopup('Rpt2');
         $('#textForPopup').text(model.ReportRightsList[rightId].name);
         $('#desLbl').text(model.ReportRightsList[rightId].description);
-        var str = model.ReportRightsList[rightId].ImagePath;
-        $('#idimg').attr('src',str);
+        if(model.ReportRightsList[rightId].ImagePath!=null || model.ReportRightsList[rightId].ImagePath!=''){
+            var str = model.ReportRightsList[rightId].ImagePath;
+            $('#idimg').attr('src',str);
+        }
+        
     };
     </script>
 <div id="PopupDiv">

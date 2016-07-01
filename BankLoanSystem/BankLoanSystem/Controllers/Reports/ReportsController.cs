@@ -102,7 +102,7 @@ namespace BankLoanSystem.Controllers.Reports
             else if (_userData.RoleId == 3)
             {
                 // get total number of autorized loans which belong to him
-                loanCount = da.GetLoanCount(_userData.UserId, _userData.RoleId);
+                loanCount = (new ReportAccess()).GetLoanCountAccountDetailsForUser(_userData.UserId);
 
                 // if there is no authorized loan then redirect to login -- wrong access
                 if (loanCount < 1)
@@ -112,100 +112,61 @@ namespace BankLoanSystem.Controllers.Reports
                 //  if user selected the authorized loan from dashboard
                 else if(Session["CurrentLoanRights"] != null && Session["CurrentLoanRights"].ToString().Contains("U06"))
                 {
+                    // if loan count is equal to 1
+                    if (loanCount == 1)
+                    {
+                        // get loan details of perticular loan
+                        // pass it to view
+                        ViewBag.loan = (new ReportAccess()).GetAccountDetailsForUser(_userData.UserId);
+
+                    }
 
 
-                    // pass the user rights to view
-            }
+
+                }
                 // if user selected the non authorized loan from dashboard
                 else if (Session["CurrentLoanRights"] != null && !Session["CurrentLoanRights"].ToString().Contains("U06"))
-            {
+                {
 
 
                     // clear the session of selected loan
                     Session["loanCode"] = null;
-                    
 
 
+                    // if loan count is equal to 1
                     if (loanCount== 1) {
                         // get that loan detail and report rights
+                        ViewBag.loan = (new ReportAccess()).GetAccountDetailsForUser(_userData.UserId);
+                    }
+                }
+                // if user doesn't select the loan from the dashboard
+                else
+                {
+                    if (loanCount == 1)
+                    {
+                        // get loan details of perticular loan
+                        // pass it to view
+                        ViewBag.loan = (new ReportAccess()).GetAccountDetailsForUser(_userData.UserId);
+
                     }
                 }
 
 
-                //if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
-                //{
-                //    return RedirectToAction("UserDetails", "UserManagement");
-                //}
-                //else {
-                //    bool checkPermission = false;
-                //    string rgts = "";
-                //    rgts = (string)Session["CurrentLoanRights"];
-                //    string[] rgtList = null;
-                //    if (rgts != "")
-                //    {
-                //        rgtList = rgts.Split(',');
-                //    }
-                //    if (rgtList != null)
-                //    {
-                //        foreach (string x in rgtList)
-                //        {
-                //            if (x == "U06")
-                //            {
-                //                checkPermission = true;
-                //            }
-                //        }
-                //        if (checkPermission == false)
-                //        {
-                //            return RedirectToAction("UserDetails", "UserManagement");
-                //        }
-                //        else if (Session["oneLoanDashboard"] != null)
-                //        {
-                //            Loan loan = (Loan) Session["oneLoanDashboard"];
-                //            userLoanNumbers = new List<Account>();
-                //            Account uLoans = new Account();
-                //            uLoans.LoanId = loan.LoanId;
-                //            uLoans.LoanNumber = loan.LoanNumber;
-                //            uLoans.BranchId = loan.BranchId;
-                //            userLoanNumbers.Add(uLoans);
-                //        }
-                //        else if (checkPermission && Session["oneLoanDashboard"] == null)
-                //        {
-                //            List<UserRights> userLoanRights = ra.GeUserRightsForReporting(_userData.UserId);
-                //            List<Account> loanNumbersUsers = new List<Account>();
-                //            foreach (UserRights item in userLoanRights)
-                //            {
-                //                string[] tokens = null;
-                //                string loanRights = item.PermissionList;
-                //                if (loanRights != "") tokens = loanRights.Split(',');
-                //                if (tokens != null)
-                //                {
-                //                    foreach (string x in tokens)
-                //                    {
-                //                        if (x == "U06")
-                //                        {
-                //                            loanNumbersUsers.AddRange(loanNumbers.Where(loans => item.LoanId == loans.LoanId));
-                //                        }
-                //                    }
-                //                }
-                //            }
-                //            userLoanNumbers = loanNumbersUsers;
 
-                //        }
-                //    }
-                //    else {
-                //        return RedirectToAction("UserDetails", "UserManagement");
-                //    }
-
-                //}
             }
-
+            // if user is a dealer
             else if ( _userData.RoleId == 4)
             {
-                ViewBag.loanCount = 1;
-
+                ViewBag.loanCount = (new ReportAccess()).GetLoanCountAccountDetailsForUser(_userData.UserId);
+                
+                // dealer user can have only one account
+                if (loanCount != 1)
+                {
+                    return RedirectToAction("UserLogin", "Login");
+                }
+                
             }
-
-                //ViewBag.LoanId = new SelectList(userLoanNumbers, "LoanId", "LoanNumberB");
+            ViewBag.getReportRights = (new UserRightsAccess()).getReportRights();
                 ViewBag.loanCount = loanCount;
             return View();
         }
@@ -239,11 +200,15 @@ namespace BankLoanSystem.Controllers.Reports
             {
                 loanNumbers = ra.GetAccountDetails(_userData.BranchId, _userData.RoleId);
             }
-            // if user is a user deler user, get account details of his assigned loans
+            // if user is a user or dealer user, get account details of his assigned loans
+            else if(_userData.RoleId == 3 || _userData.RoleId == 4)
+            {
+                
+                loanNumbers = ra.GetAccountDetailsForUser(_userData.UserId);
+            }
             else
             {
-                // should change
-                loanNumbers = ra.GetAccountDetails(_userData.BranchId, _userData.RoleId);
+                loanNumbers = new List<Account>();
             }
 
             // these varibles are for JqGrid purpose
@@ -254,9 +219,11 @@ namespace BankLoanSystem.Controllers.Reports
             int startRow = (pageIndex * pageSize) + 1;
             int totalRecords = count;
             int totalPages = (int)Math.Ceiling((float)totalRecords / (float)pageSize);
-
-            // json object for jqGrid
-            var result = new
+           
+            // for super admin or admin, we use different json object
+            if (_userData.RoleId == 1 || _userData.RoleId == 2) {
+                // json object for jqGrid
+                var result = new
             {
                 total = totalPages,
                 page = pageIndex,
@@ -264,6 +231,7 @@ namespace BankLoanSystem.Controllers.Reports
                 rows = loanNumbers.Select(x => new
                 {
                     x.LoanId,
+                    x.LoanCode,
                     x.BranchName,
                     x.PatBranchName,
                     x.LoanNumber,
@@ -281,6 +249,7 @@ namespace BankLoanSystem.Controllers.Reports
                                          {
                                              id = x.LoanId.ToString(),
                                              cell = new string[] { 
+                                                        x.LoanCode,
                                                         x.BranchName,
                                                         x.PatBranchName,
                                                         x.LoanNumber.ToString(),
@@ -297,9 +266,63 @@ namespace BankLoanSystem.Controllers.Reports
                
 
             };
-            
-            // returning json object
-            return Json(result, JsonRequestBehavior.AllowGet);
+
+                // returning json object
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+             // for others (user/ dealer user) , we use differnt json object
+            else
+            {
+                // json object for jqGrid
+                var result = new
+                {
+                    total = totalPages,
+                    page = pageIndex,
+                    records = count,
+                    rows = loanNumbers.Select(x => new
+                    {
+                        x.LoanId,
+                        x.LoanCode,
+                        x.PatBranchName,
+                        x.LoanNumber,
+                        x.LoanAmount,
+                        x.UsedAmount,
+                        x.ActiveUnits,
+                        x.PatBranchAddress1,
+                        x.PatBranchAddress2,
+                        x.PatCity,
+                        x.userReportRights
+                    }
+                                             ).ToArray().Select(x => new
+                                             {
+                                                 id = x.LoanId.ToString(),
+                                                 cell = new string[] {
+                                                        x.LoanCode,
+                                                        x.PatBranchName,
+                                                        x.LoanNumber.ToString(),
+                                                        x.LoanAmount.ToString(),
+                                                        x.UsedAmount.ToString(),
+                                                        x.ActiveUnits.ToString(),
+                                                        x.PatBranchAddress1,
+                                                        x.PatBranchAddress2,
+                                                        x.PatCity,
+                                                        x.userReportRights
+                                                          }
+                                             }
+                          ).ToArray()
+
+
+
+                };
+
+                // returning json object
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+           
 
         }
 
