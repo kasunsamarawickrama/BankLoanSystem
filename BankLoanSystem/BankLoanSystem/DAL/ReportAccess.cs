@@ -262,13 +262,13 @@ namespace BankLoanSystem.DAL
             return loanDetails;
         }
 
-        public List<LoanDetailsRpt> GetLoanDetailsRpt(int loanId)
+        public List<LoanDetailsRpt> GetLoanDetailsRpt(int loanId, int userId)
         {
             List<LoanDetailsRpt> loanDetails = new List<LoanDetailsRpt>();
 
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
-            //paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@user_id", userId });
             paramertList.Add(new object[] { "@loan_id", loanId });
 
             DataSet dataSet = dataHandler.GetDataSet("spGetLoanDetailsByLoanIdRpts", paramertList);
@@ -279,10 +279,40 @@ namespace BankLoanSystem.DAL
                 {
                     LoanDetailsRpt details = new LoanDetailsRpt();
 
-                    
+                    details.CreaterName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(dataRow["first_name"] + " " + dataRow["last_name"]);
                     details.LenderBrnchName = dataRow["branch_name"].ToString();
                     details.DealerBrnchName = dataRow["nr_branch_name"].ToString();
                     details.LoanNumber = dataRow["loan_number"].ToString();
+
+                    loanDetails.Add(details);
+
+                    break;
+                }
+            }
+
+            return loanDetails;
+        }
+
+        public List<LoanDetailsRpt> GetLoanDetailsRptforCompanySummary(int companyId, int userId)
+        {
+            List<LoanDetailsRpt> loanDetails = new List<LoanDetailsRpt>();
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add(new object[] { "@user_id", userId });
+            paramertList.Add(new object[] { "@company_id", companyId });
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetLoanDetailsByLoanIdRpts_CompanySummary", paramertList);
+
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    LoanDetailsRpt details = new LoanDetailsRpt();
+
+                    details.CreaterName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(dataRow["first_name"] + " " + dataRow["last_name"]);
+                    details.CompanyName = dataRow["company_name"].ToString();
+                    details.ReportDate = DateTime.Now.ToString("MM/dd/yyyy"); 
 
                     loanDetails.Add(details);
 
@@ -1216,8 +1246,23 @@ namespace BankLoanSystem.DAL
                         loan.PartnerBranch = dataRow["inonRegBranchName"].ToString();
                         loan.ActiveUnits = 0;
                         loan.InActiveUnits = int.Parse(dataRow["inactiveUnits"].ToString());
-                        loan.LoanBalance = decimal.Parse(dataRow["iusedAmount"].ToString());
-                        loan.PendingBalance = decimal.Parse(dataRow["ipendingAmount"].ToString());
+                        if (!string.IsNullOrEmpty(dataRow["iusedAmount"].ToString()))
+                        {
+                            loan.LoanBalance = decimal.Parse(dataRow["iusedAmount"].ToString());
+                        }
+                        else
+                        {
+                            loan.LoanBalance = 0.00M;
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["ipendingAmount"].ToString()))
+                        {
+                            loan.PendingBalance = decimal.Parse(dataRow["ipendingAmount"].ToString());
+                        }
+                        else
+                        {
+                            loan.PendingBalance = 0.00M;
+                        }
+                        
                         loan.LoanAmount = decimal.Parse(dataRow["iloanAmount"].ToString());
                         totalAmount = totalAmount + loan.LoanAmount;
                         totalBalance = totalBalance + loan.LoanBalance;
@@ -1229,8 +1274,22 @@ namespace BankLoanSystem.DAL
                         loan.PartnerBranch = dataRow["nonRegBranchName"].ToString();
                         loan.ActiveUnits = int.Parse(dataRow["activeUnits"].ToString());
                         loan.InActiveUnits = 0;
-                        loan.LoanBalance = decimal.Parse(dataRow["usedAmount"].ToString());
-                        loan.PendingBalance = decimal.Parse(dataRow["pendingAmount"].ToString());
+                        if (!string.IsNullOrEmpty(dataRow["usedAmount"].ToString()))
+                        {
+                            loan.LoanBalance = decimal.Parse(dataRow["usedAmount"].ToString());
+                        }
+                        else
+                        {
+                            loan.LoanBalance = 0.00M;
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["ipendingAmount"].ToString()))
+                        {
+                            loan.PendingBalance = decimal.Parse(dataRow["ipendingAmount"].ToString());
+                        }
+                        else
+                        {
+                            loan.PendingBalance = 0.00M;
+                        }
                         loan.LoanAmount = decimal.Parse(dataRow["loanAmount"].ToString());
                         totalAmount = totalAmount + loan.LoanAmount;
                         totalBalance = totalBalance + loan.LoanBalance;
@@ -1242,8 +1301,22 @@ namespace BankLoanSystem.DAL
                         loan.PartnerBranch = dataRow["nonRegBranchName"].ToString();
                         loan.ActiveUnits = int.Parse(dataRow["activeUnits"].ToString());
                         loan.InActiveUnits = int.Parse(dataRow["inactiveUnits"].ToString());
-                        loan.LoanBalance = decimal.Parse(dataRow["usedAmount"].ToString());
-                        loan.PendingBalance = decimal.Parse(dataRow["pendingAmount"].ToString());
+                        if (!string.IsNullOrEmpty(dataRow["usedAmount"].ToString()))
+                        {
+                            loan.LoanBalance = decimal.Parse(dataRow["usedAmount"].ToString());
+                        }
+                        else
+                        {
+                            loan.LoanBalance = 0.00M;
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["pendingAmount"].ToString()))
+                        {
+                            loan.PendingBalance = decimal.Parse(dataRow["pendingAmount"].ToString());
+                        }
+                        else
+                        {
+                            loan.PendingBalance = 0.00M;
+                        }
                         loan.LoanAmount = decimal.Parse(dataRow["loanAmount"].ToString());
                         totalAmount = totalAmount + loan.LoanAmount;
                         totalBalance = totalBalance + loan.LoanBalance;

@@ -147,17 +147,24 @@ namespace BankLoanSystem.Controllers.Reports
                     // if loan count is equal to 1
                     if (loanCount== 1) {
                         // get that loan detail and report rights
-                        ViewBag.loan = (new ReportAccess()).GetAccountDetailsForUser(_userData.UserId);
+                       List<Account> accounts = (new ReportAccess()).GetAccountDetailsForUser(_userData.UserId);
+                        ViewBag.loan = accounts;
+                       // set the session of selected loan
+                       Session["loanCode"] = accounts[0].LoanCode;
                     }
+
+                   
                 }
                 // if user doesn't select the loan from the dashboard
                 else
                 {
                     if (loanCount == 1)
                     {
-                        // get loan details of perticular loan
-                        // pass it to view
-                        ViewBag.loan = (new ReportAccess()).GetAccountDetailsForUser(_userData.UserId);
+                        // get that loan detail and report rights
+                        List<Account> accounts = (new ReportAccess()).GetAccountDetailsForUser(_userData.UserId);
+                        ViewBag.loan = accounts;
+                        // set the session of selected loan
+                        Session["loanCode"] = accounts[0].LoanCode;
 
                     }
                 }

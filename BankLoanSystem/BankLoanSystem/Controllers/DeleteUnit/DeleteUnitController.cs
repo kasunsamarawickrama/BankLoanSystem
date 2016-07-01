@@ -40,7 +40,7 @@ namespace BankLoanSystem.Controllers.DeleteUnit
                     }
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 filterContext.Result = new RedirectResult("~/Exceptions/Index");
             }

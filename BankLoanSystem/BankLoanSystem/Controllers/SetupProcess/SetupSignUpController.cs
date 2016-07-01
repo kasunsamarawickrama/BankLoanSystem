@@ -23,7 +23,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     filterContext.Result = new RedirectResult("~/Login/EmpLogin");
                 }
             }
-            catch (Exception e)
+            catch
             {
                 filterContext.Result = new RedirectResult("~/Login/EmpLogin");
             }

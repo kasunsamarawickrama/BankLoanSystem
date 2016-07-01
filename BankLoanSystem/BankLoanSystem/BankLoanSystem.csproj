@@ -85,10 +85,6 @@
       <HintPath>..\packages\foolproof.0.9.4517\lib\MVC Foolproof Validation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Recaptcha.Web, Version=2.1.0.0, Culture=neutral, PublicKeyToken=171a6ec5fa4b1644, processorArchitecture=MSIL">
-      <HintPath>..\packages\RecaptchaNet.2.1.0\lib\net451\Recaptcha.Web.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="SRVTextToImage">
       <HintPath>..\..\..\..\SRVTextToImage.dll</HintPath>
     </Reference>
@@ -436,9 +432,6 @@
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Models\UnitYearMakeModel.cs" />
     <Compile Include="Models\VehicleUnit.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\RptAdvanceUnitReport.aspx.cs">
       <DependentUpon>RptAdvanceUnitReport.aspx</DependentUpon>
@@ -731,6 +724,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="obj\Debug\" />
     <Folder Include="Uploads\SAM01\" />
     <Folder Include="Views\Dealer\" />
     <Folder Include="Views\ErrorPage\Login\" />
