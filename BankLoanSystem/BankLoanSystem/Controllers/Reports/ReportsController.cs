@@ -231,6 +231,7 @@ namespace BankLoanSystem.Controllers.Reports
                 rows = loanNumbers.Select(x => new
                 {
                     x.LoanId,
+                    x.LoanCode,
                     x.BranchName,
                     x.PatBranchName,
                     x.LoanNumber,
@@ -248,6 +249,7 @@ namespace BankLoanSystem.Controllers.Reports
                                          {
                                              id = x.LoanId.ToString(),
                                              cell = new string[] { 
+                                                        x.LoanCode,
                                                         x.BranchName,
                                                         x.PatBranchName,
                                                         x.LoanNumber.ToString(),
@@ -281,6 +283,7 @@ namespace BankLoanSystem.Controllers.Reports
                     rows = loanNumbers.Select(x => new
                     {
                         x.LoanId,
+                        x.LoanCode,
                         x.PatBranchName,
                         x.LoanNumber,
                         x.LoanAmount,
@@ -295,6 +298,7 @@ namespace BankLoanSystem.Controllers.Reports
                                              {
                                                  id = x.LoanId.ToString(),
                                                  cell = new string[] {
+                                                        x.LoanCode,
                                                         x.PatBranchName,
                                                         x.LoanNumber.ToString(),
                                                         x.LoanAmount.ToString(),
