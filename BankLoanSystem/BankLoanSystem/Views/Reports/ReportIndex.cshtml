@@ -509,6 +509,12 @@ else
             @Html.DropDownList("Title Status", titleStatus, "-- select type --", new { @class = "form-control", @id = "titleStatus" })
             <div id="tagscloudTitleStatus" class="field-validation-error"><span class="text-danger"></span></div>
         </div>
+            <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
+                <label for="">Branch <span class="icon-help_outline"></span></label>
+               
+                @Html.DropDownList("Branch",new SelectList(ViewBag.BranchSelectList, "Value","Text"), "-- select branch --", new { @class = "form-control",@style= "width: 253px;", @id = "branchSelect" })
+                <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
+            </div>
     </div>
 
         <div class="form-inline" style="width: 30%;float: left;padding-top: 5px;">
@@ -837,9 +843,9 @@ else
     $('#btnBranchSummary').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('BranchSummary');
-        $('#divBranch').show();
         $('#lnum').hide();
         $('#lnum').siblings('.hf').hide();
+        $('#divBranch').show();
     });
 
     $('#btnDeletedUnits').click(function () {
@@ -896,6 +902,7 @@ else
 
         errorCount = 0;
         var rptType = $('#hdnSelectedButton').val();
+        var branchId = 0;
 
         // if report type is company summary or branch summary
         if (rptType === 'CompanySummary' || rptType === 'BranchSummary') {
@@ -918,7 +925,12 @@ else
                 ReportCurtailmentInvoice(val, urlPrefix);
             }
             else if (rptType === 'BranchSummary') {
-                var branchId = '@ViewBag.BranchId';
+                if ('@ViewBag.RoleId' != 1) {
+                    branchId = '@ViewBag.BranchId';
+                }
+                else {
+                    branchId = $('#branchSelect').val();
+                }             
                 myFrame = document.getElementById('ifrmReportViewer');
                 frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
                 frameDoc.removeChild(frameDoc.documentElement);

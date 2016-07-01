@@ -78,7 +78,18 @@ namespace BankLoanSystem.Controllers.Reports
                 loanCount = da.GetLoanCount(_userData.Company_Id, _userData.RoleId);
                 
                 ViewBag.ComId = _userData.Company_Id;
+                //branch list
+                List<Branch> branchList = (new BranchAccess()).GetLoansBranches(_userData.Company_Id);
 
+                var slectListBranches = new List<SelectListItem>();
+
+                foreach (var br in branchList) {
+                    slectListBranches.Add(new SelectListItem {
+                        Text = br.BranchName,
+                        Value = br.BranchId.ToString()
+                    });
+                }
+                ViewBag.BranchSelectList = slectListBranches;
                 // if there is no active loan then redirect to login -- wrong access
                 if (loanCount < 1)
                 {
