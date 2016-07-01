@@ -1220,8 +1220,12 @@ Date created: 1/25/2016
                 // if request come without select the list of loans
                 if(Session["detail"] == null && loanCode != null && loanCode != "")
                 {
-                   
-                        Session["loanDashboard"] = (new DashBoardAccess()).GetALoanDetailsbyLoanCode(loanCode , userData.RoleId);
+                   Loan loan = (new DashBoardAccess()).GetALoanDetailsbyLoanCode(loanCode, userData.RoleId);
+                    Session["loanDashboard"] = loan;
+                    if (userData.RoleId == 3)
+                    {
+                        Session["CurrentLoanRights"] = loan.Rights;
+                    }
                 }
 
 
