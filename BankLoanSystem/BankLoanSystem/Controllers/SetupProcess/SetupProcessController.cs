@@ -76,7 +76,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     }
                 }
             }
-            catch(Exception e)
+            catch
             {
                 filterContext.Result = new RedirectResult("~/Exceptions/Index");
             }
