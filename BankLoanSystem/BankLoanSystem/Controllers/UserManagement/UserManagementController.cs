@@ -1216,6 +1216,15 @@ Date created: 1/25/2016
             Session["loanCode"] = loanCode;
             if (loanCode == null || Session["detail"] == null)
             {
+
+                // if request come without select the list of loans
+                if(Session["detail"] == null && loanCode != null && loanCode != "")
+                {
+                   
+                        Session["loanDashboard"] = (new DashBoardAccess()).GetALoanDetailsbyLoanCode(loanCode , userData.RoleId);
+                }
+
+
                 return RedirectToAction("UserDetails");
             }
             LoanSelection list3 = (LoanSelection)Session["detail"];
