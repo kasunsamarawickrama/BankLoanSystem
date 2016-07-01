@@ -48,11 +48,14 @@ namespace BankLoanSystem.Reports
             rptViewerCompanySummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", loanSumaList));
 
             //company name and report date
-            List<LoanDetailsRpt> details = new List<LoanDetailsRpt>();
-            LoanDetailsRpt detail = new LoanDetailsRpt();
-            detail.CompanyName = userData.CompanyName;
-            detail.ReportDate = DateTime.Now.ToString("MM/dd/yyyy"); ;
-            details.Add(detail);
+            //List<LoanDetailsRpt> details = new List<LoanDetailsRpt>();
+            //LoanDetailsRpt detail = new LoanDetailsRpt();
+            //detail.CompanyName = userData.CompanyName;
+           
+            //detail.ReportDate = DateTime.Now.ToString("MM/dd/yyyy"); ;
+            //details.Add(detail);
+
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRptforCompanySummary(userData.Company_Id, userData.UserId);
             //set data source to report viwer - 2
             rptViewerCompanySummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", details));
         }
