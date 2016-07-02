@@ -7,17 +7,35 @@ namespace BankLoanSystem.Controllers.MessageReply
 {
     public class MessageReplyController : Controller
     {
-        // GET: MessageReply
+        ///<summary>
+        /// Frontend page: Message Reply
+        /// Title: create view and get messages send by users( Page bottom message section) 
+        /// Designed : Asanka Senarathna
+        /// User story: 
+        /// Developed: Asanka Senarathna
+        /// Date created: 3/30/2016
+        ///</summary>
+        /// <returns></returns>
         public ActionResult MessageReply()
         {
             List<Models.UserRequest> result = new List<Models.UserRequest>();
             UserRequest ob = new UserRequest();
             UserRequestAccess userreques = new UserRequestAccess();
+            //get datalist for need to be answer and loan in view
             result = userreques.SelectDatalistForAnswer();
             ob.RequestList = result;
             return View(ob);
         }
-
+        /// <summary>
+        /// Frontend page: Message Reply Post method
+        /// Title: create view and get messages send by users( Page bottom message section) 
+        /// Designed : Asanka Senarathna
+        /// User story: 
+        /// Developed: Asanka Senarathna
+        /// Date created: 3/30/2016
+        /// </summary>
+        /// <param name="userrequest"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult MessageReply(UserRequest userrequest)
         {
@@ -26,6 +44,7 @@ namespace BankLoanSystem.Controllers.MessageReply
             userrequest.answer_user_id = 0;
 
             UserRequestAccess userreqAccsss = new UserRequestAccess();
+            //if autherizer person answered then reply send to relavent user via nortification and email
             int reslt = userreqAccsss.UpdateUserRequestAnswer(userrequest);
             if (reslt >= 0)
             {
@@ -43,7 +62,7 @@ namespace BankLoanSystem.Controllers.MessageReply
             {
                 ViewBag.SuccessMsg = "Error Occured";
             }
-            //retrieve list from db
+            //retrieve not answersd list from database
             List<Models.UserRequest> result = new List<Models.UserRequest>();
             UserRequest ob = new UserRequest();
             UserRequestAccess userreques = new UserRequestAccess();

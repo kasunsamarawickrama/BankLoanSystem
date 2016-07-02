@@ -84,7 +84,16 @@ namespace BankLoanSystem.DAL
                 throw ex;
             }
         }
-
+        /// <summary>
+        /// Frontend page: Nortification button in any page
+        ///Title: When User view nortification message in any page in progeam
+        ///Designed: Asanka Senarathna
+        ///User story: DFP-
+        ///Developed: Asanka Senarathna
+        ///Date created: 3/30/2016
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
         public int UpdateUserViewAnswer(int userid)
         {
             try
@@ -92,6 +101,7 @@ namespace BankLoanSystem.DAL
                 DataHandler dataHandler = new DataHandler();
                 List<object[]> paramertList = new List<object[]>();
                 paramertList.Add(new object[] { "@user_id", userid });
+                //update message states when user view nortification in any page
                 return dataHandler.ExecuteSQL("spUpdateUserViewAnswer", paramertList) ? 1 : 0;
             }
             catch (Exception ex)
@@ -105,8 +115,6 @@ namespace BankLoanSystem.DAL
             try
             {
                 DataHandler dataHandler = new DataHandler();
-               // List<object[]> paramertList = new List<object[]>();
-                //paramertList.Add(new object[] { "@user_id", userid });
 
                 List<UserRequest> resultList = new List<UserRequest>();
 

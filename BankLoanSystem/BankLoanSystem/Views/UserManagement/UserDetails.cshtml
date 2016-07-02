@@ -31,6 +31,9 @@
         margin-left: 173px;
         top:280px;
     }
+    .gridbutton{
+        width:65px;
+    }
 </style>
 
 <div class="overlay-content popup1">
@@ -622,40 +625,44 @@
         contentType: "application/json; charset-utf-8",
         mtype: 'GET',
         colNames: ['BranchId', 'Branch Name', 'PartnerBranchId',
-         'Partner Branch Name', 'Loanid', 'Loan Number', 'Total Amount', 'Used Amount', 'StatusId','Status' , 'StepNo'],
+         'Partner Branch Name', 'Loanid', 'Loan Number', 'Total Amount', 'Used Amount', 'StatusId','Status' , 'StepNo', 'LoanCode', 'Action'],
         colModel: [
              { name: 'BranchId', index: 'BranchId', width: 194 ,  hidden: true },
 
-              { name: 'BranchName', index: 'BranchName', width: 180 },
+              { name: 'BranchName', index: 'BranchName', width: 160 },
 
             { name: 'PartnerBranchId', index: 'PartnerBranchId', width: 194 ,  hidden: true },
 
 
             {
-                name: 'PartnerBranchName', index: 'PartnerBranchName', width: 180
+                name: 'PartnerBranchName', index: 'PartnerBranchName', width: 160
             },
              {
                  name: 'Loanid', index: 'Loanid', width: 136,  hidden: true
              },
               {
-                  name: 'LoanNumber', index: 'LoanNumber', width: 180
+                  name: 'LoanNumber', index: 'LoanNumber', width: 160
 
 
               },
 
-               { name: 'TotalAmount', index: 'TotalAmount', width: 140 ,
+               { name: 'TotalAmount', index: 'TotalAmount', width: 115 ,
                    align: "right", sorttype: 'float', formatter: 'currency',
                    formatoptions: { prefix: '$ ', thousandsSeparator: ',' } },
 
-                { name: 'UsedAmount', index: 'UsedAmount', width: 140,
+                { name: 'UsedAmount', index: 'UsedAmount', width: 115,
                     align: "right", sorttype: 'float', formatter: 'currency',
                     formatoptions: { prefix: '$ ', thousandsSeparator: ',' } },
 
                  { name: 'StatusId', index: 'StatusId', width: 194,  hidden: true  },
 
-                 { name: 'Status', index: 'Status', width: 140  },
+                 { name: 'Status', index: 'Status', width: 110  },
 
-                 { name: 'StepNo', index: 'StepNo', width: 194,  hidden: true  }
+                 { name: 'StepNo', index: 'StepNo', width: 194,  hidden: true  },
+
+                 { name: 'LoanCode', index: 'LoanCode', width: 194,  hidden: true  },
+
+                 { name: 'Action', index: 'Action', width: 150 ,  formatter:buttonFormatter  , sortable:false}
 
         ],
 
@@ -671,6 +678,10 @@
         caption: "Summary",
         rowNum: 2000,
 
+        beforeSelectRow: function(rowid, e) {
+            return false;
+        },
+
         afterInsertRow: function(rowid, aData){
             switch (aData.StatusId) {
                 case '1': // active
@@ -681,18 +692,22 @@
                    // jQuery("#grid").jqGrid('setCell',rowid,'Status','',{'background-color':'black'});
                     break;
                 case '3': // incomplete
-                    jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'rgb(160, 160, 43)'});
+                    jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'#660000'});
                     break;
                 case '4': // incomplete branch
                     jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'blue'});
                     $('#'+rowid).addClass('highlighBranch');
+                    break;
+                case '5': // past matured loan
+                    jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'white', 'background-color':'#660000'});
+                   
                     break;
                 case '0': // inactive
                     jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'grey'});
                     break;
 
 
-    		
+
             }
         }
         ,
@@ -711,6 +726,68 @@ ids = grid.getDataIDs();
 
         }
     });
+
+
+    // button format function
+    function buttonFormatter (cellvalue, options, rowObject)
+    {
+
+        if(rowObject.BranchId == undefined){
+        // do something here
+        // if loan is inactvte
+        if(rowObject[8] == 0){
+            return '<button class="gridbutton acti" src="'+cellvalue+'" > Activate </button> <button class="gridbutton del" src="'+cellvalue+'" > Delete </button>';
+        }
+
+            // if loan is active
+        else if(rowObject[8] == 1){
+            return '<button class="gridbutton selectbut" value="'+rowObject[11]+'" > Select </button>';
+        }
+            // if loan is renewal pending
+        else if(rowObject[8] == 2){
+            return '<button class="gridbutton selectbut" src="'+cellvalue+'" > Select </button> <button class="gridbutton renew" src="'+cellvalue+'" > Renew </button>';
+        }
+
+            // if loan is incomplete
+        else if(rowObject[8] == 3){
+            return '<button class="gridbutton complete" src="'+cellvalue+'" > Complete </button> <button class="gridbutton renew" src="'+cellvalue+'" > Delete </button>';
+        }else{
+           
+            return '';
+        }
+
+        }else{
+
+            // if loan is inactvte
+            if(rowObject.StatusId == 0){
+                return '<button class="gridbutton acti" src="'+cellvalue+'" > Activate </button> <button class="gridbutton del" src="'+cellvalue+'" > Delete </button>';
+            }
+
+                // if loan is active
+            else if(rowObject.StatusId == 1){
+                return '<button class="gridbutton selectbut" value="'+rowObject.LoanCode+'" > Select </button>';
+            }
+                // if loan is renewal pending
+            else if(rowObject.StatusId == 2){
+                return '<button class="gridbutton selectbut" src="'+cellvalue+'" > Select </button> <button class="gridbutton renew" src="'+cellvalue+'" > Renew </button>';
+            }
+
+                // if loan is incomplete
+            else if(rowObject.StatusId == 3){
+                return '<button class="gridbutton complete" src="'+cellvalue+'" > Complete </button> <button class="gridbutton renew" src="'+cellvalue+'" > Delete </button>';
+            }else{
+           
+                return '';
+            }
+
+
+
+        }
+
+       
+       
+}
+
 
     </text>
 
@@ -808,6 +885,16 @@ ids = grid.getDataIDs();
     
     </text>
     }
+
+
+    // select button
+    $(document).on('click', '.selectbut', function(e){
+        var val = $(this).val() ;
+        if(val != undefined && val != ''){
+            window.location.href = '/UserManagement/setLoanCode?loanCode=' + val;
+        }
+    
+    });
 </script>
 
 

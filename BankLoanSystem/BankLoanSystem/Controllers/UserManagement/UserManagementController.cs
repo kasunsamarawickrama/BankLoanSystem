@@ -502,7 +502,9 @@ namespace BankLoanSystem.Controllers
                     x.UsedAmount,
                     x.StatusId,
                     x.Status,
-                    x.StepNo
+                    x.StepNo,
+                    x.LoanCode,
+                    x.Actions
                 }
                                          ).ToArray().Select(x => new
                                          {
@@ -518,7 +520,9 @@ namespace BankLoanSystem.Controllers
                                                         x.UsedAmount.ToString(), 
                                                         x.StatusId.ToString(),
                                                          x.Status,
-                                                         x.StepNo.ToString()
+                                                         x.StepNo.ToString(),
+                                                         x.LoanCode,
+                                                         ""
                                                       }
                                          }
                       ).ToArray()
@@ -1220,7 +1224,7 @@ Date created: 1/25/2016
                 // if request come without select the list of loans
                 if(Session["detail"] == null && loanCode != null && loanCode != "")
                 {
-                   Loan loan = (new DashBoardAccess()).GetALoanDetailsbyLoanCode(loanCode, userData.RoleId);
+                   Loan loan = (new DashBoardAccess()).GetALoanDetailsbyLoanCode(loanCode, userData.RoleId,userData.UserId);
                     Session["loanDashboard"] = loan;
                     if (userData.RoleId == 3)
                     {
