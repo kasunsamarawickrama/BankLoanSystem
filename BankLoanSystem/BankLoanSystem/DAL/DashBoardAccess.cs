@@ -144,6 +144,7 @@ namespace BankLoanSystem.DAL
                     dashboardGridModel.Loanid = (dataRow.IsNull("loan_id") ? -1 : Convert.ToInt32(dataRow["loan_id"].ToString()));
 
                     dashboardGridModel.LoanNumber = (dataRow.IsNull("loan_number") ? "" : dataRow["loan_number"].ToString()); 
+                    dashboardGridModel.LoanCode = (dataRow.IsNull("loan_code") ? "" : dataRow["loan_code"].ToString()); 
                     dashboardGridModel.TotalAmount = Convert.ToDecimal(dataRow.IsNull("loan_amount") ? "0.00" : dataRow["loan_amount"].ToString());
                     dashboardGridModel.UsedAmount = Convert.ToDecimal(dataRow.IsNull("used_amount") ? "0.00": dataRow["used_amount"].ToString()); 
                     dashboardGridModel.StatusId = Convert.ToInt32(dataRow["loan_status"].ToString());  

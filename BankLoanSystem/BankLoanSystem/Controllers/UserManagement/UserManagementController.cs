@@ -502,7 +502,9 @@ namespace BankLoanSystem.Controllers
                     x.UsedAmount,
                     x.StatusId,
                     x.Status,
-                    x.StepNo
+                    x.StepNo,
+                    x.LoanCode,
+                    x.Actions
                 }
                                          ).ToArray().Select(x => new
                                          {
@@ -518,7 +520,9 @@ namespace BankLoanSystem.Controllers
                                                         x.UsedAmount.ToString(), 
                                                         x.StatusId.ToString(),
                                                          x.Status,
-                                                         x.StepNo.ToString()
+                                                         x.StepNo.ToString(),
+                                                         x.LoanCode,
+                                                         ""
                                                       }
                                          }
                       ).ToArray()
