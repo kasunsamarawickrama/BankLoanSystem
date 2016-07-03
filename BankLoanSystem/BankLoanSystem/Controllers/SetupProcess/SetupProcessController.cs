@@ -16,16 +16,6 @@ namespace BankLoanSystem.Controllers.SetupProcess
         LoanSetupStep loanData = new LoanSetupStep();
         int loanstep = 0;
 
-        /// <summary>
-        /// CreatedBy : Irfan MAM
-        /// CreatedDate: 2016/01/27
-        /// Calling the default view for all step number pages
-        /// Redirect to Appropriate controller using step number
-        /// 
-        /// 
-        /// 
-        /// </summary>
-        /// <returns>Return the view</returns>
 
         // Check session in page initia stage
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -81,15 +71,89 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 filterContext.Result = new RedirectResult("~/Exceptions/Index");
             }
         }
+
+
+
+        /*
+
+    Frontend page: Dashboard page
+    Title: Redirect to loan set up page
+    Designed: Irfan Mam
+    User story: DFP-484
+    Developed: Irfan MAM
+    Date created: 7/2/2016
+
+*/
+
+
+        public ActionResult RedirectToStep(string loanCode, int stepNo)
+        {
+
+            // super admin and admin only accesible
+            if (userData.RoleId == 1 || userData.RoleId == 2)
+            {
+
+                // if no loan code selected and if there no step number -- wrong access
+                if ((loanCode == null || loanCode == "") && stepNo < 1)
+                {
+                    return RedirectToAction("UserLogin", "Login", new { lbl = "Access Denied" });
+                }
+
+                // if there is no loan code and step equal to 1 --> redirect to loan create page
+                else if ((loanCode == null || loanCode == "") && stepNo == 1)
+                {
+                    Session["dashboard"] = true;
+                    
+                    return RedirectToAction("Step6", "SetupProcess");
+                }
+                // if there is a loan code and step number
+                else if(stepNo >= 1 && loanCode != null && loanCode != "")
+                {
+                    LoanSetupStep loanStep = new LoanSetupStep();
+                    LoanSetupStep1 loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode); // take the loan details
+                    
+                    // step 2 is interest page..
+                    if(stepNo == 2)
+                    {
+                        stepNo = 3;
+                    }
+
+                    // if there is a loan to loan code, assign all loan data which need to setup process 
+                    if (loanDetails != null)
+                    {
+                        loanStep.CompanyId = userData.Company_Id;
+                        loanStep.BranchId = loanDetails.RegisteredBranchId;
+                        loanStep.stepId = stepNo;
+                        loanStep.nonRegisteredBranchId = loanDetails.nonRegisteredBranchId;
+                        loanStep.loanId = loanDetails.loanId;
+                        
+                        
+                        Session["loanStep"] = loanStep;
+                        Session["dashboard"] = true;
+                        return RedirectToAction("Step" + (loanStep.stepId + 5), "SetupProcess");
+                        
+        }
+                }
+                
+            }
+          // redirect to login -> if unautorized access
+                return RedirectToAction("UserLogin", "Login", new { lbl = "Access Denied" });
+
+            
+        }
+
+
         /// <summary>
-        /// Frontend Page:
-        /// Title:
-        /// Designed:
-        /// User story:
-        /// Developed:
-        /// Date created:
+        /// CreatedBy : Irfan MAM
+        /// CreatedDate: 2016/01/27
+        /// Calling the default view for all step number pages
+        /// Redirect to Appropriate controller using step number
+        /// 
+        /// 
+        /// 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return the view</returns>
+
         public ActionResult Index()
         {
             //convert Session["companyStep"] to int value
@@ -177,7 +241,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 //get company details
                 Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
-              
+               
                 //check ajax request
                 if (HttpContext.Request.IsAjaxRequest())
                 {
@@ -282,7 +346,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 userData.CompanyName = company.CompanyName;
                 Session["AuthenticatedUser"] = userData;
 
-               
+
                 //Send company detail to step 2
                 CompanyBranchModel comBranch = new CompanyBranchModel();
                 comBranch.Company = company;
@@ -333,7 +397,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 ViewBag.ErrorMsg = "Failed to Create Branch";
             }
             //convert Session["companyStep"] to integer     
-            int reslt = Convert.ToInt32(Session["companyStep"]);
+                int reslt = Convert.ToInt32(Session["companyStep"]);
            //check step is greater  than or equal to 2
             if (reslt >= 2)
             {
@@ -356,7 +420,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 CompanyAccess ca = new CompanyAccess();
                 Company preCompany = ca.GetCompanyDetailsCompanyId(userData.Company_Id);
 
-                
+
                 userCompany.Company = preCompany;
 
                 BranchAccess ba = new BranchAccess();
@@ -426,7 +490,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             userCompany2.MainBranch.BranchCode = branchCode;
 
             BranchAccess ba = new BranchAccess();
-         
+
             userCompany2.Company = new Company();
             //check company code of userdata object is not null
             if (!string.IsNullOrEmpty(userData.CompanyCode))
@@ -450,9 +514,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 //assign result to a TempData object
                 TempData["Step2Reslt"] = reslt;
                 //check current value of company setup is less than 3
-                if(Convert.ToInt32(Session["companyStep"].ToString()) < 3){
+                if(Convert.ToInt32(Session["companyStep"].ToString()) < 3){ 
                     //assign 3 for Session["companyStep"]
-                    Session["companyStep"] = 3;
+                Session["companyStep"] = 3;
                 }
 
                 //user object pass to session
@@ -663,7 +727,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         }
 
 
-     
+
 
         // GET: SetupProcess : As the initial Super Admin I should be able to create Super Admins, Admins, Users in the set up process.
         /// <summary>
@@ -791,7 +855,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         }
 
 
-    
+
         // GET: SetupProcess : As the initial Super Admin I should be able to create Super Admins, Admins, Users in the set up process.
         /// <summary>
         /// CreatedBy : Irfan MAM
@@ -1132,7 +1196,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             nonRegComModel.Company.StateId = nonRegComModel.StateId;
 
             CompanyAccess ca = new CompanyAccess();
-          
+
             nonRegComModel.Company.CreatedByCompany = userData.Company_Id; //regCompany.CompanyId;  asanka
 
             Company nonRegCom = nonRegComModel.Company;
@@ -1331,7 +1395,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         
         public ActionResult Step5(NonRegCompanyBranchModel nonRegCompanyBranch, string branchCode)
         {
-          
+            
             CompanyBranchModel nonRegBranch = nonRegCompanyBranch.CompanyBranch;
 
             int userId = userData.UserId;
@@ -1340,7 +1404,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             CompanyAccess ca = new CompanyAccess();
 
             int compType = ba.getCompanyTypeByUserId(userId);
-           
+
             nonRegBranch.MainBranch.StateId = nonRegCompanyBranch.StateId;
 
             nonRegBranch.MainBranch.BranchCode = branchCode;
