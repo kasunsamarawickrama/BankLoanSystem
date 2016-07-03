@@ -112,6 +112,11 @@
 
                       @Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "sel-loan a_demo_three icon-point-right nrm-button show-popup", @id = "lkuni", @data_showpopup = "1", style = "text-decoration: none;" })
 
+                    <button class="a_demo_three icon-stack noloanselection" onclick="window.location.href='/Reports/ReportIndex'">
+
+                        Reports
+                    </button>
+
                 }
                 else
                 {
@@ -135,27 +140,27 @@
                 }              
 
                 </div>
-                 @if (ViewBag.LoanCount > 1) {
+                 @*@if (ViewBag.LoanCount > 1) {
                 <button class="a_demo_three icon-stack noloanselection" onclick="window.location.href='/Reports/ReportIndex'">
 
                     Reports
                 </button>
-                 }
+                 }*@
                 @if (ViewBag.LoanCount == 1)
                 {
                     if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
                     {
 
-                        <button class="a_demo_three icon-automobile" onclick="window.location.href='/Unit/Addunit'">            
+                        <button class="a_demo_three icon-automobile sel-loan" onclick="window.location.href='/Unit/Addunit'">            
                             Add Unit
                         </button>
 
-                        <button class="a_demo_three icon-dollar" onclick="window.location.href='/AdvanceUnit/Advance'">
+                        <button class="a_demo_three icon-dollar sel-loan" onclick="window.location.href='/AdvanceUnit/Advance'">
                             
                             Advance Unit
                         </button>
 
-                        <button class="a_demo_three icon-coin-dollar" onclick="window.location.href='/Curtailments/PayCurtailments'">
+                        <button class="a_demo_three icon-coin-dollar sel-loan" onclick="window.location.href='/Curtailments/PayCurtailments'">
                             
                             Unit Curtailments
                         </button>
@@ -178,7 +183,7 @@
                 if (ViewBag.IsTitleTrack == 1)
                 {
 
-                    <button class="a_demo_three icon-files-empty" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
+                    <button class="a_demo_three icon-files-empty sel-loan" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
                         
                         Update Titles
                     </button>
@@ -188,7 +193,7 @@
                                             </button>*@
                 }
 
-                <button class="a_demo_three icon-banknote" onclick="window.location.href='/UnitPayOff/PayOff'">
+                <button class="a_demo_three icon-banknote sel-loan" onclick="window.location.href='/UnitPayOff/PayOff'">
                     
                     Pay Off Unit
                 </button>
@@ -219,7 +224,7 @@
                                         <span class="txt">Reports</span>
                                     </button>*@
 
-                        <button class="a_demo_three icon-bin2 withloanselectionSA" onclick="window.location.href='/DeleteUnit/Delete'">
+                        <button class="a_demo_three icon-bin2 warn-button withloanselectionSA" onclick="window.location.href='/DeleteUnit/Delete'">
                            
                            Delete Unit
                         </button>
@@ -234,7 +239,7 @@
 
                         if (ViewBag.RightList.Contains("U04"))
                         {
-                            <button id="lkuni" class="a_demo_three icon-automobile" onclick="window.location.href='/Unit/Addunit'">       
+                            <button id="lkuni" class="a_demo_three icon-automobile sel-loan" onclick="window.location.href='/Unit/Addunit'">       
                                 Add Unit
                             </button>
 
@@ -242,7 +247,7 @@
                         }
                         if (ViewBag.RightList.Contains("U01"))
                         {
-                            <button id="lkadv" class="a_demo_three icon-dollar" onclick="window.location.href='/AdvanceUnit/Advance'">
+                            <button id="lkadv" class="a_demo_three icon-dollar sel-loan" onclick="window.location.href='/AdvanceUnit/Advance'">
                                
                                 Advance Unit
                             </button>
@@ -250,7 +255,7 @@
                         }
                         if (ViewBag.RightList.Contains("U05"))
                         {
-                            <button id="lkcrtl" class="a_demo_three icon-coin-dollar" onclick="window.location.href='/Curtailments/PayCurtailments'">
+                            <button id="lkcrtl" class="a_demo_three icon-coin-dollar sel-loan" onclick="window.location.href='/Curtailments/PayCurtailments'">
                                 
                                 Unit Curtailments
                             </button>
@@ -258,7 +263,7 @@
                         }
                         if (ViewBag.RightList.Contains("U02") && ViewBag.ttlAccess == 1 && ViewBag.IsTitleTrack == 1)
                         {
-                            <button id="lkttl" class="a_demo_three icon-files-empty" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
+                            <button id="lkttl" class="a_demo_three icon-files-empty sel-loan" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
                                 
                                 Update Titles
                             </button>
@@ -267,7 +272,7 @@
                         }
                         if (ViewBag.RightList.Contains("U03"))
                         {
-                            <button id="lkpoff" class="a_demo_three icon-banknote" onclick="window.location.href='/UnitPayOff/PayOff'">
+                            <button id="lkpoff" class="a_demo_three icon-banknote sel-loan" onclick="window.location.href='/UnitPayOff/PayOff'">
                                
                                 Pay Off Unit
                             </button>
@@ -315,7 +320,7 @@
                         
                         if (ViewBag.RightList.Contains("U08"))
                         {
-                            <button class="a_demo_three icon-bin2" onclick="window.location.href='/DeleteUnit/Delete'">
+                            <button class="a_demo_three icon-bin2 warn-button" onclick="window.location.href='/DeleteUnit/Delete'">
                                
                                 Delete Unit
                             </button>
@@ -323,7 +328,7 @@
                     }
                     else if (ViewBag.roleId == 4)
                     {
-                    <button class="a_demo_three icon-automobile" onclick="window.location.href='/Unit/Addunit'">  
+                    <button class="a_demo_three icon-automobile sel-loan" onclick="window.location.href='/Unit/Addunit'">  
                         Add Unit
                     </button>
                     <button class="a_demo_three icon-stack withloanselectionDealer" onclick="window.location.href='/Reports/ReportIndex'">
