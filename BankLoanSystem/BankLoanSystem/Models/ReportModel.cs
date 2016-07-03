@@ -230,6 +230,23 @@ namespace BankLoanSystem.Models
         public int TotalUnitsDeleted { get; set; }
     }
 
+    public class RptFullCurtailmentSummary
+    {
+        public string IdentificationNumber { get; set; }
+        public int Year { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public decimal PurchasePrice { get; set; }
+        public decimal AdvanceAmount { get; set; }
+        public int LoanId { get; set; }
+        public string UnitId { get; set; }
+        public decimal TotalPaidAmount { get; set; }
+        public decimal BalanceAmount { get; set; }
+        public int TotalCurtPaid { get; set; }
+       
+
+    }
+
     #endregion
 
     public class RptDeletedUnit

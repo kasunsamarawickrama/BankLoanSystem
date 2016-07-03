@@ -1414,9 +1414,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Create User(Dashboard)
         /// Title: Get view of Create user page in dashboard
-        /// Designed: Piyumi P
+        /// Designed: Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 4/1/2016
         /// Edited: 6/21/2016
         /// </summary>
@@ -1549,9 +1549,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Create User (Dashboard) 
         /// Title: Get active loans for given branch id and right list
-        /// Designed: Piyumi P
+        /// Designed: Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 4/1/2016
         /// </summary>
         /// <param name="BranchIdL"></param>
@@ -1612,11 +1612,11 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Create User (Dashboard) 
         /// Title: Insert user details
-        /// Designed: Piyumi P
+        /// Designed: Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 4/1/2016
-        /// Edited: Piyumi P
+        /// Edited: Piyumi Perera
         /// Date edited: 6/24/2016
         /// 
         /// </summary>
@@ -2943,9 +2943,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Edit Company
         /// Title: Get company details for edit company view
-        /// Designed : Piyumi P
+        /// Designed : Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 2016/05/03
         /// </summary>
         /// <returns></returns>
@@ -2999,9 +2999,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Edit Company
         /// Title: Update company details
-        /// Designed : Piyumi P
+        /// Designed : Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 05/03/2016
         /// </summary>
         /// <returns></returns>
@@ -3490,9 +3490,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Create Partner Company
         /// Title: create view of create partner company
-        /// Designed : Piyumi P
+        /// Designed : Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 5/4/2016
         /// </summary>
         /// <returns></returns>
@@ -3534,9 +3534,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Create Partner Company
         /// Title: create new partner company
-        /// Designed : Piyumi P
+        /// Designed : Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 5/4/2016
         /// </summary>
         /// <returns></returns>
@@ -3698,9 +3698,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Edit Partner Company
         /// Title: create view of Edit Partner Company
-        /// Designed : Piyumi P
+        /// Designed : Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 5/4/2016
         /// </summary>
         /// <returns></returns>
@@ -3753,9 +3753,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Edit Partner Company
         /// Title: create view of Edit Partner Company
-        /// Designed : Piyumi P
+        /// Designed : Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 5/4/2016
         /// </summary>
         /// <returns></returns>

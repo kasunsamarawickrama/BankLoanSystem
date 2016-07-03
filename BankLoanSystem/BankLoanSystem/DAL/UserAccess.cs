@@ -67,9 +67,9 @@ namespace BankLoanSystem.DAL
         /// <summary>
         /// Frontend Page : Join Dealer
         /// Title: Get all users for given company id
-        /// Designed: Piyumi P
+        /// Designed: Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date Created: 05/26/2016
         /// </summary>
         /// <param name="companyId"></param>

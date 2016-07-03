@@ -590,12 +590,14 @@
             }
            // $('#branchDiv').hide();
         });
+        @*function of check box checked event*@
         $('#Previous').on('change', function () {
             $('input').parent('div').siblings('div').children('p').children("span").text("");
             $('select').parent('div').siblings('div').children('p').children("span").text("");
             $('.input-validation-error').removeClass('input-validation-error');
             //text-danger field-validation-valid
             if ($(this).is(':checked')) {
+                @*fill input fields with model property values*@
                 var model = @Html.Raw(Json.Encode(Model));
                 document.getElementById("branchName").value = model.Company.CompanyName;
                 document.getElementById("branchAddress1").value = model.Company.CompanyAddress1;
@@ -610,6 +612,7 @@
                 document.getElementById("branchPhoneNum3").value = model.Company.PhoneNum3;
                 document.getElementById("branchFax").value = model.Company.Fax;
             }
+                @*if check box is not checked keep input fields empty*@
             else {
                 document.getElementById("branchName").value = "";
                 document.getElementById("branchAddress1").value = "";
@@ -627,7 +630,7 @@
         });
     });
 
-
+    @*clear button click event*@
     $('#clear').click(function () {
         if($('#btnNext').val() === "Update")
         {
@@ -646,6 +649,7 @@
 </script>
 
 <script type="text/javascript">
+    @*back button click event*@
     $(function () {
         $('#btnPreStep2').click(function () {
 
@@ -668,7 +672,7 @@
             });
         });
     });
-
+    @*add place holders for zip code when focus out*@
     $('#branchZipPre').focusout(function () {
         $(this).attr('placeholder', 'Zip Code');
     });
@@ -678,6 +682,7 @@
 </script>
 
 <script type="text/javascript">
+    @*edit branch click event*@
     function EditBranch(index) {
 
         $('input').parent('div').siblings('div').children('p').children("span").text("");
@@ -705,7 +710,7 @@
 
         $('#lnkCreateNewBranch').show();
     };
-
+    @*create new branch click event*@
     function CreateNewBranch(){
 
         $('input').parent('div').siblings('div').children('p').children("span").text("");

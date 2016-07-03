@@ -30,15 +30,7 @@
                             <div style="clear:both;"></div>
                             @if (ViewBag.SuccessMsg != null && (ViewBag.SuccessMsg.ToString().Equals("Dealer branch is successfully created") || ViewBag.SuccessMsg.ToString().Equals("Lender branch is successfully created")))
                             {
-                                //using (Ajax.BeginForm("Step5", "SetupProcess", new AjaxOptions()
-                                //{
-
-                                //    OnFailure = "handleErrorMsg",
-                                //    HttpMethod = "POST",
-                                //    InsertionMode = InsertionMode.Replace,
-                                //    UpdateTargetId = "changeContainer",
-                                //    LoadingElementId = "loadingDiv"
-                                //}, new { id = "form" }))
+                       
                                 using (Html.BeginForm("Step5", "SetupProcess", FormMethod.Post,
             new { id = "form" }))
                                 {
@@ -54,15 +46,7 @@
                             }
                             else
                             {
-                                //using (Ajax.BeginForm("Step5", "SetupProcess", new AjaxOptions()
-                                //{
-
-                                //    OnFailure = "handleErrorMsg",
-                                //    HttpMethod = "POST",
-                                //    InsertionMode = InsertionMode.Replace,
-                                //    UpdateTargetId = "changeContainer",
-                                //    LoadingElementId = "loadingDiv"
-                                //}, new { id = "form" }))
+                              
                                 using (Html.BeginForm("Step5", "SetupProcess", FormMethod.Post,
                 new { id = "form" }))
                                 {
@@ -548,35 +532,20 @@
 
 
          });
-
+    @*dashboard button click event*@
         $('#dashBoard').click(function () {
             window.location.replace('@Url.Action("UserDetails", "UserManagement")');
         });
-
+        @*next button click event*@
         $(function () {
             $('#step6').click(function () {
 
                 $('#loadingDiv').show();
                 window.location.href = "Step6";
-                @*$.ajax({
-                    url: '@Url.Action("Step6")',
-                    type: 'GET',
-
-
-                    success: function (partialView) {
-                        $('#loadingDiv').hide();
-                        $('#changeContainer').html(partialView);
-                        $('#changeContainer').show();
-                        Progress(6);
-                    },
-                    error: function (request, status, error) {
-                        //handleErrorMsg(request.responseText);
-
-                    }
-                });*@
+              
             });
         });
-
+        @*return to dashboard*@
         $('#btnNo').click(function () {
 
             $('#loadingDiv').show();
@@ -599,7 +568,7 @@
 
 
         });
-
+        @**@
         $(function () {
             $('#btnYes').click(function () {
 
@@ -769,6 +738,7 @@
             }
             // $('#branchDiv').hide();
         });
+        @*back button click event*@
         $('#btnPreStep5').click(function () {
 
             $('#loadingDiv').show();
@@ -790,6 +760,7 @@
             });
         });
     });
+    @*add placeholders for zipcode focus out event*@
     $('#branchZipPre').focusout(function () {
         $(this).attr('placeholder', 'Zip Code');
     });
@@ -798,6 +769,7 @@
     });
 </script>
 <script type="text/javascript">
+    @*check box checked event*@
     $(function() {
         $('#Previous').on('change', function() {
             if ($(this).is(':checked')) {
@@ -837,7 +809,7 @@
         });
     });
 
-
+    @*clear button click event*@
     $('#clear').click(function() {
         if ($('#btnNext').val() === "Update") {
             $('#btnNext').val('Next');
@@ -850,6 +822,7 @@
 </script>
 
 <script type="text/javascript">
+    @*edit branch click event*@
     function EditBranch(index) {
 
         $('input').parent('div').siblings('div').children('p').children("span").text("");
@@ -880,7 +853,7 @@
 
         $('#lnkCreateNewBranch').show();
     };
-
+    @*create new branch clcik event*@
     function CreateNewBranch() {
         $('#btnNext').val('Next');
         $('#nonRegBranchDiv').show();

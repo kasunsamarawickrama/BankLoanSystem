@@ -300,10 +300,9 @@ new { id = "form" }))
 </script>
 
 <script language="javascript" type="text/javascript">
+    @* clear error messages in input fields *@
+
     function clearValues() {
-
-
-       // $('#isTitleTrack').val('');
         $('#isTitleTrack option:selected').attr('selected', null);
         $('#receiptRequired option:selected').attr('selected', null);
         $('#receipttMethod option:selected').attr('selected', null);
@@ -315,11 +314,6 @@ new { id = "form" }))
         $('#autoRemindPeriod').closest("div").siblings('div').children("p").children("span").text("");
         $('#autoRemindPeriod').next("div").children("p").children("span").text("");
         $('#autoRemindPeriod').removeClass('input-validation-error');
-        //$('#acceptMethod option:selected').attr('selected', null);
-        //$('#autoRemindEmail').next("span").children("span").text("");
-        //$('#autoRemindEmail').closest("div").siblings('div').children("p").children("span").text("");
-        //$('#autoRemindEmail').next("div").children("p").children("span").text("");
-        //$('#autoRemindEmail').removeClass('input-validation-error');
         $('#timeLimit').val('');
         $('#timeLimit').next("span").children("span").text("");
         $('#timeLimit').closest("div").siblings('div').children("p").children("span").text("");
@@ -352,6 +346,8 @@ new { id = "form" }))
             ($(this).removeClass('input-validation-error'));
         });
     };
+    @*block special characters in auto remind email fiels*@
+
     $("#autoRemindEmail").keypress(function(e){
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
             var ch = e.which;
@@ -365,7 +361,7 @@ new { id = "form" }))
         
         //alert(ch);
     });
-
+    @*check max length of auto remind period*@
     $('#autoRemindEmail').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
             var res = CheckMaxLenth(this, this.value, 100);
@@ -437,10 +433,8 @@ new { id = "form" }))
    $(document).ready(function ()
     {
 
-       // $('#TimeLimit').hide();
-       //alert($('#timeLimit').val());
        if ($('#isTitleTrack').val() == "true") {
-          // alert($('#isTitleTrack').val());
+        
             $('#TimeLimit').show();
 
         }
@@ -449,24 +443,15 @@ new { id = "form" }))
             $('#TimeLimit').hide();
 
         }
-        //if(($('#acceptMethod option:selected').text()== "Title Present To Advance")||($('#acceptMethod').val() == "")){
-
-        //    $('#TimeLimit').hide();
-        //    //$('#RemindEmailDiv').hide();
-        //}
-        //else{
-
-        //    $('#TimeLimit').show();
-        //    //$('#RemindEmailDiv').hide();
-        //}
+      
         if ($('#timeLimit').val() == "3") {
-            //alert('hjfj');
+           
             $('#RemindEmailDiv').show();
             $("#autoRemindEmail").attr('placeholder', 'example.example.com');
         }
 
         else {
-            //alert('h');
+           
             $('#RemindEmailDiv').hide();
         }
         if ($('#receiptRequired option:selected').text() == "Yes") {
@@ -478,12 +463,12 @@ new { id = "form" }))
         else {
             $('#needReceipt').hide();
         }
-        //$('#needReceipt').hide();
-        //$('#RemindEmailDiv').hide();
-        //$('#TimeLimit').hide();
-    });
+      
+   });
+    @*need title to be tracked drop down change function*@
+
    $('#isTitleTrack').change(function () {
-       //alert($('#isTitleTrack').val());
+      
             $('#autoRemindEmail').next("span").children("span").text("");
             $('#autoRemindEmail').closest("div").siblings('div').children("p").children("span").text("");
             $('#autoRemindEmail').next("div").children("p").children("span").text("");
@@ -513,7 +498,7 @@ new { id = "form" }))
         });
 
 
-
+    @*title accept method drop down change function*@
         $('#acceptMethod').change(function(){
 
             $('#autoRemindEmail').next("span").children("span").text("");
@@ -536,13 +521,12 @@ new { id = "form" }))
 
             $('#needTrack').show();
 
-            //$('#TimeLimit').show();
             $('#RemindEmailDiv').hide();
             var e = $('#acceptMethod option:selected').text();
-            //alert(e);
+            
             passvalue(e);
         });
-
+    @*time limit of title track selected value change function*@
         $('#timeLimit').change(function () {
             $('#autoRemindEmail').next("span").children("span").text("");
             $('#autoRemindEmail').closest("div").siblings('div').children("p").children("span").text("");
@@ -571,6 +555,7 @@ new { id = "form" }))
             passvalueTimeLimit(e2);
 
         });
+    @*receipt required method selected value change function*@
         $('#receiptRequired').change(function () {
             $('#receiptRequired').next("span").children("span").text("");
             $('#receiptRequired').closest("div").siblings('div').children("p").children("span").text("");
@@ -638,15 +623,4 @@ new { id = "form" }))
 
     Progress(9);
 
-    @*@if ((Session["isInterest"] != null ) && Convert.ToBoolean(Session["isInterest"]) == false)
-    {
-        <text>
-    $(".right_arrw.7").children("img").remove();
-        $(".right_arrw.7").parent('li').css("pointer-events", "auto").css("cursor", "pointer");
-        $(".right_arrw.7").css('background-image', 'none');
-        $(".right_arrw.7").prepend('<img id="theImg" src="/Images/lockIco.png" />');
-
-        </text>
-
-    }*@
 </script>

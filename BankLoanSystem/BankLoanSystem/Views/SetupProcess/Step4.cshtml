@@ -469,17 +469,6 @@
         
     });
 
-    //$('#txtFirstName, #txtLastName').keypress(function (e) {
-    //    //var array = [' ', '/', '`', '~', '!'];
-    //    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ' '];
-    //    var res = InvalidCharacters(this, array, e.which);
-
-    //    if (res === 1) {
-    //        e.preventDefault();
-    //        return;
-    //    }
-    //});
-
     $('input').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
             var array = [' '];
@@ -495,7 +484,7 @@
         
         
     });
-
+    @*clear button click event*@
     $('#clear').click(function () {
         if($('#btnNext').val()=="Update")
         {
@@ -518,6 +507,7 @@
             }
             // $('#branchDiv').hide();
         });
+        @*back button click event*@
         $('#btnPreStep4').click(function() {
 
             $('#loadingDiv').show();
@@ -539,6 +529,7 @@
             });
         });
     });
+    @*add placeholders for zipcode focus out *@
     $('#ZipPre').focusout(function () {
         $(this).attr('placeholder', 'Zip Code');
     });
@@ -548,6 +539,7 @@
 </script>
 
 <script type="text/javascript">
+    @*edit company click event*@
     function EditCompany(index) {
 
         // reset the form
@@ -582,7 +574,7 @@
         document.getElementById("WebsiteUrl").value = model.Companies[index].WebsiteUrl;
         document.getElementById("companyCode").value = model.Companies[index].CompanyCode;
     };
-
+    @*create new company click event*@
     function CreateNewCompany(){
         document.getElementById("CompanyName").value = "";
         document.getElementById("CompanyAddress1").value = "";
