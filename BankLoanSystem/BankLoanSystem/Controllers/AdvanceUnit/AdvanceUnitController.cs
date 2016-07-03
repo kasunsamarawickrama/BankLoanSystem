@@ -231,9 +231,9 @@ namespace BankLoanSystem.Controllers
         /// <summary>
         /// Frontend page: Advance Unit(Search section)
         /// Title: get unit list which match with given search parameters
-        /// Designed: Piyumi P
+        /// Designed: Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 02/27/2016
         /// </summary>
         /// <param name="identificationNumber"></param>

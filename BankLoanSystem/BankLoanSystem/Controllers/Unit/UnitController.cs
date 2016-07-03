@@ -548,7 +548,7 @@ namespace BankLoanSystem.Controllers.Unit
         /// Title: return view according to user rights and loan setup details
         /// Designed: Irfan MAM
         /// User Story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created:
         /// </summary>
         /// <returns></returns>

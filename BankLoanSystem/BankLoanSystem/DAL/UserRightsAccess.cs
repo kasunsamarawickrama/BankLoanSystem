@@ -128,7 +128,7 @@ namespace BankLoanSystem.DAL
         /// Title: return user rights for given loan code and user id
         /// Designed: Irfan MAM
         /// User Story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created:
         /// </summary>
         /// <param name="loanCode"></param>

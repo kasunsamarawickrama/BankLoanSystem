@@ -362,9 +362,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <summary>
         /// Frontend Page: Step 2 - Branch Setup at setup process
         /// Title: retrieve content of branch setup page
-        /// Designed: Piyumi P
+        /// Designed: Piyumi Perera
         /// User story: 
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 2016/01/26
         /// Edited: Kanishka SHM
         /// </summary>
@@ -455,9 +455,9 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <summary>
         /// Frontend Page: Step 2 - Branch Setup at setup process
         /// Title: insert branch details
-        /// Designed: Piyumi P
+        /// Designed: Piyumi Perera
         /// User story: 
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 2016/01/26
         /// Edited: Kanishka SHM
         /// </summary>
@@ -1236,7 +1236,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <summary>
         /// Frontend page: create partner branch in setup process
         /// Title: Get Lender/Dealer branch details
-        /// Designed: Piyumi P
+        /// Designed: Piyumi Perera
         /// User story:
         /// Developed:Piyumi p
         /// Date created:2016/1/27
@@ -1382,7 +1382,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         /// <summary>
         /// Frontend page: create partner company
         /// Title: Insert Non registered branch details
-        /// Designed: Piyumi P
+        /// Designed: Piyumi Perera
         /// User story:
         /// Developed: Piyumi p
         /// Date created:2016/1/27
@@ -1524,13 +1524,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult Step6_Post(LoanSetupStep1 loanSetupStep1)
         {
             int userId = userData.UserId;
-            //int branchId = int.Parse(Session["branchId"].ToString());
-
-
-            //if (!CheckTheRangeOfPayOffPeriod(loanSetupStep1.payOffPeriod, loanSetupStep1.startDate, loanSetupStep1.maturityDate, loanSetupStep1.payOffPeriodType))
-            //{
-            //    return new HttpStatusCodeResult(404, "Pay off period is out of range");
-            //}
+          
             if (!CheckTheRangeOfPayOffPeriod(loanSetupStep1.autoReminderPeriod, loanSetupStep1.startDate, loanSetupStep1.maturityDate, 0))
             {
 
@@ -1771,7 +1765,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         //        Value = "EOM"
         //    });
 
-            
+
         //    ViewBag.PaidDate = new SelectList(listdates, "Value", "Text");
         //    InterestAccess ia = new InterestAccess();
         //    Interest intrst = new Interest();
@@ -1872,7 +1866,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
         //    {
         //        return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
         //    }
-            
+
         //    if (interest.option == "payoff")
         //    {
         //        interest.PaidDate = interest.option;
@@ -1936,15 +1930,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
         //}
 
         /// <summary>
-        /// CreatedBy :kasun samarawickrama
-        /// CreatedDate: 2016/02/08
-        /// 
-        /// loan fees section -step 8
-        /// EditedBy :Piyumi
-        /// EditedDate :2016/3/8
-        /// 
+        /// Frontend page: Fees in loan setup process
+        /// Title: return view of fee page
+        /// Designed: kasun samarawickrama
+        /// User story:
+        /// Developed :kasun samarawickrama
+        /// Date Created: 02/08/2016
+        /// Edited :Piyumi Perera
+        /// Date Edited :2016/3/8
         /// remove session variables and unwanted method calls
-        /// return: step8 view
         /// </summary>
         /// <returns></returns>
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
@@ -1954,29 +1948,34 @@ namespace BankLoanSystem.Controllers.SetupProcess
             var userId = userData.UserId;
 
             BranchAccess branch = new BranchAccess();
+            //check user is user or dealer user
             if (userData.RoleId >= 3)
             {
                 return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
             }
+            //get company type
             int companyType = branch.getCompanyTypeByUserId(userId);
-            //int companyType = userData.CompanyType;
+            //check lender company
             if (companyType == 1)
             {
                 ViewBag.isLender = true;
             }
+            //check dealer company
             else
             {
                 ViewBag.isLender = false;
             }
             Fees fee = new Fees();
             LoanSetupAccess loan = new LoanSetupAccess();
-            //fee.LoanId = loan.getLoanIdByUserId(userId);
+           
             fee.LoanId = loanData.loanId;
-
+            //check insert or update
             if (loanData.stepId > 3)
             {
                 ViewBag.isEdit = "editable";
+                //get fee details
                 var hasLoan = loan.checkLoanIsInFeesTables(fee.LoanId);
+                //check advance amount
                 if (hasLoan.AdvanceAmount == 0)
                 {
                     hasLoan.AdvanceId = "2";
@@ -2197,9 +2196,12 @@ namespace BankLoanSystem.Controllers.SetupProcess
         }
 
         /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate:2016/2/9
-        /// Get Title Deatils If Exists
+        /// Frontend page: Title setup in loan setup
+        /// Title: return view of title page
+        /// Designed: Piyumi Perera
+        /// User story:
+        /// Developed:Piyumi Perera
+        /// Date Created:2016/2/9
         /// </summary>
         /// <param name="edit"></param>
         /// <returns></returns>
@@ -2210,8 +2212,10 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             int uId = userData.UserId;
             int branchId = loanData.BranchId;
+            //check user is user or dealer user
             if (userData.RoleId >= 3)
             {
+                //return to login
                 return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
             }
             //yes no list
@@ -2242,37 +2246,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 Value = "false"
             });
             ViewBag.IsReceipRequired = new SelectList(isReceiptList, "Value", "Text");
-            //Accept Methods
-            //List<SelectListItem> acceptMethodsList = new List<SelectListItem>();
-
-            //acceptMethodsList.Add(new SelectListItem
-            //{
-            //    Text = "Title Present To Advance",
-            //    Value = "Title Present To Advance"
-            //});
-
-
-            //acceptMethodsList.Add(new SelectListItem
-            //{
-            //    Text = "Scanned Title Adequate",
-            //    Value = "Scanned Title Adequate"
-            //});
-
-            //acceptMethodsList.Add(new SelectListItem
-            //{
-            //    Text = "Title Can Arrive At Any Time",
-            //    Value = "Title Can Arrive At Any Time"
-            //});
-
-            //acceptMethodsList.Add(new SelectListItem
-            //{
-            //    Text = "Title Can Arrive Within A Set Time",
-            //    Value = "Title Can Arrive Within A Set Time"
-            //});
-
-            //ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text");
-            
-            
+        
             //Time Limit Options
             List<SelectListItem> timeLimitList = new List<SelectListItem>();
 
@@ -2322,16 +2296,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
                 LoanSetupAccess la = new LoanSetupAccess();
                 TitleAccess ta = new TitleAccess();
                 Title title = new Title();
-                //int loanId = la.getLoanIdByBranchId(branchId);
-
+                
                 int loanId = loanData.loanId;
+                //check loan id is greater than 0
                 if (loanId > 0)
                 {
-                    
+                    //check is update
                     if (loanData.stepId>4)
                     {
+                        //get title details
                         var titleObj = ta.getTitleDetails(loanId);
                         ViewBag.Edit = 1;
+                        //check object is not null
                         if (titleObj != null)
                         {
                             if (titleObj.ReceivedTimeLimit == "Title required to advance")
@@ -2359,17 +2335,16 @@ namespace BankLoanSystem.Controllers.SetupProcess
                             {
                                 titleObj.ReceiptRequiredMethod = "3";
                             }
-                            //title = ta.getTitleDetails(loanId);
-                            //ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text", titleObj.TitleAcceptMethod);
-                            //ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text", titleObj.ReceivedTimeLimit);
-                            //ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text", titleObj.ReceiptRequiredMethod);
+                           
                             ViewBag.DefaultEmail = titleObj.RemindEmail;
                         }
+                        //check object is null
                         else if(titleObj == null)
                         {
+                            //return to login
                             return RedirectToAction("UserLogin", "Login");
                         }
-
+                        //check ajax request
                         if (HttpContext.Request.IsAjaxRequest())
                         {
                             ViewBag.AjaxRequest = 1;
@@ -2386,14 +2361,11 @@ namespace BankLoanSystem.Controllers.SetupProcess
                     else
                     {
                         ViewBag.Edit = 0;
-                        //ViewBag.TitleAcceptMethod = new SelectList(acceptMethodsList, "Value", "Text");
-                        //ViewBag.ReceivedTimeLimit = new SelectList(timeLimitList, "Value", "Text");
-                        //ViewBag.ReceiptRequiredMethod = new SelectList(receiptRequiredMethodList, "Value", "Text");
+                        //get auto remind email given in loan setup step 1
                         string defaultEmail = la.getAutoRemindEmailByLoanId(loanId);
 
                         ViewBag.Email = defaultEmail;
-                        //title.LoanId = loanId;
-
+                       //check ajax request
                         if (HttpContext.Request.IsAjaxRequest())
                         {
                             ViewBag.AjaxRequest = 1;
@@ -2406,25 +2378,31 @@ namespace BankLoanSystem.Controllers.SetupProcess
                         }
 
                     }
-                    //return PartialView(title);
+                   
                 }
-
+                //if loan id is 0 or less than 0
                 else
                 {
+                    //return to login page
                     return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
                 }
             }
+            //if logged user id is 0 or less than 0
             else
             {
+                //return to login page
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
             }
 
         }
 
         /// <summary>
-        /// CreatedBy:Piyumi
-        /// CreatedDate:2016/2/9
-        /// Post Title Deatils
+        /// Frontend page: Title setup in loan setup
+        /// Title: insert or update title
+        /// Designed: Piyumi Perera
+        /// User story:
+        /// Developed:Piyumi Perera
+        /// Date Created:2016/2/9
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
@@ -2433,22 +2411,20 @@ namespace BankLoanSystem.Controllers.SetupProcess
         {
             int userId = userData.UserId;
             int branchId = loanData.BranchId;
+            //check user is user or dealer user
             if (userData.RoleId >= 3)
             {
+                //return to login page
                 return RedirectToAction("UserLogin", "Login", new { lbl = "You are not Allowed." });
             }
-            //int loanId = 1;
-
-
+         
             TitleAccess ta = new TitleAccess();
             LoanSetupAccess la = new LoanSetupAccess();
             StepAccess sa = new StepAccess();
-            //int loanId = la.getLoanIdByBranchId(branchId);
+          
             int loanId = loanData.loanId;
             title.LoanId = loanId;
 
-            //if (title.IsReceipRequired || title.IsTitleTrack)
-            //{
             if (title.ReceivedTimeLimit == "1")
             {
                 title.ReceivedTimeLimit = "Title required to advance";
@@ -2474,59 +2450,52 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 title.ReceiptRequiredMethod = "Physically present or scanned copy";
             }
+            //insert or update title details and get result
             int reslt = ta.insertTitleDetails(title);
+            //check result is not 0
             if (reslt >= 0)
             {
-
+                //update loan setup step table
                 if (sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 5))
                 {
+                    //check current step value of loanData object is less than 5
                     if (loanData.stepId < 5)
                     {
+                        //update step
                         loanData.stepId = 5;
                     }
+                    //if title update or insert result is 0
                     if (reslt == 0)
                     {
+                        //insert record in to log table as insert
                         Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, title.LoanId, "Title", "Edited title details of loan : " + title.LoanId, DateTime.Now);
 
                         int islog = (new LogAccess()).InsertLog(log);
                     }
                     if (reslt > 0)
                     {
+                        //insert record in to log table as update
                         Log log = new Log(userData.UserId, userData.Company_Id, loanData.BranchId, title.LoanId, "Title", "Inserted title details of loan : " + title.LoanId, DateTime.Now);
 
                         int islog = (new LogAccess()).InsertLog(log);
                     }
+                    //convert loan data object to session variable
                     Session["loanStep"] = loanData;
+                    //return to curtailment page
                     return RedirectToAction("Step10");
                 }
+                //if update loan setup step result is false return to login page
                 else
                 {
                     return RedirectToAction("UserLogin", "Login", new { lbl = "Due to inactivity your session has timed out, please log in again." });
                 }
             }
-            //    else if (reslt == 0)
-            //    {
-            //        return RedirectToAction("Step10");
-            //}
+           
             else
             {
                 return new HttpStatusCodeResult(404);
             }
-            //}
-            //else
-            //{
-            //    if (sa.updateStepNumberByUserId(userId, 10, title.LoanId, branchId))
-            //    {
-            //    return RedirectToAction("Step10");
-            //}
-            //    else
-            //    {
-            //        return new HttpStatusCodeResult(404, "error message");
-            //    }
-
-            //}
-
-
+            
         }
         /// <summary>
         /// CreatedBy : Irfan MAM

@@ -45,7 +45,7 @@ namespace BankLoanSystem.Controllers.CreateDealer
         /// User story:
         /// Developed: Nadeeka
         /// Date created: 2016/03/30
-        /// Edited: Piyumi P
+        /// Edited: Piyumi Perera
         /// </summary>
         /// <returns></returns>
         public ActionResult LinkDealer()
