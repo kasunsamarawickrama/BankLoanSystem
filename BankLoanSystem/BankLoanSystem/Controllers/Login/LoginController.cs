@@ -27,12 +27,13 @@ namespace BankLoanSystem.Controllers
                 Session["detail"] = null;
             Session["dashboard"] = null;
             Session["loanDashboard"] = null;
-            // for show the popup message in login page
-            if (Session["isNotCompleteStep"] != null && int.Parse(Session["isNotCompleteStep"].ToString()) == 1)
-                {
-                Session["isNotCompleteStep"] = null;
-                return View();
-            }
+            Session.Remove("oneLoanDashboard");
+            //// for show the popup message in login page
+            //if (Session["isNotCompleteStep"] != null && int.Parse(Session["isNotCompleteStep"].ToString()) == 1)
+            //    {
+            //    Session["isNotCompleteStep"] = null;
+            //    return View();
+            //}
 
             ViewBag.login = true;
             if (lbl3 != null)

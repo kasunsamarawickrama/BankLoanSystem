@@ -1670,12 +1670,27 @@ else
             }
                 // if user doesn't change the loan
             else if ($("#loanId").val() != "") {
+
+                // if there is one loan
                 @if(ViewBag.loan != null)
                 {
-                    <text>
+                    // if there is one loan and it has right
+                    if (Session["oneLoanDashboard"] != null)
+                    {
+                        <text>
+                window.location.href = '/UserManagement/UserDetails';
+                </text>
+                    }
+
+                    // if there is more loan and one has right
+                    else
+                    {
+                        <text>
                 window.location.href = '/UserManagement/setLoanCode?loanCode=@(((List<Account>)ViewBag.loan)[0].LoanCode)';
 
                 </text>
+                    }
+
                 }
                 else
                 {
