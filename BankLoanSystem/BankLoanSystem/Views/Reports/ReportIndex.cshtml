@@ -422,35 +422,51 @@
     <div style="margin-top:15px;" id="liFilteringSection">
         <div class="form-inline" style="text-align:left;width:70%;display: inline-block;
     float: left;padding-left: 10px;">
-            @*if total number of loan equal to one *@
-@if (ViewBag.loanCount == 1)
-{
             <div id="lnum" class="form-group" style="width:50%;">
-               
-                @* if there is one loan and its paased from dashboard*@
-            @if (Session["LoanOne"] != null)
-            {
+                @*if total number of loan equal to one *@
+                @if (ViewBag.loanCount == 1)
+                {
 
-                <input type="hidden" id="loanId" value="@(((Loan)Session["LoanOne"]).LoanId)" />
-            }
-            // for user or dealer user.. if he has only one authorized loan
-            else if (ViewBag.loan != null)
-            {
-                List<Account> acc = (List<Account>)ViewBag.loan;
 
-                string PatBranchAddress = acc[0].PatBranchAddress1 + (acc[0].PatBranchAddress2 != "" ? ", " + acc[0].PatBranchAddress2 : "") + (acc[0].PatCity != "" ? ", " + acc[0].PatCity : ""); // combine address using name, address1, address2 and city
+                    @* if there is one loan and its paased from dashboard*@
+                    if (Session["LoanOne"] != null)
+                    {
 
-                <input type="hidden" id="loanId" value="@(acc[0].LoanId)" />
-                <script>
-                    $(document).ready(function () {
-                    // set the address on the bar
-                        $('#Pataddress').html('<span class="parbranchname">@(acc[0].PatBranchName)</span> -  <span class="parbarnchaddress"> @PatBranchAddress</span>  ');
-                    // set the loan number on the bar
-                        $('.loanumber').html('<strong>Loan Number : &nbsp; </strong> @(acc[0].LoanNumber)');
+                        <input type="hidden" id="loanId" value="@(((Loan)Session["LoanOne"]).LoanId)" />
+                    }
+                    // for user or dealer user.. if he has only one authorized loan
+                    else if (ViewBag.loan != null)
+                    {
+                        List<Account> acc = (List<Account>)ViewBag.loan;
 
-                    });
-                </script>
-            }
+                        string PatBranchAddress = acc[0].PatBranchAddress1 + (acc[0].PatBranchAddress2 != "" ? ", " + acc[0].PatBranchAddress2 : "") + (acc[0].PatCity != "" ? ", " + acc[0].PatCity : ""); // combine address using name, address1, address2 and city
+
+                        <input type="hidden" id="loanId" value="@(acc[0].LoanId)" />
+                        <script>
+                            $(document).ready(function () {
+                                // set the address on the bar
+                                $('#Pataddress').html('<span class="parbranchname">@(acc[0].PatBranchName)</span> -  <span class="parbarnchaddress"> @PatBranchAddress</span>  ');
+                                // set the loan number on the bar
+                                $('.loanumber').html('<strong>Loan Number : &nbsp; </strong> @(acc[0].LoanNumber)');
+
+                            });
+                        </script>
+                    }
+                  
+
+
+                }
+                else
+                {
+
+                    <input type="hidden" id="loanId" value="" />
+
+                   
+
+
+
+                }
+
                 @if (ViewBag.RoleId == 1)
                 {
                     <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 25%">
@@ -460,29 +476,8 @@
                         <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
                     </div>
                 }
-                    
-                    </div>
-}
-else
-{
-    <div id="lnum" class="form-group" style="width:50%;">
-        <input type="hidden" id="loanId" value="" />
 
-        @if (ViewBag.RoleId == 1)
-        {
-            <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 25%">
-                <label for="">Branch <span class="icon-help_outline"></span></label>
-
-                @Html.DropDownList("Branch", new SelectList(ViewBag.BranchSelectList, "Value", "Text"), "-- select branch --", new { @class = "form-control", @style = "width: 253px;", @id = "branchSelect" })
-                <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
             </div>
-        }
-
-    </div>
-       
-        }
-
-
 
 
         <div id="strdate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
