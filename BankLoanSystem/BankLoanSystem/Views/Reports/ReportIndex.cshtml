@@ -75,11 +75,11 @@
     <div class="alert alert-info" role="alert" id="loanChangedtext">
         You have changed the loan to ....... Do you like to continue work with this Loan? 
     </div><br />
-    <span> Press OK to continue to work with this loan or Cancel to stay on previuous selected loan on dashboard. </span><br />
+    <span id="loanChangedspan"> Press Yes to work with loan CCCC or press No to work with loan XXXX. </span><br />
     <br />
 
-    <button class="close-btn btn btn-info" id="chanegLoan" style = "width: 70px;margin-right: 20px;">OK</button>
-    <button class="close-btn btn btn-info" onclick="window.location.href = '/UserManagement/UserDetails';">Cancel</button>
+    <button class="close-btn btn btn-info" id="chanegLoan" style = "width: 70px;margin-right: 20px;">YES</button>
+    <button class="close-btn btn btn-info"  style = "width: 70px;" onclick="window.location.href = '/UserManagement/UserDetails';">NO</button>
 
 </div>
 
@@ -1655,14 +1655,17 @@
 
                 if (DefaultLoanID == "") {
                     if ($("#loanId").val() != undefined && $("#loanId").val() != "") {
+                        
                         window.location.href = '/UserManagement/setLoanCode?loanCode=' + jQuery("#grid").jqGrid('getCell', $("#loanId").val(), 'LoanCode');
                     } else {
                         window.location.href = '/UserManagement/UserDetails';
                     }
 
                 } else {
-
-                    $('#loanChangedtext').text('You have changed the loan to ' + jQuery("#grid").jqGrid('getCell', $("#loanId").val(), 'LoanCode') + '. Do you like to continue work with this loan?');
+                    DefaultLoanCode = jQuery("#grid").jqGrid('getCell', DefaultLoanID, 'LoanNumber');
+                    var currentLoancode = jQuery("#grid").jqGrid('getCell', $("#loanId").val(), 'LoanNumber');
+                    $('#loanChangedtext').text('You were previously working on loan ' + DefaultLoanCode + ' but have changed to loan ' + currentLoancode + ' while on the reports page. Would you like to work with loan ' + currentLoancode + ' now?'); // 
+                    $('#loanChangedspan').text('Press Yes to work with loan ' + currentLoancode + ' or press No to work with loan ' + DefaultLoanCode + '.');
                     var docHeight = $(document).height(); //grab the height of the page
                     var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
                     $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height

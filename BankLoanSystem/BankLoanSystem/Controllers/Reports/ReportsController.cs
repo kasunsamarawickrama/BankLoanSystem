@@ -148,6 +148,12 @@ namespace BankLoanSystem.Controllers.Reports
                     if (loanCount== 1) {
                         // get that loan detail and report rights
                        List<Account> accounts = (new ReportAccess()).GetAccountDetailsForUser(_userData.UserId);
+
+                        // if there is no other loan which has report rights -> redirect to login 
+                        if(accounts == null || accounts.Count < 1)
+                        {
+                            return RedirectToAction("UserLogin", "Login");
+                        }
                         ViewBag.loan = accounts;
                        // set the session of selected loan
                        Session["loanCode"] = accounts[0].LoanCode;
