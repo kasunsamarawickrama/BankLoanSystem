@@ -112,6 +112,11 @@
 
                       @Ajax.ActionLink("Select a Loan", "Selectloan", "UserManagement", new { type = "dashboard" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "sel-loan a_demo_three icon-point-right nrm-button show-popup", @id = "lkuni", @data_showpopup = "1", style = "text-decoration: none;" })
 
+                    <button class="a_demo_three icon-stack noloanselection" onclick="window.location.href='/Reports/ReportIndex'">
+
+                        Reports
+                    </button>
+
                 }
                 else
                 {
@@ -135,27 +140,27 @@
                 }              
 
                 </div>
-                 @if (ViewBag.LoanCount > 1) {
+                 @*@if (ViewBag.LoanCount > 1) {
                 <button class="a_demo_three icon-stack noloanselection" onclick="window.location.href='/Reports/ReportIndex'">
 
                     Reports
                 </button>
-                 }
+                 }*@
                 @if (ViewBag.LoanCount == 1)
                 {
                     if ((ViewBag.roleId == 1) || (ViewBag.roleId == 2))
                     {
 
-                        <button class="a_demo_three icon-automobile" onclick="window.location.href='/Unit/Addunit'">            
+                        <button class="a_demo_three icon-automobile sel-loan" onclick="window.location.href='/Unit/Addunit'">            
                             Add Unit
                         </button>
 
-                        <button class="a_demo_three icon-dollar" onclick="window.location.href='/AdvanceUnit/Advance'">
+                        <button class="a_demo_three icon-dollar sel-loan" onclick="window.location.href='/AdvanceUnit/Advance'">
                             
                             Advance Unit
                         </button>
 
-                        <button class="a_demo_three icon-coin-dollar" onclick="window.location.href='/Curtailments/PayCurtailments'">
+                        <button class="a_demo_three icon-coin-dollar sel-loan" onclick="window.location.href='/Curtailments/PayCurtailments'">
                             
                             Unit Curtailments
                         </button>
@@ -178,7 +183,7 @@
                 if (ViewBag.IsTitleTrack == 1)
                 {
 
-                    <button class="a_demo_three icon-files-empty" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
+                    <button class="a_demo_three icon-files-empty sel-loan" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
                         
                         Update Titles
                     </button>
@@ -188,7 +193,7 @@
                                             </button>*@
                 }
 
-                <button class="a_demo_three icon-banknote" onclick="window.location.href='/UnitPayOff/PayOff'">
+                <button class="a_demo_three icon-banknote sel-loan" onclick="window.location.href='/UnitPayOff/PayOff'">
                     
                     Pay Off Unit
                 </button>
@@ -219,7 +224,7 @@
                                         <span class="txt">Reports</span>
                                     </button>*@
 
-                        <button class="a_demo_three icon-bin2 withloanselectionSA" onclick="window.location.href='/DeleteUnit/Delete'">
+                        <button class="a_demo_three icon-bin2 warn-button withloanselectionSA" onclick="window.location.href='/DeleteUnit/Delete'">
                            
                            Delete Unit
                         </button>
@@ -234,7 +239,7 @@
 
                         if (ViewBag.RightList.Contains("U04"))
                         {
-                            <button id="lkuni" class="a_demo_three icon-automobile" onclick="window.location.href='/Unit/Addunit'">       
+                            <button id="lkuni" class="a_demo_three icon-automobile sel-loan" onclick="window.location.href='/Unit/Addunit'">       
                                 Add Unit
                             </button>
 
@@ -242,7 +247,7 @@
                         }
                         if (ViewBag.RightList.Contains("U01"))
                         {
-                            <button id="lkadv" class="a_demo_three icon-dollar" onclick="window.location.href='/AdvanceUnit/Advance'">
+                            <button id="lkadv" class="a_demo_three icon-dollar sel-loan" onclick="window.location.href='/AdvanceUnit/Advance'">
                                
                                 Advance Unit
                             </button>
@@ -250,7 +255,7 @@
                         }
                         if (ViewBag.RightList.Contains("U05"))
                         {
-                            <button id="lkcrtl" class="a_demo_three icon-coin-dollar" onclick="window.location.href='/Curtailments/PayCurtailments'">
+                            <button id="lkcrtl" class="a_demo_three icon-coin-dollar sel-loan" onclick="window.location.href='/Curtailments/PayCurtailments'">
                                 
                                 Unit Curtailments
                             </button>
@@ -258,7 +263,7 @@
                         }
                         if (ViewBag.RightList.Contains("U02") && ViewBag.ttlAccess == 1 && ViewBag.IsTitleTrack == 1)
                         {
-                            <button id="lkttl" class="a_demo_three icon-files-empty" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
+                            <button id="lkttl" class="a_demo_three icon-files-empty sel-loan" onclick="window.location.href='/UnitTitle/TitleStatusUpdate'">
                                 
                                 Update Titles
                             </button>
@@ -267,7 +272,7 @@
                         }
                         if (ViewBag.RightList.Contains("U03"))
                         {
-                            <button id="lkpoff" class="a_demo_three icon-banknote" onclick="window.location.href='/UnitPayOff/PayOff'">
+                            <button id="lkpoff" class="a_demo_three icon-banknote sel-loan" onclick="window.location.href='/UnitPayOff/PayOff'">
                                
                                 Pay Off Unit
                             </button>
@@ -315,7 +320,7 @@
                         
                         if (ViewBag.RightList.Contains("U08"))
                         {
-                            <button class="a_demo_three icon-bin2" onclick="window.location.href='/DeleteUnit/Delete'">
+                            <button class="a_demo_three icon-bin2 warn-button" onclick="window.location.href='/DeleteUnit/Delete'">
                                
                                 Delete Unit
                             </button>
@@ -323,7 +328,7 @@
                     }
                     else if (ViewBag.roleId == 4)
                     {
-                    <button class="a_demo_three icon-automobile" onclick="window.location.href='/Unit/Addunit'">  
+                    <button class="a_demo_three icon-automobile sel-loan" onclick="window.location.href='/Unit/Addunit'">  
                         Add Unit
                     </button>
                     <button class="a_demo_three icon-stack withloanselectionDealer" onclick="window.location.href='/Reports/ReportIndex'">
@@ -343,55 +348,10 @@
     <div class="md">
         <h3>Manage Details</h3>
         <div>
-            <button class="a_demo_three icon-user" onclick="window.location.href='/UserManagement/EditUserAtDashboard'" >
-                
-                Edit User
-            </button>
-            @if (ViewBag.roleId == 1)
-            {
-            <button class="a_demo_three icon-home2" onclick="window.location.href='/UserManagement/EditDashboardBranch'" >
-                
-                Edit Branch
-            </button>
-            }
-            @using (Ajax.BeginForm(
-    "Selectloan",
-    "UserManagement", new { type = "tidenaol" },
-    new AjaxOptions
-    {
-        OnFailure = "handleError",
-        HttpMethod = "GET",
-        InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "selcet-panel",
-        LoadingElementId = "loadingSpan"
-    }, new { style = "display:inline-block" }))
-            {
-            <button type="submit" class="a_demo_three icon-clipboard show-popup" data-showpopup="1">
-                
-                Activate Loan
-            </button>
-            }
-            @using (Ajax.BeginForm(
-    "Selectloan",
-    "UserManagement", new { type = "aticno" },
-    new AjaxOptions
-    {
-        OnFailure = "handleError",
-        HttpMethod = "GET",
-        InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "selcet-panel",
-        LoadingElementId = "loadingSpan"
-    }, new { style = "display:inline-block" }))
-            {
-            <button type="submit" class="a_demo_three icon-loop2 show-popup" data-showpopup="1">
-                
-                Renew Loan
-            </button>
-            }
 
             @using (Ajax.BeginForm(
         "Selectloan",
-        "UserManagement", new { type = "tcaninaol" },
+        "UserManagement", new { type = "tidenaol" },
         new AjaxOptions
         {
             OnFailure = "handleError",
@@ -403,30 +363,19 @@
             {
                 <button type="submit" class="a_demo_three icon-clipboard show-popup" data-showpopup="1">
 
-                    Deactivate Loan
+                    Activate Loan
                 </button>
             }
 
-            <button class="a_demo_three icon-user-tie"  onclick="window.location.href='/UserManagement/EditPartnerCompanyAtDashboard'" >
+
+            <button class="a_demo_three icon-user" onclick="window.location.href='/UserManagement/EditUserAtDashboard'" >
                 
-                Edit Partner Company
+                Edit User
             </button>
-            <button class="a_demo_three icon-user-tie" onclick="window.location.href='/UserManagement/EditPartnerBranchAtDashboard'"  >
-                
-                Edit Partner Branch
-            </button>
-           
 
-            @*<button class="big-button">
-                <span class="icon-accessibility"></span>
-                <span class="txt">Edit User Rights</span>
-            </button>*@
 
-            
-
-            @if (ViewBag.roleId == 1 || ViewBag.roleId == 2)
-            {
-                if (ViewBag.LoanCount > 0)
+          
+                @if (ViewBag.LoanCount > 0)
                 {
                     using (Ajax.BeginForm(
                     "Selectloan",
@@ -440,52 +389,98 @@
                         LoadingElementId = "loadingSpan"
                     }, new { style = "display:inline-block" }))
                     {
-                        <button class="a_demo_three icon-user-check show-popup" type="submit" data-showpopup="1">
+                        @*<button class="a_demo_three icon-user-check show-popup" type="submit" data-showpopup="1">
                             
                             Assign User
 
-                            @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
-                        </button>
+                           
+                        </button>*@
                         <button class="a_demo_three icon-accessibility show-popup" type="submit" data-showpopup="1">
                             
-                           Edit User Rights
+                           Update User Rights
 
-                            @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
+                           
                         </button>
                     }
                 }
-                @*else if (ViewBag.LoanCount == 1)
-                {
-                    <button class="big-button" type="submit" onclick="window.location.href='/UserManagement/AssignRights'">
-                        <span class="icon-user-check"></span>
-                        <span class="txt">Assign A User</span>
-                 </button>
-                }*@
 
-                    @*else if (ViewBag.LoanCount == 1)
-                    {
-                        <button class="big-button" type="submit" onclick="window.location.href='/CreateDealer/LinkDealer'">
-                            <span class="icon-link"></span>
-                            <span class="txt">Join Dealer</span>
-                          </button>
-                    }*@
-            if (ViewBag.roleId == 1)
+            @using (Ajax.BeginForm(
+            "Selectloan",
+            "UserManagement", new { type = "tcaninaol" },
+            new AjaxOptions
+            {
+                OnFailure = "handleError",
+                HttpMethod = "GET",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "selcet-panel",
+                LoadingElementId = "loadingSpan"
+            }, new { style = "display:inline-block" }))
+            {
+                <button type="submit" class="a_demo_three icon-blocked show-popup" data-showpopup="1">
+
+                    Deactivate Loan
+                </button>
+            }
+            
+            <button class="a_demo_three icon-user-tie" onclick="window.location.href='/UserManagement/EditPartnerBranchAtDashboard'">
+
+                Edit Partner Branch
+            </button>
+
+            <button class="a_demo_three icon-user-tie" onclick="window.location.href='/UserManagement/EditPartnerCompanyAtDashboard'">
+
+                Edit Partner Company
+            </button>
+
+
+
+            @using (Ajax.BeginForm(
+        "Selectloan",
+        "UserManagement", new { type = "aticno" },
+        new AjaxOptions
+        {
+            OnFailure = "handleError",
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "selcet-panel",
+            LoadingElementId = "loadingSpan"
+        }, new { style = "display:inline-block" }))
+            {
+                <button type="submit" class="a_demo_three icon-loop2 show-popup" data-showpopup="1">
+
+                    Renew Loan
+                </button>
+            }
+
+
+            @if (ViewBag.roleId == 1)
+            {
+            <button class="a_demo_three icon-home2" onclick="window.location.href='/UserManagement/EditDashboardBranch'" >
+                
+                Edit Branch
+            </button>
+            }
+           
+
+            
+
+            
+ 
+
+            @if (ViewBag.roleId == 1)
             {
                 <button class="a_demo_three icon-office" type="submit" onclick="window.location.href='/UserManagement/EditCompany'">
                 
                    Edit Company
 
-                @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
                 </button>
 
             }
-                @*@Html.ActionLink("Edit Company", "Step1", "SetupProcess", new { edit = 1 }, new { @class = "big-button", @type = "submit" , @id="editComp" })*@
-                @*<span class="icon-office"></span>
-                <span class="txt">Edit Company</span>*@
+               
 
 
 
-            }
+            
         </div>
     </div>
 
@@ -524,6 +519,11 @@
                 Create User
             </button>
 
+            <button class="a_demo_three icon-folder-plus" onclick="window.location.href='/SetupProcess/Step6?dashbrd=bshdrdoanl'">
+
+                Create Loan
+            </button>
+
             @if (ViewBag.roleId == 1)
             {
                 <button class="a_demo_three icon-home" onclick="window.location.href='/UserManagement/CreateDashboardBranch'" >
@@ -532,11 +532,30 @@
                 </button>
             }
             
+@if (ViewBag.LoanCount > 0 && ViewBag.PartnerType == 2)
 
-            <button class="a_demo_three icon-folder-plus" onclick="window.location.href='/SetupProcess/Step6?dashbrd=bshdrdoanl'" >
-               
-               Create Loan
-            </button>
+{
+    using (Ajax.BeginForm(
+    "Selectloan",
+    "UserManagement", new { type = "linkDealer" },
+    new AjaxOptions
+    {
+        OnFailure = "handleError",
+        HttpMethod = "GET",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "selcet-panel",
+        LoadingElementId = "loadingSpan"
+    }, new { style = "display:inline-block" }))
+    {
+        <button class="a_demo_three icon-link show-popup" type="submit" data-showpopup="1">
+
+            Join Dealer
+
+            @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
+        </button>
+    }
+
+
             <button class="a_demo_three icon-users" onclick="window.location.href='/UserManagement/CreatePartnerCompanyAtDashboard'" >
                 
                 Create Partner Company
@@ -546,28 +565,7 @@
                 
                 Create Partner Branch
             </button>
-            @if (ViewBag.LoanCount > 0 && ViewBag.PartnerType == 2)
-
-            {
-                using (Ajax.BeginForm(
-                "Selectloan",
-                "UserManagement", new { type = "linkDealer" },
-                new AjaxOptions
-                {
-                    OnFailure = "handleError",
-                    HttpMethod = "GET",
-                    InsertionMode = InsertionMode.Replace,
-                    UpdateTargetId = "selcet-panel",
-                    LoadingElementId = "loadingSpan"
-                }, new { style = "display:inline-block" }))
-                {
-            <button class="a_demo_three icon-link show-popup" type="submit" data-showpopup="1">
-
-                Join Dealer
-
-                @*@Ajax.ActionLink("Join Dealer to Lender", "Selectloan", "UserManagement", new { type = "linkDealer" }, new AjaxOptions { OnFailure = "handleError", HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "selcet-panel", LoadingElementId = "loadingSpan" }, new { @class = "btn btn-info show-popup", @id = "lkuni", @data_showpopup = "1" })*@
-            </button>
-                }
+           
             }
 
         </div>
@@ -700,7 +698,7 @@
                     break;
                 case '5': // past matured loan
                     jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'#990000', 'font-weight' : 'bold'});
-                   
+
                     break;
                 case '0': // inactive
                     jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'grey'});
@@ -708,6 +706,15 @@
 
 
 
+            }
+            @if(ViewBag.LoanCode != null)
+            {
+                <text>
+            if(aData.LoanCode=='@ViewBag.LoanCode'){
+                $('#'+rowid).addClass('ui-state-highlight').attr('tabindex','0');
+            }
+
+                </text>
             }
         }
         ,
@@ -723,88 +730,146 @@ ids = grid.getDataIDs();
             }
 
 
-
+            $("#grid").unbind("contextmenu");
         }
     });
 
 
-    // button format function
-    function buttonFormatter (cellvalue, options, rowObject)
-    {
-        
-        if(rowObject.BranchId == undefined){
-        // do something here
-        // if loan is inactvte
-        if(rowObject[8] == 0){
-            return '<button class="gridbutton acti" value="'+cellvalue+'" > Activate </button> <button class="gridbutton del" value="'+cellvalue+'" > Delete </button>';
-        }
 
-            // if loan is active
-        else if(rowObject[8] == 1){
-            return '<button class="gridbutton selectbut" value="'+rowObject[11]+'" > Select </button>';
-        }
-            // if loan is renewal pending
-        else if(rowObject[8] == 2){
-            return '<button class="gridbutton selectbut" value="'+rowObject[11]+'" > Select </button> <button class="gridbutton renew" value="'+cellvalue+'" > Renew </button>';
-        }
-
-            // if loan is incomplete
-        else if(rowObject[8] == 3){
-            return '<button class="gridbutton complete" value="'+options.rowId+'" > Complete </button> <button class="gridbutton renew" value="'+cellvalue+'" > Delete </button>';
-        }
-            // if loan is Past maturity
-        else if(rowObject[8] == 5){
-            return '<button class="gridbutton selectbut" value="'+rowObject[11]+'" > Select </button> <button class="gridbutton renew" value="'+rowObject[0]+'" > Renew </button>';
-        }
-        
-        else{
-           
-            return '';
-        }
-
-        }else{
-
-            // if loan is inactvte
-            if(rowObject.StatusId == 0){
-                return '<button class="gridbutton acti" value="'+cellvalue+'" > Activate </button> <button class="gridbutton del" value="'+cellvalue+'" > Delete </button>';
-            }
-
-                // if loan is active
-            else if(rowObject.StatusId == 1){
-                return '<button class="gridbutton selectbut" value="'+rowObject.LoanCode+'" > Select </button>';
-            }
-                // if loan is renewal pending
-            else if(rowObject.StatusId == 2){
-                return '<button class="gridbutton selectbut" value="'+rowObject.LoanCode+'" > Select </button> <button class="gridbutton renew" value="'+cellvalue+'" > Renew </button>';
-            }
-
-                // if loan is incomplete
-            else if(rowObject.StatusId == 3){
-                return '<button class="gridbutton complete" value="'+options.rowId+'" > Complete </button> <button class="gridbutton renew" value="'+rowObject.Id+'" > Delete </button>';
-            }
-                // if loan is Past Maturity
-            else if(rowObject.StatusId == 5){
-                return '<button class="gridbutton selectbut" value="'+rowObject.LoanCode+'" > Select </button> <button class="gridbutton renew" value="'+cellvalue+'" > Renew </button>';
-            }
-      
-            
-            else{
-           
-                return '';
-            }
-
-
-
-        }
-
-       
-       
-}
 
 
     </text>
 
-    } else if (ViewBag.roleId == 2 || ViewBag.roleId == 3) {
+    } else if (ViewBag.roleId == 2 ) {
+
+          <text>
+    // getting and binding datas to the grid
+    $("#grid").jqGrid({
+            url: '@Href("~/UserManagement/GetLoanBranchDetails")',
+        datatype: "json",
+        contentType: "application/json; charset-utf-8",
+        mtype: 'GET',
+        colNames: ['BranchId', 'Branch Name', 'PartnerBranchId',
+         'Partner Branch Name', 'Loanid', 'Loan Number', 'Total Amount', 'Used Amount', 'StatusId','Status' , 'StepNo' , 'LoanCode', 'Action'],
+        colModel: [
+             { name: 'BranchId', index: 'BranchId', width: 194 ,  hidden: true },
+
+              { name: 'BranchName', index: 'BranchName', width: 180 ,  hidden: true },
+
+            { name: 'PartnerBranchId', index: 'PartnerBranchId', width: 194 ,  hidden: true },
+
+
+            {
+                name: 'PartnerBranchName', index: 'PartnerBranchName', width: 212
+            },
+             {
+                name: 'Loanid', index: 'Loanid', width: 136,  hidden: true
+             },
+              {
+                  name: 'LoanNumber', index: 'LoanNumber', width: 212
+
+
+              },
+
+               { name: 'TotalAmount', index: 'TotalAmount', width: 134 ,
+                   align: "right", sorttype: 'float', formatter: 'currency',
+                   formatoptions: { prefix: '$ ', thousandsSeparator: ',' } },
+
+                { name: 'UsedAmount', index: 'UsedAmount', width: 134 ,
+                    align: "right", sorttype: 'float', formatter: 'currency',
+                    formatoptions: { prefix: '$ ', thousandsSeparator: ',' }
+                },
+
+                 { name: 'StatusId', index: 'StatusId', width: 194,  hidden: true  },
+
+                 { name: 'Status', index: 'Status', width: 120  },
+
+                 { name: 'StepNo', index: 'StepNo', width: 194,  hidden: true  },
+
+                 { name: 'LoanCode', index: 'LoanCode', width: 194,  hidden: true  },
+
+                 { name: 'Action', index: 'Action', width: 150 ,  formatter:buttonFormatter  , sortable:false , title: false}
+
+
+        ],
+
+        rowList: [],        // disable page size dropdown
+        pgbuttons: false,     // disable page control like next, back button
+        pgtext: null,         // disable pager text like 'Page 0 of 10'
+        viewrecords: false,    // disable current view record text like 'View 1-10 of 100'
+        pager: '#pager2',
+        rowNum: 2000,
+        sortname: 'id',
+        loadonce: true,
+        scrollrows: true,
+        sortorder: "asc",
+        caption: "Summary",
+        // disable click function
+        beforeSelectRow: function(rowid, e) {
+            return false;
+        },
+
+        afterInsertRow: function(rowid, aData){
+            switch (aData.StatusId) {
+                case '1': // active
+                    jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'green'});
+                    break;
+                case '2': // renewal pending
+                    jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'white', 'background-color':'black'});
+                    // jQuery("#grid").jqGrid('setCell',rowid,'Status','',{'background-color':'black'});
+                    break;
+                case '3': // incomplete
+                    jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'#660000'});
+                    break;
+                case '4': // incomplete branch
+                    jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'blue'});
+                    //$('#'+rowid).addClass('highlighBranch');
+                    break;
+                case '5': // past matured loan
+                    jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'#990000', 'font-weight' : 'bold'});
+
+                    break;
+                case '0': // inactive
+                    jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'grey'});
+                    break;
+
+
+
+            }
+            @if(ViewBag.LoanCode != null)
+            {
+                <text>
+            if(aData.LoanCode=='@ViewBag.LoanCode'){
+                $('#'+rowid).addClass('ui-state-highlight').attr('tabindex','0');
+            }
+
+                </text>
+            }
+        }
+,
+
+
+        // changing grid height
+        loadComplete: function () {
+
+                    var grid = $("#grid"),
+        ids = grid.getDataIDs();
+
+                    for (var i = 0; i < ids.length; i++) {
+                        grid.setRowData(ids[i], false, { height: 27 });
+                }
+
+                    $("#grid").unbind("contextmenu");
+
+
+            }
+        });
+
+        </text>
+
+
+
+    }else if ( ViewBag.roleId == 3) {
 
           <text>
     // getting and binding datas to the grid
@@ -889,16 +954,92 @@ ids = grid.getDataIDs();
     jQuery("#grid").jqGrid('navGrid', '#pager2',
             { edit: false, add: false, del: false });
 
-    
+
     @* if there is no user rights give pop up message to user*@
     @if (!isAtleastonePerm && ViewBag.roleId == 3)
     {
     <text>
     $('.icon-stack').addClass('show-popup').attr('data-showpopup','-report-no-permission').removeAttr('onclick');
-    
+
     </text>
     }
 
+
+    @if (ViewBag.roleId == 1 || ViewBag.roleId == 2){
+
+        <text>
+    // button format function
+    function buttonFormatter (cellvalue, options, rowObject)
+    {
+
+        if(rowObject.BranchId == undefined){
+            // do something here
+            // if loan is inactvte
+            if(rowObject[8] == 0){
+                return '<button class="gridbutton acti" value="'+rowObject[11]+'" > Activate </button> <button class="gridbutton del" value="'+cellvalue+'" > Delete </button>';
+            }
+
+                // if loan is active
+            else if(rowObject[8] == 1){
+                return '<button class="gridbutton selectbut" value="'+rowObject[11]+'" > Select </button>';
+            }
+                // if loan is renewal pending
+            else if(rowObject[8] == 2){
+                return '<button class="gridbutton selectbut" value="'+rowObject[11]+'" > Select </button> <button class="gridbutton renew" value="'+rowObject[11]+'" > Renew </button>';
+            }
+
+                // if loan is incomplete
+            else if(rowObject[8] == 3){
+                return '<button class="gridbutton complete" value="'+options.rowId+'" > Complete </button> <button class="gridbutton del" value="'+cellvalue+'" > Delete </button>';
+            }
+                // if loan is Past maturity
+            else if(rowObject[8] == 5){
+                return '<button class="gridbutton selectbut" value="'+rowObject[11]+'" > Select </button> <button class="gridbutton renew" value="'+rowObject[11]+'" > Renew </button>';
+            }
+
+            else{
+
+                return '';
+            }
+
+        }else{
+
+            // if loan is inactvte
+            if(rowObject.StatusId == 0){
+                return '<button class="gridbutton acti" value="'+rowObject.LoanCode+'" > Activate </button> <button class="gridbutton del" value="'+cellvalue+'" > Delete </button>';
+            }
+
+                // if loan is active
+            else if(rowObject.StatusId == 1){
+                return '<button class="gridbutton selectbut" value="'+rowObject.LoanCode+'" > Select </button>';
+            }
+                // if loan is renewal pending
+            else if(rowObject.StatusId == 2){
+                return '<button class="gridbutton selectbut" value="'+rowObject.LoanCode+'" > Select </button> <button class="gridbutton renew" value="'+rowObject.LoanCode+'" > Renew </button>';
+            }
+
+                // if loan is incomplete
+            else if(rowObject.StatusId == 3){
+                return '<button class="gridbutton complete" value="'+options.rowId+'" > Complete </button> <button class="gridbutton del" value="'+rowObject.Id+'" > Delete </button>';
+            }
+                // if loan is Past Maturity
+            else if(rowObject.StatusId == 5){
+                return '<button class="gridbutton selectbut" value="'+rowObject.LoanCode+'" > Select </button> <button class="gridbutton renew" value="'+rowObject.LoanCode+'" > Renew </button>';
+            }
+
+
+            else{
+
+                return '';
+            }
+
+
+
+        }
+
+
+
+    }
 
     // select button
     $(document).on('click', '.selectbut', function(e){
@@ -906,7 +1047,7 @@ ids = grid.getDataIDs();
         if(val != undefined && val != ''){
             window.location.href = '/UserManagement/setLoanCode?loanCode=' + val;
         }
-    
+
     });
 
     // complete button
@@ -921,8 +1062,33 @@ ids = grid.getDataIDs();
 
             window.location.href = '/SetupProcess/RedirectToStep?loanCode=' + loanCode +'&stepNo='+ stepNo;
         }
-    
+
     });
+
+
+    // activate button
+    $(document).on('click', '.acti', function(e){
+        var val = $(this).val() ;
+        if(val != undefined && val != ''){
+            window.location.href = '/UserManagement/RedirectToSelectionPage?selectionType=tidenaol&loanCode=' + val;
+        }
+
+
+    });
+
+
+    // renew button
+    $(document).on('click', '.renew', function(e){
+        var val = $(this).val() ;
+        if(val != undefined && val != ''){
+            window.location.href = '/UserManagement/RedirectToSelectionPage?selectionType=aticno&loanCode=' + val;
+        }
+
+
+    });
+
+    </text>
+    }
 </script>
 
 

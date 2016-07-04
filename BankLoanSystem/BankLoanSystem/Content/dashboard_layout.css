@@ -851,7 +851,9 @@ font-family: 'icomoon' !important;
 
 .sel-loan::before {
     
-
+    color: rgb(137, 232, 197);
+    text-shadow: 1px 1px 0px #076e43;
+    border-right: solid 1px #076e1d;
 font-family: 'icomoon' !important;
 	
 	background-image: linear-gradient(bottom, rgb(10, 125, 120) 0%, rgb(14, 184, 121)) 100%);
@@ -888,4 +890,73 @@ font-family: 'icomoon' !important;
 	-moz-box-shadow: inset 0px 1px 0px #3ad09f, 0px 2px 0px 0px #156785, 0px 5px 3px #999;
 	-o-box-shadow: inset 0px 1px 0px #3ad09f, 0px 2px 0px 0px #156785, 0px 5px 3px #999;
 	box-shadow: inset 0px 1px 0px #3ad09f, 0px 2px 0px 0px #156785, 0px 5px 3px #999;
+}
+
+
+.warn-button{
+    
+     box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
+  -webkit-box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
+      -moz-box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
+    -o-box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
+
+    border-left: solid 1px #19c346;
+
+     background-image: linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
+	background-image: -o-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
+	background-image: -moz-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
+	background-image: -webkit-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
+	background-image: -ms-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
+	background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0, rgb(202, 44, 95)),
+	color-stop(1, rgb(229, 62, 85))
+	);
+}
+
+
+.warn-button::before {
+    color: rgb(241, 179, 190);
+    text-shadow: 1px 1px 0px #6e0715;
+    border-right: solid 1px #6e0740;
+
+font-family: 'icomoon' !important;
+	
+	background-image: linear-gradient(bottom, rgb(125, 10, 31) 0%, rgb(184, 14, 53)) 100%);
+	background-image: -o-linear-gradient(bottom, rgb(125, 10, 31) 0%, rgb(184, 14, 53) 100%);
+	background-image: -moz-linear-gradient(bottom, rgb(125, 10, 31) 0%, rgb(184, 14, 53) 100%);
+	background-image: -webkit-linear-gradient(bottom, rgb(125, 10, 31) 0%, rgb(184, 14, 53) 100%);
+	background-image: -ms-linear-gradient(bottom, rgb(125, 10, 31) 0%, rgb(184, 14, 53) 100%);
+	background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0, rgb(125, 10, 31)),
+	color-stop(1, rgb(184, 14, 53))
+	);
+
+}
+
+
+.warn-button:active {
+	top:3px;
+	 background-image: linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
+	background-image: -o-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
+	background-image: -moz-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
+	background-image: -webkit-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
+	background-image: -ms-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
+	background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0, rgb(202, 44, 95)),
+	color-stop(1, rgb(229, 62, 85))
+	);
+	
+     box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
+  -webkit-box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
+      -moz-box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
+    -o-box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
 }

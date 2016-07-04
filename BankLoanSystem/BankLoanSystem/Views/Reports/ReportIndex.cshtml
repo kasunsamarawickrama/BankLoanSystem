@@ -75,11 +75,11 @@
     <div class="alert alert-info" role="alert" id="loanChangedtext">
         You have changed the loan to ....... Do you like to continue work with this Loan? 
     </div><br />
-    <span> Press OK to continue to work with this loan or Cancel to stay on previuous selected loan on dashboard. </span><br />
+    <span id="loanChangedspan"> Press Yes to work with loan CCCC or press No to work with loan XXXX. </span><br />
     <br />
 
-    <button class="close-btn btn btn-info" id="chanegLoan" style = "width: 70px;margin-right: 20px;">OK</button>
-    <button class="close-btn btn btn-info" onclick="window.location.href = '/UserManagement/UserDetails';">Cancel</button>
+    <button class="close-btn btn btn-info" id="chanegLoan" style = "width: 70px;margin-right: 20px;">YES</button>
+    <button class="close-btn btn btn-info"  style = "width: 70px;" onclick="window.location.href = '/UserManagement/UserDetails';">NO</button>
 
 </div>
 
@@ -432,48 +432,62 @@
     <div style="margin-top:15px;" id="liFilteringSection">
         <div class="form-inline" style="text-align:left;width:70%;display: inline-block;
     float: left;padding-left: 10px;">
-            @*if total number of loan equal to one *@
-@if (ViewBag.loanCount == 1)
-{
             <div id="lnum" class="form-group" style="width:50%;">
-               
-                @* if there is one loan and its paased from dashboard*@
-            @if (Session["LoanOne"] != null)
-            {
+                @*if total number of loan equal to one *@
+                @if (ViewBag.loanCount == 1)
+                {
 
-                <input type="hidden" id="loanId" value="@(((Loan)Session["LoanOne"]).LoanId)" />
-            }
-            // for user or dealer user.. if he has only one authorized loan
-            else if (ViewBag.loan != null)
-            {
-                List<Account> acc = (List<Account>)ViewBag.loan;
 
-                string PatBranchAddress = acc[0].PatBranchAddress1 + (acc[0].PatBranchAddress2 != "" ? ", " + acc[0].PatBranchAddress2 : "") + (acc[0].PatCity != "" ? ", " + acc[0].PatCity : ""); // combine address using name, address1, address2 and city
+                    @* if there is one loan and its paased from dashboard*@
+                    if (Session["LoanOne"] != null)
+                    {
 
-                <input type="hidden" id="loanId" value="@(acc[0].LoanId)" />
-                <script>
-                    $(document).ready(function () {
-                    // set the address on the bar
-                        $('#Pataddress').html('<span class="parbranchname">@(acc[0].PatBranchName)</span> -  <span class="parbarnchaddress"> @PatBranchAddress</span>  ');
-                    // set the loan number on the bar
-                        $('.loanumber').html('<strong>Loan Number : &nbsp; </strong> @(acc[0].LoanNumber)');
+                        <input type="hidden" id="loanId" value="@(((Loan)Session["LoanOne"]).LoanId)" />
+                    }
+                    // for user or dealer user.. if he has only one authorized loan
+                    else if (ViewBag.loan != null)
+                    {
+                        List<Account> acc = (List<Account>)ViewBag.loan;
 
-                    });
-                </script>
-            }
+                        string PatBranchAddress = acc[0].PatBranchAddress1 + (acc[0].PatBranchAddress2 != "" ? ", " + acc[0].PatBranchAddress2 : "") + (acc[0].PatCity != "" ? ", " + acc[0].PatCity : ""); // combine address using name, address1, address2 and city
 
-                    
+                        <input type="hidden" id="loanId" value="@(acc[0].LoanId)" />
+                        <script>
+                            $(document).ready(function () {
+                                // set the address on the bar
+                                $('#Pataddress').html('<span class="parbranchname">@(acc[0].PatBranchName)</span> -  <span class="parbarnchaddress"> @PatBranchAddress</span>  ');
+                                // set the loan number on the bar
+                                $('.loanumber').html('<strong>Loan Number : &nbsp; </strong> @(acc[0].LoanNumber)');
+
+                            });
+                        </script>
+                    }
+                  
+
+
+                }
+                else
+                {
+
+                    <input type="hidden" id="loanId" value="" />
+
+                   
+
+
+
+                }
+
+                @if (ViewBag.RoleId == 1)
+                {
+                    <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 25%">
+                        <label for="">Branch <span class="icon-help_outline"></span></label>
+
+                        @Html.DropDownList("Branch", new SelectList(ViewBag.BranchSelectList, "Value", "Text"), "-- select branch --", new { @class = "form-control", @style = "width: 253px;", @id = "branchSelect" })
+                        <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
                     </div>
-}
-else
-{
-    <div id="lnum" class="form-group" style="width:50%;">
-        <input type="hidden" id="loanId" value="" />
-    </div>
-       
-        }
+                }
 
-
+            </div>
 
 
         <div id="strdate" class="form-group hf" style="margin-left:20px;display:none;width:20%">
@@ -519,15 +533,7 @@ else
             @Html.DropDownList("Title Status", titleStatus, "-- select type --", new { @class = "form-control", @id = "titleStatus" })
             <div id="tagscloudTitleStatus" class="field-validation-error"><span class="text-danger"></span></div>
         </div>
-            @if (ViewBag.RoleId == 1)
-            {
-                <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
-                    <label for="">Branch <span class="icon-help_outline"></span></label>
-
-                    @Html.DropDownList("Branch", new SelectList(ViewBag.BranchSelectList, "Value", "Text"), "-- select branch --", new { @class = "form-control", @style = "width: 253px;", @id = "branchSelect" })
-                    <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
-                </div>
-            }
+          
            
     </div>
 
@@ -580,9 +586,9 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspection');
         $('#divBranch').hide();
-        $('#lnum').show();
-        $('#lnum').siblings('.hf').hide();
-        $('#lnum').siblings('.hf').children('input').val('');
+       // $('#lnum').show();
+       // $('#lnum').siblings('.hf').hide();
+       // $('#lnum').siblings('.hf').children('input').val('');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
@@ -593,7 +599,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentInvoice');
         $('#divBranch').hide();
-        $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -609,7 +615,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentReceipt');
         $('#divBranch').hide();
-        $('#lnum').show();
+     //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -624,7 +630,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeReceipt');
         $('#divBranch').hide();
-        $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -639,7 +645,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('MonthlyLoanFeeReceipt');
         $('#divBranch').hide();
-        $('#lnum').show();
+       // $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -654,7 +660,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeReceipt');
         $('#divBranch').hide();
-        $('#lnum').show();
+       // $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -670,7 +676,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('TitlesStatus');
         $('#divBranch').hide();
-        $('#lnum').show();
+       // $('#lnum').show();
         $('#ttlsts').show().siblings('.hf').hide();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -682,9 +688,9 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('FullInventory');
         $('#divBranch').hide();
-        $('#lnum').show();
-        $('#lnum').siblings('.hf').hide();
-        $('#lnum').siblings('.hf').children('input').val('');
+      //  $('#lnum').show();
+      //  $('#lnum').siblings('.hf').hide();
+      //  $('#lnum').siblings('.hf').children('input').val('');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
@@ -695,7 +701,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceUnit');
         $('#divBranch').hide();
-        $('#lnum').show();
+     //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -711,7 +717,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeInvoice');
         $('#divBranch').hide();
-        $('#lnum').show();
+     //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -727,7 +733,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeReciept');
         $('#divBranch').hide();
-        $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -743,7 +749,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanFeeInvoice');
         $('#divBranch').hide();
-        $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -774,7 +780,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeInvoice');
         $('#divBranch').hide();
-        $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -790,7 +796,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeReciept');
         $('#divBranch').hide();
-        $('#lnum').show();
+    //    $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -806,7 +812,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('PayOff');
         $('#divBranch').hide();
-        $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -822,7 +828,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('TransactionHistory');
         $('#divBranch').hide();
-        $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -838,8 +844,8 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanTerms');
         $('#divBranch').hide();
-        $('#lnum').siblings('.hf').hide();
-        $('#lnum').siblings('.hf').children('input').val('');
+      //  $('#lnum').siblings('.hf').hide();
+      //  $('#lnum').siblings('.hf').children('input').val('');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
@@ -850,21 +856,21 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CompanySummary');
         $('#divBranch').hide();
-        $('#lnum').hide();
-        $('#lnum').siblings('.hf').hide();
+     //   $('#lnum').hide();
+      //  $('#lnum').siblings('.hf').hide();
     });
 
     $('#btnBranchSummary').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('BranchSummary');
-        $('#lnum').hide();
-        $('#lnum').siblings('.hf').hide();
+    //    $('#lnum').hide();
+      //  $('#lnum').siblings('.hf').hide();
         $('#divBranch').show();
     });
 
     $('#btnDeletedUnits').click(function () {
         ChangeButtonColor(this);
-        $('#lnum').show();
+     //   $('#lnum').show();
         $('#hdnSelectedButton').val('DeletedUnits');
         $('#ttlsts').hide().siblings('.hf').show();
         $('#divBranch').hide();
@@ -882,7 +888,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanSummary');
         $('#divBranch').hide();
-        $('#lnum').show();
+     //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -1679,14 +1685,17 @@ else
 
                 if (DefaultLoanID == "") {
                     if ($("#loanId").val() != undefined && $("#loanId").val() != "") {
+                        
                         window.location.href = '/UserManagement/setLoanCode?loanCode=' + jQuery("#grid").jqGrid('getCell', $("#loanId").val(), 'LoanCode');
                     } else {
                         window.location.href = '/UserManagement/UserDetails';
                     }
 
                 } else {
-
-                    $('#loanChangedtext').text('You have changed the loan to ' + jQuery("#grid").jqGrid('getCell', $("#loanId").val(), 'LoanCode') + '. Do you like to continue work with this loan?');
+                    DefaultLoanCode = jQuery("#grid").jqGrid('getCell', DefaultLoanID, 'LoanNumber');
+                    var currentLoancode = jQuery("#grid").jqGrid('getCell', $("#loanId").val(), 'LoanNumber');
+                    $('#loanChangedtext').text('You were previously working on loan ' + DefaultLoanCode + ' but have changed to loan ' + currentLoancode + ' while on the reports page. Would you like to work with loan ' + currentLoancode + ' now?'); // 
+                    $('#loanChangedspan').text('Press Yes to work with loan ' + currentLoancode + ' or press No to work with loan ' + DefaultLoanCode + '.');
                     var docHeight = $(document).height(); //grab the height of the page
                     var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
                     $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
@@ -1700,12 +1709,27 @@ else
             }
                 // if user doesn't change the loan
             else if ($("#loanId").val() != "") {
+
+                // if there is one loan
                 @if(ViewBag.loan != null)
                 {
-                    <text>
+                    // if there is one loan and it has right
+                    if (Session["oneLoanDashboard"] != null)
+                    {
+                        <text>
+                window.location.href = '/UserManagement/UserDetails';
+                </text>
+                    }
+
+                    // if there is more loan and one has right
+                    else
+                    {
+                        <text>
                 window.location.href = '/UserManagement/setLoanCode?loanCode=@(((List<Account>)ViewBag.loan)[0].LoanCode)';
 
                 </text>
+                    }
+
                 }
                 else
                 {
