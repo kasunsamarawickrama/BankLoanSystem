@@ -241,9 +241,13 @@ namespace BankLoanSystem.Models
         public int LoanId { get; set; }
         public string UnitId { get; set; }
         public decimal TotalPaidAmount { get; set; }
+        public decimal TotalCurtPaidAmount { get; set; }
+        public decimal TotalPartPaidAmount { get; set; }
         public decimal BalanceAmount { get; set; }
         public int TotalCurtPaid { get; set; }
-       
+        public int TotalPartPaid { get; set; }
+        public int TotalPaid { get; set; }
+
 
     }
 
