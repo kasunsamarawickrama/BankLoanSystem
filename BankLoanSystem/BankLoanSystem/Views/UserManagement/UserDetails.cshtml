@@ -685,7 +685,7 @@
                 case '1': // active
                     jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'green'});
                     break;
-                case '2': // renewal pending
+                case '5': // renewal pending
                     jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'white', 'background-color':'black'});
                    // jQuery("#grid").jqGrid('setCell',rowid,'Status','',{'background-color':'black'});
                     break;
@@ -696,7 +696,7 @@
                     jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'blue'});
                     //$('#'+rowid).addClass('highlighBranch');
                     break;
-                case '5': // past matured loan
+                case '2': // past matured loan
                     jQuery("#grid").jqGrid('setCell',rowid,'Status','',{color:'#990000', 'font-weight' : 'bold'});
 
                     break;
@@ -983,8 +983,9 @@ ids = grid.getDataIDs();
             else if(rowObject[8] == 1){
                 return '<button class="gridbutton selectbut" value="'+rowObject[11]+'" > Select </button>';
             }
-                // if loan is renewal pending
-            else if(rowObject[8] == 2){
+                // if loan is Past maturity
+               
+            else if(rowObject[8] == 5){
                 return '<button class="gridbutton selectbut" value="'+rowObject[11]+'" > Select </button> <button class="gridbutton renew" value="'+rowObject[11]+'" > Renew </button>';
             }
 
@@ -992,8 +993,8 @@ ids = grid.getDataIDs();
             else if(rowObject[8] == 3){
                 return '<button class="gridbutton complete" value="'+options.rowId+'" > Complete </button> <button class="gridbutton del" value="'+cellvalue+'" > Delete </button>';
             }
-                // if loan is Past maturity
-            else if(rowObject[8] == 5){
+                // if loan is renewal pending
+            else if(rowObject[8] == 2){
                 return '<button class="gridbutton selectbut" value="'+rowObject[11]+'" > Select </button> <button class="gridbutton renew" value="'+rowObject[11]+'" > Renew </button>';
             }
 
@@ -1013,8 +1014,8 @@ ids = grid.getDataIDs();
             else if(rowObject.StatusId == 1){
                 return '<button class="gridbutton selectbut" value="'+rowObject.LoanCode+'" > Select </button>';
             }
-                // if loan is renewal pending
-            else if(rowObject.StatusId == 2){
+                // if loan is Past Maturity
+            else if(rowObject.StatusId == 5){
                 return '<button class="gridbutton selectbut" value="'+rowObject.LoanCode+'" > Select </button> <button class="gridbutton renew" value="'+rowObject.LoanCode+'" > Renew </button>';
             }
 
@@ -1022,8 +1023,9 @@ ids = grid.getDataIDs();
             else if(rowObject.StatusId == 3){
                 return '<button class="gridbutton complete" value="'+options.rowId+'" > Complete </button> <button class="gridbutton del" value="'+rowObject.Id+'" > Delete </button>';
             }
-                // if loan is Past Maturity
-            else if(rowObject.StatusId == 5){
+               
+                // if loan is renewal pending
+            else if(rowObject.StatusId == 2){
                 return '<button class="gridbutton selectbut" value="'+rowObject.LoanCode+'" > Select </button> <button class="gridbutton renew" value="'+rowObject.LoanCode+'" > Renew </button>';
             }
 
