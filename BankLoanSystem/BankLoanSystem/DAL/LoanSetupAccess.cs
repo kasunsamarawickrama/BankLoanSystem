@@ -503,7 +503,7 @@ namespace BankLoanSystem.DAL
                             loanSetupStep1.paymentMethod = reader["payment_method"].ToString();
                             loanSetupStep1.startDate = Convert.ToDateTime(reader["start_date"].ToString());
 
-                            
+                            loanSetupStep1.RegisteredBranchId = Convert.ToInt32(reader["branch_id"].ToString());
                             loanSetupStep1.LoanStatus = Convert.ToBoolean(reader["loan_status"]);
                             loanSetupStep1.RegisteredBranchCode = reader["r_branch_code"].ToString();
                             loanSetupStep1.RegisteredCompanyCode = reader["company_code"].ToString();

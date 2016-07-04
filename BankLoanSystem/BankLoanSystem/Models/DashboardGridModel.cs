@@ -21,6 +21,8 @@ namespace BankLoanSystem.Models
 
         public string LoanNumber { get; set; }
 
+        public string LoanCode { get; set; }
+
         public decimal TotalAmount  { get; set; }
 
         public decimal UsedAmount { get; set; }
@@ -30,5 +32,7 @@ namespace BankLoanSystem.Models
         public string Status { get; set; }
 
         public int StepNo { get; set; }
+
+        public string Actions { get; set; }
     }
 }

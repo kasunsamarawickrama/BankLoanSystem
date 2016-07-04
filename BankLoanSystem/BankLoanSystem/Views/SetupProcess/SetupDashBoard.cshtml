@@ -11,18 +11,9 @@
             <li class="nav-header">
                 <div class="dropdown profile-element">
                     <span> 
-@{
-// if atleast one loan completed, user can access dahboard page at any time on the setup process while clicking the user icon 
-    if (Model.step_status > 0)
-    {
-        <a href="~/UserManagement/UserDetails"><img alt="image" class="img-circle" src="~/Images/user_icon2.png"></a>
-    }
-    else
-    {
+
         <img alt="image" class="img-circle" src="~/Images/user_icon2.png">
-    }
-}
-                    </span> <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+               </span> <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear">
                             <span class="block m-t-xs"> <strong class="font-bold">@Model.userName</strong> </span> <span class="text-muted text-xs block">
                                 @Model.roleName<b class="caret"></b>

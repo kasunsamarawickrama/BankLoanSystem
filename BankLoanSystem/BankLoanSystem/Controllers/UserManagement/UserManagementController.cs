@@ -242,6 +242,7 @@ namespace BankLoanSystem.Controllers
 
                         ViewBag.Branch = loanSelected.BranchName;
                         ViewBag.LoanNum = loanSelected.LoanNumber;
+                        ViewBag.LoanCode = loanSelected.LoanCode;
                         ViewBag.IsTitleTrack = loanSelected.IsTitleTrack;
 
                         Session["IsTitleTrack"] = loanSelected.IsTitleTrack;
@@ -353,6 +354,7 @@ namespace BankLoanSystem.Controllers
                         ViewBag.PartnerType = loan.PartnerType;
                         ViewBag.Branch = ((Loan)Session["LoanOne"]).BranchName;
                         ViewBag.LoanNum = loan.LoanNumber;
+                        ViewBag.LoanCode = loan.LoanCode;
                         ViewBag.IsTitleTrack = loan.IsTitleTrack;
                         Session["IsTitleTrack"] = loan.IsTitleTrack;
                         if ((loan.AdvanceFee == 1) || (loan.LotInspectionFee == 1) || (loan.MonthlyLoanFee == 1))
@@ -502,7 +504,9 @@ namespace BankLoanSystem.Controllers
                     x.UsedAmount,
                     x.StatusId,
                     x.Status,
-                    x.StepNo
+                    x.StepNo,
+                    x.LoanCode,
+                    x.Actions
                 }
                                          ).ToArray().Select(x => new
                                          {
@@ -518,7 +522,9 @@ namespace BankLoanSystem.Controllers
                                                         x.UsedAmount.ToString(), 
                                                         x.StatusId.ToString(),
                                                          x.Status,
-                                                         x.StepNo.ToString()
+                                                         x.StepNo.ToString(),
+                                                         x.LoanCode,
+                                                         ""
                                                       }
                                          }
                       ).ToArray()
@@ -1210,6 +1216,54 @@ Date created: 1/25/2016
             return PartialView(loanSelection);
         }
 
+
+        /*
+
+   Frontend page: Dashboard page
+   Title: Redirect to Activate page
+   Designed: Irfan Mam
+   User story: DFP-484
+   Developed: Irfan MAM
+   Date created: 7/3/2016
+
+*/
+        public ActionResult RedirectToSelectionPage(string selectionType, string loanCode)
+        {
+
+            if(selectionType != null && selectionType != "" && loanCode != null && selectionType != "")
+            {
+                // redirect to activate loan page
+                if (selectionType == "tidenaol")
+                {
+                    Session["popUpSelectionType"] = selectionType;
+
+                    Loan loan = (new DashBoardAccess()).GetAInActiveLoanDetailsbyLoanCode(loanCode, userData.RoleId);
+
+                    Session["loanDashboardEditLoan"] = loan;
+
+                    return RedirectToAction("EditLoan");
+
+                }
+
+                // redirect to renew loan page
+                if (selectionType == "aticno")
+                {
+                    Session["popUpSelectionType"] = selectionType;
+
+                    Loan loan = (new DashBoardAccess()).GetALoanDetailsbyLoanCode(loanCode, userData.RoleId,userData.UserId);
+
+                    Session["loanDashboardRenewLoan"] = loan;
+
+                    return RedirectToAction("RenewLoan", "LoanManagement");
+
+                }
+
+            }
+            // redirect to login if unautorized access
+            return RedirectToAction("UserLogin", "Login", new { lbl = "Access Denied"});
+
+        }
+
         public ActionResult setLoanCode(string loanCode)//, string action
         {
 
@@ -1220,11 +1274,13 @@ Date created: 1/25/2016
                 // if request come without select the list of loans
                 if(Session["detail"] == null && loanCode != null && loanCode != "")
                 {
-                   Loan loan = (new DashBoardAccess()).GetALoanDetailsbyLoanCode(loanCode, userData.RoleId);
+                   Loan loan = (new DashBoardAccess()).GetALoanDetailsbyLoanCode(loanCode, userData.RoleId,userData.UserId);
                     Session["loanDashboard"] = loan;
                     if (userData.RoleId == 3)
                     {
                         Session["CurrentLoanRights"] = loan.Rights;
+
+                        
                     }
                 }
 
@@ -1410,9 +1466,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Create User(Dashboard)
         /// Title: Get view of Create user page in dashboard
-        /// Designed: Piyumi P
+        /// Designed: Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 4/1/2016
         /// Edited: 6/21/2016
         /// </summary>
@@ -1545,9 +1601,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Create User (Dashboard) 
         /// Title: Get active loans for given branch id and right list
-        /// Designed: Piyumi P
+        /// Designed: Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 4/1/2016
         /// </summary>
         /// <param name="BranchIdL"></param>
@@ -1608,11 +1664,11 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Create User (Dashboard) 
         /// Title: Insert user details
-        /// Designed: Piyumi P
+        /// Designed: Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 4/1/2016
-        /// Edited: Piyumi P
+        /// Edited: Piyumi Perera
         /// Date edited: 6/24/2016
         /// 
         /// </summary>
@@ -2596,7 +2652,8 @@ Date created: 1/25/2016
 
                     int islog = (new LogAccess()).InsertLog(log);
                     TempData["EditReslt"] = "success";
-                    //Session["loanDashboardEditLoan"] = "";
+                    
+                    Session.Remove("loanDashboardEditLoan");
                 }
                 else 
                 {
@@ -2939,9 +2996,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Edit Company
         /// Title: Get company details for edit company view
-        /// Designed : Piyumi P
+        /// Designed : Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 2016/05/03
         /// </summary>
         /// <returns></returns>
@@ -2995,9 +3052,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Edit Company
         /// Title: Update company details
-        /// Designed : Piyumi P
+        /// Designed : Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 05/03/2016
         /// </summary>
         /// <returns></returns>
@@ -3486,9 +3543,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Create Partner Company
         /// Title: create view of create partner company
-        /// Designed : Piyumi P
+        /// Designed : Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 5/4/2016
         /// </summary>
         /// <returns></returns>
@@ -3530,9 +3587,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Create Partner Company
         /// Title: create new partner company
-        /// Designed : Piyumi P
+        /// Designed : Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 5/4/2016
         /// </summary>
         /// <returns></returns>
@@ -3694,9 +3751,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Edit Partner Company
         /// Title: create view of Edit Partner Company
-        /// Designed : Piyumi P
+        /// Designed : Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 5/4/2016
         /// </summary>
         /// <returns></returns>
@@ -3749,9 +3806,9 @@ Date created: 1/25/2016
         /// <summary>
         /// Frontend page: Edit Partner Company
         /// Title: create view of Edit Partner Company
-        /// Designed : Piyumi P
+        /// Designed : Piyumi Perera
         /// User story:
-        /// Developed: Piyumi P
+        /// Developed: Piyumi Perera
         /// Date created: 5/4/2016
         /// </summary>
         /// <returns></returns>

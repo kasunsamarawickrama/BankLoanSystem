@@ -1220,7 +1220,12 @@ namespace BankLoanSystem.DAL
         }
 
         /// <summary>
-        /// 
+        /// Frontend Page: Report Page(Branch Summary Report)
+        /// Title: Get loan balance amount, pending amount, no of active units of all loans which assigned for a selected branch
+        /// Designed: Piyumi Perera
+        /// User Story: DFP 440
+        /// Developed: Piyumi Perera
+        /// Date Created: 22/6/2016
         /// </summary>
         /// <param name="branchId"></param>
         /// <returns></returns>
@@ -1445,6 +1450,110 @@ namespace BankLoanSystem.DAL
             }
 
             return deletedUnits;
+        }
+        /// <summary>
+        /// Frontend Page: Report Page(Full Curtailment Summary Report)
+        /// Title: Get full curtailment payment details for a selected loan
+        /// Designed: Piyumi Perera
+        /// User Story: DFP 486
+        /// Developed: Piyumi Perera
+        /// Date Created: 01/07/2016
+        /// </summary>
+        /// <param name="branchId"></param>
+        /// <returns></returns>
+        public List<RptFullCurtailmentSummary> GetFullCurtailmentSummarRptDetails(int loanId)
+        {
+            List<RptFullCurtailmentSummary> unitCurtailments = new List<RptFullCurtailmentSummary>();
+
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]> { new object[] { "@loan_id", loanId } };
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetDetailsForFullCurtailmentSummaryReport ", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+               
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    RptFullCurtailmentSummary curtSummary = new RptFullCurtailmentSummary();
+                    if (!string.IsNullOrEmpty(dataRow["loanId"].ToString()))
+                    {
+                        curtSummary.LoanId = int.Parse(dataRow["loanId"].ToString());
+                        curtSummary.UnitId = dataRow["unitId"].ToString();
+                        curtSummary.IdentificationNumber = dataRow["idNumber"].ToString(); ;
+                        curtSummary.Year = int.Parse(dataRow["unitYear"].ToString());
+                        if (!string.IsNullOrEmpty(dataRow["unitMake"].ToString()))
+                        {
+                            curtSummary.Make = dataRow["unitMake"].ToString();
+                        }
+                        else
+                        {
+                            curtSummary.Make = "";
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["unitModel"].ToString()))
+                        {
+                            curtSummary.Model = dataRow["unitModel"].ToString();
+                        }
+                        else
+                        {
+                            curtSummary.Model ="";
+                        }
+
+                        curtSummary.PurchasePrice = decimal.Parse(dataRow["unitCost"].ToString());
+                        if (!string.IsNullOrEmpty(dataRow["unitAdvanceAmount"].ToString()))
+                        {
+                            curtSummary.AdvanceAmount = decimal.Parse(dataRow["unitAdvanceAmount"].ToString());
+                        }
+                        else
+                        {
+                            curtSummary.AdvanceAmount = 0.00M;
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["amountPaid"].ToString()))
+                        {
+                            curtSummary.TotalCurtPaidAmount = decimal.Parse(dataRow["amountPaid"].ToString());
+                        }
+                        else
+                        {
+                            curtSummary.TotalCurtPaidAmount = 0.00M;
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["totalCurtailments"].ToString()))
+                        {
+                            curtSummary.TotalCurtPaid = int.Parse(dataRow["totalCurtailments"].ToString());
+                        }
+                        else
+                        {
+                            curtSummary.TotalCurtPaid = 0;
+                        }
+
+                        if (!string.IsNullOrEmpty(dataRow["amountPartialPaid"].ToString()))
+                        {
+                            curtSummary.TotalPartPaidAmount = decimal.Parse(dataRow["amountPartialPaid"].ToString());
+                        }
+                        else
+                        {
+                            curtSummary.TotalPartPaidAmount = 0.00M;
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["totalPartialCurtailments"].ToString()))
+                        {
+                            curtSummary.TotalPartPaid = int.Parse(dataRow["totalPartialCurtailments"].ToString());
+                        }
+                        else
+                        {
+                            curtSummary.TotalPartPaid = 0;
+                        }
+                        curtSummary.TotalPaidAmount = curtSummary.TotalCurtPaidAmount + curtSummary.TotalPartPaidAmount;
+                        curtSummary.TotalPaid = curtSummary.TotalCurtPaid + curtSummary.TotalPartPaid;
+                        curtSummary.BalanceAmount = curtSummary.AdvanceAmount - curtSummary.TotalPaidAmount;
+                        unitCurtailments.Add(curtSummary);
+                    }
+                    
+                    }
+                
+            }
+
+            return unitCurtailments;
+
+
         }
     }
 }

@@ -144,6 +144,7 @@ namespace BankLoanSystem.DAL
                     dashboardGridModel.Loanid = (dataRow.IsNull("loan_id") ? -1 : Convert.ToInt32(dataRow["loan_id"].ToString()));
 
                     dashboardGridModel.LoanNumber = (dataRow.IsNull("loan_number") ? "" : dataRow["loan_number"].ToString()); 
+                    dashboardGridModel.LoanCode = (dataRow.IsNull("loan_code") ? "" : dataRow["loan_code"].ToString()); 
                     dashboardGridModel.TotalAmount = Convert.ToDecimal(dataRow.IsNull("loan_amount") ? "0.00" : dataRow["loan_amount"].ToString());
                     dashboardGridModel.UsedAmount = Convert.ToDecimal(dataRow.IsNull("used_amount") ? "0.00": dataRow["used_amount"].ToString()); 
                     dashboardGridModel.StatusId = Convert.ToInt32(dataRow["loan_status"].ToString());  
@@ -295,7 +296,7 @@ namespace BankLoanSystem.DAL
         /*
 
     Frontend page: DashBoard Page
-    Title: Get a loan by loan code
+    Title: Get a active loan by loan code
     Designed: Irfan Mam
     User story: DFP-474
     Developed: Irfan MAM
@@ -303,12 +304,13 @@ namespace BankLoanSystem.DAL
     
 */
 
-        public Loan GetALoanDetailsbyLoanCode( string loancode, int role)
+        public Loan GetALoanDetailsbyLoanCode( string loancode, int role, int userId)
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             // add a parameters to a list
             paramertList.Add(new object[] { "@role", role });
+            paramertList.Add(new object[] { "@user_id", userId });
             paramertList.Add(new object[] { "@loan_code", loancode });
             try
             {
@@ -420,6 +422,157 @@ namespace BankLoanSystem.DAL
 
                     }
 
+                    if (role == 2 || role == 1)
+                    {
+                        loanObj.CreatedDate = Convert.ToDateTime(dataSet.Tables[0].Rows[0]["created_date"].ToString());
+                        loanObj.StartDate = Convert.ToDateTime(dataSet.Tables[0].Rows[0]["start_date"].ToString());
+                        loanObj.LoanAmount = Convert.ToDecimal(dataSet.Tables[0].Rows[0]["loan_amount"].ToString());
+                        loanObj.MaturityDate = Convert.ToDateTime(dataSet.Tables[0].Rows[0]["maturity_date"].ToString());
+
+                    }
+                        
+                    loanObj.NonRegBranchId = int.Parse(dataSet.Tables[0].Rows[0]["non_reg_branch_id"].ToString());
+                    loanObj.LoanId = int.Parse(dataSet.Tables[0].Rows[0]["loan_id"].ToString());
+
+                    // return the loan object
+                    return loanObj;
+
+                }
+
+                // if there is no data return null
+                return null;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        /*
+
+  Frontend page: DashBoard Page
+  Title: Get a inactive loan by loan code
+  Designed: Irfan Mam
+  User story: DFP-484
+  Developed: Irfan MAM
+  Date created: 7/3/2016
+
+*/
+
+        public Loan GetAInActiveLoanDetailsbyLoanCode(string loancode, int role)
+        {
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            // add a parameters to a list
+            paramertList.Add(new object[] { "@role", role });
+            paramertList.Add(new object[] { "@loan_code", loancode });
+            try
+            {
+
+                // excecute sp and return the datas
+                DataSet dataSet = dataHandler.GetDataSet("spGetAInActiveLoanByLoanCode", paramertList);
+
+                // if data exists bind it to loan object
+                if (dataSet != null && dataSet.Tables.Count != 0 && dataSet.Tables[0].Rows.Count != 0)
+                {
+                    Loan loanObj = new Loan();
+                    loanObj.LoanNumber = dataSet.Tables[0].Rows[0]["loan_number"].ToString();
+                    loanObj.PartnerName = dataSet.Tables[0].Rows[0]["non_reg_branch_name"].ToString();
+                    loanObj.LoanCode = dataSet.Tables[0].Rows[0]["loan_code"].ToString();
+                    loanObj.PartnerType = int.Parse(dataSet.Tables[0].Rows[0]["company_type"].ToString());
+                    loanObj.BranchName = dataSet.Tables[0].Rows[0]["branch_name"].ToString();
+                    // if is_title_tracked has a value
+                    if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["is_title_tracked"].ToString()))
+                    {
+                        // check that value
+                        if (bool.Parse(dataSet.Tables[0].Rows[0]["is_title_tracked"].ToString()))
+                        {
+                            loanObj.IsTitleTrack = 1;
+                        }
+                        else
+                        {
+                            loanObj.IsTitleTrack = 0;
+                        }
+                    }
+                    //  if is_title_tracked has not a value
+                    else
+                    {
+                        loanObj.IsTitleTrack = 0;
+                    }
+
+                    // if has_lot_inspection_fee has a value
+                    if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_lot_inspection_fee"].ToString()))
+                    {
+                        if (bool.Parse(dataSet.Tables[0].Rows[0]["has_lot_inspection_fee"].ToString()))
+                        {
+                            loanObj.LotInspectionFee = 1;
+                        }
+                        else
+                        {
+                            loanObj.LotInspectionFee = 0;
+                        }
+                    }
+
+                    // if has_lot_inspection_fee has not a value
+                    else
+                    {
+                        loanObj.LotInspectionFee = 0;
+                    }
+
+                    // if has_monthly_loan_fee has a value
+                    if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_monthly_loan_fee"].ToString()))
+                    {
+                        if (bool.Parse(dataSet.Tables[0].Rows[0]["has_monthly_loan_fee"].ToString()))
+                        {
+                            loanObj.MonthlyLoanFee = 1;
+                        }
+                        else
+                        {
+                            loanObj.MonthlyLoanFee = 0;
+                        }
+                    }
+                    // if has_monthly_loan_fee  not a value
+                    else
+                    {
+                        loanObj.MonthlyLoanFee = 0;
+                    }
+
+                    // if has_advance_fee has a value
+                    if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["has_advance_fee"].ToString()))
+                    {
+                        if (bool.Parse(dataSet.Tables[0].Rows[0]["has_advance_fee"].ToString()))
+                        {
+                            loanObj.AdvanceFee = 1;
+                        }
+                        else
+                        {
+                            loanObj.AdvanceFee = 0;
+                        }
+                        if (!string.IsNullOrEmpty(dataSet.Tables[0].Rows[0]["payment_due_method"].ToString()))
+                        {
+                            if (dataSet.Tables[0].Rows[0]["payment_due_method"].ToString().Contains("Vehicle Payoff"))
+                            {
+                                loanObj.AdvanceFeePayAtPayoff = true;
+                            }
+                            else
+                            {
+                                loanObj.AdvanceFeePayAtPayoff = false;
+                            }
+
+                        }
+                    }
+                    // if has_advance_fee has not a value
+                    else
+                    {
+                        loanObj.AdvanceFee = 0;
+                    }
+
+
+                    loanObj.StartDate = Convert.ToDateTime(dataSet.Tables[0].Rows[0]["start_date"].ToString());
+                    loanObj.LoanAmount = Convert.ToDecimal(dataSet.Tables[0].Rows[0]["loan_amount"].ToString());
+                    loanObj.MaturityDate = Convert.ToDateTime(dataSet.Tables[0].Rows[0]["maturity_date"].ToString());
                     loanObj.NonRegBranchId = int.Parse(dataSet.Tables[0].Rows[0]["non_reg_branch_id"].ToString());
                     loanObj.LoanId = int.Parse(dataSet.Tables[0].Rows[0]["loan_id"].ToString());
 
