@@ -451,7 +451,15 @@
                     });
                 </script>
             }
+                @if (ViewBag.RoleId == 1)
+                {
+                    <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 25%">
+                        <label for="">Branch <span class="icon-help_outline"></span></label>
 
+                        @Html.DropDownList("Branch", new SelectList(ViewBag.BranchSelectList, "Value", "Text"), "-- select branch --", new { @class = "form-control", @style = "width: 253px;", @id = "branchSelect" })
+                        <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
+                    </div>
+                }
                     
                     </div>
 }
@@ -459,6 +467,17 @@ else
 {
     <div id="lnum" class="form-group" style="width:50%;">
         <input type="hidden" id="loanId" value="" />
+
+        @if (ViewBag.RoleId == 1)
+        {
+            <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 25%">
+                <label for="">Branch <span class="icon-help_outline"></span></label>
+
+                @Html.DropDownList("Branch", new SelectList(ViewBag.BranchSelectList, "Value", "Text"), "-- select branch --", new { @class = "form-control", @style = "width: 253px;", @id = "branchSelect" })
+                <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
+            </div>
+        }
+
     </div>
        
         }
@@ -509,15 +528,7 @@ else
             @Html.DropDownList("Title Status", titleStatus, "-- select type --", new { @class = "form-control", @id = "titleStatus" })
             <div id="tagscloudTitleStatus" class="field-validation-error"><span class="text-danger"></span></div>
         </div>
-            @if (ViewBag.RoleId == 1)
-            {
-                <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 20%">
-                    <label for="">Branch <span class="icon-help_outline"></span></label>
-
-                    @Html.DropDownList("Branch", new SelectList(ViewBag.BranchSelectList, "Value", "Text"), "-- select branch --", new { @class = "form-control", @style = "width: 253px;", @id = "branchSelect" })
-                    <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
-                </div>
-            }
+          
            
     </div>
 
@@ -570,9 +581,9 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspection');
         $('#divBranch').hide();
-        $('#lnum').show();
-        $('#lnum').siblings('.hf').hide();
-        $('#lnum').siblings('.hf').children('input').val('');
+       // $('#lnum').show();
+       // $('#lnum').siblings('.hf').hide();
+       // $('#lnum').siblings('.hf').children('input').val('');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
@@ -583,7 +594,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentInvoice');
         $('#divBranch').hide();
-        $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -599,7 +610,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentReceipt');
         $('#divBranch').hide();
-        $('#lnum').show();
+     //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -614,7 +625,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeReceipt');
         $('#divBranch').hide();
-        $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -629,7 +640,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('MonthlyLoanFeeReceipt');
         $('#divBranch').hide();
-        $('#lnum').show();
+       // $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -644,7 +655,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeReceipt');
         $('#divBranch').hide();
-        $('#lnum').show();
+       // $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -660,7 +671,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('TitlesStatus');
         $('#divBranch').hide();
-        $('#lnum').show();
+       // $('#lnum').show();
         $('#ttlsts').show().siblings('.hf').hide();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -672,9 +683,9 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('FullInventory');
         $('#divBranch').hide();
-        $('#lnum').show();
-        $('#lnum').siblings('.hf').hide();
-        $('#lnum').siblings('.hf').children('input').val('');
+      //  $('#lnum').show();
+      //  $('#lnum').siblings('.hf').hide();
+      //  $('#lnum').siblings('.hf').children('input').val('');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
@@ -685,7 +696,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceUnit');
         $('#divBranch').hide();
-        $('#lnum').show();
+     //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -701,7 +712,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeInvoice');
         $('#divBranch').hide();
-        $('#lnum').show();
+     //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -717,7 +728,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeReciept');
         $('#divBranch').hide();
-        $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -733,7 +744,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanFeeInvoice');
         $('#divBranch').hide();
-        $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -764,7 +775,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeInvoice');
         $('#divBranch').hide();
-        $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -780,7 +791,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeReciept');
         $('#divBranch').hide();
-        $('#lnum').show();
+    //    $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -796,7 +807,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('PayOff');
         $('#divBranch').hide();
-        $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -812,7 +823,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('TransactionHistory');
         $('#divBranch').hide();
-        $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -828,8 +839,8 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanTerms');
         $('#divBranch').hide();
-        $('#lnum').siblings('.hf').hide();
-        $('#lnum').siblings('.hf').children('input').val('');
+      //  $('#lnum').siblings('.hf').hide();
+      //  $('#lnum').siblings('.hf').children('input').val('');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
@@ -840,21 +851,21 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CompanySummary');
         $('#divBranch').hide();
-        $('#lnum').hide();
-        $('#lnum').siblings('.hf').hide();
+     //   $('#lnum').hide();
+      //  $('#lnum').siblings('.hf').hide();
     });
 
     $('#btnBranchSummary').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('BranchSummary');
-        $('#lnum').hide();
-        $('#lnum').siblings('.hf').hide();
+    //    $('#lnum').hide();
+      //  $('#lnum').siblings('.hf').hide();
         $('#divBranch').show();
     });
 
     $('#btnDeletedUnits').click(function () {
         ChangeButtonColor(this);
-        $('#lnum').show();
+     //   $('#lnum').show();
         $('#hdnSelectedButton').val('DeletedUnits');
         $('#ttlsts').hide().siblings('.hf').show();
         $('#divBranch').hide();
@@ -872,7 +883,7 @@ else
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanSummary');
         $('#divBranch').hide();
-        $('#lnum').show();
+     //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
