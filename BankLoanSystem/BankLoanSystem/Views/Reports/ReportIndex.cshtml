@@ -927,7 +927,7 @@
         $('#btnPrint').show();
     }
 
-    $('#btnDisplay').click(function () {
+    $('#btnDisplay').click(function (e) {
 
         errorCount = 0;
         var rptType = $('#hdnSelectedButton').val();
@@ -959,6 +959,9 @@
                 }
                 else {
                     branchId = $('#branchSelect').val();
+                    if (branchId <= 0 || branchId == "") {
+                        e.preventDefault();
+                    }
                 }             
                 myFrame = document.getElementById('ifrmReportViewer');
                 frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;

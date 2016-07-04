@@ -181,12 +181,18 @@ namespace BankLoanSystem.Controllers.Reports
             // if user is a dealer
             else if ( _userData.RoleId == 4)
             {
-                ViewBag.loanCount = (new ReportAccess()).GetLoanCountAccountDetailsForUser(_userData.UserId);
+                loanCount = (new ReportAccess()).GetLoanCountAccountDetailsForUser(_userData.UserId);
                 
                 // dealer user can have only one account
                 if (loanCount != 1)
                 {
                     return RedirectToAction("UserLogin", "Login");
+                }
+                else
+                {
+                    // get that loan detail and report rights
+                    List<Account> accounts = (new ReportAccess()).GetAccountDetailsForUser(_userData.UserId);
+                    ViewBag.loan = accounts;
                 }
                 
             }
