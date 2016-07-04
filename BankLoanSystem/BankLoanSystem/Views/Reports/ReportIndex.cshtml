@@ -209,9 +209,12 @@
             else if (report.rightId == "R21" && ViewBag.RoleId == 1)
             {
                 <button type="button" id="btnCompanySummary" class="btn btn-info1">Company Summary <span class="icon-help_outline help-cmp-smry" ></span></button>
+            }
+
+            else if (report.rightId == "R18")
+            {
+                <button type="button" id="btnFullCurtSummary" class="btn btn-info1">Full Curtailment Summary<span class="icon-help_outline help-full-curt-smry"></span></button>
                 }
-
-
 
 
             }
@@ -307,7 +310,10 @@
                     <button type="button" id="btnLoanSummary" class="btn btn-info1">Loan Summary <span class="icon-help_outline help-loan-smry" ></span></button>
                 }
 
-
+                else if (report.rightId == "R18" && reportRights.Contains("R18"))
+                {
+                    <button type="button" id="btnFullCurtSummary" class="btn btn-info1">Full Curtailment Summary<span class="icon-help_outline help-full-curt-smry"></span></button>
+                }
 
 
             }
@@ -316,7 +322,7 @@
         // if user is normal user or dealer and if he has multiple loan
         else if ((ViewBag.RoleId == 3 || ViewBag.RoleId == 4) && ViewBag.loanCount > 1)
         {
-            
+
 
             @*//Ordering the buttons according to the list*@
         foreach (Right report in (List<Right>)ViewBag.getReportRights)
@@ -404,11 +410,15 @@
             else if (report.rightId == "R19")
             {
                 <button type="button" id="btnLoanSummary" class="btn btn-info1">Loan Summary <span class="icon-help_outline help-loan-smry"></span></button>
+            }
+            else if (report.rightId == "R18")
+            {
+                <button type = "button" id = "btnFullCurtSummary" class="btn btn-info1">Full Curtailment Summary<span class="icon-help_outline help-full-curt-smry"></span></button>
                 }
 
             }
 
-           
+
 
         }
 
@@ -889,7 +899,16 @@
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
     });
+    $('#btnFullCurtSummary').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('FullCurtSummary');
+        $('#divBranch').hide();
+        $('#strdate').hide();
+        $('#enddate').hide();
+        $('#lnum').show();
+        $('#ttlsts').hide();
 
+    });
     function ReportCurtailmentInvoice(val, url) {
 
         var myFrame = document.getElementById('ifrmReportViewer');
@@ -908,7 +927,7 @@
         $('#btnPrint').show();
     }
 
-    $('#btnDisplay').click(function () {
+    $('#btnDisplay').click(function (e) {
 
         errorCount = 0;
         var rptType = $('#hdnSelectedButton').val();
@@ -940,6 +959,9 @@
                 }
                 else {
                     branchId = $('#branchSelect').val();
+                    if (branchId <= 0 || branchId == "") {
+                        e.preventDefault();
+                    }
                 }             
                 myFrame = document.getElementById('ifrmReportViewer');
                 frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
@@ -1028,7 +1050,9 @@
                 else if (rptType === 'LoanSummary') {
                     urlPrefix = "../Reports/RptDivLoanSummary.aspx?loanId=";
                 }
-
+                else if (rptType === 'FullCurtSummary') {
+                    urlPrefix = "../Reports/RptDivFullCurtailmentSummary.aspx?loanId=";
+                }
 
 
                 var val = selectedIndex;
@@ -1128,7 +1152,16 @@
                         ReportCurtailmentInvoice(val, urlPrefix);
                     }
                 }
+                else if (rptType === 'FullCurtSummary') {
+                    if (errorCount <= 0) {
+                        myFrame = document.getElementById('ifrmReportViewer');
+                        frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                        frameDoc.removeChild(frameDoc.documentElement);
 
+                        urlPrefix = urlPrefix + val;
+                        ReportCurtailmentInvoice(val, urlPrefix);
+                    }
+                }
             } else {
                 $('.centered h5 span').text("Please select report type");
             }
@@ -1917,5 +1950,9 @@
     $('.help-loan-smry').click(function () {
         $('.help-text h4').html("Loan Summary");
         $('.help-text p').html("&nbsp;&nbsp;The loan summary report will display a summary of all transaction types which took place for the loan during the date range selected.");
+    });
+    $('.help-full-curt-smry').click(function () {
+        $('.help-text h4').html("Full Curtailment Summary");
+        $('.help-text p').html("&nbsp;&nbsp;The full curtailment summary report will display the total number of curtailments paid and the paid amount as well as the balance due for each active unit on the selected loan.");
     });
 </script>

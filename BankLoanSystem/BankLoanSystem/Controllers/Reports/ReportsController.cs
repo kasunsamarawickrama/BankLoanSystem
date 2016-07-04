@@ -536,6 +536,11 @@ namespace BankLoanSystem.Controllers.Reports
                 RptDivLoanSummary deleteUnits = new RptDivLoanSummary();
                 rptViewerPrint = deleteUnits.PrintPage(loanId, startDate, endtDate);
             }
+            else if (rptType == "FullCurtSummary")
+            {
+                RptDivFullCurtailmentSummary fullCurtSummary = new RptDivFullCurtailmentSummary();
+                rptViewerPrint = fullCurtSummary.PrintPage(loanId);
+            }
             else
             {
                 return null;
