@@ -1662,8 +1662,15 @@ namespace BankLoanSystem.DAL
                         {
                             curtSummary.CurtNo = 0;
                         }
-
-                        totalPay = totalPay + curtSummary.PaidAmount;
+                        int index = unitCurtailments.FindIndex(un => un.UnitId.Equals(curtSummary.UnitId));
+                        if (index > -1)
+                        {
+                            totalPay = totalPay + curtSummary.PaidAmount;
+                        }
+                        else
+                        {
+                            totalPay = curtSummary.PaidAmount;
+                        }
                         curtSummary.BalanceAmount = curtSummary.AdvanceAmount - totalPay;
                         unitCurtailments.Add(curtSummary);
                     }
