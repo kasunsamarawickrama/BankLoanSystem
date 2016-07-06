@@ -22,7 +22,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
         <Height>0.38542in</Height>
-        <Width>7.87149in</Width>
+        <Width>9.03816in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -185,7 +185,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
         <Top>0.45486in</Top>
-        <Left>6.70933in</Left>
+        <Left>7.80802in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
         <ZIndex>5</ZIndex>
@@ -217,7 +217,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
         <Top>0.7743in</Top>
-        <Left>6.70382in</Left>
+        <Left>7.80251in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
         <ZIndex>6</ZIndex>
@@ -235,25 +235,25 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.2283in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.2283in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.2283in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.2283in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.2283in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.2283in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.2283in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -552,7 +552,9 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>PartnerBranch</rd:DefaultName>
@@ -588,7 +590,9 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>InActiveUnits</rd:DefaultName>
@@ -624,7 +628,9 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>ActiveUnits</rd:DefaultName>
@@ -662,7 +668,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>LoanBalance</rd:DefaultName>
@@ -701,7 +709,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>PendingBalance</rd:DefaultName>
@@ -735,10 +745,15 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!LoanAmount.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                                <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
+                              </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>LoanAmount</rd:DefaultName>
@@ -788,9 +803,9 @@
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
         <Top>1.2175in</Top>
-        <Left>0.40177in</Left>
+        <Left>0.20439in</Left>
         <Height>0.5in</Height>
-        <Width>7in</Width>
+        <Width>8.59812in</Width>
         <ZIndex>7</ZIndex>
         <Style>
           <Border>
@@ -864,14 +879,205 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Textbox Name="Textbox2">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Total Loan Balances</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontSize>0.13542in</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>1.99417in</Top>
+        <Left>6.01723in</Left>
+        <Height>0.25in</Height>
+        <Width>1.55698in</Width>
+        <ZIndex>10</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="TotalAdvanceAmount1">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!TotalLoanBalances.Value, "DataSet1")</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                  <Format>'$'0.00;('$'0.00)</Format>
+                  <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>TotalAdvanceAmount1</rd:DefaultName>
+        <Top>1.98375in</Top>
+        <Left>7.57421in</Left>
+        <Height>0.25in</Height>
+        <Width>1.23381in</Width>
+        <ZIndex>11</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+          <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox3">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Total Loan Amounts</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontSize>0.13542in</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>2.30319in</Top>
+        <Left>6.01723in</Left>
+        <Height>0.25in</Height>
+        <Width>1.55698in</Width>
+        <ZIndex>12</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="TotalAdvanceAmount2">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!TotalLoanAmounts.Value, "DataSet1")</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                  <Format>'$'0.00;('$'0.00)</Format>
+                  <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>TotalAdvanceAmount1</rd:DefaultName>
+        <Top>2.30319in</Top>
+        <Left>7.57421in</Left>
+        <Height>0.25in</Height>
+        <Width>1.2283in</Width>
+        <ZIndex>13</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+          <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
+        </Style>
+      </Textbox>
     </ReportItems>
-    <Height>5.10328cm</Height>
+    <Height>6.95536cm</Height>
     <Style />
   </Body>
-  <Width>19.99358cm</Width>
+  <Width>22.95693cm</Width>
   <Page>
-    <PageHeight>29.7cm</PageHeight>
-    <PageWidth>21cm</PageWidth>
+    <PageFooter>
+      <Height>2.54cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="Textbox1">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals.PageNumber &amp; " of " &amp; Globals.TotalPages</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox1</rd:DefaultName>
+          <Top>0.375in</Top>
+          <Left>3.43574in</Left>
+          <Height>0.25in</Height>
+          <Width>1in</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style>
+        <Border>
+          <Style>None</Style>
+        </Border>
+      </Style>
+    </PageFooter>
+    <PageHeight>21cm</PageHeight>
+    <PageWidth>29.7cm</PageWidth>
     <LeftMargin>0.5cm</LeftMargin>
     <RightMargin>0.5cm</RightMargin>
     <TopMargin>0.5cm</TopMargin>

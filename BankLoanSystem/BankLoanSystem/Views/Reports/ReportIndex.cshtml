@@ -592,6 +592,10 @@
     $('#idNumber').focusout(function () {
         $(this).attr('placeholder', 'Last 6 characters of VIN/HIN/SN');
     });
+    $('#branchSelect').change(function () {
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
+    });
     var errorCount = 0;
 
     function ChangeButtonColor(id) {
@@ -607,6 +611,8 @@
     $('#btnLotInspection').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspection');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
        // $('#lnum').show();
        // $('#lnum').siblings('.hf').hide();
@@ -625,6 +631,8 @@
     $('#btnCurtailmentInvoice').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentInvoice');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
       //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
@@ -646,6 +654,8 @@
     $('#btnCurtailmentReceipt').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentReceipt');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
      //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
@@ -666,6 +676,8 @@
     $('#btnAdvanceFeeReceipt').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeReceipt');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
       //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
@@ -686,6 +698,8 @@
     $('#btnMonthlyLoanFeeReceipt').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('MonthlyLoanFeeReceipt');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
        // $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
@@ -706,6 +720,8 @@
     $('#btnLotInspectionFeeReceipt').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeReceipt');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
        // $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
@@ -727,6 +743,8 @@
     $('#btnTitlesStatus').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('TitlesStatus');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
        // $('#lnum').show();
         $('#ttlsts').show().siblings('.hf').hide();
@@ -744,6 +762,8 @@
     $('#btnFullInventory').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('FullInventory');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
       //  $('#lnum').show();
       //  $('#lnum').siblings('.hf').hide();
@@ -762,6 +782,8 @@
     $('#btnAdvanceUnit').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceUnit');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
      //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
@@ -783,6 +805,8 @@
     $('#btnAdvFeeInv').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeInvoice');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
      //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
@@ -804,6 +828,8 @@
     $('#btnAdvFeeRec').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeReciept');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
       //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
@@ -825,6 +851,8 @@
     $('#btnLoanFeeInv').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanFeeInvoice');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
       //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
@@ -846,6 +874,8 @@
     $('#btnLoanFeeRec').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanFeeReciept');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
@@ -866,6 +896,8 @@
     $('#btnLotInsFeeInv').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeInvoice');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
       //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
@@ -887,6 +919,8 @@
     $('#btnLotInsFeeRec').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeReciept');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
     //    $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
@@ -908,6 +942,8 @@
     $('#btnPayOff').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('PayOff');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
       //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
@@ -929,6 +965,8 @@
     $('#btnTransactionHistory').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('TransactionHistory');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
       //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
@@ -949,6 +987,8 @@
     $('#btnLoanTerms').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanTerms');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
       //  $('#lnum').siblings('.hf').hide();
       //  $('#lnum').siblings('.hf').children('input').val('');
@@ -965,6 +1005,8 @@
     $('#btnCompanySummary').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CompanySummary');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
         $('#idNumber').val("");
         $('#tagscloudIDNumber').children('span').text('');
@@ -977,8 +1019,10 @@
     $('#btnBranchSummary').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('BranchSummary');
-    //    $('#lnum').hide();
-      //  $('#lnum').siblings('.hf').hide();
+        $('#strdate').hide();
+        $('#enddate').hide();
+        $('#lnum').show();
+        $('#ttlsts').hide();
         $('#divBranch').show();
 
         @if (ViewBag.RoleId == 1)
@@ -990,6 +1034,7 @@
              }
 
         }
+       
         $('#idNumber').val("");
         $('#tagscloudIDNumber').children('span').text('');
         $('#idNumber').removeClass('input-validation-error');
@@ -1001,6 +1046,8 @@
      //   $('#lnum').show();
         $('#hdnSelectedButton').val('DeletedUnits');
         $('#ttlsts').hide().siblings('.hf').show();
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -1020,6 +1067,8 @@
     $('#btnLoanSummary').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanSummary');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
      //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
@@ -1040,6 +1089,8 @@
     $('#btnFullCurtSummary').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('FullCurtSummary');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
         $('#strdate').hide();
         $('#enddate').hide();
@@ -1053,6 +1104,8 @@
     $('#btnIndCurtSummary').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('IndCurtSummary');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
         $('#strdate').hide();
         $('#enddate').hide();
@@ -1109,6 +1162,7 @@
         errorCount = 0;
         var rptType = $('#hdnSelectedButton').val();
         var branchId = 0;
+        var branchName = "";
 
         // if report type is company summary or branch summary
         if (rptType === 'CompanySummary' || rptType === 'BranchSummary') {
@@ -1136,16 +1190,22 @@
                 }
                 else {
                     branchId = $('#branchSelect').val();
+                    branchName = $('#branchSelect option:selected').text();
+
                 }
+
                 if (branchId > 0 && branchId != "") {
                 myFrame = document.getElementById('ifrmReportViewer');
                 frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
                 frameDoc.removeChild(frameDoc.documentElement);
 
-                urlPrefix = urlPrefix + branchId;
+                urlPrefix = urlPrefix + branchId + '&branchName=' + branchName;
                 ReportCurtailmentInvoice(val, urlPrefix);
             }
                 else {
+                    $('#tagscloudBranch').children('span').text("Please select a branch");
+                    $("#branchSelect").addClass('input-validation-error');
+                    $('.centered h5 span').text("Error in Page");
                 }
             }
             return;

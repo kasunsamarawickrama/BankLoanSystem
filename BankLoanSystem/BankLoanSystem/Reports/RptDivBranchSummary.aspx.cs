@@ -17,15 +17,18 @@ namespace BankLoanSystem.Reports
             if (!IsPostBack)
             {
                 int branchId = 0;
+                string branchName = "";
 
                 if (Request.QueryString["branchId"] != "")
                     branchId = Convert.ToInt32(Request.QueryString["branchId"]);
+                if (Request.QueryString["branchName"] != "")
+                    branchName = Request.QueryString["branchName"];
 
-                RenderReport(branchId);
+                RenderReport(branchId, branchName);
             }
         }
 
-        public void RenderReport(int branchId)
+        public void RenderReport(int branchId,string branchName)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return;
@@ -39,11 +42,22 @@ namespace BankLoanSystem.Reports
             rptViewerBranchSummary.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
+            User usr = new User();
+            usr = (new UserAccess()).retreiveUserByUserId(userData.UserId);
             List<LoanDetailsRpt> details = new List<LoanDetailsRpt>();
             LoanDetailsRpt detail = new LoanDetailsRpt();
             detail.CompanyName = userData.CompanyName;
-            detail.LenderBrnchName = userData.BranchName;
-            detail.ReportDate = DateTime.Now.ToString("MM/dd/yyyy"); ;
+            if (userData.RoleId == 1)
+            {
+                detail.LenderBrnchName = branchName;
+            }
+            else
+            {
+                detail.LenderBrnchName = userData.BranchName;
+            }
+            
+            detail.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            detail.CreaterName = usr.FirstName + " " + usr.LastName;
             details.Add(detail);
             rptViewerBranchSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", details));
 
