@@ -482,7 +482,7 @@
                 @if (ViewBag.RoleId == 1)
                 {
                     <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 25%">
-                        <label for="">Branch <span class="icon-help_outline"></span></label>
+                        <label for="">Branch <span class="icon-help_outline help-branch"></span></label>
 
                         @Html.DropDownList("Branch", new SelectList(ViewBag.BranchSelectList, "Value", "Text"), "-- select branch --", new { @class = "form-control", @style = "width: 253px;", @id = "branchSelect" })
                         <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
@@ -490,7 +490,7 @@
                 }
                 else {
                     <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 25%">
-                        <label for="">Branch <span class="icon-help_outline"></span></label>
+                        <label for="">Branch <span class="icon-help_outline help-branch"></span></label>
 
                         @Html.Label("Branch", (string)ViewBag.BranchName, new { @class = "form-control", @style = "width: 253px;min-width: 256px;", @id = "branchSelect" })
                         <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
