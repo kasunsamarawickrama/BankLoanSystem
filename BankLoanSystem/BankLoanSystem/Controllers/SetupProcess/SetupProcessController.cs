@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Data;
 using System.Web.UI;
+using Microsoft.Reporting.WebForms;
+using BankLoanSystem.Reports;
 
 namespace BankLoanSystem.Controllers.SetupProcess
 {
@@ -2710,7 +2712,35 @@ namespace BankLoanSystem.Controllers.SetupProcess
             TempData["LoanId"] = loanData.loanId;
             return RedirectToAction("Step10", new { lbl = "Details added successfully" });
         }
-        
+
+        /// <summary>
+        /// Created by : kasun
+        /// Created Date: 7/6/2016
+        /// 
+        /// Summery: Loan term print
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <returns></returns>
+        public FileResult PrintPage(int loanId)
+        {
+
+            Warning[] warnings;
+            string[] streamids;
+            string mimeType;
+            string encoding;
+            string filenameExtension;
+
+            RptDivLoanTerms loanTerm = new RptDivLoanTerms();
+            var rptViewerPrint = loanTerm.PrintPage(loanId);
+
+            var bytes = rptViewerPrint.LocalReport.Render(
+                "PDF", null, out mimeType, out encoding, out filenameExtension,
+                out streamids, out warnings);
+
+            var fsResult = File(bytes, "application/pdf");
+            return fsResult;
+        }
+
     }
 }
 

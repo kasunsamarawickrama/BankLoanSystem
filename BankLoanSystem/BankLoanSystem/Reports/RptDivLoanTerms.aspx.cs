@@ -86,7 +86,7 @@ namespace BankLoanSystem.Reports
             rptViewerLoanTermsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", loanTermsDetails));
 
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRptforCompanySummary(userData.Company_Id, userData.UserId);
-            rptViewerLoanTerms.LocalReport.DataSources.Add(new ReportDataSource("DataSet6", details));
+            rptViewerLoanTermsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet6", details));
 
             CurtailmentAccess ca = new CurtailmentAccess();
             List<Curtailment> curtailments = ca.retreiveCurtailmentByLoanId(loanId);
