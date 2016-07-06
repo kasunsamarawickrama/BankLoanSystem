@@ -7,15 +7,43 @@
     }
 }
 
-<style>
 
-    .new_form_group{
-        width: 548px;
-    }
-</style>
+<link href="~/Content/overlaypopup.css" rel="stylesheet" />
+
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js?version=@((new Random()).Next(1,10000))."></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js?version=@((new Random()).Next(1,10000))."></script>
+
+<script src="~/scripts/jquery-1.10.2.js"></script>
+<script src="~/scripts/jquery-ui.js"></script>
+
+
+<script src="~/scripts/CommonFunctions.js"></script>
+
+<script src="~/scripts/jquery-ui.js"></script>
+
+<script src="~/scripts/combo.js"></script>
+<script src="~/scripts/popup.js?version=1"></script>
+<style>
+    .new_form_group {
+        width: 548px;
+    }
+
+    .overlay-bg {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    z-index: 10000;
+    background: #000;
+    background: rgba(0,0,0,0.75);
+}
+
+</style>
+
 
 @if (ViewBag.Redirect == 1)
 {
@@ -367,14 +395,15 @@
     }
 </div>
 
-<div class="overlay-content popupReport" id="confirmBox" style="height: 750px;" hidden>
-    <h3>Loan Terms</h3>
 
-    <div id="reportViewerDiv" hidden>
+
+<div class="overlay-content popupReport popup12" id="confirmBox" style="height: 825px;top: 7px;" >
+
+    <div id="reportViewerDiv">
         <iframe id="ifrmReportViewer" style="height: 700px; width: 100%;" frameborder="0" scrolling="no"></iframe>
     </div>
-    <button style="font-size: 14px; width: 100px; margin-top: -56px;" type="button" id="btnPrint" class="btn btn-primary m-b cancel next_clear_button back_back"> Print</button>
-    <button style="font-size:14px;width: 100px;margin-top: -56px;" type="button" id="btnCancelPtrDiv" class="btn btn-primary m-b cancel next_clear_button clear_back"> Cancel</button>
+    <input style="font-size: 14px; width: 100px; margin-top: 20px;" type="button" id="btnPrint" class="btn btn-primary m-b cancel next_clear_button back_back" Value="Print">
+    <input style="font-size:14px;width: 100px;margin-top: 22px;" type="button" id="btnCancelPtrDiv" class="btn btn-primary m-b cancel next_clear_button clear_back close-btn"Value="Cancel">
 </div>
 
 @*Grid view*@
@@ -1106,37 +1135,139 @@
     });
 
     $('#btnLoanTerms').click(function () {
-        alert('d');
-        doConfirm();
+
+        //doConfirm();
+        showPopup(12);
+        var loanId = 0;
+        loanId = '@ViewBag.LoanId';
         var url = "../Reports/RptDivLoanTerms.aspx?loanId=" + loanId;
 
-        $('#reportViewerDiv').show();
+        //$('#reportViewerDiv').show();
+        
+        //$('#confirmBox').show();
+        //$('#reportViewerDiv').show();
+        
         var myFrame = document.getElementById('ifrmReportViewer');
 
         if (myFrame !== null) {
 
             if (myFrame.src) {
-                //alert(1);
                 myFrame.src = url;
             } else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
-                //alert(2);
                 myFrame.contentWindow.location = url;
             } else {
-                //alert(3);
                 myFrame.setAttribute('src', url);
             }
         }
+        
+
     });
 
-    function doConfirm() {
-        var scrollTop = $(window).scrollTop();
-        var docHeight = $(document).height(); //grab the height of the page
-        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
-        $('#confirmBox').show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+    //function doConfirm() {
+    //    var scrollTop = $(window).scrollTop();
+    //    var docHeight = $(document).height(); //grab the height of the page
+    //    $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+    //    $('#confirmBox').show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
 
-        $('.overlay-bg, .overlay-content.popupReport').show();
-        return;
+    //    $('.overlay-bg, .overlay-content.popupReport').show();
+    //    return;
+    //}
+
+
+    // function to show our popups
+    function showPopup(whichpopup) {
+        var docHeight = $(document).height(); //grab the height of the page
+        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+        $('.popup' + whichpopup).show().css({ 'top': scrollTop + 20 + 'px' }); //show the appropriate popup and set the content 20px from the window top
     }
 
+    // function to close our popups
+    function closePopup() {
+        $('.overlay-bg, .overlay-content').hide(); //hide the overlay
+        if(addUnitPopupActive == true){
+            $('#form').unbind('submit').submit();
+        }
+    }
+
+    // timer if we want to show a popup after a few seconds.
+    //get rid of this if you don't want a popup to show up automatically
+    // setTimeout(function() {
+    // Show popup3 after 2 seconds
+    //    showPopup(3);
+    // }, 2000);
+
+
+    // show popup when you click on the link
+    $('.show-popup').click(function (event) {
+        //event.preventDefault(); // disable normal link function so that it doesn't refresh the page
+        var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
+
+        showPopup(selectedPopup); //we'll pass in the popup number to our showPopup() function to show which popup we want
+    });
+
+    // hide popup when user clicks on close button or if user clicks anywhere outside the container
+    $('.close-btn').click(function () {
+        closePopup();
+    });
+
+    // hide the popup when user presses the esc key
+    $(document).keyup(function (e) {
+        if (e.keyCode == 27) { // if user presses esc key
+            closePopup();
+        }
+    });
+
+
+
+
+
     Progress(10);
+
+</script>
+
+<script>
+
+
+    // function to show our popups
+    function showPopup(whichpopup) {
+        var docHeight = $(document).height(); //grab the height of the page
+        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you're scrolling
+        $('.overlay-bg').show().css({ 'height': docHeight }); //display your popup background and set height to the page height
+        $('.popup' + whichpopup).show().css({ 'top': scrollTop + 7 + 'px' }); //show the appropriate popup and set the content 20px from the window top
+    }
+
+    // function to close our popups
+    function closePopup() {
+        $('.overlay-bg, .overlay-content').hide(); //hide the overlay
+    }
+
+    // timer if we want to show a popup after a few seconds.
+    //get rid of this if you don't want a popup to show up automatically
+    // setTimeout(function() {
+    // Show popup3 after 2 seconds
+    //    showPopup(3);
+    // }, 2000);
+
+
+    // show popup when you click on the link
+    $('.show-popup').click(function (event) {
+        //event.preventDefault(); // disable normal link function so that it doesn't refresh the page
+        var selectedPopup = $(this).data('showpopup'); //get the corresponding popup to show
+
+        showPopup(selectedPopup); //we'll pass in the popup number to our showPopup() function to show which popup we want
+    });
+
+    // hide popup when user clicks on close button or if user clicks anywhere outside the container
+    $('.close-btn').click(function () {
+        closePopup();
+    });
+
+    // hide the popup when user presses the esc key
+    $(document).keyup(function (e) {
+        if (e.keyCode == 27) { // if user presses esc key
+            closePopup();
+        }
+    });
+
 </script>
