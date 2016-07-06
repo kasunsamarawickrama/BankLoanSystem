@@ -25,7 +25,7 @@
 @section AddToHead{
 <style>
     .btns-clm > button {
-        width: 210px;
+        width: 225px;
         height: 40px;
             margin-bottom: 10px;
         margin-left: 5px;
@@ -210,7 +210,10 @@
             {
                 <button type="button" id="btnCompanySummary" class="btn btn-info1">Company Summary <span class="icon-help_outline help-cmp-smry" ></span></button>
             }
-
+            else if (report.rightId == "R17")
+            {
+                <button type="button" id="btnIndCurtSummary" class="btn btn-info1">Individual Curtailment Summary<span class="icon-help_outline help-ind-curt-smry"></span></button>
+            }
             else if (report.rightId == "R18")
             {
                 <button type="button" id="btnFullCurtSummary" class="btn btn-info1">Full Curtailment Summary<span class="icon-help_outline help-full-curt-smry"></span></button>
@@ -309,7 +312,10 @@
                 {
                     <button type="button" id="btnLoanSummary" class="btn btn-info1">Loan Summary <span class="icon-help_outline help-loan-smry" ></span></button>
                 }
-
+                else if (report.rightId == "R17")
+                {
+                    <button type="button" id="btnIndCurtSummary" class="btn btn-info1">Individual Curtailment Summary<span class="icon-help_outline help-ind-curt-smry"></span></button>
+                }
                 else if (report.rightId == "R18" && reportRights.Contains("R18"))
                 {
                     <button type="button" id="btnFullCurtSummary" class="btn btn-info1">Full Curtailment Summary<span class="icon-help_outline help-full-curt-smry"></span></button>
@@ -411,6 +417,10 @@
             {
                 <button type="button" id="btnLoanSummary" class="btn btn-info1">Loan Summary <span class="icon-help_outline help-loan-smry"></span></button>
             }
+            else if (report.rightId == "R17")
+            {
+                <button type="button" id="btnIndCurtSummary" class="btn btn-info1">Individual Curtailment Summary<span class="icon-help_outline help-ind-curt-smry"></span></button>
+            }
             else if (report.rightId == "R18")
             {
                 <button type = "button" id = "btnFullCurtSummary" class="btn btn-info1">Full Curtailment Summary<span class="icon-help_outline help-full-curt-smry"></span></button>
@@ -472,7 +482,7 @@
                 @if (ViewBag.RoleId == 1)
                 {
                     <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 25%">
-                        <label for="">Branch <span class="icon-help_outline"></span></label>
+                        <label for="">Branch <span class="icon-help_outline help-branch"></span></label>
 
                         @Html.DropDownList("Branch", new SelectList(ViewBag.BranchSelectList, "Value", "Text"), "-- select branch --", new { @class = "form-control", @style = "width: 253px;", @id = "branchSelect" })
                         <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
@@ -480,11 +490,11 @@
                 }
                 else {
                     <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 25%">
-                        <label for="">Branch <span class="icon-help_outline"></span></label>
+                        <label for="">Branch <span class="icon-help_outline help-branch"></span></label>
 
                         @Html.Label("Branch", (string)ViewBag.BranchName, new { @class = "form-control", @style = "width: 253px;min-width: 256px;", @id = "branchSelect" })
                         <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
-                    </div>
+            </div>
                 }
 
             </div>
@@ -533,8 +543,16 @@
             @Html.DropDownList("Title Status", titleStatus, "-- select type --", new { @class = "form-control", @id = "titleStatus" })
             <div id="tagscloudTitleStatus" class="field-validation-error"><span class="text-danger"></span></div>
         </div>
+            @*for individual curtailment summary report*@
+            <div id="idNumberDiv" class="form-group row" style="float:left; display: none; width:117%">
+                <label for="" class="col-sm-6 form-control-label">Enter the last 6 characters of the VIN/HIN/Serial Number</label>
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.IDNumber, new { htmlAttributes = new { @class = "form-control", @id = "idNumber", @placeholder = "Last 6 characters of VIN/HIN/SN", autocomplete = "off", style = "width:230%", @maxlength = 6 } })
+                    @Html.ValidationMessageFor(model => model.IDNumber, "", new { @class = "text-danger", style = "left:25%" })
+                    <div id="tagscloudIDNumber" class="field-validation-error" style="width:170%"><span class="text-danger"></span></div>
+                    </div>
+                </div> 
           
-           
     </div>
 
         <div class="form-inline" style="width: 30%;float: left;padding-top: 5px;">
@@ -570,6 +588,14 @@
 
 
 <script type="text/javascript">
+
+    $('#idNumber').focusout(function () {
+        $(this).attr('placeholder', 'Last 6 characters of VIN/HIN/SN');
+    });
+    $('#branchSelect').change(function () {
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
+    });
     var errorCount = 0;
 
     function ChangeButtonColor(id) {
@@ -585,21 +611,38 @@
     $('#btnLotInspection').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspection');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        // $('#lnum').show();
-        // $('#lnum').siblings('.hf').hide();
-        // $('#lnum').siblings('.hf').children('input').val('');
+       // $('#lnum').show();
+       // $('#lnum').siblings('.hf').hide();
+       // $('#lnum').siblings('.hf').children('input').val('');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+        $('#ttlsts').hide();
+
+        $('#tagscloudStartDate').children('span').text('');
+        $('#startDate').removeClass('input-validation-error');
+        $('#strdate').hide();
+        $('#tagscloudEndDate').children('span').text('');
+        $('#endDate').removeClass('input-validation-error');
+        $('#enddate').hide();
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnCurtailmentInvoice').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentInvoice');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //  $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -609,13 +652,20 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnCurtailmentReceipt').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CurtailmentReceipt');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //   $('#lnum').show();
+     //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -625,12 +675,19 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
     $('#btnAdvanceFeeReceipt').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeReceipt');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //  $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -640,12 +697,19 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
     $('#btnMonthlyLoanFeeReceipt').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('MonthlyLoanFeeReceipt');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        // $('#lnum').show();
+       // $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -655,12 +719,19 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
     $('#btnLotInspectionFeeReceipt').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeReceipt');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        // $('#lnum').show();
+       // $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -670,38 +741,59 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnTitlesStatus').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('TitlesStatus');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        // $('#lnum').show();
+       // $('#lnum').show();
         $('#ttlsts').show().siblings('.hf').hide();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
         $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
         $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnFullInventory').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('FullInventory');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //  $('#lnum').show();
-        //  $('#lnum').siblings('.hf').hide();
-        //  $('#lnum').siblings('.hf').children('input').val('');
+      //  $('#lnum').show();
+      //  $('#lnum').siblings('.hf').hide();
+      //  $('#lnum').siblings('.hf').children('input').val('');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnAdvanceUnit').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceUnit');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //   $('#lnum').show();
+     //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -711,13 +803,20 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnAdvFeeInv').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeInvoice');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //   $('#lnum').show();
+     //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -727,13 +826,20 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnAdvFeeRec').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('AdvanceFeeReciept');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //  $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -743,13 +849,20 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnLoanFeeInv').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanFeeInvoice');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //  $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -759,11 +872,18 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnLoanFeeRec').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanFeeReciept');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
@@ -774,13 +894,20 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnLotInsFeeInv').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeInvoice');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //  $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -790,13 +917,20 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnLotInsFeeRec').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LotInspectionFeeReciept');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //    $('#lnum').show();
+    //    $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -806,13 +940,20 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnPayOff').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('PayOff');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //  $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -822,13 +963,20 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnTransactionHistory').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('TransactionHistory');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //  $('#lnum').show();
+      //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -838,33 +986,65 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnLoanTerms').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanTerms');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //  $('#lnum').siblings('.hf').hide();
-        //  $('#lnum').siblings('.hf').children('input').val('');
+      //  $('#lnum').siblings('.hf').hide();
+      //  $('#lnum').siblings('.hf').children('input').val('');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+
+        $('#tagscloudStartDate').children('span').text('');
+        $('#startDate').removeClass('input-validation-error');
+        $('#strdate').hide();
+        $('#tagscloudEndDate').children('span').text('');
+        $('#endDate').removeClass('input-validation-error');
+        $('#enddate').hide();
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnCompanySummary').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CompanySummary');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //   $('#lnum').hide();
-        //  $('#lnum').siblings('.hf').hide();
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
+
+        $('#tagscloudStartDate').children('span').text('');
+        $('#startDate').removeClass('input-validation-error');
+        $('#strdate').hide();
+        $('#tagscloudEndDate').children('span').text('');
+        $('#endDate').removeClass('input-validation-error');
+        $('#enddate').hide();
     });
 
     $('#btnBranchSummary').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('BranchSummary');
-        //    $('#lnum').hide();
-        //  $('#lnum').siblings('.hf').hide();
+        $('#strdate').hide();
+        $('#enddate').hide();
+        $('#lnum').show();
+        $('#ttlsts').hide();
         $('#divBranch').show();
 
         @if (ViewBag.RoleId == 1)
@@ -876,13 +1056,20 @@
              }
 
         }
+       
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnDeletedUnits').click(function () {
         ChangeButtonColor(this);
-        //   $('#lnum').show();
+     //   $('#lnum').show();
         $('#hdnSelectedButton').val('DeletedUnits');
         $('#ttlsts').hide().siblings('.hf').show();
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -892,13 +1079,20 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnLoanSummary').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('LoanSummary');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-        //   $('#lnum').show();
+     //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -908,16 +1102,64 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
     $('#btnFullCurtSummary').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('FullCurtSummary');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
         $('#strdate').hide();
         $('#enddate').hide();
         $('#lnum').show();
         $('#ttlsts').hide();
+        $('#idNumberDiv').hide();
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+    });
+    $('#btnIndCurtSummary').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('IndCurtSummary');
+        $('#tagscloudBranch').children('span').text("");
+        $("#branchSelect").removeClass('input-validation-error');
+        $('#divBranch').hide();
+        $('#strdate').hide();
+        $('#enddate').hide();
+        $('#lnum').show();
+        $('#ttlsts').hide();
+        $('#idNumberDiv').show();
+    });
 
+    $('#idNumber').click(function () {
+
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+    });
+    $('#idNumber').focusout(function () {
+        if ($('#idNumber').val() !== "") {
+            $('#tagscloudIDNumber').children('span').text('');
+            $('#idNumber').removeClass('input-validation-error');
+        }
+        else if ($('#idNumber').val() === "") {
+            $('#tagscloudIDNumber').children('span').text('Please confirm the last 6 characters of the VIN/HIN/Serial No.');
+            $('#idNumber').addClass('input-validation-error');
+        }
+    });
+    $('#idNumber').blur(function () {
+        if ($('#idNumber').val() !== "") {
+            $('#tagscloudIDNumber').children('span').text('');
+            $('#idNumber').removeClass('input-validation-error');
+        }
+        else if ($('#idNumber').val() === "") {
+            $('#tagscloudIDNumber').children('span').text('Please confirm the last 6 characters of the VIN/HIN/Serial No.');
+            $('#idNumber').addClass('input-validation-error');
+        }
     });
     function ReportCurtailmentInvoice(val, url) {
 
@@ -942,6 +1184,7 @@
         errorCount = 0;
         var rptType = $('#hdnSelectedButton').val();
         var branchId = 0;
+        var branchName = "";
 
         // if report type is company summary or branch summary
         if (rptType === 'CompanySummary' || rptType === 'BranchSummary') {
@@ -969,17 +1212,23 @@
                 }
                 else {
                     branchId = $('#branchSelect').val();
-                }
-                if (branchId > 0 && branchId != "") {
-                    myFrame = document.getElementById('ifrmReportViewer');
-                    frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
-                    frameDoc.removeChild(frameDoc.documentElement);
+                    branchName = $('#branchSelect option:selected').text();
 
-                    urlPrefix = urlPrefix + branchId;
-                    ReportCurtailmentInvoice(val, urlPrefix);
                 }
+
+                if (branchId > 0 && branchId != "") {
+                myFrame = document.getElementById('ifrmReportViewer');
+                frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                frameDoc.removeChild(frameDoc.documentElement);
+
+                urlPrefix = urlPrefix + branchId + '&branchName=' + branchName;
+                ReportCurtailmentInvoice(val, urlPrefix);
+            }
                 else {
-                }            
+                    $('#tagscloudBranch').children('span').text("Please select a branch");
+                    $("#branchSelect").addClass('input-validation-error');
+                    $('.centered h5 span').text("Error in Page");
+                }
             }
             return;
         }
@@ -1059,7 +1308,11 @@
                 else if (rptType === 'FullCurtSummary') {
                     urlPrefix = "../Reports/RptDivFullCurtailmentSummary.aspx?loanId=";
                 }
+                else if (rptType === 'IndCurtSummary') {
 
+                    urlPrefix = "../Reports/RptDivIndividualCurtailmentSummary.aspx?loanId=";
+
+                }
 
                 var val = selectedIndex;
 
@@ -1167,6 +1420,31 @@
                         urlPrefix = urlPrefix + val;
                         ReportCurtailmentInvoice(val, urlPrefix);
                     }
+                }
+                else if (rptType === 'IndCurtSummary') {
+                    var idType = $("#idNumber").val();
+
+                    if (idType === null || idType === "") {
+                        $('#tagscloudIDNumber').children('span').text("Please confirm the last 6 characters of the VIN/HIN/Serial No.");
+                        $("#idNumber").addClass('input-validation-error');
+                        $('.centered h5 span').text("Error in Page");
+                        errorCount = errorCount + 1;
+                    } else {
+
+                        if (errorCount <= 0) {
+                            $('#tagscloudIDNumber').children('span').text("");
+                            $("#idNumber").removeClass('input-validation-error');
+                            $('.centered h5 span').text("");
+                            myFrame = document.getElementById('ifrmReportViewer');
+                            frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                            frameDoc.removeChild(frameDoc.documentElement);
+
+                            urlPrefix = urlPrefix + val + '&idNumber=' + $('#idNumber').val();
+
+                            ReportCurtailmentInvoice(val, urlPrefix);
+                    }
+                    }
+
                 }
             } else {
                 $('.centered h5 span').text("Please select report type");
@@ -1309,8 +1587,10 @@
         @if (ViewBag.RoleId == 1) {
             <text>var branchId = $('#branchSelect').val();</text>
         }
+        var idNumber = $('#idNumber').val(); //individual curtailment summary
+
         //Create and store report path
-        var url = '/Reports/PrintPage?rptType=' + rptType + '&loanId=' + loanId + '&range1=' + range1 + '&range2=' + range2 + '&titleStatus=' + titleStatus + '&branchId=' + branchId;
+        var url = '/Reports/PrintPage?rptType=' + rptType + '&loanId=' + loanId + '&range1=' + range1 + '&range2=' + range2 + '&titleStatus=' + titleStatus  + '&branchId=' + branchId + '&idNumber=' + idNumber;
 
         //open report in a new page
         var win = window.open(url, '_blank');
@@ -1858,9 +2138,33 @@
             $("#btnLoanSummary").show();
         }
 
+        if (userRights.indexOf("R18") > -1) {
 
+            $("#btnFullCurtSummary").show();
+        }
+        if (userRights.indexOf("R17") > -1) {
 
+            $("#btnIndCurtSummary").show();
+        }
     }
+            @*capitalize letters when typing*@
+    $('#idNumber').keyup(function () {
+        $('#idNumber').val(($('#idNumber').val()).toUpperCase());
+        });
+        @*block invalid characters*@
+    $("#idNumber").keypress(function (e) {
+            if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                var ch = e.which;
+                if ((ch >= 47 && ch <= 57) || (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122)) {
+                    return 1;
+                }
+
+                else {
+                    e.preventDefault();
+                }
+    }
+
+        });
 
 
     $('.title-help').click(function () {
@@ -1963,5 +2267,9 @@
     $('.help-full-curt-smry').click(function () {
         $('.help-text h4').html("Full Curtailment Summary");
         $('.help-text p').html("&nbsp;&nbsp;The full curtailment summary report will display the total number of curtailments paid and the paid amount as well as the balance due for each active unit on the selected loan.");
+    });
+    $('.help-ind-curt-smry').click(function () {
+        $('.help-text h4').html("Individual Curtailment Summary");
+        $('.help-text p').html("&nbsp;&nbsp;The individual curtailment summary report will display each individual curtailment payment for the selected unit.");
     });
 </script>

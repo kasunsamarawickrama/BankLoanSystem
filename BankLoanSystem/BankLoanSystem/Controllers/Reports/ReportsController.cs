@@ -387,6 +387,8 @@ namespace BankLoanSystem.Controllers.Reports
             string range2 = "";
             int titleStatus = 0;
             int branchId = 0;
+            //individual curtailment summary report
+            string idnumber = "";
 
             // get report type
             if (Request.QueryString["rptType"] != "")
@@ -412,6 +414,9 @@ namespace BankLoanSystem.Controllers.Reports
             if (Request.QueryString["branchId"] != "")
                 branchId = Convert.ToInt32(Request.QueryString["branchId"]);
 
+            // individual curtailment summary
+            if (Request.QueryString["idNumber"] != "")
+                idnumber =Request.QueryString["idNumber"];
             // call pdf viwer by report type
             if (rptType == "LotInspection")
             {
@@ -535,8 +540,8 @@ namespace BankLoanSystem.Controllers.Reports
                     rptViewerPrint = branchSummary.PrintPage(branchId);
                 }
                 else {
-                    rptViewerPrint = branchSummary.PrintPage(userData.BranchId);
-                }
+                rptViewerPrint = branchSummary.PrintPage(userData.BranchId);
+            }
                 
             }
             else if (rptType == "DeletedUnits")
@@ -559,6 +564,11 @@ namespace BankLoanSystem.Controllers.Reports
             {
                 RptDivFullCurtailmentSummary fullCurtSummary = new RptDivFullCurtailmentSummary();
                 rptViewerPrint = fullCurtSummary.PrintPage(loanId);
+            }
+            else if (rptType == "IndCurtSummary")
+            {
+                RptDivIndividualCurtailmentSummary indCurtSummary = new RptDivIndividualCurtailmentSummary();
+                rptViewerPrint = indCurtSummary.PrintPage(loanId,idnumber);
             }
             else
             {

@@ -26,7 +26,7 @@ namespace BankLoanSystem.Reports
         {
             if (!IsPostBack)
             {
-                int loanId = 4559;
+                int loanId = 0;
 
                 //if session is not null and assign it.
                 if (Request.QueryString["loanId"] != "")
