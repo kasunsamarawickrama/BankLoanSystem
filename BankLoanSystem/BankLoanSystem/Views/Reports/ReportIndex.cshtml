@@ -545,7 +545,7 @@
         </div>
             @*for individual curtailment summary report*@
             <div id="idNumberDiv" class="form-group row" style="float:left; display: none; width:117%">
-                <label for="" class="col-sm-6 form-control-label">Enter the last 6 characters of the VIN/HIN/Serial Number for the unit</label>
+                <label for="" class="col-sm-6 form-control-label">Enter the last 6 characters of the VIN/HIN/Serial Number</label>
                 <div class="col-md-2">
                     @Html.EditorFor(model => model.IDNumber, new { htmlAttributes = new { @class = "form-control", @id = "idNumber", @placeholder = "Last 6 characters of VIN/HIN/SN", autocomplete = "off", style = "width:230%", @maxlength = 6 } })
                     @Html.ValidationMessageFor(model => model.IDNumber, "", new { @class = "text-danger", style = "left:25%" })
