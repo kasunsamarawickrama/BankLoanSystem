@@ -101,7 +101,7 @@ namespace BankLoanSystem.Controllers.Reports
             {
                 // get total number of active loans which belong to his branch
                 loanCount = da.GetLoanCount(_userData.BranchId, _userData.RoleId);
-
+                ViewBag.BranchName = _userData.BranchName;
                 // if there is no active loan then redirect to login -- wrong access
                 if (loanCount < 1)
                 {
@@ -380,6 +380,7 @@ namespace BankLoanSystem.Controllers.Reports
             string range1 = "";
             string range2 = "";
             int titleStatus = 0;
+            int branchId = 0;
 
             // get report type
             if (Request.QueryString["rptType"] != "")
@@ -400,6 +401,10 @@ namespace BankLoanSystem.Controllers.Reports
             // title status
             if(Request.QueryString["titleStatus"] != "")
                 titleStatus = Convert.ToInt32(Request.QueryString["titleStatus"]);
+
+            // branch
+            if (Request.QueryString["branchId"] != "")
+                branchId = Convert.ToInt32(Request.QueryString["branchId"]);
 
             // call pdf viwer by report type
             if (rptType == "LotInspection")
@@ -517,8 +522,16 @@ namespace BankLoanSystem.Controllers.Reports
             }
             else if (rptType == "BranchSummary")
             {
+
                 RptDivBranchSummary branchSummary = new RptDivBranchSummary();
-                rptViewerPrint = branchSummary.PrintPage(userData.BranchId);
+                if (userData.RoleId == 1)
+                {
+                    rptViewerPrint = branchSummary.PrintPage(branchId);
+                }
+                else {
+                    rptViewerPrint = branchSummary.PrintPage(userData.BranchId);
+                }
+                
             }
             else if (rptType == "DeletedUnits")
             {
@@ -555,6 +568,7 @@ namespace BankLoanSystem.Controllers.Reports
             FileContentResult fsResult = File(bytes, "application/pdf");
             return fsResult;
         }
+
 
     }
 }
