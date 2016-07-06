@@ -1504,15 +1504,50 @@ namespace BankLoanSystem.DAL
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     RptFullCurtailmentSummary curtSummary = new RptFullCurtailmentSummary();
-                    if (!string.IsNullOrEmpty(dataRow["loanId"].ToString()))
+                    if (!string.IsNullOrEmpty(dataRow["loanId"].ToString()) || !string.IsNullOrEmpty(dataRow["ploanId"].ToString()))
                     {
-                        curtSummary.LoanId = int.Parse(dataRow["loanId"].ToString());
-                        curtSummary.UnitId = dataRow["unitId"].ToString();
-                        curtSummary.IdentificationNumber = dataRow["idNumber"].ToString(); ;
-                        curtSummary.Year = int.Parse(dataRow["unitYear"].ToString());
+                        if (!string.IsNullOrEmpty(dataRow["loanId"].ToString()))
+                        {
+                            curtSummary.LoanId = int.Parse(dataRow["loanId"].ToString());
+                        }
+                        else if (!string.IsNullOrEmpty(dataRow["ploanId"].ToString()))
+                        {
+                            curtSummary.LoanId = int.Parse(dataRow["ploanId"].ToString());
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["unitId"].ToString()))
+                        {
+                            curtSummary.UnitId = dataRow["unitId"].ToString();
+                        }
+                        else if (!string.IsNullOrEmpty(dataRow["ploanId"].ToString()))
+                        {
+                            curtSummary.UnitId = dataRow["punitId"].ToString();
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["idNumber"].ToString()))
+                        {
+                            curtSummary.IdentificationNumber = dataRow["idNumber"].ToString();
+
+                        }
+                        else if (!string.IsNullOrEmpty(dataRow["pidNumber"].ToString()))
+                        {
+                            curtSummary.IdentificationNumber = dataRow["pidNumber"].ToString();
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["unitYear"].ToString()))
+                        {
+                            curtSummary.Year = int.Parse(dataRow["unitYear"].ToString());
+
+                        }
+                        else if (!string.IsNullOrEmpty(dataRow["punitYear"].ToString()))
+                        {
+                            curtSummary.Year = int.Parse(dataRow["punitYear"].ToString());
+                        }
+                        
                         if (!string.IsNullOrEmpty(dataRow["unitMake"].ToString()))
                         {
                             curtSummary.Make = dataRow["unitMake"].ToString();
+                        }
+                        else if (!string.IsNullOrEmpty(dataRow["punitMake"].ToString()))
+                        {
+                            curtSummary.Make = dataRow["punitMake"].ToString();
                         }
                         else
                         {
@@ -1522,15 +1557,30 @@ namespace BankLoanSystem.DAL
                         {
                             curtSummary.Model = dataRow["unitModel"].ToString();
                         }
+                        else if (!string.IsNullOrEmpty(dataRow["punitModel"].ToString()))
+                        {
+                            curtSummary.Model = dataRow["punitModel"].ToString();
+                        }
                         else
                         {
                             curtSummary.Model ="";
                         }
-
-                        curtSummary.PurchasePrice = decimal.Parse(dataRow["unitCost"].ToString());
+                        if (!string.IsNullOrEmpty(dataRow["unitCost"].ToString()))
+                        {
+                            curtSummary.PurchasePrice = decimal.Parse(dataRow["unitCost"].ToString());
+                        }
+                        else if (!string.IsNullOrEmpty(dataRow["punitCost"].ToString()))
+                        {
+                            curtSummary.PurchasePrice = decimal.Parse(dataRow["punitCost"].ToString());
+                        }
+                        
                         if (!string.IsNullOrEmpty(dataRow["unitAdvanceAmount"].ToString()))
                         {
                             curtSummary.AdvanceAmount = decimal.Parse(dataRow["unitAdvanceAmount"].ToString());
+                        }
+                        else if (!string.IsNullOrEmpty(dataRow["punitAdvanceAmount"].ToString()))
+                        {
+                            curtSummary.AdvanceAmount = decimal.Parse(dataRow["punitAdvanceAmount"].ToString());
                         }
                         else
                         {

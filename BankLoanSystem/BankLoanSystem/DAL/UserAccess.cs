@@ -733,7 +733,15 @@ namespace BankLoanSystem.DAL
                 return 0;
             }
         }
-
+        /// <summary>
+        /// Frontend Page: Add Unit
+        /// Title:get details of dealer user
+        /// Designed: Piyumi Perera
+        /// User story:
+        /// Developed: Piyumi Perera
+        /// Date created: 25/05/2016
+        /// </summary>
+        /// <returns></returns>
         public User GetDealerUserDetails(int userId, string Code)
         {
             User user2 = new User();

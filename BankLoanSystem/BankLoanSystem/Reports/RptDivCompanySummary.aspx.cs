@@ -83,7 +83,7 @@ namespace BankLoanSystem.Reports
 
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRptforCompanySummary(userData.Company_Id, userData.UserId);
             //set data source to report viwer - 2
-            rptViewerCompanySummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", details));
+            rptViewerCompanySummaryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", details));
 
             //return report viwer
             return rptViewerCompanySummaryPrint;
