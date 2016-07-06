@@ -2587,10 +2587,15 @@ namespace BankLoanSystem.Controllers.SetupProcess
             StepAccess sa = new StepAccess();
             if (loanData.stepId == 5)
             {
+                ViewBag.LoanId = 0;
                 if (lbl == "Details added successfully")
                 {
                     ViewBag.SuccessMsg = "Loan setup is completed";
                     Session["loanStep"] = null;
+                    if (TempData["LoanId"] != null && (int)TempData["LoanId"] > 0) {
+                        ViewBag.LoanId = (int)TempData["LoanId"];
+                    }
+                   
                     if (HttpContext.Request.IsAjaxRequest())
                     {
                         ViewBag.AjaxRequest = 1;
@@ -2702,7 +2707,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             LoanSetupAccess loanAccess = new LoanSetupAccess();
             loanAccess.UpdateLoanCurtailment(curtaiulmentModel, loanData.loanId);
-
+            TempData["LoanId"] = loanData.loanId;
             return RedirectToAction("Step10", new { lbl = "Details added successfully" });
         }
         

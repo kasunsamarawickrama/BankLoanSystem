@@ -146,12 +146,12 @@
                                     @Html.LabelFor(model => model.vehicle.Make, htmlAttributes: new { @class = "control-label col-md-2" })
                                     @Html.EditorFor(model => model.vehicle.Make, new { htmlAttributes = new { @id = "editor1-2", @Style = "display: none;" } })
                                     @*<div class="col-sm-2 block_invalid" onmouseover="GetMakes($('#combobox1-1'),'#combobox1-2',1);" onmouseout="GetModels($('#combobox1-1'),$('#combobox1-2'),'#combobox1-3',1);" id="div-combobox1-2">*@
-                                    <div class="col-sm-1 block_invalid" id="div-combobox1-2">
+                                    <div class="col-sm-4 block_invalid" id="div-combobox1-2">
 
                                         <div >
                                             @Html.DropDownList("make", new SelectList(""), "", new { @class = "form-control", @id = "combobox1-2" })
 
-                                            @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger col-md-2" })
+                                            @Html.ValidationMessageFor(model => model.vehicle.Make, "", new { @class = "text-danger" })
                                         </div>
                                         <div id="vehiclemake" class="validation-error"><span class="text-danger ma" style="font-weight: bold;"></span></div>
                                     </div>

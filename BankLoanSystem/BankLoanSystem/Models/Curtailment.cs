@@ -35,6 +35,8 @@ namespace BankLoanSystem.Models
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than zero")]
         [RegularExpression(@"^[+-]?[0-9]{1,10000}$", ErrorMessage = "No decimal points allowed.")]
         public int? EmailRemindPeriod { get; set; }
+
+        public int LoanId { get; set; }
     }
 
     public class Curtailment
