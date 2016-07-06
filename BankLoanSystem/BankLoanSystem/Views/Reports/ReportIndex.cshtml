@@ -472,18 +472,10 @@
                             });
                         </script>
                     }
-                  
-
-
                 }
                 else
                 {
-
                     <input type="hidden" id="loanId" value="" />
-
-                   
-
-
 
                 }
 
@@ -495,6 +487,14 @@
                         @Html.DropDownList("Branch", new SelectList(ViewBag.BranchSelectList, "Value", "Text"), "-- select branch --", new { @class = "form-control", @style = "width: 253px;", @id = "branchSelect" })
                         <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
                     </div>
+                }
+                else {
+                    <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 25%">
+                        <label for="">Branch <span class="icon-help_outline"></span></label>
+
+                        @Html.Label("Branch", (string)ViewBag.BranchName, new { @class = "form-control", @style = "width: 253px;min-width: 256px;", @id = "branchSelect" })
+                        <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
+            </div>
                 }
 
             </div>
@@ -552,13 +552,13 @@
                     <div id="tagscloudIDNumber" class="field-validation-error" style="width:170%"><span class="text-danger"></span></div>
                     </div>
                 </div> 
-           
+          
     </div>
 
         <div class="form-inline" style="width: 30%;float: left;padding-top: 5px;">
             <div class="form-group" style="float:left;">
-                <button style="font-size:14px; width: 100px;float:left;" type="button" id="btnDisplay" class="btn btn-primary m-b cancel next_clear_button back_back"> Display</button>
-                <button style="font-size:14px;width: 100px;float:left;display:none;" type="button" id="btnPrint" class="btn btn-primary m-b cancel next_clear_button back_back"> Print</button>
+                <input style="font-size:14px; width: 100px;float:left;" type="button" id="btnDisplay" value="Display" class="btn btn-primary m-b cancel next_clear_button back_back"/>
+                <input style="font-size:14px;width: 100px;float:left;display:none;" type="button" value="Print" id="btnPrint" class="btn btn-primary m-b cancel next_clear_button back_back"/>
 
             </div>
         </div>
@@ -980,6 +980,16 @@
     //    $('#lnum').hide();
       //  $('#lnum').siblings('.hf').hide();
         $('#divBranch').show();
+
+        @if (ViewBag.RoleId == 1)
+        {
+             if (ViewBag.BranchSelectList.Count == 1) {
+                <text>
+                $('#branchSelect').val('@ViewBag.BranchSelectList[0].Value');
+                </text>
+             }
+
+        }
         $('#idNumber').val("");
         $('#tagscloudIDNumber').children('span').text('');
         $('#idNumber').removeClass('input-validation-error');
@@ -1052,7 +1062,7 @@
     });
 
     $('#idNumber').click(function () {
-        
+
         $('#tagscloudIDNumber').children('span').text('');
         $('#idNumber').removeClass('input-validation-error');
     });
@@ -1077,7 +1087,7 @@
         }
     });
     function ReportCurtailmentInvoice(val, url) {
-        
+
         var myFrame = document.getElementById('ifrmReportViewer');
 
         if (myFrame !== null) {
@@ -1094,7 +1104,7 @@
         $('#btnPrint').show();
     }
 
-    $('#btnDisplay').click(function (e) {
+    $('#btnDisplay').click(function () {
 
         errorCount = 0;
         var rptType = $('#hdnSelectedButton').val();
@@ -1126,10 +1136,8 @@
                 }
                 else {
                     branchId = $('#branchSelect').val();
-                    if (branchId <= 0 || branchId == "") {
-                        e.preventDefault();
-                    }
-                }             
+                }
+                if (branchId > 0 && branchId != "") {
                 myFrame = document.getElementById('ifrmReportViewer');
                 frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
                 frameDoc.removeChild(frameDoc.documentElement);
@@ -1137,13 +1145,11 @@
                 urlPrefix = urlPrefix + branchId;
                 ReportCurtailmentInvoice(val, urlPrefix);
             }
-
+                else {
+                }
+            }
             return;
-
-
         }
-
-
 
         var selectedIndex;
 
@@ -1221,9 +1227,9 @@
                     urlPrefix = "../Reports/RptDivFullCurtailmentSummary.aspx?loanId=";
                 }
                 else if (rptType === 'IndCurtSummary') {
-                   
+
                     urlPrefix = "../Reports/RptDivIndividualCurtailmentSummary.aspx?loanId=";
-                   
+
                 }
 
                 var val = selectedIndex;
@@ -1335,7 +1341,7 @@
                 }
                 else if (rptType === 'IndCurtSummary') {
                     var idType = $("#idNumber").val();
-                    
+
                     if (idType === null || idType === "") {
                         $('#tagscloudIDNumber').children('span').text("Please confirm the last 6 characters of the VIN/HIN/Serial No.");
                         $("#idNumber").addClass('input-validation-error');
@@ -1352,11 +1358,11 @@
                             frameDoc.removeChild(frameDoc.documentElement);
 
                             urlPrefix = urlPrefix + val + '&idNumber=' + $('#idNumber').val();
-                            
+
                             ReportCurtailmentInvoice(val, urlPrefix);
-                        }
                     }
-                   
+                    }
+
                 }
             } else {
                 $('.centered h5 span').text("Please select report type");
@@ -1495,10 +1501,14 @@
         var range1 = $('#startDate').val(); //Begin date
         var range2 = $('#endDate').val(); //End date
         var titleStatus = $('#titleStatus').val(); //Title status
+        var branchId = 0;
+        @if (ViewBag.RoleId == 1) {
+            <text>var branchId = $('#branchSelect').val();</text>
+        }
         var idNumber = $('#idNumber').val(); //individual curtailment summary
 
         //Create and store report path
-        var url = '/Reports/PrintPage?rptType=' + rptType + '&loanId=' + loanId + '&range1=' + range1 + '&range2=' + range2 + '&titleStatus=' + titleStatus + '&idNumber=' + idNumber;
+        var url = '/Reports/PrintPage?rptType=' + rptType + '&loanId=' + loanId + '&range1=' + range1 + '&range2=' + range2 + '&titleStatus=' + titleStatus  + '&branchId=' + branchId + '&idNumber=' + idNumber;
 
         //open report in a new page
         var win = window.open(url, '_blank');
@@ -2070,7 +2080,7 @@
                 else {
                     e.preventDefault();
                 }
-            }
+    }
 
         });
 

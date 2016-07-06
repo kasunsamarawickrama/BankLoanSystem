@@ -1069,7 +1069,35 @@ namespace BankLoanSystem.DAL
 
                     loanTerm.DocumentAcceptance = dataRow["receipt_required_method"] != DBNull.Value ? dataRow["receipt_required_method"].ToString() : "No";
 
-                    loanTerms.Add(loanTerm);
+                    if (dataRow["loan_status"] != DBNull.Value)
+                        loanTerm.LoanStatus = Convert.ToInt32(dataRow["loan_status"]) == 1 ? "Active" : "Inactive";
+                    else
+                        loanTerm.LoanStatus = "Inactive";
+
+                    if (dataRow["is_edit_allowable"] != DBNull.Value)
+                        loanTerm.AllowEdit = Convert.ToInt32(dataRow["is_edit_allowable"]) == 1 ? "Yes" : "No";
+                    else
+                        loanTerm.AllowEdit = "No";
+
+                    if (dataRow["pay_off_type"] != DBNull.Value)
+                    {
+                       if (dataRow["pay_off_type"].ToString()=="m")
+                        {
+                            loanTerm.PayOffType = "Months";
+                        }
+                       else
+                        {
+                            loanTerm.PayOffType = "Days";
+                        }
+
+                    }
+                    if (dataRow["active_date"] != DBNull.Value)
+                    {
+                        loanTerm.ActiveDate = Convert.ToDateTime(dataRow["active_date"].ToString()).ToString("MM/dd/yyyy");
+                    }
+
+
+                        loanTerms.Add(loanTerm);
                 }
             }
 
