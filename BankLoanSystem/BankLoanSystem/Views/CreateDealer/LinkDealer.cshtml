@@ -424,6 +424,7 @@
     };
     @*when user list which delaer user can request advance change*@
     $('#JDUser').change(function () {
+        $('#txtEmailForSendReq').val('');
         @*assign selected user id to a variable*@
         var ind = $('#JDUser').val();
         @*check selected user id is >0*@
