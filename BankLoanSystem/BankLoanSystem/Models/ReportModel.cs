@@ -32,6 +32,9 @@ namespace BankLoanSystem.Models
 
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
+
+        [Required(ErrorMessage = "Please confirm the last 6 characters of the VIN/HIN/Serial No.")]
+        public string IDNumber { get; set; }
     }
 
     public class LoanIdNumber
@@ -250,7 +253,22 @@ namespace BankLoanSystem.Models
 
 
     }
+    public class RptIndividualCurtailmentSummary
+    {
+        public string IdentificationNumber { get; set; }
+        public int Year { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public decimal PurchasePrice { get; set; }
+        public decimal AdvanceAmount { get; set; }
+        public int LoanId { get; set; }
+        public string UnitId { get; set; }
+        public decimal PaidAmount { get; set; }
+        public decimal BalanceAmount { get; set; }
+        public int CurtNo { get; set; }
+        public decimal TotalPaidAmount { get; set; }
 
+    }
     #endregion
 
     public class RptDeletedUnit

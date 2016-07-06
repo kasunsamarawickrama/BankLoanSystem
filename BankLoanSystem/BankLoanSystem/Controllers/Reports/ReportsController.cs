@@ -386,6 +386,8 @@ namespace BankLoanSystem.Controllers.Reports
             string range1 = "";
             string range2 = "";
             int titleStatus = 0;
+            //individual curtailment summary report
+            string idnumber = "";
 
             // get report type
             if (Request.QueryString["rptType"] != "")
@@ -406,7 +408,9 @@ namespace BankLoanSystem.Controllers.Reports
             // title status
             if(Request.QueryString["titleStatus"] != "")
                 titleStatus = Convert.ToInt32(Request.QueryString["titleStatus"]);
-
+            // title status
+            if (Request.QueryString["idNumber"] != "")
+                idnumber =Request.QueryString["idNumber"];
             // call pdf viwer by report type
             if (rptType == "LotInspection")
             {
@@ -546,6 +550,11 @@ namespace BankLoanSystem.Controllers.Reports
             {
                 RptDivFullCurtailmentSummary fullCurtSummary = new RptDivFullCurtailmentSummary();
                 rptViewerPrint = fullCurtSummary.PrintPage(loanId);
+            }
+            else if (rptType == "IndCurtSummary")
+            {
+                RptDivIndividualCurtailmentSummary indCurtSummary = new RptDivIndividualCurtailmentSummary();
+                rptViewerPrint = indCurtSummary.PrintPage(loanId,idnumber);
             }
             else
             {

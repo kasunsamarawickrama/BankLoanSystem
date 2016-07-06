@@ -2,15 +2,17 @@
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
-      <Textbox Name="Textbox23">
+      <Textbox Name="Textbox4">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!LenderBrnchName.Value, "DataSet1")</Value>
-                <Style />
+                <Value>Individual Curtailment Summary</Value>
+                <Style>
+                  <FontSize>20pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style>
@@ -18,11 +20,9 @@
             </Style>
           </Paragraph>
         </Paragraphs>
-        <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.7743in</Top>
-        <Left>0.08272in</Left>
-        <Height>0.25in</Height>
-        <Width>1.9422in</Width>
+        <rd:DefaultName>Textbox1</rd:DefaultName>
+        <Height>0.38542in</Height>
+        <Width>11.20344in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -52,8 +52,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.45486in</Top>
-        <Left>0.08272in</Left>
+        <Top>0.70486in</Top>
+        <Left>0.10662in</Left>
         <Height>0.25in</Height>
         <Width>1.95834in</Width>
         <ZIndex>1</ZIndex>
@@ -67,17 +67,15 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Textbox Name="Textbox4">
+      <Textbox Name="Textbox23">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Full Curtailment Summary</Value>
-                <Style>
-                  <FontSize>20pt</FontSize>
-                </Style>
+                <Value>=First(Fields!LenderBrnchName.Value, "DataSet1")</Value>
+                <Style />
               </TextRun>
             </TextRuns>
             <Style>
@@ -85,208 +83,12 @@
             </Style>
           </Paragraph>
         </Paragraphs>
-        <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Height>0.38542in</Height>
-        <Width>11.20344in</Width>
+        <rd:DefaultName>Textbox20</rd:DefaultName>
+        <Top>1.0243in</Top>
+        <Left>0.10662in</Left>
+        <Height>0.25in</Height>
+        <Width>1.9422in</Width>
         <ZIndex>2</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox22">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Loan Number</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.46528in</Top>
-        <Left>4.96875in</Left>
-        <Height>0.25in</Height>
-        <Width>1in</Width>
-        <ZIndex>3</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox27">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>=First(Fields!LoanNumber.Value, "DataSet1")</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.78472in</Top>
-        <Left>4.96324in</Left>
-        <Height>0.25in</Height>
-        <Width>1in</Width>
-        <ZIndex>4</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox43">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Created By</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.46528in</Top>
-        <Left>6.99234in</Left>
-        <Height>0.25in</Height>
-        <Width>1.22917in</Width>
-        <ZIndex>5</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox44">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>=First(Fields!CreaterName.Value, "DataSet1")</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.78472in</Top>
-        <Left>6.73192in</Left>
-        <Height>0.25in</Height>
-        <Width>1.71212in</Width>
-        <ZIndex>6</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox24">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Report Date</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.46528in</Top>
-        <Left>10.07293in</Left>
-        <Height>0.25in</Height>
-        <Width>1in</Width>
-        <ZIndex>7</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox31">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>=First(Fields!ReportDate.Value, "DataSet1")</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.78472in</Top>
-        <Left>10.06742in</Left>
-        <Height>0.25in</Height>
-        <Width>1in</Width>
-        <ZIndex>8</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -316,11 +118,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.46528in</Top>
-        <Left>2.51604in</Left>
+        <Top>0.71528in</Top>
+        <Left>2.53994in</Left>
         <Height>0.25in</Height>
         <Width>1.95834in</Width>
-        <ZIndex>9</ZIndex>
+        <ZIndex>3</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -348,10 +150,208 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>0.79514in</Top>
-        <Left>2.51604in</Left>
+        <Top>1.04514in</Top>
+        <Left>2.53994in</Left>
         <Height>0.25in</Height>
         <Width>1.95834in</Width>
+        <ZIndex>4</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox22">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Loan Number</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox20</rd:DefaultName>
+        <Top>0.71528in</Top>
+        <Left>4.99265in</Left>
+        <Height>0.25in</Height>
+        <Width>1in</Width>
+        <ZIndex>5</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox27">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!LoanNumber.Value, "DataSet1")</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox20</rd:DefaultName>
+        <Top>1.03472in</Top>
+        <Left>4.98714in</Left>
+        <Height>0.25in</Height>
+        <Width>1in</Width>
+        <ZIndex>6</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox43">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Created By</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox20</rd:DefaultName>
+        <Top>0.71528in</Top>
+        <Left>7.01624in</Left>
+        <Height>0.25in</Height>
+        <Width>1.22917in</Width>
+        <ZIndex>7</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox44">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!CreaterName.Value, "DataSet1")</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox20</rd:DefaultName>
+        <Top>1.03472in</Top>
+        <Left>6.75582in</Left>
+        <Height>0.25in</Height>
+        <Width>1.71212in</Width>
+        <ZIndex>8</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox24">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Report Date</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox20</rd:DefaultName>
+        <Top>0.71528in</Top>
+        <Left>10.09683in</Left>
+        <Height>0.25in</Height>
+        <Width>1in</Width>
+        <ZIndex>9</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox31">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!ReportDate.Value, "DataSet1")</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox20</rd:DefaultName>
+        <Top>1.03472in</Top>
+        <Left>10.09132in</Left>
+        <Height>0.25in</Height>
+        <Width>1in</Width>
         <ZIndex>10</ZIndex>
         <Style>
           <Border>
@@ -574,7 +574,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Total # of Curtailments Paid</Value>
+                              <Value>Curtailment # </Value>
                               <Style>
                                 <FontStyle>Normal</FontStyle>
                                 <FontWeight>Bold</FontWeight>
@@ -611,7 +611,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Number of Curtailments Paid</Value>
+                              <Value>Curtailment Amount</Value>
                               <Style>
                                 <FontStyle>Normal</FontStyle>
                                 <FontWeight>Bold</FontWeight>
@@ -717,7 +717,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -877,14 +876,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="TotalPaid">
+                    <Textbox Name="CurtNo">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TotalPaid.Value</Value>
+                              <Value>=Fields!CurtNo.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -893,7 +892,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>TotalPaid</rd:DefaultName>
+                      <rd:DefaultName>CurtNo</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -915,14 +914,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="TotalPaidAmount">
+                    <Textbox Name="PaidAmount">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TotalPaidAmount.Value</Value>
+                              <Value>=Fields!PaidAmount.Value</Value>
                               <Style>
                                 <Format>'$'0.00;('$'0.00)</Format>
                               </Style>
@@ -933,7 +932,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>TotalPaidAmount</rd:DefaultName>
+                      <rd:DefaultName>PaidAmount</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1024,8 +1023,8 @@
         </TablixRowHierarchy>
         <RepeatRowHeaders>true</RepeatRowHeaders>
         <DataSetName>DataSet2</DataSetName>
-        <Top>3.1174cm</Top>
-        <Left>0.29829cm</Left>
+        <Top>3.96406cm</Top>
+        <Left>0.27078cm</Left>
         <Height>1.64979cm</Height>
         <Width>27.90115cm</Width>
         <ZIndex>11</ZIndex>
@@ -1036,10 +1035,10 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>7.88459cm</Height>
+    <Height>7.91104cm</Height>
     <Style />
   </Body>
-  <Width>28.49773cm</Width>
+  <Width>28.45674cm</Width>
   <Page>
     <PageFooter>
       <Height>2.54cm</Height>
@@ -1066,7 +1065,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
           <Top>0.375in</Top>
-          <Left>5.10979in</Left>
+          <Left>5.10172in</Left>
           <Height>0.25in</Height>
           <Width>1in</Width>
           <Style>
@@ -1102,21 +1101,14 @@
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>e3cb593b-5f10-4c7f-95d0-a205179ecf56</rd:DataSourceID>
+      <rd:DataSourceID>92be60a3-59bb-459e-9218-9507c5be8f27</rd:DataSourceID>
     </DataSource>
     <DataSource Name="BankLoanSystemDAL1">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>f8e3b7fb-0202-4a19-a475-3d1b2c9d6ec8</rd:DataSourceID>
-    </DataSource>
-    <DataSource Name="BankLoanSystemDAL2">
-      <ConnectionProperties>
-        <DataProvider>System.Data.DataSet</DataProvider>
-        <ConnectString>/* Local Connection */</ConnectString>
-      </ConnectionProperties>
-      <rd:DataSourceID>a4539f30-009f-4107-a29b-1fbd8413a423</rd:DataSourceID>
+      <rd:DataSourceID>25989758-86f8-4677-9b57-2985ace6587b</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -1173,7 +1165,7 @@
     </DataSet>
     <DataSet Name="DataSet2">
       <Query>
-        <DataSourceName>BankLoanSystemDAL2</DataSourceName>
+        <DataSourceName>BankLoanSystemDAL1</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -1209,44 +1201,32 @@
           <DataField>UnitId</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="TotalPaidAmount">
-          <DataField>TotalPaidAmount</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="TotalCurtPaidAmount">
-          <DataField>TotalCurtPaidAmount</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="TotalPartPaidAmount">
-          <DataField>TotalPartPaidAmount</DataField>
+        <Field Name="PaidAmount">
+          <DataField>PaidAmount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="BalanceAmount">
           <DataField>BalanceAmount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="TotalCurtPaid">
-          <DataField>TotalCurtPaid</DataField>
+        <Field Name="CurtNo">
+          <DataField>CurtNo</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="TotalPartPaid">
-          <DataField>TotalPartPaid</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="TotalPaid">
-          <DataField>TotalPaid</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+        <Field Name="TotalPaidAmount">
+          <DataField>TotalPaidAmount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>BankLoanSystem.DAL</rd:DataSetName>
         <rd:TableName>ReportAccess</rd:TableName>
-        <rd:ObjectDataSourceSelectMethod>GetFullCurtailmentSummarRptDetails</rd:ObjectDataSourceSelectMethod>
-        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[BankLoanSystem.Models.RptFullCurtailmentSummary] GetFullCurtailmentSummarRptDetails(Int32)</rd:ObjectDataSourceSelectMethodSignature>
+        <rd:ObjectDataSourceSelectMethod>GetIndividualCurtailmentSummarRptDetails</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[BankLoanSystem.Models.RptIndividualCurtailmentSummary] GetIndividualCurtailmentSummarRptDetails(Int32, System.String)</rd:ObjectDataSourceSelectMethodSignature>
         <rd:ObjectDataSourceType>BankLoanSystem.DAL.ReportAccess, BankLoanSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
-  <rd:ReportID>426425ea-3c6a-4b81-aeef-2d1f462ecf52</rd:ReportID>
+  <rd:ReportID>0e88ab78-a773-46e5-b7c9-82aea93ad4f3</rd:ReportID>
 </Report>

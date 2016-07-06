@@ -1555,5 +1555,98 @@ namespace BankLoanSystem.DAL
 
 
         }
+
+        /// <summary>
+        /// Frontend Page: Report Page(Individual Curtailment Summary Report)
+        /// Title: Get Individual curtailment payment details for a selected loan and searched identification number
+        /// Designed: Piyumi Perera
+        /// User Story: DFP 488
+        /// Developed: Piyumi Perera
+        /// Date Created: 05/07/2016
+        /// </summary>
+        /// <param name="loanId"></param>
+        /// <param name="idNumber"></param>
+        /// <returns></returns>
+        public List<RptIndividualCurtailmentSummary> GetIndividualCurtailmentSummarRptDetails(int loanId,string idNumber)
+        {
+            List<RptIndividualCurtailmentSummary> unitCurtailments = new List<RptIndividualCurtailmentSummary>();
+
+
+            DataHandler dataHandler = new DataHandler();
+            List<object[]> paramertList = new List<object[]>();
+            paramertList.Add( new object[] { "@loan_id", loanId } );
+            paramertList.Add(new object[] { "@unit_id", idNumber } );
+
+            DataSet dataSet = dataHandler.GetDataSet("spGetIndividualCurtailmentSummaryForUnit ", paramertList);
+            if (dataSet != null && dataSet.Tables.Count != 0)
+            {
+                decimal totalPay = 0.00M;
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    RptIndividualCurtailmentSummary curtSummary = new RptIndividualCurtailmentSummary();
+                    int curt;
+                    if (!string.IsNullOrEmpty(dataRow["loan_id"].ToString()))
+                    {
+                        curtSummary.LoanId = int.Parse(dataRow["loan_id"].ToString());
+                        curtSummary.UnitId = dataRow["unit_id"].ToString();
+                        curtSummary.IdentificationNumber = dataRow["identification_number"].ToString(); ;
+                        curtSummary.Year = int.Parse(dataRow["year"].ToString());
+                        if (!string.IsNullOrEmpty(dataRow["make"].ToString()))
+                        {
+                            curtSummary.Make = dataRow["make"].ToString();
+                        }
+                        else
+                        {
+                            curtSummary.Make = "";
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["model"].ToString()))
+                        {
+                            curtSummary.Model = dataRow["model"].ToString();
+                        }
+                        else
+                        {
+                            curtSummary.Model = "";
+                        }
+
+                        curtSummary.PurchasePrice = decimal.Parse(dataRow["cost"].ToString());
+                        if (!string.IsNullOrEmpty(dataRow["advance_amount"].ToString()))
+                        {
+                            curtSummary.AdvanceAmount = decimal.Parse(dataRow["advance_amount"].ToString());
+                        }
+                        else
+                        {
+                            curtSummary.AdvanceAmount = 0.00M;
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["credit_amount"].ToString()))
+                        {
+                            curtSummary.PaidAmount = decimal.Parse(dataRow["credit_amount"].ToString());
+                        }
+                        else
+                        {
+                            curtSummary.PaidAmount = 0.00M;
+                        }
+                        if (int.TryParse(dataRow["transac_details"].ToString(),out curt))
+                        {
+                            curtSummary.CurtNo = curt;
+                        }
+                        
+                        else
+                        {
+                            curtSummary.CurtNo = 0;
+                        }
+
+                        totalPay = totalPay + curtSummary.PaidAmount;
+                        curtSummary.BalanceAmount = curtSummary.AdvanceAmount - totalPay;
+                        unitCurtailments.Add(curtSummary);
+                    }
+
+                }
+
+            }
+
+            return unitCurtailments;
+
+
+        }
     }
 }

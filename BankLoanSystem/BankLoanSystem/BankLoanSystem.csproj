@@ -187,6 +187,7 @@
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="Content\triangle.css" />
     <Content Include="Reports\RptDivFullCurtailmentSummary.aspx" />
+    <Content Include="Reports\RptDivIndividualCurtailmentSummary.aspx" />
     <Content Include="Reports\SampleReports\AdvanceFeeInv.JPG" />
     <Content Include="Reports\SampleReports\AdvanceFeeRcpt.JPG" />
     <Content Include="Reports\SampleReports\AdvanceUnit.JPG" />
@@ -525,6 +526,13 @@
     <Compile Include="Reports\RPTDivFullInventory.aspx.designer.cs">
       <DependentUpon>RPTDivFullInventory.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reports\RptDivIndividualCurtailmentSummary.aspx.cs">
+      <DependentUpon>RptDivIndividualCurtailmentSummary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivIndividualCurtailmentSummary.aspx.designer.cs">
+      <DependentUpon>RptDivIndividualCurtailmentSummary.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reports\RptDivLoanSummary.aspx.cs">
       <DependentUpon>RptDivLoanSummary.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -753,6 +761,7 @@
     <EmbeddedResource Include="Reports\RptDeletedUnits.rdlc" />
     <EmbeddedResource Include="Reports\RptFullCurtailmentSummary.rdlc" />
     <EmbeddedResource Include="Reports\RptFullInventory.rdlc" />
+    <EmbeddedResource Include="Reports\RptIndividualCurtailmentSummary.rdlc" />
     <EmbeddedResource Include="Reports\RptLoanSummary.rdlc" />
     <EmbeddedResource Include="Reports\RptTransactionHistory.rdlc" />
     <EmbeddedResource Include="Reports\RptLoanTerms.rdlc" />

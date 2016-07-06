@@ -25,7 +25,7 @@
 @section AddToHead{
 <style>
     .btns-clm > button {
-        width: 210px;
+        width: 225px;
         height: 40px;
             margin-bottom: 10px;
         margin-left: 5px;
@@ -210,7 +210,10 @@
             {
                 <button type="button" id="btnCompanySummary" class="btn btn-info1">Company Summary <span class="icon-help_outline help-cmp-smry" ></span></button>
             }
-
+            else if (report.rightId == "R17")
+            {
+                <button type="button" id="btnIndCurtSummary" class="btn btn-info1">Individual Curtailment Summary<span class="icon-help_outline help-ind-curt-smry"></span></button>
+            }
             else if (report.rightId == "R18")
             {
                 <button type="button" id="btnFullCurtSummary" class="btn btn-info1">Full Curtailment Summary<span class="icon-help_outline help-full-curt-smry"></span></button>
@@ -309,7 +312,10 @@
                 {
                     <button type="button" id="btnLoanSummary" class="btn btn-info1">Loan Summary <span class="icon-help_outline help-loan-smry" ></span></button>
                 }
-
+                else if (report.rightId == "R17")
+                {
+                    <button type="button" id="btnIndCurtSummary" class="btn btn-info1">Individual Curtailment Summary<span class="icon-help_outline help-ind-curt-smry"></span></button>
+                }
                 else if (report.rightId == "R18" && reportRights.Contains("R18"))
                 {
                     <button type="button" id="btnFullCurtSummary" class="btn btn-info1">Full Curtailment Summary<span class="icon-help_outline help-full-curt-smry"></span></button>
@@ -410,6 +416,10 @@
             else if (report.rightId == "R19")
             {
                 <button type="button" id="btnLoanSummary" class="btn btn-info1">Loan Summary <span class="icon-help_outline help-loan-smry"></span></button>
+            }
+            else if (report.rightId == "R17")
+            {
+                <button type="button" id="btnIndCurtSummary" class="btn btn-info1">Individual Curtailment Summary<span class="icon-help_outline help-ind-curt-smry"></span></button>
             }
             else if (report.rightId == "R18")
             {
@@ -533,7 +543,15 @@
             @Html.DropDownList("Title Status", titleStatus, "-- select type --", new { @class = "form-control", @id = "titleStatus" })
             <div id="tagscloudTitleStatus" class="field-validation-error"><span class="text-danger"></span></div>
         </div>
-          
+            @*for individual curtailment summary report*@
+            <div id="idNumberDiv" class="form-group row" style="float:left; display: none; width:117%">
+                <label for="" class="col-sm-6 form-control-label">Enter the last 6 characters of the VIN/HIN/Serial Number for the unit</label>
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.IDNumber, new { htmlAttributes = new { @class = "form-control", @id = "idNumber", @placeholder = "Last 6 characters of VIN/HIN/SN", autocomplete = "off", style = "width:230%", @maxlength = 6 } })
+                    @Html.ValidationMessageFor(model => model.IDNumber, "", new { @class = "text-danger", style = "left:25%" })
+                    <div id="tagscloudIDNumber" class="field-validation-error" style="width:170%"><span class="text-danger"></span></div>
+                    </div>
+                </div> 
            
     </div>
 
@@ -570,6 +588,10 @@
 
 
 <script type="text/javascript">
+
+    $('#idNumber').focusout(function () {
+        $(this).attr('placeholder', 'Last 6 characters of VIN/HIN/SN');
+    });
     var errorCount = 0;
 
     function ChangeButtonColor(id) {
@@ -593,6 +615,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnCurtailmentInvoice').click(function () {
@@ -609,6 +636,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnCurtailmentReceipt').click(function () {
@@ -625,6 +657,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
     $('#btnAdvanceFeeReceipt').click(function () {
         ChangeButtonColor(this);
@@ -640,6 +677,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
     $('#btnMonthlyLoanFeeReceipt').click(function () {
         ChangeButtonColor(this);
@@ -655,6 +697,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
     $('#btnLotInspectionFeeReceipt').click(function () {
         ChangeButtonColor(this);
@@ -670,6 +717,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnTitlesStatus').click(function () {
@@ -682,6 +734,11 @@
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
         $('#ttlsts').siblings('.hf').children('input').siblings('div').children('span').text('');
         $('#ttlsts').siblings('.hf').children('input').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnFullInventory').click(function () {
@@ -695,6 +752,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnAdvanceUnit').click(function () {
@@ -711,6 +773,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnAdvFeeInv').click(function () {
@@ -727,6 +794,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnAdvFeeRec').click(function () {
@@ -743,6 +815,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnLoanFeeInv').click(function () {
@@ -759,6 +836,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnLoanFeeRec').click(function () {
@@ -774,6 +856,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnLotInsFeeInv').click(function () {
@@ -790,6 +877,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnLotInsFeeRec').click(function () {
@@ -806,6 +898,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnPayOff').click(function () {
@@ -822,6 +919,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnTransactionHistory').click(function () {
@@ -838,6 +940,10 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnLoanTerms').click(function () {
@@ -850,12 +956,20 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnCompanySummary').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('CompanySummary');
         $('#divBranch').hide();
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
      //   $('#lnum').hide();
       //  $('#lnum').siblings('.hf').hide();
     });
@@ -866,6 +980,10 @@
     //    $('#lnum').hide();
       //  $('#lnum').siblings('.hf').hide();
         $('#divBranch').show();
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnDeletedUnits').click(function () {
@@ -882,6 +1000,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
 
     $('#btnLoanSummary').click(function () {
@@ -898,6 +1021,11 @@
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
         $('#titleStatus').removeClass('input-validation-error');
+
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+        $('#idNumberDiv').hide();
     });
     $('#btnFullCurtSummary').click(function () {
         ChangeButtonColor(this);
@@ -907,10 +1035,49 @@
         $('#enddate').hide();
         $('#lnum').show();
         $('#ttlsts').hide();
+        $('#idNumberDiv').hide();
+        $('#idNumber').val("");
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+    });
+    $('#btnIndCurtSummary').click(function () {
+        ChangeButtonColor(this);
+        $('#hdnSelectedButton').val('IndCurtSummary');
+        $('#divBranch').hide();
+        $('#strdate').hide();
+        $('#enddate').hide();
+        $('#lnum').show();
+        $('#ttlsts').hide();
+        $('#idNumberDiv').show();
+    });
 
+    $('#idNumber').click(function () {
+        
+        $('#tagscloudIDNumber').children('span').text('');
+        $('#idNumber').removeClass('input-validation-error');
+    });
+    $('#idNumber').focusout(function () {
+        if ($('#idNumber').val() !== "") {
+            $('#tagscloudIDNumber').children('span').text('');
+            $('#idNumber').removeClass('input-validation-error');
+        }
+        else if ($('#idNumber').val() === "") {
+            $('#tagscloudIDNumber').children('span').text('Please confirm the last 6 characters of the VIN/HIN/Serial No.');
+            $('#idNumber').addClass('input-validation-error');
+        }
+    });
+    $('#idNumber').blur(function () {
+        if ($('#idNumber').val() !== "") {
+            $('#tagscloudIDNumber').children('span').text('');
+            $('#idNumber').removeClass('input-validation-error');
+        }
+        else if ($('#idNumber').val() === "") {
+            $('#tagscloudIDNumber').children('span').text('Please confirm the last 6 characters of the VIN/HIN/Serial No.');
+            $('#idNumber').addClass('input-validation-error');
+        }
     });
     function ReportCurtailmentInvoice(val, url) {
-
+        
         var myFrame = document.getElementById('ifrmReportViewer');
 
         if (myFrame !== null) {
@@ -1053,7 +1220,11 @@
                 else if (rptType === 'FullCurtSummary') {
                     urlPrefix = "../Reports/RptDivFullCurtailmentSummary.aspx?loanId=";
                 }
-
+                else if (rptType === 'IndCurtSummary') {
+                   
+                    urlPrefix = "../Reports/RptDivIndividualCurtailmentSummary.aspx?loanId=";
+                   
+                }
 
                 var val = selectedIndex;
 
@@ -1161,6 +1332,31 @@
                         urlPrefix = urlPrefix + val;
                         ReportCurtailmentInvoice(val, urlPrefix);
                     }
+                }
+                else if (rptType === 'IndCurtSummary') {
+                    var idType = $("#idNumber").val();
+                    
+                    if (idType === null || idType === "") {
+                        $('#tagscloudIDNumber').children('span').text("Please confirm the last 6 characters of the VIN/HIN/Serial No.");
+                        $("#idNumber").addClass('input-validation-error');
+                        $('.centered h5 span').text("Error in Page");
+                        errorCount = errorCount + 1;
+                    } else {
+
+                        if (errorCount <= 0) {
+                            $('#tagscloudIDNumber').children('span').text("");
+                            $("#idNumber").removeClass('input-validation-error');
+                            $('.centered h5 span').text("");
+                            myFrame = document.getElementById('ifrmReportViewer');
+                            frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                            frameDoc.removeChild(frameDoc.documentElement);
+
+                            urlPrefix = urlPrefix + val + '&idNumber=' + $('#idNumber').val();
+                            
+                            ReportCurtailmentInvoice(val, urlPrefix);
+                        }
+                    }
+                   
                 }
             } else {
                 $('.centered h5 span').text("Please select report type");
@@ -1299,9 +1495,10 @@
         var range1 = $('#startDate').val(); //Begin date
         var range2 = $('#endDate').val(); //End date
         var titleStatus = $('#titleStatus').val(); //Title status
+        var idNumber = $('#idNumber').val(); //individual curtailment summary
 
         //Create and store report path
-        var url = '/Reports/PrintPage?rptType=' + rptType + '&loanId=' + loanId + '&range1=' + range1 + '&range2=' + range2 + '&titleStatus=' + titleStatus;
+        var url = '/Reports/PrintPage?rptType=' + rptType + '&loanId=' + loanId + '&range1=' + range1 + '&range2=' + range2 + '&titleStatus=' + titleStatus + '&idNumber=' + idNumber;
 
         //open report in a new page
         var win = window.open(url, '_blank');
@@ -1849,9 +2046,33 @@
             $("#btnLoanSummary").show();
         }
 
+        if (userRights.indexOf("R18") > -1) {
 
+            $("#btnFullCurtSummary").show();
+        }
+        if (userRights.indexOf("R17") > -1) {
 
+            $("#btnIndCurtSummary").show();
+        }
     }
+            @*capitalize letters when typing*@
+    $('#idNumber').keyup(function () {
+        $('#idNumber').val(($('#idNumber').val()).toUpperCase());
+        });
+        @*block invalid characters*@
+    $("#idNumber").keypress(function (e) {
+            if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
+                var ch = e.which;
+                if ((ch >= 47 && ch <= 57) || (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122)) {
+                    return 1;
+                }
+
+                else {
+                    e.preventDefault();
+                }
+            }
+
+        });
 
 
     $('.title-help').click(function () {
@@ -1954,5 +2175,9 @@
     $('.help-full-curt-smry').click(function () {
         $('.help-text h4').html("Full Curtailment Summary");
         $('.help-text p').html("&nbsp;&nbsp;The full curtailment summary report will display the total number of curtailments paid and the paid amount as well as the balance due for each active unit on the selected loan.");
+    });
+    $('.help-ind-curt-smry').click(function () {
+        $('.help-text h4').html("Individual Curtailment Summary");
+        $('.help-text p').html("&nbsp;&nbsp;The individual curtailment summary report will display each individual curtailment payment for the selected unit.");
     });
 </script>
