@@ -174,6 +174,10 @@ namespace BankLoanSystem.Models
         public int AdvancePercentage { get; set; }
         public string TitleRequired { get; set; }
         public string DocumentAcceptance { get; set; }
+        public string LoanStatus { get; set; }
+        public string PayOffType { get; set; }
+        public string AllowEdit { get; set; }
+        public string ActiveDate { get; set; }
     }
 
     public class RptFeeLoanTerm
