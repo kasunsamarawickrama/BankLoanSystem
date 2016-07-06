@@ -243,9 +243,7 @@
                                                         <div class="button_box algn_right" style="margin-right:25px;float:right" >
                                                             <input value="Update" class="btn btn-primary m-b next_clear_button next_back" type="submit" id="btnUpdateCompany">
                                                         </div>
-                                                        @*<div class="button_box algn_right">
-                                                            <input id="btnClear" value="Clear" class="btn btn-primary m-b next_clear_button clear_back" style="margin-left: 10px" type="button">
-                                                        </div>*@
+                                                      
                                                         <div style="clear:both"></div>
                                                     </div>
                                                 </nav>
@@ -302,9 +300,10 @@
         $('#errorSpn').text("");
     });
 
+    @*clear button click event*@
+
     $('#btnClear').click(function () {
-        //alert($('#txtCompanyName').val());
-        //document.getElementsByTagName("form")[0].reset();
+      
         $('#successSpn').text("");
         $('#errorSpn').text("");
         $('#txtCompanyName').val('');
@@ -370,7 +369,7 @@
     });
 
 
-
+    @*block special characters for address fields*@
     $('#txtCompanyAddress1, #txtCompanyAddress2').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
             if (e.which !== 8 && e.which !== 0) {
@@ -424,6 +423,7 @@
         }
         
     });
+    @*block special characters for city field*@
     $(' #txtCity').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
             //alert(e.which);
@@ -452,34 +452,11 @@
         }
         
     });
-    //$('#txtWebsiteUrl').keypress(function (e) {
-    //    //alert('CheckMaxLenth');
-    //    //var res = CheckMaxLenth(this, this.value, 50);
-    //    //if (res === 0) {
-    //    //    e.preventDefault();
-    //    //    return;
-    //    //}
+    @*block special characters for zip field*@
 
-    //    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', '@@', '.'];
-    //    res = InvalidCharacters(this, array, e.which);
-
-    //    if (res === 1) {
-    //        e.preventDefault();
-    //        return;
-    //    }
-    //    else if (e.which === 92) {
-    //        //$(this).siblings('div').children('span').text("Invalid character.");
-    //        e.preventDefault();
-    //        return;
-    //    }
-    //});
     $('#txtZipPre').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
-            //alert(e.which);
-            //var res = CheckMaxLenth(this, this.value, 4);
-            //if (res === 0) {
-            //    $("#txtExtension").focus();
-            //}
+            
             var res = AllowNumbers(this, e.which);
             if (res === 0) {
                 e.preventDefault();
@@ -488,7 +465,7 @@
         }
         
     });
-
+    @*block special characters for zip extension field*@
     $('#txtExtension').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
             if (e.which !== 8 && e.which !== 0) {
@@ -535,6 +512,7 @@
         }
         
     });
+    @*check max length for phone number fields*@
 
     $('#txtPhoneNum1, #txtPhoneNum2, #txtPhoneNum3').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
@@ -554,6 +532,7 @@
         
     });
 
+     @*check max length for fax number fields*@
     $('#txtFax').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {
             var res = PhoneNumber(this, e.which);
@@ -571,17 +550,6 @@
         }
         
     });
-
-    //$('#txtFirstName, #txtLastName').keypress(function (e) {
-    //    //var array = [' ', '/', '`', '~', '!'];
-    //    var array = ['~', '`', '!', '#', '$', '%', '*', '(', ')', '+', '-', '/', '=', '?', '^', '{', '|', '}', '[', ']', ':', ';', '"', '<', '>', ' '];
-    //    var res = InvalidCharacters(this, array, e.which);
-
-    //    if (res === 1) {
-    //        e.preventDefault();
-    //        return;
-    //    }
-    //});
 
     $('input').keypress(function (e) {
         if (e.which != 8 && e.keyCode != 46 && e.keyCode != 9) {

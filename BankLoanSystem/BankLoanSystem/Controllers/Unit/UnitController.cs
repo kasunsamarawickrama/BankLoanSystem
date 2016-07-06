@@ -722,22 +722,33 @@ namespace BankLoanSystem.Controllers.Unit
         }
 
        
-      
+      /// <summary>
+      /// Frontend Page: Add Unit
+      /// Title: send request for advance if dealer user add units
+      /// Designed: Piyumi Perera
+      /// User story:
+      /// Developed: Piyumi Perera
+      /// Date created: 25/05/2016
+      /// </summary>
+      /// <returns></returns>
         public ActionResult AddUnitRequestAdvance()
         {
 
             Models.User user = new Models.User();
+            //check session is null and if null return to dashboard
             if (Session["loanCode"] == null)
             {
                 return RedirectToAction("UserDetails", "UserManagement");
             }
             else {
+                //convert session to string variable
                 string Code = Session["loanCode"].ToString();
+                //get dealer user details for selected user
                 user = (new UserAccess()).GetDealerUserDetails(userData.UserId, Code);
-
+                //check object is not null
                 if (user != null)
                 {
-
+                    //send email to pointed user in order to request advance
                     string alertmsg = " Dealer User " + user.FirstName + " " + user.LastName + " requested to advance " + user.NoOfUnitsAdded + " new unit(s) for loan number " + user.LoanNumber + " on " + user.AddedDate + ". Please go to advance page to advance the items. ";
                     int rep = (new UserAccess()).InsertDearlerUserRequest(0,0,user.UserIdForSendReq, Code,alertmsg);
 
@@ -747,10 +758,6 @@ namespace BankLoanSystem.Controllers.Unit
 
 
                     email.SendMail(body, "Request Advance");
-
-                    //Log log = new Log(userData.UserId, userData.Company_Id, user.BranchId, user.LoanId, "Create Dealer Account", "Inserted Dealer : " + user.UserName, DateTime.Now);
-
-                    //int islog = (new LogAccess()).InsertLog(log);
 
                    TempData["msg"] = 3;
                     return RedirectToAction("AddUnit", "Unit");
@@ -764,8 +771,6 @@ namespace BankLoanSystem.Controllers.Unit
                 
             }
 
-
-            //return View();
         }
 
         public FileResult PrintPage()
