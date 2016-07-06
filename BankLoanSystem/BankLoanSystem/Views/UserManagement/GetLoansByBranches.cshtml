@@ -78,7 +78,7 @@ margin-left:1%;
             <div class="col-sm-7">
                 
                 <div id="rights">
-                    @Html.CheckBox("selectAll", new { @class = "All", @id = "CheckAll" })
+                    @Html.CheckBox("selectAll", new { @class = "CBAll", @id = "CheckAll" })
                     @Html.Label("All")
                     <br />
                     @for (var i = 0; i < Model.UserRightsList.Count; i++)
@@ -346,6 +346,7 @@ margin-left:1%;
             else {
                 $('.All2').prop('checked',false);
                 $('.CBAll2').prop('checked',false);
+                $('.CBAll').prop('checked',false);
                 $('.All').prop('checked', false);
                 $('#DivRptRights').hide();
             }
@@ -385,6 +386,7 @@ margin-left:1%;
         $('#selectAll').prop('checked', false);
         $('.All').prop('checked', false);
         $('#CheckAll2').prop('checked', false);
+        $('#CheckAll').prop('checked', false);
         $('.All2').prop('checked', false);
         $('#DivRptRights').hide();
     });
@@ -407,27 +409,20 @@ margin-left:1%;
     function checkAll(){
         var model = @Html.Raw(Json.Encode(Model));
         var len = model.UserRightsList.length;
+        var len2 = $('.All').filter(function() {
+            return $(this).css('display') !== 'none';
+        }).length;
+        alert(len2);
         var count =0;
         for (var j = 0 ; j < model.UserRightsList.length; j++){
-            var str = '#'+(model.UserRightsList[j].rightId);
-            if ($(str).is(':checked')) {
+            var str = '#'+(model.UserRightsList[j].rightId );
+            if ($(str).is(':checked') && $(str).css('display') !== 'none') {
 
                 count++;
             }
         }
-        @*has fee and no need to track title*@
-        if( title != 1 && hasFee === 1 && count === (len-1)){
-            $('#CheckAll').prop('checked', true);
-        }
-            @*has fee and  need to track title*@
-        else if( title == 1 && hasFee != 1 && count === (len-1)){
-            $('#CheckAll').prop('checked', true);
-        }
-            @*no fee and no need to track title*@
-        else if( title != 1 && hasFee != 1 && count === (len-2)){
-            $('#CheckAll').prop('checked', true);
-        }
-        else if( count === len){
+
+        if( count === len2){
             $('#CheckAll').prop('checked', true);
         }
         else{

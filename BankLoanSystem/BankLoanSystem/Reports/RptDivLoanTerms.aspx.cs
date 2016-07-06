@@ -26,6 +26,10 @@ namespace BankLoanSystem.Reports
 
         public void RenderReport(int loanId)
         {
+            //check authentication session is null, if null return
+            if (Session["AuthenticatedUser"] == null) return;
+            User userData = (User)Session["AuthenticatedUser"];
+
             rptViewerLoanTerms.ProcessingMode = ProcessingMode.Local;
             rptViewerLoanTerms.Reset();
             rptViewerLoanTerms.LocalReport.EnableExternalImages = true;
@@ -36,6 +40,9 @@ namespace BankLoanSystem.Reports
             List<RptLoanTerms> loanTermsDetails = ra.RptLoanTermsDetails(loanId);
 
             rptViewerLoanTerms.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", loanTermsDetails));
+
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRptforCompanySummary(userData.Company_Id, userData.UserId);
+            rptViewerLoanTerms.LocalReport.DataSources.Add(new ReportDataSource("DataSet6", details));
 
             CurtailmentAccess ca = new CurtailmentAccess();
             List<Curtailment> curtailments = ca.retreiveCurtailmentByLoanId(loanId);
@@ -61,6 +68,10 @@ namespace BankLoanSystem.Reports
 
         public ReportViewer PrintPage(int loanId)
         {
+            //check authentication session is null, if null return
+            if (Session["AuthenticatedUser"] == null) return null;
+            User userData = (User)Session["AuthenticatedUser"];
+
             ReportViewer rptViewerLoanTermsPrint = new ReportViewer();
 
             rptViewerLoanTermsPrint.ProcessingMode = ProcessingMode.Local;
@@ -73,6 +84,9 @@ namespace BankLoanSystem.Reports
             List<RptLoanTerms> loanTermsDetails = ra.RptLoanTermsDetails(loanId);
 
             rptViewerLoanTermsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", loanTermsDetails));
+
+            List<LoanDetailsRpt> details = ra.GetLoanDetailsRptforCompanySummary(userData.Company_Id, userData.UserId);
+            rptViewerLoanTerms.LocalReport.DataSources.Add(new ReportDataSource("DataSet6", details));
 
             CurtailmentAccess ca = new CurtailmentAccess();
             List<Curtailment> curtailments = ca.retreiveCurtailmentByLoanId(loanId);

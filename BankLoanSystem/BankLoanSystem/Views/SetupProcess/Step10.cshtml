@@ -43,10 +43,17 @@
                                     Click <a href="~/UserManagement/UserDetails">here</a> to go dashboard.
                                     <input type="button" id="dashBoard" value="Dashboard" class="btn btn-primary  btn-next" style="left: 30%"/>
                                     <br/>
-                                    Display/Print loan terms<button type="button" id="btnLoanTerms" class="btn btn-info1">Loan Terms</button>
+                                    
                                 </div>
-
-                            </div>
+                                <div class="form-group new_form_group">
+                                    <label>Display/Print loan terms</label>
+                                </div>
+                                <div class="form-group new_form_group">
+                                 
+                                    <input type="button" id="btnLoanTerms" class="btn btn-info1" value="Loan Terms"/>
+                                </div>
+                               
+                                </div>
                             <script>
                                 window.scrollTo(0, 0);
                             </script>
@@ -360,7 +367,7 @@
     }
 </div>
 
-<div class="overlay-content popupReport" id="confirmBox" style="height: 750px;">
+<div class="overlay-content popupReport" id="confirmBox" style="height: 750px;" hidden>
     <h3>Loan Terms</h3>
 
     <div id="reportViewerDiv" hidden>
@@ -1099,8 +1106,9 @@
     });
 
     $('#btnLoanTerms').click(function () {
+        alert('d');
         doConfirm();
-        var url = "../Reports/RptDivCUrtailmentReceiptDuringSession.aspx?loanId=" + loanId;
+        var url = "../Reports/RptDivLoanTerms.aspx?loanId=" + loanId;
 
         $('#reportViewerDiv').show();
         var myFrame = document.getElementById('ifrmReportViewer');

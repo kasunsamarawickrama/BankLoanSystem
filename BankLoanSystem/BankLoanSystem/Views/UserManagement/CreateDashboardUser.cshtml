@@ -369,7 +369,9 @@
         $('#errSpn').text("");
         @*report rights*@
         $('#CheckAll2').prop('checked', false);
+        $('#CheckAll').prop('checked', false);
         $('.All2').prop('checked', false);
+        $('.All').prop('checked', false);
         $('#DivRptRights').hide();
 
     });
@@ -461,6 +463,9 @@
             $('#LoanIdUser2').val('');
             $('#selectAll').prop('checked', false);
             $('.All').prop('checked', false);
+            $('.All2').prop('checked', false);
+            $('#CheckAll').prop('checked', false);
+            $('#CheckAll2').prop('checked', false);
             clearValues_1();
             $('#branchDivUser').show();
 
@@ -521,6 +526,9 @@
             $('#LoanIdUser2').val('');
             $('#selectAll').prop('checked', false);
             $('.All').prop('checked', false);
+            $('.All2').prop('checked', false);
+            $('#CheckAll').prop('checked', false);
+            $('#CheckAll2').prop('checked', false);
             clearValues_1();
             $('#branchDivUser').show();
             @*check branch count which users can assigned is 1*@
@@ -782,7 +790,7 @@
 
     });
     @*click event for create button*@
-    $('#btnCreateUser').click(function () {
+    $('#btnCreateUser').click(function (e) {
    @*check selected loan id is null or empty*@
         if (document.getElementById("loanid").innerHTML == "") {
             @*show error message*@
@@ -797,17 +805,26 @@
             if (!checked) {
                @*show error message*@
                 $('#checkBoxMessage span').text("please select at least one right.");
-                e.preventDefault();
+                if (($('#txtFirstName').val() !== "") || ($('#txtLastName').val() !== "") || ($('#txtNewEmail').val() !== "") || ($('#txtUserName').val() !== "") || ($('#txtPassword').val() !== "") || ($('#txtConfirmPassword').val() !== "")) {
+                    e.preventDefault();
+                }
+                
             }
                 @*check view reports check box is checked*@
             else if ($('#U06').is(':checked')) {
                 @*get count of check box which has checked*@
                 var chck = $(".All2:checked").length;
+               
                 @*check count is 0*@
                 if (chck === 0) {
                     @*show error message*@
                     $('#checkBoxMessage span').text("please select at least one right for reports.");
-                    e.preventDefault();
+                    if (($('#txtFirstName').val() !== "") || ($('#txtLastName').val() !== "") || ($('#txtNewEmail').val() !== "") || ($('#txtUserName').val() !== "") || ($('#txtPassword').val() !== "") || ($('#txtConfirmPassword').val() !== "")) {
+                        e.preventDefault();
+                    }
+                   
+                    
+                    
                 }
 
             }
