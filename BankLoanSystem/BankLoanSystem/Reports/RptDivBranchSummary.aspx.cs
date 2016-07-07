@@ -70,7 +70,7 @@ namespace BankLoanSystem.Reports
             rptViewerBranchSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", branchSummary));
         }
 
-        public ReportViewer PrintPage(int branchId)
+        public ReportViewer PrintPage(int branchId,string branchName)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return null;
@@ -86,11 +86,15 @@ namespace BankLoanSystem.Reports
             rptViewerBranchSummaryPrint.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
+            User usr = new User();
+            usr = (new UserAccess()).retreiveUserByUserId(userData.UserId);
             List<LoanDetailsRpt> details = new List<LoanDetailsRpt>();
             LoanDetailsRpt detail = new LoanDetailsRpt();
             detail.CompanyName = userData.CompanyName;
             detail.LenderBrnchName = userData.BranchName;
-            detail.ReportDate = DateTime.Now.ToString("MM/dd/yyyy"); ;
+            detail.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
+            detail.CreaterName = usr.FirstName + " " + usr.LastName;
+            detail.LenderBrnchName = branchName;
             details.Add(detail);
             rptViewerBranchSummaryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", details));
 
