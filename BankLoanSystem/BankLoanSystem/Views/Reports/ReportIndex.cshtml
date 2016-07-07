@@ -481,21 +481,22 @@
 
                 @if (ViewBag.RoleId == 1)
                 {
-                    <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 25%">
-                        <label for="">Branch <span class="icon-help_outline help-branch"></span></label>
-
-                        @Html.DropDownList("Branch", new SelectList(ViewBag.BranchSelectList, "Value", "Text"), "-- select branch --", new { @class = "form-control", @style = "width: 253px;", @id = "branchSelect" })
-                        <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
-                    </div>
+                    <div id="divBranch" class="form-group row" style="float:left; display: none; width:117%;margin-top:15px !important">
+                        <label for="" class="col-sm-6 form-control-label" style="width:83%">Select the branch of your company which you would like to view the summary of.<span class="icon-help_outline help-branch"></span></label>
+                        <div class="col-md-2">
+                            @Html.DropDownList("Branch", new SelectList(ViewBag.BranchSelectList, "Value", "Text"), "-- select branch --", new { @class = "form-control", @style = "width: 253px;", @id = "branchSelect" })
+                            <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
+                            </div>
+                        </div>
                 }
-                else {
+                @*else {
                     <div id="divBranch" class="form-group hf" style="margin-left: 20px; display: none; width: 25%">
-                        <label for="">Branch <span class="icon-help_outline help-branch"></span></label>
+                        <label for="">Branch<span class="icon-help_outline help-branch"></span></label>
 
                         @Html.Label("Branch", (string)ViewBag.BranchName, new { @class = "form-control", @style = "width: 253px;min-width: 256px;", @id = "branchSelect" })
                         <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
             </div>
-                }
+                }*@
 
             </div>
 
@@ -545,7 +546,7 @@
         </div>
             @*for individual curtailment summary report*@
             <div id="idNumberDiv" class="form-group row" style="float:left; display: none; width:117%">
-                <label for="" class="col-sm-6 form-control-label">Enter the last 6 characters of the VIN/HIN/Serial Number</label>
+                <label for="" class="col-sm-6 form-control-label">Type in the last 6 characters of the VIN/HIN/Serial Number for the unit you would like to view the curtailment summary of. <span class="icon-help_outline help-idnumber"></span></label>
                 <div class="col-md-2">
                     @Html.EditorFor(model => model.IDNumber, new { htmlAttributes = new { @class = "form-control", @id = "idNumber", @placeholder = "Last 6 characters of VIN/HIN/SN", autocomplete = "off", style = "width:230%", @maxlength = 6 } })
                     @Html.ValidationMessageFor(model => model.IDNumber, "", new { @class = "text-danger", style = "left:25%" })
@@ -1225,7 +1226,7 @@
                 ReportCurtailmentInvoice(val, urlPrefix);
             }
                 else {
-                    $('#tagscloudBranch').children('span').text("Please select a branch");
+                    $('#tagscloudBranch').children('span').text("Please select which branch of your company you would like to view a summary report for.");
                     $("#branchSelect").addClass('input-validation-error');
                     $('.centered h5 span').text("Error in Page");
                 }
@@ -1423,8 +1424,15 @@
                 }
                 else if (rptType === 'IndCurtSummary') {
                     var idType = $("#idNumber").val();
-
+                    var len = $("#idNumber").val().length;
+                    
                     if (idType === null || idType === "") {
+                        $('#tagscloudIDNumber').children('span').text("Please confirm the last 6 characters of the VIN/HIN/Serial No.");
+                        $("#idNumber").addClass('input-validation-error');
+                        $('.centered h5 span').text("Error in Page");
+                        errorCount = errorCount + 1;
+                    }
+                    else if (len<6) {
                         $('#tagscloudIDNumber').children('span').text("Please confirm the last 6 characters of the VIN/HIN/Serial No.");
                         $("#idNumber").addClass('input-validation-error');
                         $('.centered h5 span').text("Error in Page");
@@ -2177,6 +2185,18 @@
 
         $('.help-text h4').html("Start and End date");
         $('.help-text p').html(" &nbsp;&nbsp; Select the date range you would like to view. Any transactions which took place during the selected date range will be displayed in the report.");
+
+    });
+    $('.help-branch').click(function () {
+
+        $('.help-text h4').html("Select branch");
+        $('.help-text p').html(" &nbsp;&nbsp; Select the branch of your company which you would like to view the summary of.");
+
+    });
+    $('.help-idnumber').click(function () {
+
+        $('.help-text h4').html("Search for a unit");
+        $('.help-text p').html(" &nbsp;&nbsp; Type in the last 6 characters of the VIN/HIN/Serial Number for the unit you would like to view the curtailment summary of.");
 
     });
     $('.help-titl-slct').click(function () {

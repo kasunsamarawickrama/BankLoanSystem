@@ -387,6 +387,7 @@ namespace BankLoanSystem.Controllers.Reports
             string range2 = "";
             int titleStatus = 0;
             int branchId = 0;
+            string branchName = "";
             //individual curtailment summary report
             string idnumber = "";
 
@@ -413,7 +414,8 @@ namespace BankLoanSystem.Controllers.Reports
             // branch
             if (Request.QueryString["branchId"] != "")
                 branchId = Convert.ToInt32(Request.QueryString["branchId"]);
-
+            if (Request.QueryString["branchName"] != "")
+                branchName = Request.QueryString["branchName"];
             // individual curtailment summary
             if (Request.QueryString["idNumber"] != "")
                 idnumber =Request.QueryString["idNumber"];
@@ -537,10 +539,10 @@ namespace BankLoanSystem.Controllers.Reports
                 RptDivBranchSummary branchSummary = new RptDivBranchSummary();
                 if (userData.RoleId == 1)
                 {
-                    rptViewerPrint = branchSummary.PrintPage(branchId);
+                    rptViewerPrint = branchSummary.PrintPage(branchId,branchName);
                 }
                 else {
-                rptViewerPrint = branchSummary.PrintPage(userData.BranchId);
+                rptViewerPrint = branchSummary.PrintPage(userData.BranchId,userData.BranchName);
             }
                 
             }
