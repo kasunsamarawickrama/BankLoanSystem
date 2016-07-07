@@ -1163,6 +1163,14 @@
 
     });
 
+    $('#btnPrint').click(function () {
+        var loanId = 0;
+        loanId = '@ViewBag.LoanId';
+        var url = "/SetupProcess/PrintPage?loanId=" + loanId;
+
+         var win = window.open(url, '_blank');
+         win.focus();
+     });
     //function doConfirm() {
     //    var scrollTop = $(window).scrollTop();
     //    var docHeight = $(document).height(); //grab the height of the page
