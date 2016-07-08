@@ -35,8 +35,20 @@ namespace BankLoanSystem.Reports
                 if (Request.QueryString["idNumber"] != "" && Request.QueryString["idNumber"] != null)
                     idNumber = Request.QueryString["idNumber"];
 
-                //call RenderReport function to show report on report viwer
-                RenderReport(loanId, idNumber);
+                ReportAccess ra = new ReportAccess();
+                //Get all curtailment summary details
+                List<RptIndividualCurtailmentSummary> indiCurtailment = ra.GetIndividualCurtailmentSummarRptDetails(loanId, idNumber);
+
+                if (indiCurtailment.Count > 0)
+                {
+                    //call RenderReport function to show report on report viwer
+                    RenderReport(loanId, idNumber, indiCurtailment);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
         }
         /// <summary>
@@ -48,7 +60,7 @@ namespace BankLoanSystem.Reports
         /// Date created: 7/5/2016
         /// </summary>
         /// <param name="loanId"></param>
-        public void RenderReport(int loanId, string idNumber)
+        public void RenderReport(int loanId, string idNumbe, List<RptIndividualCurtailmentSummary> indiCurtailment)
         {
             //Check authentication session is null then return
             if (Session["AuthenticatedUser"] == null) return;
@@ -72,9 +84,6 @@ namespace BankLoanSystem.Reports
 
             //Set data set to report
             rptViewerIndividualCurtailmentSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-
-            //Get all curtailment summary details
-            List<RptIndividualCurtailmentSummary> indiCurtailment = ra.GetIndividualCurtailmentSummarRptDetails(loanId, idNumber);
 
             //Set data set to report
             rptViewerIndividualCurtailmentSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", indiCurtailment));

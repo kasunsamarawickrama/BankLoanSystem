@@ -32,10 +32,20 @@ namespace BankLoanSystem.Reports
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
 
-               
+                ReportAccess ra = new ReportAccess();
+                //Get all curtailment summary details
+                List<RptFullCurtailmentSummary> fullCurtailment = ra.GetFullCurtailmentSummarRptDetails(loanId);
 
-                //call RenderReport function to show report on report viwer
-                RenderReport(loanId);
+                if(fullCurtailment.Count>0)
+                { 
+                    //call RenderReport function to show report on report viwer
+                    RenderReport(loanId, fullCurtailment);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
         }
         /// <summary>
@@ -47,7 +57,7 @@ namespace BankLoanSystem.Reports
         /// Date created: 7/1/2016
         /// </summary>
         /// <param name="loanId"></param>
-        public void RenderReport(int loanId)
+        public void RenderReport(int loanId, List<RptFullCurtailmentSummary> fullCurtailment)
         {
             //Check authentication session is null then return
             if (Session["AuthenticatedUser"] == null) return;
@@ -71,9 +81,6 @@ namespace BankLoanSystem.Reports
 
             //Set data set to report
             rptViewerFullCurtailmentSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-
-            //Get all curtailment summary details
-            List<RptFullCurtailmentSummary> fullCurtailment = ra.GetFullCurtailmentSummarRptDetails(loanId);
 
             //Set data set to report
             rptViewerFullCurtailmentSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", fullCurtailment));
