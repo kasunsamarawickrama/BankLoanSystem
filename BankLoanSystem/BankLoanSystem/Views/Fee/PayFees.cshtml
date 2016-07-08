@@ -460,7 +460,7 @@
 
     function FilterFees() {
         if ($('#dueDate').val() != "" && $('#hdnSelectedButton').val() != "") {
-
+           
             showLoading();
             $.ajax({
                 url: '/Fee/PayFeesForSelectedDueDate/',
@@ -470,8 +470,7 @@
 
                 success: function (partialView) {
 
-                    
-
+                  
                     $('#advanceGrid').html(partialView);
                     $('#advanceGrid').show();
                     $('.centered span').text('');
