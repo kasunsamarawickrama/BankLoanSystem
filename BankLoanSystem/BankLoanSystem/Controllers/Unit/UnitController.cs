@@ -741,6 +741,7 @@ namespace BankLoanSystem.Controllers.Unit
                 return RedirectToAction("UserDetails", "UserManagement");
             }
             else {
+
                 //convert session to string variable
                 string Code = Session["loanCode"].ToString();
                 //get dealer user details for selected user

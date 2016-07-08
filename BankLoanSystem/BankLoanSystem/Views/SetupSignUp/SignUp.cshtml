@@ -220,7 +220,7 @@
 
             <div class="form-group">
                 <input type="submit" value="Sign Up" class="btn btn-primary btn-next" />
-                <input type="button" id="clear" value="Clear" class="btn btn-default right-button" />
+                <input type="button" id="clearVal" value="Clear" class="btn btn-default right-button clear" />
 
             </div>
         </div>
@@ -401,9 +401,38 @@
 
         $('input').prop('autocomplete', 'off');
 
-        $('input').focus(function () {
-            $('#error').text("");
+        //$('input').focus(function () {
+        //    $('#error').text("");
+
+        //});
+
+        $(document).ready(function () {
+            $('#CaptchaText').val("");
+            @if (ViewBag.ErrorMsg == "Entered Security Code is Not Correct!") {
+            <text>
+            $('#CaptchaText').focus();
+            </text>
+            }
+        });
+        $('#clearVal').click(function () {
+
+            location.reload();
 
         });
+
+        $('#clearVal').click(function () {
+
+            // reset the form
+            //document.getElementsByTagName("form")[0].reset();
+            // for all input field
+            $('input').next('span').children('span').text('');
+            $('input').removeClass('valid');
+            // for dropdown field
+            $('select').next('span').children('span').text('');
+            $('select').removeClass('valid');
+
+            $('.new_err_msg').children("span").text("");
+        });
+
 
     </script>

@@ -34,14 +34,18 @@ namespace BankLoanSystem.Controllers.SetupProcess
         public ActionResult SignUp()
         {
             if (TempData["status"] != null) {
-                if(TempData["status"].ToString() == "success")
+                if (TempData["status"].ToString() == "success")
                     ViewBag.SuccessMsg = "Your profile Successfully created.";
-                else if(TempData["status"].ToString() == "fail")
+                else if (TempData["status"].ToString() == "fail")
                     ViewBag.ErrorMsg = "Failed to Sign up try again!";
-                else if(TempData["status"].ToString() == "captchaFail")
+                else if (TempData["status"].ToString() == "captchaFail")
+                {
                     ViewBag.ErrorMsg = "Entered Security Code is Not Correct!";
+                    User user = new Models.User();
+                    user = (User)TempData["ErrorModel"];
+                    return View(user);
+                }
             }
-
             return View();
         }
 
@@ -79,6 +83,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
             {
                 TempData["status"] = "captchaFail";
                 //ViewBag.ErrorMsg = "Entered Security Code is Not Correct!";
+                TempData["ErrorModel"] = user;
             }
 
 
