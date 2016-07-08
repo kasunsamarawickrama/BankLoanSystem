@@ -258,8 +258,8 @@
                                             <hr />
 
                                             <div class="form-group new_form_group">
-                                                <div class="control-label col-sm-2 lable_style">
-                                                    <label>Select which of your users will receive the Dealer's advance requests</label>
+                                                <div class="col-xs-6 new_label_style">
+                                                    <label class="new_label_style" style="font-weight:normal;color:#545454;font-size:14px">Select which of your users will receive the Dealer's advance requests</label>
                                                 </div>
                                                @* check user list which dealer user can request for advance is not null and count is 1*@
 
@@ -296,10 +296,10 @@
                                                
 
                                                
-                                                    <div class="control-label col-sm-2 lable_style">
-                                                        <label>Specifiy which email address the advance request notices wlll be sent to</label>
+                                                    <div class="col-xs-6 new_label_style">
+                                                        <label style="font-weight:normal;color:#545454;font-size:14px">Specifiy which email address the advance request notices wlll be sent to</label>
                                                     </div>
-                                                    <div class="col-xs-8 text_field">
+                                                    <div class="col-xs-8 text_field short_text_field">
                                                         @Html.EditorFor(model => model.UserEmailForSendReq, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtEmailForSendReq",@value= ViewBag.UserIdForSendReq.Items[0].NewEmail } })
                                                     </div>
                                                 
@@ -313,10 +313,10 @@
                                             else if (ViewBag.UserIdForSendReq != null && ViewBag.UserIdForSendReq.Items.Count > 1)
                                             {
                                                 <div class="form-group new_form_group" id="DivEmailJD">
-                                                    <div class="control-label col-sm-2 lable_style">
-                                                        <label>Specifiy which email address the advance request notices wlll be sent to</label>
+                                                    <div class="col-xs-6 new_label_style">
+                                                        <label style="font-weight:normal;color:#545454;font-size:14px">Specifiy which email address the advance request notices wlll be sent to</label>
                                                     </div>
-                                                    <div class="col-xs-8 text_field">
+                                                    <div class="col-xs-8 text_field short_text_field">
                                                         @Html.EditorFor(model => model.UserEmailForSendReq, new { htmlAttributes = new { @class = "form-control text-box single-line password text_field_input", @id = "txtEmailForSendReq" } })
                                                     </div>
 
