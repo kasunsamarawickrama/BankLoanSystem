@@ -744,7 +744,7 @@ namespace BankLoanSystem.DAL
                     feeInvoice.Make = dataRow["make"].ToString();
                     feeInvoice.Model = dataRow["model"].ToString();
                     feeInvoice.DueDate = Convert.ToDateTime(dataRow["due_date"].ToString()).ToString("MM/dd/yyyy");
-                    feeInvoice.PurchasePrice = (dataRow["cost"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;//Convert.ToDecimal(dataRow["cost"]);
+                    feeInvoice.PurchasePrice = (dataRow["advance_amount"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;//Convert.ToDecimal(dataRow["cost"]);
                     feeInvoice.AdvanceAmount = Convert.ToDecimal(dataRow["amount"]);
                     totalDue = totalDue + Convert.ToDecimal(dataRow["amount"]);
                     feeInvoiceData.Add(feeInvoice);
@@ -891,7 +891,7 @@ namespace BankLoanSystem.DAL
                     feeInvoice.Make = dataRow["make"].ToString();
                     feeInvoice.Model = dataRow["model"].ToString();
                     feeInvoice.DueDate = Convert.ToDateTime(dataRow["paid_date"].ToString()).ToString("MM/dd/yyyy");
-                    feeInvoice.PurchasePrice = (dataRow["cost"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;//Convert.ToDecimal(dataRow["cost"]);
+                    feeInvoice.PurchasePrice = (dataRow["advance_amount"]) != DBNull.Value ? (Decimal)dataRow["advance_amount"] : (Decimal)0.00M;//Convert.ToDecimal(dataRow["cost"]);
                     feeInvoice.AdvanceAmount = Convert.ToDecimal(dataRow["amount"]);
                     totalDue = totalDue + Convert.ToDecimal(dataRow["amount"]);
                     feeInvoiceData.Add(feeInvoice);
