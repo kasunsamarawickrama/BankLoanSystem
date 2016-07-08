@@ -30,11 +30,21 @@ namespace BankLoanSystem.Reports
                 if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
                 var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
 
-                RenderReport(loanId, startDate, endDate,feeType);
+                ReportAccess ra = new ReportAccess();
+                List<RptFee> advanceFeeInvoice = ra.GetFeeInvoiceByDateRange(loanId, feeType, startDate, endDate);
+                if (advanceFeeInvoice.Count > 0)
+                {
+                    RenderReport(loanId, startDate, endDate,feeType, advanceFeeInvoice);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
         }
 
-        public void RenderReport(int loanId, DateTime startDate, DateTime endDate, string feeType)
+        public void RenderReport(int loanId, DateTime startDate, DateTime endDate, string feeType, List<RptFee> advanceFeeInvoice)
         {
             if (Session["AuthenticatedUser"] == null) return;
             User userData = (User)Session["AuthenticatedUser"];
@@ -56,7 +66,7 @@ namespace BankLoanSystem.Reports
             }
 
 
-            List<RptFee> advanceFeeInvoice = ra.GetFeeInvoiceByDateRange(loanId, feeType, startDate, endDate);
+            //List<RptFee> advanceFeeInvoice = ra.GetFeeInvoiceByDateRange(loanId, feeType, startDate, endDate);
 
             rptViewerAdvanceFeeInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerAdvanceFeeInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", advanceFeeInvoice));

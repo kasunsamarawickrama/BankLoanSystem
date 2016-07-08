@@ -26,11 +26,22 @@ namespace BankLoanSystem.Reports
                 if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
                 var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
 
-                RenderReport(loanId, startDate, endDate);
+                ReportAccess ra = new ReportAccess();
+                List<ReportFullInventoryUnit> units = ra.GetAdvanceUnitByLoanId(loanId, startDate, endDate);
+
+                if (units.Count > 0)
+                {
+                    RenderReport(loanId, startDate, endDate, units);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
         }
 
-        public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
+        public void RenderReport(int loanId, DateTime startDate, DateTime endDate, List<ReportFullInventoryUnit> units)
         {
             if (Session["AuthenticatedUser"] == null) return;
             User userData = (User)Session["AuthenticatedUser"];
@@ -53,7 +64,6 @@ namespace BankLoanSystem.Reports
 
             rptViewerAdvanceUnitRpt.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
 
-            List<ReportFullInventoryUnit> units = ra.GetAdvanceUnitByLoanId(loanId, startDate, endDate);
             rptViewerAdvanceUnitRpt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", units));
 
         }

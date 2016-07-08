@@ -39,8 +39,20 @@ namespace BankLoanSystem.Reports
                 if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
                 var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
 
+                ReportAccess ra = new ReportAccess();
+                //Get all delete units details
+                List<RptDeletedUnit> deletedUnits = ra.RptGetDeletedUnitByLoanIdDateRange(loanId, startDate, endDate);
+
+                if(deletedUnits.Count>0)
+                { 
                 //call RenderReport function to show report on report viwer
-                RenderReport(loanId, startDate, endDate);
+                    RenderReport(loanId, startDate, endDate, deletedUnits);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
         }
 
@@ -54,7 +66,7 @@ namespace BankLoanSystem.Reports
         Date created    : 06/23/2016
 
         */
-        public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
+        public void RenderReport(int loanId, DateTime startDate, DateTime endDate, List<RptDeletedUnit> deletedUnits)
         {
             //Check authentication session is null then return
             if (Session["AuthenticatedUser"] == null) return;
@@ -80,9 +92,6 @@ namespace BankLoanSystem.Reports
 
             //Set data set to report
             rptViewerDeletedUnits.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-
-            //Get all delete units details
-            List<RptDeletedUnit> deletedUnits = ra.RptGetDeletedUnitByLoanIdDateRange(loanId, startDate, endDate);
 
             //Set data set to report
             rptViewerDeletedUnits.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", deletedUnits));

@@ -21,8 +21,6 @@ namespace BankLoanSystem.Reports
                 if (Request.QueryString["companyId"] != "")
                     companyId = Convert.ToInt32(Request.QueryString["companyId"]);
 
-                //hard coded
-                //companyId = 1151;
                 RenderReport(companyId);
             }
         }

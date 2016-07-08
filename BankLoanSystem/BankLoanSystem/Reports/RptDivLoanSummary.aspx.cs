@@ -28,11 +28,23 @@ namespace BankLoanSystem.Reports
                 if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
                 var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
 
-                RenderReport(loanId, startDate, endDate);
+
+                ReportAccess ra = new ReportAccess();
+                List<RptLoanSummary> loanSummaryList = ra.GetLoanSummaryReport(loanId, startDate, endDate);
+
+                if (loanSummaryList.Count > 0)
+                {
+                    RenderReport(loanId, startDate, endDate, loanSummaryList);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
         }
 
-        public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
+        public void RenderReport(int loanId, DateTime startDate, DateTime endDate, List<RptLoanSummary> loanSummaryList)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return;
@@ -56,8 +68,6 @@ namespace BankLoanSystem.Reports
             }
 
             rptViewerLoanSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-
-            List<RptLoanSummary> loanSummaryList = ra.GetLoanSummaryReport(loanId, startDate, endDate);
 
             rptViewerLoanSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", loanSummaryList));
         }

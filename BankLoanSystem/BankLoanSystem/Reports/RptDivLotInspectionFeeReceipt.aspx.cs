@@ -31,13 +31,22 @@ namespace BankLoanSystem.Reports
                 if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
                 var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", new CultureInfo("en-US"));
 
-                RenderReport(loanId, startDate, endDate);
+                ReportAccess ra = new ReportAccess();
+                List<RptFee> lotInspectionFee = ra.GetFeeReceiptByDateRange(loanId, "lotInspectionFee", startDate, endDate);
+
+                if(lotInspectionFee.Count>0)
+                {
+                    RenderReport(loanId, startDate, endDate, lotInspectionFee);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
-
-
         }
 
-        public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
+        public void RenderReport(int loanId, DateTime startDate, DateTime endDate, List<RptFee> lotInspectionFee)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return;
@@ -59,11 +68,8 @@ namespace BankLoanSystem.Reports
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
-
-            List<RptFee> curtailments = ra.GetFeeReceiptByDateRange(loanId, "lotInspectionFee", startDate, endDate);
-
             rptViewerLotInspectionFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-            rptViewerLotInspectionFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
+            rptViewerLotInspectionFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", lotInspectionFee));
         }
 
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)

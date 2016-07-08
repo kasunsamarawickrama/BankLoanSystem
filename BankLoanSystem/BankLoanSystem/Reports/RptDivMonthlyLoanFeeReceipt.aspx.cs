@@ -31,13 +31,22 @@ namespace BankLoanSystem.Reports
                 if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
                 var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", new CultureInfo("en-US"));
 
-                RenderReport(loanId, startDate, endDate);
+                ReportAccess ra = new ReportAccess();
+                List<RptFee> monthlyLoanFeeReceipt = ra.GetFeeReceiptByDateRange(loanId, "monthlyLoanFee", startDate, endDate);
+
+                if (monthlyLoanFeeReceipt.Count > 0)
+                {
+                    RenderReport(loanId, startDate, endDate, monthlyLoanFeeReceipt);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
-
-
         }
 
-        public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
+        public void RenderReport(int loanId, DateTime startDate, DateTime endDate, List<RptFee> monthlyLoanFeeReceipt)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return;
@@ -60,10 +69,10 @@ namespace BankLoanSystem.Reports
             }
 
 
-            List<RptFee> curtailments = ra.GetFeeReceiptByDateRange(loanId, "monthlyLoanFee", startDate, endDate);
+            //List<RptFee> curtailments = ra.GetFeeReceiptByDateRange(loanId, "monthlyLoanFee", startDate, endDate);
 
             rptViewerMonthlyLoanFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-            rptViewerMonthlyLoanFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
+            rptViewerMonthlyLoanFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", monthlyLoanFeeReceipt));
         }
 
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)

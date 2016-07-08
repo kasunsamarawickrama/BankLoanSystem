@@ -24,11 +24,22 @@ namespace BankLoanSystem.Reports
                 if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
                 var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", new CultureInfo("en-US"));
 
-                RenderReport(loanId, startDate, endDate);
+                ReportAccess ra = new ReportAccess();
+                List<ReportTransactionHistory> loanSumm = ra.GetTransactionHistoryByDateRange(loanId, startDate, endDate);
+
+                if(loanSumm.Count>0)
+                {
+                    RenderReport(loanId, startDate, endDate, loanSumm);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
         }
 
-        public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
+        public void RenderReport(int loanId, DateTime startDate, DateTime endDate, List<ReportTransactionHistory> loanSumm)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return;
@@ -52,9 +63,6 @@ namespace BankLoanSystem.Reports
                 dates.EndRange = endDate.ToString("MM/dd/yyyy");
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
-
-
-            List<ReportTransactionHistory> loanSumm = ra.GetTransactionHistoryByDateRange(loanId,startDate, endDate);
 
             rptViewerLoanSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerLoanSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", loanSumm));
