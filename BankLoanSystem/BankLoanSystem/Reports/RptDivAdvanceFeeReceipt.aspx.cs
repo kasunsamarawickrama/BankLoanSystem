@@ -30,13 +30,24 @@ namespace BankLoanSystem.Reports
                 if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
                 var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", new CultureInfo("en-US"));
 
-                RenderReport(loanId, startDate, endDate);
+                ReportAccess ra = new ReportAccess();
+                List<RptFee> advanceFeeReceipt = ra.GetFeeReceiptByDateRange(loanId, "advanceFee", startDate, endDate);
+
+                if (advanceFeeReceipt.Count > 0)
+                {
+                    RenderReport(loanId, startDate, endDate, advanceFeeReceipt);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
 
 
         }
 
-        public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
+        public void RenderReport(int loanId, DateTime startDate, DateTime endDate, List<RptFee> advanceFeeReceipt)
         {
             if (Session["AuthenticatedUser"] == null) return;
             User userData = (User)Session["AuthenticatedUser"];
@@ -58,10 +69,10 @@ namespace BankLoanSystem.Reports
             }
 
 
-            List<RptFee> curtailments = ra.GetFeeReceiptByDateRange(loanId, "advanceFee", startDate, endDate);
+            //List<RptFee> curtailments = ra.GetFeeReceiptByDateRange(loanId, "advanceFee", startDate, endDate);
 
             rptViewerAdvanceFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-            rptViewerAdvanceFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
+            rptViewerAdvanceFeeReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", advanceFeeReceipt));
         }
 
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)

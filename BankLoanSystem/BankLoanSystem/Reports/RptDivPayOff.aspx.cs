@@ -30,14 +30,24 @@ namespace BankLoanSystem.Reports
 
                 if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
                 var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", new CultureInfo("en-US"));
+                
+                ReportAccess ra = new ReportAccess();
+                //get unit payoff details
+                List<ReportPayOff> payOffUnits = ra.GetPayOffDetailsByLoanId(loanId, startDate, endDate);
 
-                RenderReport(loanId, startDate, endDate);
+                if(payOffUnits.Count>0)
+                {
+                    RenderReport(loanId, startDate, endDate, payOffUnits);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
-
-
         }
 
-        public void RenderReport(int loanId, DateTime startDate, DateTime endDate)
+        public void RenderReport(int loanId, DateTime startDate, DateTime endDate, List<ReportPayOff> payOffUnits)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return;
@@ -62,12 +72,9 @@ namespace BankLoanSystem.Reports
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
-            //get unit payoff details
-            List<ReportPayOff> curtailments = ra.GetPayOffDetailsByLoanId(loanId, startDate, endDate);
-
             //set data source to report viwer
             rptViewerPayOff.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-            rptViewerPayOff.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
+            rptViewerPayOff.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", payOffUnits));
         }
 
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)

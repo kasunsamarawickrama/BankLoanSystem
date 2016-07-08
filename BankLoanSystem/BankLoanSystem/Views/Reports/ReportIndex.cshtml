@@ -590,6 +590,14 @@
 
 <script type="text/javascript">
 
+    function ParentPrintHide() {
+        $('#btnPrint').hide();
+    }
+
+    function ParentPrintShow() {
+        $('#btnPrint').show();
+    }
+
     $('#idNumber').focusout(function () {
         $(this).attr('placeholder', 'Last 6 characters of VIN/HIN/SN');
     });
@@ -1177,7 +1185,7 @@
             }
         }
         $('#reportViewerDiv').show();
-        $('#btnPrint').show();
+        //$('#btnPrint').show();
     }
 
     $('#btnDisplay').click(function () {
