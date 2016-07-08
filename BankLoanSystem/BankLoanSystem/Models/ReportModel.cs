@@ -267,6 +267,8 @@ namespace BankLoanSystem.Models
         public decimal AdvanceAmount { get; set; }
         public int LoanId { get; set; }
         public string UnitId { get; set; }
+        public string PaidDate { get; set; }
+        public string DueDate { get; set; }
         public decimal PaidAmount { get; set; }
         public decimal BalanceAmount { get; set; }
         public int CurtNo { get; set; }

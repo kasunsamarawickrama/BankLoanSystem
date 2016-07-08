@@ -1703,6 +1703,14 @@ namespace BankLoanSystem.DAL
                         {
                             curtSummary.PaidAmount = 0.00M;
                         }
+                        if (!string.IsNullOrEmpty(dataRow["transac_date"].ToString()))
+                        {
+                            curtSummary.PaidDate = Convert.ToDateTime(dataRow["transac_date"].ToString()).ToString("MM/dd/yyyy");
+                        }
+                        if (!string.IsNullOrEmpty(dataRow["due_date"].ToString()))
+                        {
+                            curtSummary.DueDate = Convert.ToDateTime(dataRow["due_date"].ToString()).ToString("MM/dd/yyyy");
+                        }
                         if (int.TryParse(dataRow["transac_details"].ToString(),out curt))
                         {
                             curtSummary.CurtNo = curt;
