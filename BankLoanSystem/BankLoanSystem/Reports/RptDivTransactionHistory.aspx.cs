@@ -39,7 +39,7 @@ namespace BankLoanSystem.Reports
             }
         }
 
-        public void RenderReport(int loanId, DateTime startDate, DateTime , List<ReportTransactionHistory> loanSumm)
+        public void RenderReport(int loanId, DateTime startDate, DateTime endDate, List<ReportTransactionHistory> loanSumm)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return;
