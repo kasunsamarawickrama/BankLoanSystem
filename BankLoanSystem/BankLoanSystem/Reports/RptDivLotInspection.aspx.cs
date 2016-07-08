@@ -29,7 +29,19 @@ namespace BankLoanSystem.Reports
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
 
-                RenderReport(loanId);
+                ReportAccess ra = new ReportAccess();
+                //get all active units
+                List<ReportUnitModels> units = ra.GetAllActiveUnitDetailsRpt(loanId);
+
+                if(units.Count>0)
+                {
+                    RenderReport(loanId, units);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
         }
 
@@ -43,7 +55,7 @@ namespace BankLoanSystem.Reports
             Date created: 
 
         */
-        public void RenderReport(int loanId)
+        public void RenderReport(int loanId, List<ReportUnitModels> units)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return;
@@ -68,9 +80,6 @@ namespace BankLoanSystem.Reports
 
             //set data source to report viwer - 1
             rptViewerLotInspection.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-
-            //get all active units
-            List<ReportUnitModels> units = ra.GetAllActiveUnitDetailsRpt(loanId);
 
             foreach (var unit in units)
             {

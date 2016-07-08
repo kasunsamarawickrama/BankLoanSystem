@@ -22,7 +22,20 @@ namespace BankLoanSystem.Reports
 
                 if (!string.IsNullOrEmpty(Request.QueryString["titleStatus"]))
                     titleStatus = Convert.ToInt32(Request.QueryString["titleStatus"]);
-                RenderReport(loanId, titleStatus);
+
+                ReportAccess ra = new ReportAccess();
+                //Get unit details with payment details
+                List<ReportFullInventoryUnit> units = ra.GetFullInventoryByLoanId(loanId);
+
+                if (units.Count > 0)
+                {
+                    RenderReport(loanId, units);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
         }
 
@@ -36,7 +49,7 @@ namespace BankLoanSystem.Reports
             Date created: 
 
         */
-        public void RenderReport(int loanId, int titleStatus)
+        public void RenderReport(int loanId, List<ReportFullInventoryUnit> units)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return;
@@ -58,9 +71,6 @@ namespace BankLoanSystem.Reports
             {
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
-
-            //Get unit details with payment details
-            List<ReportFullInventoryUnit> units = ra.GetFullInventoryByLoanId(loanId);
 
             //set data source to report viwer
             rptViewerFullInventory.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));

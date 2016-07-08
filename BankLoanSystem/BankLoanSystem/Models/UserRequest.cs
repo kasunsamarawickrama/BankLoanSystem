@@ -37,7 +37,7 @@ namespace BankLoanSystem.Models
        
         public string topic { get; set; }
 
-        [Required(ErrorMessage = "Message is required")]
+        [Required(ErrorMessage = "Please include a message to send.")]
         [Display(Name = "Message")]
         public string message { get; set; }
 

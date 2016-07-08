@@ -32,11 +32,22 @@ namespace BankLoanSystem.Reports
                 if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
                 var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
 
-                RenderReport(loanId, startDate, endDate, feeType);
+                ReportAccess ra = new ReportAccess();
+                List<RptFee> lotInspectionFeeInvoice = ra.GetFeeInvoiceByDateRange(loanId, feeType, startDate, endDate);
+
+                if(lotInspectionFeeInvoice.Count>0)
+                {
+                    RenderReport(loanId, startDate, endDate, feeType, lotInspectionFeeInvoice);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
         }
 
-        public void RenderReport(int loanId, DateTime startDate, DateTime endDate, string feeType)
+        public void RenderReport(int loanId, DateTime startDate, DateTime endDate, string feeType, List<RptFee> lotInspectionFeeInvoice)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return;
@@ -59,7 +70,7 @@ namespace BankLoanSystem.Reports
             }
 
 
-            List<RptFee> lotInspectionFeeInvoice = ra.GetFeeInvoiceByDateRange(loanId, feeType, startDate, endDate);
+            //List<RptFee> lotInspectionFeeInvoice = ra.GetFeeInvoiceByDateRange(loanId, feeType, startDate, endDate);
 
             rptViewerLotInspectionFeeInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerLotInspectionFeeInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", lotInspectionFeeInvoice));

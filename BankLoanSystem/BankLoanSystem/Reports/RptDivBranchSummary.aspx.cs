@@ -91,7 +91,7 @@ namespace BankLoanSystem.Reports
             List<LoanDetailsRpt> details = new List<LoanDetailsRpt>();
             LoanDetailsRpt detail = new LoanDetailsRpt();
             detail.CompanyName = userData.CompanyName;
-            detail.LenderBrnchName = userData.BranchName;
+            
             detail.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             detail.CreaterName = usr.FirstName + " " + usr.LastName;
             detail.LenderBrnchName = branchName;

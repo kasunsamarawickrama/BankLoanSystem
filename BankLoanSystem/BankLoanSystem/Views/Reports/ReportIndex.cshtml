@@ -485,7 +485,7 @@
                         <label for="" class="col-sm-6 form-control-label" style="width:83%">Select the branch of your company which you would like to view the summary of.<span class="icon-help_outline help-branch"></span></label>
                         <div class="col-md-2">
                             @Html.DropDownList("Branch", new SelectList(ViewBag.BranchSelectList, "Value", "Text"), "-- select branch --", new { @class = "form-control", @style = "width: 253px;", @id = "branchSelect" })
-                            <div id="tagscloudBranch" class="field-validation-error"><span class="text-danger"></span></div>
+                            <div id="tagscloudBranch" class="field-validation-error" style="width:405%"><span class="text-danger"></span></div>
                             </div>
                         </div>
                 }
@@ -590,6 +590,14 @@
 
 <script type="text/javascript">
 
+    function ParentPrintHide() {
+        $('#btnPrint').hide();
+    }
+
+    function ParentPrintShow() {
+        $('#btnPrint').show();
+    }
+
     $('#idNumber').focusout(function () {
         $(this).attr('placeholder', 'Last 6 characters of VIN/HIN/SN');
     });
@@ -615,9 +623,9 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-       // $('#lnum').show();
-       // $('#lnum').siblings('.hf').hide();
-       // $('#lnum').siblings('.hf').children('input').val('');
+        // $('#lnum').show();
+        // $('#lnum').siblings('.hf').hide();
+        // $('#lnum').siblings('.hf').children('input').val('');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
@@ -643,7 +651,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-      //  $('#lnum').show();
+        //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -666,7 +674,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-     //   $('#lnum').show();
+        //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -688,7 +696,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-      //  $('#lnum').show();
+        //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -710,7 +718,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-       // $('#lnum').show();
+        // $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -732,7 +740,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-       // $('#lnum').show();
+        // $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -755,7 +763,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-       // $('#lnum').show();
+        // $('#lnum').show();
         $('#ttlsts').show().siblings('.hf').hide();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -774,9 +782,9 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-      //  $('#lnum').show();
-      //  $('#lnum').siblings('.hf').hide();
-      //  $('#lnum').siblings('.hf').children('input').val('');
+        //  $('#lnum').show();
+        //  $('#lnum').siblings('.hf').hide();
+        //  $('#lnum').siblings('.hf').children('input').val('');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
@@ -794,7 +802,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-     //   $('#lnum').show();
+        //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -817,7 +825,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-     //   $('#lnum').show();
+        //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -840,7 +848,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-      //  $('#lnum').show();
+        //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -863,7 +871,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-      //  $('#lnum').show();
+        //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -908,7 +916,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-      //  $('#lnum').show();
+        //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -931,7 +939,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-    //    $('#lnum').show();
+        //    $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -954,7 +962,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-      //  $('#lnum').show();
+        //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -977,7 +985,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-      //  $('#lnum').show();
+        //  $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -999,8 +1007,8 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-      //  $('#lnum').siblings('.hf').hide();
-      //  $('#lnum').siblings('.hf').children('input').val('');
+        //  $('#lnum').siblings('.hf').hide();
+        //  $('#lnum').siblings('.hf').children('input').val('');
 
         $('#titleStatus').find('option:first').prop('selected', 'selected');
         $('#tagscloudTitleStatus').children('span').text('');
@@ -1052,12 +1060,12 @@
         {
              if (ViewBag.BranchSelectList.Count == 1) {
                 <text>
-                $('#branchSelect').val('@ViewBag.BranchSelectList[0].Value');
-                </text>
+        $('#branchSelect').val('@ViewBag.BranchSelectList[0].Value');
+        </text>
              }
 
         }
-       
+
         $('#idNumber').val("");
         $('#tagscloudIDNumber').children('span').text('');
         $('#idNumber').removeClass('input-validation-error');
@@ -1066,7 +1074,7 @@
 
     $('#btnDeletedUnits').click(function () {
         ChangeButtonColor(this);
-     //   $('#lnum').show();
+        //   $('#lnum').show();
         $('#hdnSelectedButton').val('DeletedUnits');
         $('#ttlsts').hide().siblings('.hf').show();
         $('#tagscloudBranch').children('span').text("");
@@ -1093,7 +1101,7 @@
         $('#tagscloudBranch').children('span').text("");
         $("#branchSelect").removeClass('input-validation-error');
         $('#divBranch').hide();
-     //   $('#lnum').show();
+        //   $('#lnum').show();
         $('#ttlsts').hide().siblings('.hf').show();
         $('#ttlsts').siblings('.hf').children('input').val('');
         $('#ttlsts').siblings('.hf').children('input').attr('placeholder', 'MM/DD/YYYY');
@@ -1143,23 +1151,47 @@
         $('#idNumber').removeClass('input-validation-error');
     });
     $('#idNumber').focusout(function () {
+        var len2 = $('#idNumber').val();
+
         if ($('#idNumber').val() !== "") {
-            $('#tagscloudIDNumber').children('span').text('');
-            $('#idNumber').removeClass('input-validation-error');
+            if (len2.length < 6) {
+
+                $('#tagscloudIDNumber').children('span').text('Please enter the last 6 characters for the VIN/HIN/Serial # you are wanting to view the curtailment summary for.');
+                $('#idNumber').addClass('input-validation-error');
+                //$('.centered h5 span').text("Error in Page");
+            }
+            else {
+                $('#tagscloudIDNumber').children('span').text('');
+                $('#idNumber').removeClass('input-validation-error');
+                //$('.centered h5 span').text("");
+            }
+
         }
         else if ($('#idNumber').val() === "") {
-            $('#tagscloudIDNumber').children('span').text('Please confirm the last 6 characters of the VIN/HIN/Serial No.');
+            $('#tagscloudIDNumber').children('span').text('Please enter the last 6 characters for the VIN/HIN/Serial # you are wanting to view the curtailment summary for.');
             $('#idNumber').addClass('input-validation-error');
+            //$('.centered h5 span').text("Error in Page");
         }
+
     });
     $('#idNumber').blur(function () {
         if ($('#idNumber').val() !== "") {
-            $('#tagscloudIDNumber').children('span').text('');
-            $('#idNumber').removeClass('input-validation-error');
+            if (len2.length < 6) {
+
+                $('#tagscloudIDNumber').children('span').text('Please enter the last 6 characters for the VIN/HIN/Serial # you are wanting to view the curtailment summary for.');
+                $('#idNumber').addClass('input-validation-error');
+                // $('.centered h5 span').text("Error in Page");
+            }
+            else {
+                $('#tagscloudIDNumber').children('span').text('');
+                $('#idNumber').removeClass('input-validation-error');
+                //$('.centered h5 span').text("");
+            }
         }
         else if ($('#idNumber').val() === "") {
             $('#tagscloudIDNumber').children('span').text('Please confirm the last 6 characters of the VIN/HIN/Serial No.');
             $('#idNumber').addClass('input-validation-error');
+            //$('.centered h5 span').text("Error in Page");
         }
     });
     function ReportCurtailmentInvoice(val, url) {
@@ -1177,7 +1209,7 @@
             }
         }
         $('#reportViewerDiv').show();
-        $('#btnPrint').show();
+        //$('#btnPrint').show();
     }
 
     $('#btnDisplay').click(function () {
@@ -1218,13 +1250,13 @@
                 }
 
                 if (branchId > 0 && branchId != "") {
-                myFrame = document.getElementById('ifrmReportViewer');
-                frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
-                frameDoc.removeChild(frameDoc.documentElement);
+                    myFrame = document.getElementById('ifrmReportViewer');
+                    frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
+                    frameDoc.removeChild(frameDoc.documentElement);
 
-                urlPrefix = urlPrefix + branchId + '&branchName=' + branchName;
-                ReportCurtailmentInvoice(val, urlPrefix);
-            }
+                    urlPrefix = urlPrefix + branchId + '&branchName=' + branchName;
+                    ReportCurtailmentInvoice(val, urlPrefix);
+                }
                 else {
                     $('#tagscloudBranch').children('span').text("Please select which branch of your company you would like to view a summary report for.");
                     $("#branchSelect").addClass('input-validation-error');
@@ -1425,15 +1457,15 @@
                 else if (rptType === 'IndCurtSummary') {
                     var idType = $("#idNumber").val();
                     var len = $("#idNumber").val().length;
-                    
+
                     if (idType === null || idType === "") {
-                        $('#tagscloudIDNumber').children('span').text("Please confirm the last 6 characters of the VIN/HIN/Serial No.");
+                        $('#tagscloudIDNumber').children('span').text("Please enter the last 6 characters for the VIN/HIN/Serial # you are wanting to view the curtailment summary for.");
                         $("#idNumber").addClass('input-validation-error');
                         $('.centered h5 span').text("Error in Page");
                         errorCount = errorCount + 1;
                     }
-                    else if (len<6) {
-                        $('#tagscloudIDNumber').children('span').text("Please confirm the last 6 characters of the VIN/HIN/Serial No.");
+                    else if (len < 6) {
+                        $('#tagscloudIDNumber').children('span').text("Please enter the last 6 characters for the VIN/HIN/Serial # you are wanting to view the curtailment summary for.");
                         $("#idNumber").addClass('input-validation-error');
                         $('.centered h5 span').text("Error in Page");
                         errorCount = errorCount + 1;
@@ -1447,10 +1479,10 @@
                             frameDoc = myFrame.contentDocument || myFrame.contentWindow.document;
                             frameDoc.removeChild(frameDoc.documentElement);
 
-                            urlPrefix = urlPrefix + val + '&idNumber=' + $('#idNumber').val();
+                            urlPrefix = urlPrefix + val + '&idNumber=' + $('#idNumber').val() + '&branchName=' + $('#branchName').val();
 
                             ReportCurtailmentInvoice(val, urlPrefix);
-                    }
+                        }
                     }
 
                 }
@@ -1592,13 +1624,15 @@
         var range2 = $('#endDate').val(); //End date
         var titleStatus = $('#titleStatus').val(); //Title status
         var branchId = 0;
+        var branchName = "";
         @if (ViewBag.RoleId == 1) {
             <text>var branchId = $('#branchSelect').val();</text>
+            <text>var branchName = $('#branchSelect option:selected').text();</text>
         }
         var idNumber = $('#idNumber').val(); //individual curtailment summary
 
         //Create and store report path
-        var url = '/Reports/PrintPage?rptType=' + rptType + '&loanId=' + loanId + '&range1=' + range1 + '&range2=' + range2 + '&titleStatus=' + titleStatus  + '&branchId=' + branchId + '&idNumber=' + idNumber;
+        var url = '/Reports/PrintPage?rptType=' + rptType + '&loanId=' + loanId + '&range1=' + range1 + '&range2=' + range2 + '&titleStatus=' + titleStatus + '&branchId=' + branchId + '&idNumber=' + idNumber + '&branchName=' + branchName;
 
         //open report in a new page
         var win = window.open(url, '_blank');
