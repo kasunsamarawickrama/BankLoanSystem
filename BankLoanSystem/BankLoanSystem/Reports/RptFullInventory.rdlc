@@ -1122,7 +1122,9 @@
             <TextRuns>
               <TextRun>
                 <Value>Loan Balance</Value>
-                <Style />
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -1153,6 +1155,7 @@
               <TextRun>
                 <Value>=First(Fields!LoanBalance.Value, "DataSet2")</Value>
                 <Style>
+                  <FontWeight>Bold</FontWeight>
                   <Format>'$'0.00;('$'0.00)</Format>
                 </Style>
               </TextRun>
