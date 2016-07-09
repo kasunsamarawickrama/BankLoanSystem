@@ -2926,7 +2926,7 @@
                     if (!e.target.files) return;
 
                     files = e.target.files;
-                    var maxSize = 375000;
+                    var maxSize = 3 * 1024 * 1024;
                     for (var i = 0; i < files.length; i++) {
 
                         var f = files[i];
