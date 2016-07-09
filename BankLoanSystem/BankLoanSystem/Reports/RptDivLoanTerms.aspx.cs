@@ -18,9 +18,9 @@ namespace BankLoanSystem.Reports
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
 
-                //int loanId = 3519;
-
                 RenderReport(loanId);
+                Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+
             }
         }
 

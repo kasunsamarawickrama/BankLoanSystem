@@ -24,11 +24,22 @@ namespace BankLoanSystem.Reports
                 if (Request.QueryString["branchName"] != "")
                     branchName = Request.QueryString["branchName"];
 
-                RenderReport(branchId, branchName);
+                ReportAccess ra = new ReportAccess();
+                List<RptBranchSummary> branchSummary = ra.GetBranchSummarRptDetails(branchId);
+
+                if (branchSummary.Count > 0)
+                {
+                    RenderReport(branchId, branchName, branchSummary);
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideFrame", "HideDive();", true);
+                }
             }
         }
 
-        public void RenderReport(int branchId,string branchName)
+        public void RenderReport(int branchId,string branchName, List<RptBranchSummary> branchSummary)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return;
@@ -65,7 +76,6 @@ namespace BankLoanSystem.Reports
             {
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
-            List<RptBranchSummary> branchSummary = ra.GetBranchSummarRptDetails(branchId);
             
             rptViewerBranchSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", branchSummary));
         }
