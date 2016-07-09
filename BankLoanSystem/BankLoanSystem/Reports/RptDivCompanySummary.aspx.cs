@@ -22,6 +22,7 @@ namespace BankLoanSystem.Reports
                     companyId = Convert.ToInt32(Request.QueryString["companyId"]);
 
                 RenderReport(companyId);
+                Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
             }
         }
 
