@@ -777,6 +777,10 @@ else if (ViewBag.loanCount > 1)
         $('#idNumberDiv').hide();
     });
 
+    $('#titleStatus').change(function () {
+        $('#errorMsg').text('');
+    });
+
     $('#btnFullInventory').click(function () {
         ChangeButtonColor(this);
         $('#hdnSelectedButton').val('FullInventory');
