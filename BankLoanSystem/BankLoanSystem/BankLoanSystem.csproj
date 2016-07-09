@@ -188,6 +188,7 @@
     <Content Include="Content\triangle.css" />
     <Content Include="Reports\RptDivFullCurtailmentSummary.aspx" />
     <Content Include="Reports\RptDivIndividualCurtailmentSummary.aspx" />
+    <Content Include="Reports\RptDivLoanTermsStep10.aspx" />
     <Content Include="Reports\SampleReports\AdvanceFeeInv.JPG" />
     <Content Include="Reports\SampleReports\AdvanceFeeRcpt.JPG" />
     <Content Include="Reports\SampleReports\AdvanceUnit.JPG" />
@@ -539,6 +540,13 @@
     </Compile>
     <Compile Include="Reports\RptDivLoanSummary.aspx.designer.cs">
       <DependentUpon>RptDivLoanSummary.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptDivLoanTermsStep10.aspx.cs">
+      <DependentUpon>RptDivLoanTermsStep10.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\RptDivLoanTermsStep10.aspx.designer.cs">
+      <DependentUpon>RptDivLoanTermsStep10.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\RptDivTransactionHistory.aspx.cs">
       <DependentUpon>RptDivTransactionHistory.aspx</DependentUpon>
