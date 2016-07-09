@@ -127,6 +127,7 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             return View(unitDeleteViewModel);
         }
         
+
         public UnitDeleteViewModel GetGridViewDetails(int? viewType, string id, string year, string make, string model)
         {
             UnitDeleteViewModel unitModel = new UnitDeleteViewModel();
@@ -210,21 +211,35 @@ namespace BankLoanSystem.Controllers.DeleteUnit
             return unitModel;
         }
 
+        /*
+
+         Frontend page   : Delete units
+         Title           : Get units from list which matching conditions
+         Designed        : Kanishka Mahanama
+         User story      : 
+         Developed       : Kanishka Mahanama
+         Date created    : 
+
+         */
         public ActionResult GridView(int? viewType, string id, string year, string make, string model)
         {
             id = id.ToUpper();
             DeleteSearchUnit seachUnit = new DeleteSearchUnit();
 
+            //Update conditions
             seachUnit.ViewType = viewType;
             seachUnit.Id = id;
             seachUnit.Year = year;
             seachUnit.Make = make;
             seachUnit.Model = model;
 
+            //Update session
             Session["DeleteSearchUnit"] = seachUnit;
 
+            // Get unit list which matching conditions
             UnitDeleteViewModel unitModel = GetGridViewDetails(viewType, id, year, make, model);
 
+            //return model to partial view
             return PartialView(unitModel);
         }
 
