@@ -351,7 +351,7 @@ namespace BankLoanSystem.Controllers.Unit
                         {
                             if (file != null && Array.Exists(unit.FileName.Split(','), s => s.Equals(file.FileName)))
                             {
-                                if (file.ContentLength > 1 * 1024 * 1024)
+                                if (file.ContentLength > 3 * 1024 * 1024)
                                 {
                                     break;
                                 }
