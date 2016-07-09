@@ -182,7 +182,7 @@ if (Model.Type == "advanceFee") {
                                     @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
 
                         </div>
-                        <div class="col-md-2" id="div-combobox1-3">
+                        <div class="col-md-2" id="div-combobox1-3" style="width:19%">
                             <label for="">Model</label>
                             @{List<SelectListItem> modelList = new List<SelectListItem>();
                                 foreach (var CurtailmentSchedule in Model.FeeModelList)
