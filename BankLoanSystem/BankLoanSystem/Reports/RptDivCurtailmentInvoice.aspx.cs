@@ -10,12 +10,21 @@ namespace BankLoanSystem.Reports
 {
     public partial class RptDivCurtailmentInvoice : System.Web.UI.Page
     {
+        /// <summary>
+        /// Frontend Page: Report Page(Curtailment Invoice Report)
+        /// Title: Display Curtailment Invoice details
+        /// Designed: Kanishka SHM
+        /// User story: 
+        /// Developed: Kanishka SHM
+        /// Date created: 
+        /// </summary>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 int loanId = 0;
 
+                //if session is not null and assign it.
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
                 
@@ -25,11 +34,14 @@ namespace BankLoanSystem.Reports
                 if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
                 var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
 
+                //Get all active units curtailment details during time period
                 ReportAccess ra = new ReportAccess();
                 List<CurtailmentShedule> curtailments = ra.GetCurtailmentScheduleByDateRange(loanId, startDate, endDate);
 
+                //if result count is greater then zero show report, otherwise give a message 
                 if (curtailments.Count > 0)
                 {
+                    //call RenderReport function to show report on report viwer
                     RenderReport(loanId, startDate, endDate, curtailments);
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
                 }
@@ -40,16 +52,14 @@ namespace BankLoanSystem.Reports
             }
         }
 
-        /*
-
-            Frontend page: Report Page
-            Title: Load details to report and show on browser
-            Designed: Kanishka SHM
-            User story: 
-            Developed: Kanishka SHM
-            Date created: 
-
-        */
+        /// <summary>
+        /// Frontend Page: Report Page(Curtailment Invoice Report)
+        /// Title: Display Curtailment Invoice details report
+        /// Designed: Kanishka SHM
+        /// User story: 
+        /// Developed: Kanishka SHM
+        /// Date created: 
+        /// </summary>
         public void RenderReport(int loanId, DateTime startDate, DateTime endDate, List<CurtailmentShedule> curtailments)
         {
             //check authentication session is null, if null return
@@ -75,24 +85,19 @@ namespace BankLoanSystem.Reports
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
-            //Get curtailment details by given time period
-            //List<CurtailmentShedule> curtailments = ra.GetCurtailmentScheduleByDateRange(loanId, startDate, endDate);
-
             //set data source to report viwer
             rptViewerCurtailmentInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerCurtailmentInvoice.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
         }
 
-        /*
-
-            Frontend page: Report Page
-            Title: Load pdf view on browser
-            Designed: Kanishka SHM
-            User story: 
-            Developed: Kanishka SHM
-            Date created: 
-
-        */
+        /// <summary>
+        /// Frontend Page: Report Page(Curtailment Invoice Report)
+        /// Title: Display Curtailment Invoice details print page
+        /// Designed: Kanishka SHM
+        /// User story: 
+        /// Developed: Kanishka SHM
+        /// Date created: 
+        /// </summary>
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
             //check authentication session is null, if null return
@@ -118,7 +123,7 @@ namespace BankLoanSystem.Reports
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
-            //Get curtailment details by given time period
+            //Get all active units curtailment details during time period
             List<CurtailmentShedule> curtailments = ra.GetCurtailmentScheduleByDateRange(loanId, startDate, endDate);
 
             //set data source to report viwer

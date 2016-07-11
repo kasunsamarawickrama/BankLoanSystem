@@ -13,12 +13,21 @@ namespace BankLoanSystem.Reports
 {
     public partial class RptDivLoanSummary : System.Web.UI.Page
     {
+        /// <summary>
+        /// Frontend Page: Report Page(Loan Summary Report)
+        /// Title: Display Loan Summary Report
+        /// Designed: Kasun Samarawickrama
+        /// User story: 
+        /// Developed: Kasun Samarawickrama
+        /// Date created: 
+        /// </summary>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 int loanId = 0;
 
+                //if session is not null and assign it.
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
 
@@ -28,12 +37,14 @@ namespace BankLoanSystem.Reports
                 if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
                 var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
 
-
+                //get loan summary details 
                 ReportAccess ra = new ReportAccess();
                 List<RptLoanSummary> loanSummaryList = ra.GetLoanSummaryReport(loanId, startDate, endDate);
 
+                //if result count is greater then zero show report, otherwise give a message 
                 if (loanSummaryList.Count > 0)
                 {
+                    //call RenderReport function to show report on report viwer
                     RenderReport(loanId, startDate, endDate, loanSummaryList);
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
                 }
@@ -44,6 +55,14 @@ namespace BankLoanSystem.Reports
             }
         }
 
+        /// <summary>
+        /// Frontend Page: Report Page(Loan Summary Report)
+        /// Title: Display Loan Summary Report
+        /// Designed: Kasun Samarawickrama
+        /// User story: 
+        /// Developed: Kasun Samarawickrama
+        /// Date created: 
+        /// </summary>
         public void RenderReport(int loanId, DateTime startDate, DateTime endDate, List<RptLoanSummary> loanSummaryList)
         {
             //check authentication session is null, if null return
@@ -57,6 +76,7 @@ namespace BankLoanSystem.Reports
             rptViewerLoanSummary.LocalReport.ReportPath = Server.MapPath("~/Reports/RptLoanSummary.rdlc");
             rptViewerLoanSummary.ZoomMode = ZoomMode.PageWidth;
 
+            //Get account details
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId, userData.UserId);
 
@@ -67,11 +87,19 @@ namespace BankLoanSystem.Reports
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
+            //set data source to report viwer
             rptViewerLoanSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
-
             rptViewerLoanSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", loanSummaryList));
         }
 
+        /// <summary>
+        /// Frontend Page: Report Page(Loan Summary Report)
+        /// Title: Display Loan Summary Report print page
+        /// Designed: Kasun Samarawickrama
+        /// User story: 
+        /// Developed: Kasun Samarawickrama
+        /// Date created: 
+        /// </summary>
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
             //check authentication session is null, if null return
@@ -86,6 +114,7 @@ namespace BankLoanSystem.Reports
             rptViewerLoanSummaryPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptLoanSummary.rdlc");
             rptViewerLoanSummaryPrint.ZoomMode = ZoomMode.PageWidth;
 
+            //Get account details
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRpt(loanId, userData.UserId);
 
@@ -96,12 +125,16 @@ namespace BankLoanSystem.Reports
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
+            //set data source to report viwer
             rptViewerLoanSummaryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
 
+            //get loan summary details 
             List<RptLoanSummary> loanSummaryList = ra.GetLoanSummaryReport(loanId, startDate, endDate);
 
+            //set data source to report viwer
             rptViewerLoanSummaryPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", loanSummaryList));
 
+            //return reportviwer
             return rptViewerLoanSummaryPrint;
         }
     }
