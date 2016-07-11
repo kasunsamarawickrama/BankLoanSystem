@@ -1077,7 +1077,7 @@
                 _previousMake     = "";
                 addUnitPopupActive = false;
 
-
+                // check combo box div active
                 $( "#div-combobox1-1" ).focusin(function(){
                     $('#vehicleyear').children('span').text("");
                 });
@@ -1160,7 +1160,7 @@
                 });
 
 
-
+                //retrive model list
                 function GetModels(var1,var2,var3,id)
                 {
                     var checkYear = var1.val();
@@ -1207,6 +1207,7 @@
                     }
                 }
 
+                //Retrive make list
                 function GetMakes(var1,var2,id)
                 {
                     var checkYear = var1.val();
@@ -1247,7 +1248,7 @@
                         $(var2).html(markup);
                     }
                 }
-
+                //check vin exist in the database
                 $('.vinUnique').focusout(function(){
                     $.ajax({
                         url: '/Unit/IsVinExists',
@@ -1289,7 +1290,7 @@
                     });
 
                 });
-                // focusout functions Start
+                //combo box div focusout functions Start
                 // --------------------------
                 $('#div-combobox1-1').focusout(function(){
                     var yearmakemodel = $('#combobox1-1').next().children('input').val();
@@ -1404,7 +1405,7 @@
                     //GetMakes($('#combobox5-1'),'#combobox5-2',5);
                     middleSpanCheck();
                 });
-                $('#div-combobox5-2').focusout(function(){                  
+                $('#div-combobox5-2').focusout(function(){
                     var yearmakemodel = $('#combobox5-2').next().children('input').val();
                     yearmakemodel = yearmakemodel.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                         return letter.toUpperCase();
@@ -1421,7 +1422,7 @@
                     middleSpanCheck();
                 });
                 $('#div-combobox6-2').focusout(function(){
-                    
+
                     var yearmakemodel = $('#combobox6-2').next().children('input').val();
                     yearmakemodel = yearmakemodel.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                         return letter.toUpperCase();
@@ -1568,6 +1569,7 @@
 
                 //Initial page load
                 //hide panels
+                //retrieve initial load unit type
                 function unitTypeInitialLoad() {
                     $("#vehicle").hide();
                     $("#rv").hide();
@@ -1597,7 +1599,7 @@
                     $('.radios').children("span").text("");
                 }
 
-
+                //vin fields error messages check
                 $('.vinUnique').focus(function(){
                     $('.vinCheck').text("");
                     middleSpanCheck();
@@ -1636,8 +1638,11 @@
 
                                     CallVinDecode($('#vehicleVin').val());
                                     middleSpanCheck();
-                                    
+
+                                }else{
+                                    $('#loading').hide();
                                 }
+
                             },
                             error: function (jqXHR, textStatus, errorThrown){
                                 // Your handler here...
@@ -1688,7 +1693,7 @@
                     if($('#atvVin').val().length == 17){
                         $("#atvVin").val(($("#atvVin").val()).toUpperCase());
                         $('#atvVIN span').text("");
-             
+
                     }
                 });
 
@@ -1735,7 +1740,7 @@
                 //show one panel at a time
 
                 initialUnitType();
-
+                //initial unit type loading
                 function initialUnitType(){
                     var unitType  = '@ViewBag.loanDetails.defaultUnitType';
                     changeUnitType(unitType);
@@ -1745,6 +1750,7 @@
                     $('#txtLoanAdvanceAmount').val("");
 
                 }
+                //change value in unit type drop down box
                 function valueChangeUnitType(){
                     var unitType  = document.getElementById("unitType").value
                     clearform();
@@ -1752,6 +1758,7 @@
                     $(".miles").val("");
                     $(".lengths").val("");
                 }
+                //After unit type select show that panal
                 function changeUnitType(unitType) {
 
                     document.getElementById("form").reset();
@@ -1795,7 +1802,7 @@
                     }
 
                 }
-
+                //add or advance now field button text change
                 $('.advanceNow').change(function() {
                     var isAdvance = $(this).filter(':checked').val();
 
@@ -1831,7 +1838,7 @@
                     files = null;
                     storedFiles = [];
                     upc = 0;
-                    
+
                     $('#selectedFiles').children().remove();
                     $(".miles").val("");
                     $(".lengths").val("");
@@ -1844,6 +1851,7 @@
 
                 });
 
+                //clear button
                 function clearform() {
                     var unitType = document.getElementById("unitType").value;
                     document.getElementById("form").reset();
@@ -2073,7 +2081,7 @@
 
                 });
 
-                
+                // miles text box focus out check
                 $(".miles").focusout(function(e){
                     var val = $(this).val();
                     if(val != ""){
@@ -2085,9 +2093,9 @@
                                 num = num.toFixed(2);
 
                             $(this).val(num);
-                        }   
+                        }
                     }
-                                  
+
                 });
 
                 $("#rvlength").keypress(function(e){
@@ -2120,6 +2128,7 @@
                         }
                     }
                 });
+                // numeric value decimal allow
                 function numericAllowDecimal(e,val){
                     var ch = e.which;
                     if(val.indexOf('.')=== -1){
@@ -2133,6 +2142,7 @@
                     }
                     return 0;
                 }
+                //allow alphebetic and numeric
                 function alphaNumericAllow(e){
                     var ch = e.which;
 
@@ -2141,6 +2151,7 @@
                     }
                     return 0;
                 }
+                //length field charactor block
                 function alphaNumericSymbolForLength(e){
                     var ch = e.which;
 
@@ -2206,6 +2217,7 @@
                 });
 
                 //calculate advance
+                //Cost field active
                 $('#txtCost').keypress(function(e) {
 
 
@@ -2232,7 +2244,7 @@
                         var advanceAmount = (advancePt * val) / 100;
                         document.getElementById('txtLoanAdvanceAmount').value = advanceAmount;
                         $("#tagscloud span").text("");
-                        
+
                         $("#tagscloudAdvance span").text("");
                     }
                 });
@@ -2353,7 +2365,7 @@
                     }else{
                         num = num.toFixed(2);
                     }
-                    
+
 
                     if (isNaN(num)) {
                         num = '';
@@ -2409,8 +2421,10 @@
                 });
 
                 isErrorAddUnit = false;
+
+                //before submit form call this fuction
                 $('#form').submit(function(e) {
-                    
+
                     var valid = true;
                     $('#btnSubmit').prop('disabled', true);
                     var unitType = document.getElementById("unitType").value;
@@ -2420,7 +2434,7 @@
                     if (cost =="" || advance == "") {
                         $('#btnSubmit').prop('disabled', false);
                         valid = false;
-                        if(isErrorAddUnit == false){                        
+                        if(isErrorAddUnit == false){
                             isErrorAddUnit = true;
                         }
                     }
@@ -2432,7 +2446,7 @@
                             e.preventDefault();
                         }
                         valid = false;
-                        if(isErrorAddUnit == false){                        
+                        if(isErrorAddUnit == false){
                             isErrorAddUnit = true;
                         }
 
@@ -2454,7 +2468,7 @@
                                 e.preventDefault();
                             }
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                         }
@@ -2464,7 +2478,7 @@
                             // $('#vehiclemake span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == ""  || cost =="" || advance == "") {
@@ -2479,7 +2493,7 @@
                             $('#vehiclemodel span').text("Please enter or select the model of the unit.");
                             //$('#vehiclemodel span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             valid = false;
@@ -2501,7 +2515,7 @@
                             //$('#rvyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == ""  || cost =="" || advance == "" ) {
@@ -2516,7 +2530,7 @@
                             //$('#rvmake span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == ""  || cost =="" || advance == "" ) {
@@ -2530,7 +2544,7 @@
                             $('#rvmodel span').text("Please enter or select the model of the unit.");
                             //$('#rvmodel span').delay(1000).fadeOut();
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             $('#btnSubmit').prop('disabled', false);
@@ -2554,7 +2568,7 @@
                             //$('#camperyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == ""|| cost =="" || advance == "") {
@@ -2568,7 +2582,7 @@
                             $('#campermake span').text("Please enter or select the make of the unit.");
                             //$('#campermake span').delay(1000).fadeOut();
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             $('#btnSubmit').prop('disabled', false);
@@ -2584,7 +2598,7 @@
                             //$('#campermodel span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == "" || cost =="" || advance == "") {
@@ -2605,7 +2619,7 @@
                             //$('#atvyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == "" || cost =="" || advance == "") {
@@ -2620,7 +2634,7 @@
                             //$('#atvmake span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == "" || cost =="" || advance == "" ) {
@@ -2635,7 +2649,7 @@
                             //$('#atvmodel span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == "" || cost =="" || advance == "") {
@@ -2657,7 +2671,7 @@
                             //$('#boatyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == "" || cost =="" || advance == "") {
@@ -2672,7 +2686,7 @@
                             //$('#boatmake span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == "" || cost =="" || advance == "") {
@@ -2693,7 +2707,7 @@
                             //$('#motorcycleyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == "" || cost =="" || advance == "") {
@@ -2708,7 +2722,7 @@
                             //$('#motorcyclemake span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == ""  || cost =="" || advance == "") {
@@ -2723,7 +2737,7 @@
                             //$('#motorcyclemodel span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == ""  || cost =="" || advance == "") {
@@ -2742,7 +2756,7 @@
                             //$('#snowmobileyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == ""  || cost =="" || advance == "") {
@@ -2757,7 +2771,7 @@
                             //$('#snowmobilemake span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == ""  || cost =="" || advance == "") {
@@ -2772,7 +2786,7 @@
                             //$('#snowmobilemodel span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == ""  || cost =="" || advance == "") {
@@ -2790,7 +2804,7 @@
                             //$('#heavyequipmentyear span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == "" || cost =="" || advance == "") {
@@ -2805,7 +2819,7 @@
                             //$('#heavyequipmentmake span').delay(1000).fadeOut();
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                             if (vin == "" || cost =="" || advance == "") {
@@ -2818,6 +2832,7 @@
                     } else {
 
                     }
+                    //check title track allow or not
                     @if (ViewBag.IsTitleTrack == "Yes")
                     {<text>
                     if ($('#rdYes').is(':checked') || $('#rdNo').is(':checked')){
@@ -2825,7 +2840,7 @@
                     }else{
                         $('#btnSubmit').prop('disabled', false);
                         valid = false;
-                        if(isErrorAddUnit == false){                        
+                        if(isErrorAddUnit == false){
                             isErrorAddUnit = true;
                         }
                     }
@@ -2838,7 +2853,7 @@
                         }else{
                             $('#btnSubmit').prop('disabled', false);
                             valid = false;
-                            if(isErrorAddUnit == false){                        
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                         }
@@ -2861,7 +2876,7 @@
                                         $('#btnSubmit').prop('disabled', false);
                                         valid = false;
                                         e.preventDefault();
-                                        if(isErrorAddUnit == false){                        
+                                        if(isErrorAddUnit == false){
                                             isErrorAddUnit = true;
                                         }
                                     }
@@ -2870,7 +2885,7 @@
                             }else{
                                 $('#btnSubmit').prop('disabled', false);
                                 valid = false;
-                                if(isErrorAddUnit == false){                        
+                                if(isErrorAddUnit == false){
                                     isErrorAddUnit = true;
                                 }
                             }
@@ -2887,11 +2902,11 @@
                         $('#btnSubmit').prop('disabled', false);
                         valid = false;
                         e.preventDefault();
-                        if(isErrorAddUnit == false){                        
+                        if(isErrorAddUnit == false){
                             isErrorAddUnit = true;
                         }
 
-                    } 
+                    }
 
                     else if (advance > maxAdvance) {
 
@@ -2904,8 +2919,8 @@
                             showPopup(10);
                             $('#btnSubmit').prop('disabled', false);
                             e.preventDefault();
-                            
-                            if(isErrorAddUnit == false){                      
+
+                            if(isErrorAddUnit == false){
                                 isErrorAddUnit = true;
                             }
                         }
@@ -2924,7 +2939,7 @@
 
                  $('input').blur(function(){
                      middleSpanCheck();
-                    
+
                 });
 
                 $('#Note').keypress(function(e) {
@@ -3037,7 +3052,7 @@
                 $(document).on('click', '.ui-button', function(){
                     $('.centered1 span').text('');
                 });
-
+                //error message check
                 function middleSpanCheck(){
                     if ($('input').next('span').children('span').text().length > 1 || $('.vinCheck').text()) {
 
@@ -3148,7 +3163,7 @@
                         }
                     }
                 });
-
+                //Advance date selct after call function
                 $('#advanceDate').blur(function () {
 
                     if ($(this).val() == "") {
@@ -3182,7 +3197,7 @@
                         $('.centered span').text('Error');
                     }
                 });
-
+                //check date is valid
                 function checkDate(){
                     if ($('#advanceDate').val() == "") {
                         //$('#errorAdvanceDate').text('Please select the Advance Date');
@@ -3228,6 +3243,7 @@
                     sdkjs.parentNode.insertBefore(js, sdkjs);
                 }(document, 'script', 'edmunds-jssdk'));
 
+                //call vin decorder Edmunds API
                 function CallVinDecode(vin) {
                     // Instantiate the SDK
                     var res = new EDMUNDSAPI('3jbs6wjrsbyuwvz783y8jgmf');

@@ -228,13 +228,17 @@
             var dueDate = this.getDate();
         }
     });
-    var Maxdate = document.getElementById('txtMaturityDate').value ;
+    var mdate = document.getElementById('txtMaturityDate').value ;
+    var Maxdate = new Date(Date.parse(mdate));
+    var mdate2 =Maxdate;
+    mdate2.setDate(Maxdate.getDate() - 1);
     //alert(Mdate);
     //var startDate = new Date(Date.parse(Mdate));
    // expDate = startDate;
     //expDate.setDate(startDate.getDate() + 1);
 
-    startPicker.setMaxDate(new Date(Maxdate));
+    startPicker.setMaxDate(new Date(mdate2));
+    
     //startPicker.gotoDate(new Date(expDate));
 
     $('#txtActiveDate').focusout(function () {
