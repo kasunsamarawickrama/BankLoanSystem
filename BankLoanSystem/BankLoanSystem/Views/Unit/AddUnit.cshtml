@@ -1077,7 +1077,7 @@
                 _previousMake     = "";
                 addUnitPopupActive = false;
 
-
+                // check combo box div active 
                 $( "#div-combobox1-1" ).focusin(function(){
                     $('#vehicleyear').children('span').text("");
                 });
@@ -1160,7 +1160,7 @@
                 });
 
 
-
+                //retrive model list
                 function GetModels(var1,var2,var3,id)
                 {
                     var checkYear = var1.val();
@@ -1206,7 +1206,8 @@
                         $(var3).html(markup);
                     }
                 }
-
+                
+                //Retrive make list
                 function GetMakes(var1,var2,id)
                 {
                     var checkYear = var1.val();
@@ -1247,7 +1248,7 @@
                         $(var2).html(markup);
                     }
                 }
-
+                //check vin exist in the database 
                 $('.vinUnique').focusout(function(){
                     $.ajax({
                         url: '/Unit/IsVinExists',
@@ -1289,7 +1290,7 @@
                     });
 
                 });
-                // focusout functions Start
+                //combo box div focusout functions Start 
                 // --------------------------
                 $('#div-combobox1-1').focusout(function(){
                     var yearmakemodel = $('#combobox1-1').next().children('input').val();
@@ -1568,6 +1569,7 @@
 
                 //Initial page load
                 //hide panels
+                //retrieve initial load unit type
                 function unitTypeInitialLoad() {
                     $("#vehicle").hide();
                     $("#rv").hide();
@@ -1597,7 +1599,7 @@
                     $('.radios').children("span").text("");
                 }
 
-
+                //vin fields error messages check
                 $('.vinUnique').focus(function(){
                     $('.vinCheck').text("");
                     middleSpanCheck();
@@ -1735,7 +1737,7 @@
                 //show one panel at a time
 
                 initialUnitType();
-
+                //initial unit type loading
                 function initialUnitType(){
                     var unitType  = '@ViewBag.loanDetails.defaultUnitType';
                     changeUnitType(unitType);
@@ -1745,6 +1747,7 @@
                     $('#txtLoanAdvanceAmount').val("");
 
                 }
+                //change value in unit type drop down box
                 function valueChangeUnitType(){
                     var unitType  = document.getElementById("unitType").value
                     clearform();
@@ -1752,6 +1755,7 @@
                     $(".miles").val("");
                     $(".lengths").val("");
                 }
+                //After unit type select show that panal
                 function changeUnitType(unitType) {
 
                     document.getElementById("form").reset();
@@ -1795,7 +1799,7 @@
                     }
 
                 }
-
+                //add or advance now field button text change 
                 $('.advanceNow').change(function() {
                     var isAdvance = $(this).filter(':checked').val();
 
@@ -1844,6 +1848,7 @@
 
                 });
 
+                //clear button
                 function clearform() {
                     var unitType = document.getElementById("unitType").value;
                     document.getElementById("form").reset();
@@ -2073,7 +2078,7 @@
 
                 });
 
-                
+                // miles text box focus out check
                 $(".miles").focusout(function(e){
                     var val = $(this).val();
                     if(val != ""){
@@ -2120,6 +2125,7 @@
                         }
                     }
                 });
+                // numeric value decimal allow
                 function numericAllowDecimal(e,val){
                     var ch = e.which;
                     if(val.indexOf('.')=== -1){
@@ -2133,6 +2139,7 @@
                     }
                     return 0;
                 }
+                //allow alphebetic and numeric
                 function alphaNumericAllow(e){
                     var ch = e.which;
 
@@ -2141,6 +2148,7 @@
                     }
                     return 0;
                 }
+                //length field charactor block
                 function alphaNumericSymbolForLength(e){
                     var ch = e.which;
 
@@ -2206,6 +2214,7 @@
                 });
 
                 //calculate advance
+                //Cost field active
                 $('#txtCost').keypress(function(e) {
 
 
@@ -2409,6 +2418,8 @@
                 });
 
                 isErrorAddUnit = false;
+
+                //before submit form call this fuction 
                 $('#form').submit(function(e) {
                     
                     var valid = true;
@@ -2818,6 +2829,7 @@
                     } else {
 
                     }
+                    //check title track allow or not
                     @if (ViewBag.IsTitleTrack == "Yes")
                     {<text>
                     if ($('#rdYes').is(':checked') || $('#rdNo').is(':checked')){
@@ -3037,7 +3049,7 @@
                 $(document).on('click', '.ui-button', function(){
                     $('.centered1 span').text('');
                 });
-
+                //error message check
                 function middleSpanCheck(){
                     if ($('input').next('span').children('span').text().length > 1 || $('.vinCheck').text()) {
 
@@ -3148,7 +3160,7 @@
                         }
                     }
                 });
-
+                //Advance date selct after call function
                 $('#advanceDate').blur(function () {
 
                     if ($(this).val() == "") {
@@ -3182,7 +3194,7 @@
                         $('.centered span').text('Error');
                     }
                 });
-
+                //check date is valid
                 function checkDate(){
                     if ($('#advanceDate').val() == "") {
                         //$('#errorAdvanceDate').text('Please select the Advance Date');
@@ -3228,6 +3240,7 @@
                     sdkjs.parentNode.insertBefore(js, sdkjs);
                 }(document, 'script', 'edmunds-jssdk'));
 
+                //call vin decorder Edmunds API
                 function CallVinDecode(vin) {
                     // Instantiate the SDK
                     var res = new EDMUNDSAPI('3jbs6wjrsbyuwvz783y8jgmf');

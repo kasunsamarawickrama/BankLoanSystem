@@ -83,7 +83,7 @@ namespace BankLoanSystem.Controllers
                     }
                     Loan loanUpdated = new Loan();
                     loanUpdated = (new LoanManagementAccess()).GetLoanByLoanCode(loan.LoanId,loan.LoanCode);
-
+                    loanUpdated.CreatedDate = loan.CreatedDate;
                     loanUpdated.PartnerName = loan.PartnerName;
                     loanUpdated.BranchName = loan.BranchName;
 
