@@ -12,17 +12,19 @@ namespace BankLoanSystem.DAL
 {
     public class forgotPasswordTokenAccess
     {
-        /// <summary>
-        /// CreatedBy : MAM. IRFAN
-        /// CreatedDate: 2016/01/17
-        /// 
-        /// update Token using user id and token
-        /// if a user not exists it will insert user and token
-        /// 
-        /// argument : user_id (int), token : string
-        /// 
-        /// </summary>
-        /// <returns>true : success, false : fail</returns>
+
+
+        /*
+
+ Frontend page: Account help page
+ Title: update/Insert the user id and token
+ Designed: Irfan Mam
+ User story: 
+ Developed: Irfan MAM
+ Date created: 1/17/2016
+
+*/
+
         public bool updateToken(int userId, string token)
         {
             DataHandler dataHandler = new DataHandler();
@@ -42,23 +44,23 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        /// <summary>
-        /// CreatedBy : MAM. IRFAN
-        /// CreatedDate: 2016/01/17
-        /// 
-        ///Verify the account using userId and token
-        /// 
-        /// argument : user_id (int), token : string
-        /// 
-        /// </summary>
-        /// <returns>true : success, false : fail</returns>
+        /*
+
+Frontend page: Reset Password page
+Title:  Verifying the user account using usedId and token
+Designed: Irfan Mam
+User story: 
+Developed: Irfan MAM
+Date created: 1/17/2016
+
+*/
         public bool verifyAccount(int userId, string token)
         {
             DataHandler dataHandler = new DataHandler();
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_id", userId });
             paramertList.Add(new object[] { "@token", token });
-            paramertList.Add(new object[] { "@expired_date", DateTime.Now.AddHours(24) });
+            paramertList.Add(new object[] { "@expired_date", DateTime.Now });
 
             try
             {
@@ -70,16 +72,16 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        /// <summary>
-        /// CreatedBy : MAM. IRFAN
-        /// CreatedDate: 2016/01/17
-        /// 
-        ///update the Password
-        /// 
-        /// argument : user_id (int), resetPasswordModel : ResetPassword
-        /// 
-        /// </summary>
-        /// <returns>true : success, false : fail</returns>
+        /*
+
+Frontend page: Reset Password page
+Title:  Update Password
+Designed: Irfan Mam
+User story: 
+Developed: Irfan MAM
+Date created: 1/17/2016
+
+*/
         public bool resetPassword(int userId, ResetPassword resetPasswordModel)
         {
             DataHandler dataHandler = new DataHandler();
@@ -89,7 +91,7 @@ namespace BankLoanSystem.DAL
             List<object[]> paramertList = new List<object[]>();
             paramertList.Add(new object[] { "@user_id", userId });
             paramertList.Add(new object[] { "@password", resetPasswordModel.Password });
-            paramertList.Add(new object[] { "@expired_date", DateTime.Now.AddHours(24) });
+            
 
             try
             {
