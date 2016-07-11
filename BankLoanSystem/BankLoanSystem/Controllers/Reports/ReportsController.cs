@@ -142,6 +142,7 @@ namespace BankLoanSystem.Controllers.Reports
 
                     // clear the session of selected loan
                     Session["loanCode"] = null;
+                    Session["loanDashboard"] = null;
 
 
                     // if loan count is equal to 1
@@ -235,6 +236,8 @@ namespace BankLoanSystem.Controllers.Reports
             {
                 
                 loanNumbers = ra.GetAccountDetailsForUser(_userData.UserId);
+
+                // if selected dashboard loan has no rights delete the session
             }
             else
             {
