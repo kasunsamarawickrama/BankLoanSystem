@@ -14,12 +14,21 @@ namespace BankLoanSystem.Reports
 {
     public partial class RptDivCurtailmentReceipt : System.Web.UI.Page
     {
+        /// <summary>
+        /// Frontend Page: Report Page(Curtailment Receipt Report)
+        /// Title: Display Curtailment Receipt report
+        /// Designed: Kanishka SHM
+        /// User story: 
+        /// Developed: Kanishka SHM
+        /// Date created: 
+        /// </summary>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 int loanId = 0;
 
+                //if session is not null and assign it.
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
 
@@ -29,11 +38,14 @@ namespace BankLoanSystem.Reports
                 if (string.IsNullOrEmpty(Request.QueryString["endDate"])) return;
                 var endDate = DateTime.ParseExact(Request.QueryString["endDate"], "MM/dd/yyyy", new CultureInfo("en-US"));
 
+                //Get all active units curtailment paid details during time period
                 ReportAccess ra = new ReportAccess();
                 List<CurtailmentShedule> curtailments = ra.GetCurtailmentPaidDetailsByDateRange(loanId, startDate, endDate);
 
+                //if result count is greater then zero show report, otherwise give a message 
                 if (curtailments.Count > 0)
                 {
+                    //call RenderReport function to show report on report viwer
                     RenderReport(loanId, startDate, endDate, curtailments);
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
                 }
@@ -44,7 +56,14 @@ namespace BankLoanSystem.Reports
             }
         }
 
-
+        /// <summary>
+        /// Frontend Page: Report Page(Curtailment Receipt Report)
+        /// Title: Display Curtailment Receipt report
+        /// Designed: Kanishka SHM
+        /// User story: 
+        /// Developed: Kanishka SHM
+        /// Date created: 
+        /// </summary>
         public void RenderReport(int loanId, DateTime startDate, DateTime endDate, List<CurtailmentShedule> curtailments)
         {
             //check authentication session is null, if null return
@@ -70,14 +89,19 @@ namespace BankLoanSystem.Reports
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
-            //get curtailment paid details
-            //List<CurtailmentShedule> curtailments = ra.GetCurtailmentPaidDetailsByDateRange(loanId, startDate, endDate);
-
             //set data source to report viwer
             rptViewerCurtailmentReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerCurtailmentReceipt.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
         }
 
+        /// <summary>
+        /// Frontend Page: Report Page(Curtailment Receipt Report)
+        /// Title: Display Curtailment Receipt print page
+        /// Designed: Kanishka SHM
+        /// User story: 
+        /// Developed: Kanishka SHM
+        /// Date created: 
+        /// </summary>
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
             //check authentication session is null, if null return
@@ -103,14 +127,14 @@ namespace BankLoanSystem.Reports
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
-            //get curtailment paid details
+            //Get all active units curtailment paid details during time period
             List<CurtailmentShedule> curtailments = ra.GetCurtailmentPaidDetailsByDateRange(loanId, startDate, endDate);
 
             //set data source to report viwer
             rptViewerCurtailmentReceiptPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
             rptViewerCurtailmentReceiptPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
 
-            //return report viwer
+            //return reportviwer
             return rptViewerCurtailmentReceiptPrint;
         }
 

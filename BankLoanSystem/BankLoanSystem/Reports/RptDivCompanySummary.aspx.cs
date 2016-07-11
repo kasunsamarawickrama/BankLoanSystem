@@ -12,20 +12,38 @@ namespace BankLoanSystem.Reports
 {
     public partial class RptDivCompanySummary : System.Web.UI.Page
     {
+        /// <summary>
+        /// Frontend Page: Report Page(Company Summary Report)
+        /// Title: Display Company Summary details
+        /// Designed: Kanishka SHM
+        /// User story: 
+        /// Developed: Kanishka SHM
+        /// Date created: 
+        /// </summary>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 int companyId = 0;
 
+                //if session is not null and assign it.
                 if (Request.QueryString["companyId"] != "")
                     companyId = Convert.ToInt32(Request.QueryString["companyId"]);
 
+                //call RenderReport function to show report on report viwer
                 RenderReport(companyId);
                 Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
             }
         }
 
+        /// <summary>
+        /// Frontend Page: Report Page(Company Summary Report)
+        /// Title: Display Company Summary details
+        /// Designed: Kanishka SHM
+        /// User story: 
+        /// Developed: Kanishka SHM
+        /// Date created: 
+        /// </summary>
         public void RenderReport(int companyId)
         {
             //check authentication session is null, if null return
@@ -46,19 +64,19 @@ namespace BankLoanSystem.Reports
             //set data source to report viwer - 1
             rptViewerCompanySummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", loanSumaList));
 
-            //company name and report date
-            //List<LoanDetailsRpt> details = new List<LoanDetailsRpt>();
-            //LoanDetailsRpt detail = new LoanDetailsRpt();
-            //detail.CompanyName = userData.CompanyName;
-           
-            //detail.ReportDate = DateTime.Now.ToString("MM/dd/yyyy"); ;
-            //details.Add(detail);
-
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRptforCompanySummary(userData.Company_Id, userData.UserId);
             //set data source to report viwer - 2
             rptViewerCompanySummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", details));
         }
 
+        /// <summary>
+        /// Frontend Page: Report Page(Company Summary Report)
+        /// Title: Display Company Summary details print page
+        /// Designed: Kanishka SHM
+        /// User story: 
+        /// Developed: Kanishka SHM
+        /// Date created: 
+        /// </summary>
         public ReportViewer PrintPage(int companyId)
         {
             //check authentication session is null, if null return

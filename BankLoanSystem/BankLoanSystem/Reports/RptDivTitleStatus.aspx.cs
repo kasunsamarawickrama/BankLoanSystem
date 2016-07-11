@@ -9,6 +9,16 @@ namespace BankLoanSystem.Reports
 {
     public partial class RptDivTitleStatus : System.Web.UI.Page
     {
+        /*
+
+            Frontend page: Report Page
+            Title: Load details to report and show on browser
+            Designed: Kanishka SHM
+            User story: 
+            Developed: Kanishka SHM
+            Date created: 
+
+        */
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)

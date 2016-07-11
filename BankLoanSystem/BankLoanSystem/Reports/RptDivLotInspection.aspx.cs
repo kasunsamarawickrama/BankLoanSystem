@@ -11,8 +11,8 @@ namespace BankLoanSystem.Reports
     {
         /*
 
-            Frontend page: Report page
-            Title: view lot inspect report
+            Frontend page: Report Page(Lot Inspection Report)
+            Title: Display Lot Inspection Report
             Designed: Kanishka SHM
             User story:
             Developed: Kanishka SHM
@@ -33,8 +33,10 @@ namespace BankLoanSystem.Reports
                 //get all active units
                 List<ReportUnitModels> units = ra.GetAllActiveUnitDetailsRpt(loanId);
 
-                if(units.Count>0)
+                //if result count is greater then zero show report, otherwise give a message 
+                if (units.Count>0)
                 {
+                    //call RenderReport function to show report on report viwer
                     RenderReport(loanId, units);
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
                 }
@@ -47,8 +49,8 @@ namespace BankLoanSystem.Reports
 
         /*
 
-            Frontend page: Report Page
-            Title: Load details to report and show on browser
+            Frontend page: Report Page(Lot Inspection Report)
+            Title: Display Lot Inspection Report
             Designed: Kanishka SHM
             User story: 
             Developed: Kanishka SHM
@@ -93,7 +95,7 @@ namespace BankLoanSystem.Reports
         /*
 
             Frontend page: Report Page
-            Title: Loan pdf view on browser
+            Title: Lot Inspection Report print page
             Designed: Kanishka SHM
             User story: 
             Developed: Kanishka SHM
