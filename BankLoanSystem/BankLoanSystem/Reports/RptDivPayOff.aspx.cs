@@ -14,6 +14,16 @@ namespace BankLoanSystem.Reports
 {
     public partial class RptPayOff : System.Web.UI.Page
     {
+        /*
+
+            Frontend page: Report Page
+            Title: Load details to report and show on browser
+            Designed: Kanishka SHM
+            User story: 
+            Developed: Kanishka SHM
+            Date created: 
+
+        */
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -47,6 +57,16 @@ namespace BankLoanSystem.Reports
             }
         }
 
+        /*
+
+            Frontend page: Report Page
+            Title: Load details to report and show on browser
+            Designed: Kanishka SHM
+            User story: 
+            Developed: Kanishka SHM
+            Date created: 
+
+        */
         public void RenderReport(int loanId, DateTime startDate, DateTime endDate, List<ReportPayOff> payOffUnits)
         {
             //check authentication session is null, if null return
@@ -77,6 +97,16 @@ namespace BankLoanSystem.Reports
             rptViewerPayOff.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", payOffUnits));
         }
 
+        /*
+
+            Frontend page: Report Page
+            Title: Load details to report and show on browser
+            Designed: Kanishka SHM
+            User story: 
+            Developed: Kanishka SHM
+            Date created: 
+
+        */
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
             //check authentication session is null, if null return

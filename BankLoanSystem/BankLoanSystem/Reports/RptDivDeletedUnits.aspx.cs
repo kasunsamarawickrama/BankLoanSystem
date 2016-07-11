@@ -16,7 +16,7 @@ namespace BankLoanSystem.Reports
         /*
 
         Frontend page   : Report page
-        Title           : View Delete units on the report
+        Title           : Display Delete units report
         Designed        : Kanishka SHM
         User story      : 
         Developed       : Kanishka SHM
@@ -43,9 +43,10 @@ namespace BankLoanSystem.Reports
                 //Get all delete units details
                 List<RptDeletedUnit> deletedUnits = ra.RptGetDeletedUnitByLoanIdDateRange(loanId, startDate, endDate);
 
-                if(deletedUnits.Count>0)
+                //if result count is greater then zero show report, otherwise give a message 
+                if (deletedUnits.Count>0)
                 { 
-                //call RenderReport function to show report on report viwer
+                    //call RenderReport function to show report on report viwer
                     RenderReport(loanId, startDate, endDate, deletedUnits);
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
                 }
@@ -59,7 +60,7 @@ namespace BankLoanSystem.Reports
         /*
 
         Frontend page   : Report page
-        Title           : 
+        Title           : Display Delete units report
         Designed        : Kanishka SHM
         User story      : 
         Developed       : Kanishka SHM
@@ -97,20 +98,31 @@ namespace BankLoanSystem.Reports
             rptViewerDeletedUnits.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", deletedUnits));
         }
 
+        /*
+
+        Frontend page   : Report page
+        Title           : Display Delete units report print page
+        Designed        : Kanishka SHM
+        User story      : 
+        Developed       : Kanishka SHM
+        Date created    : 06/23/2016
+
+        */
         public ReportViewer PrintPage(int loanId, DateTime startDate, DateTime endDate)
         {
             //Check authentication session is null then return
             if (Session["AuthenticatedUser"] == null) return null;
             User userData = (User)Session["AuthenticatedUser"];
 
+            //create reportviwer & set reportviewr properties
             ReportViewer rptViewerDeletedUnitsPrint = new ReportViewer();
-
             rptViewerDeletedUnitsPrint.ProcessingMode = ProcessingMode.Local;
             rptViewerDeletedUnitsPrint.Reset();
             rptViewerDeletedUnitsPrint.LocalReport.EnableExternalImages = true;
             rptViewerDeletedUnitsPrint.LocalReport.ReportPath = Server.MapPath("~/Reports/RptDeletedUnits.rdlc");
             rptViewerDeletedUnitsPrint.ZoomMode = ZoomMode.PageWidth;
 
+            //Get details of loan
             ReportAccess ra = new ReportAccess();
             List<LoanDetailsRpt> details = ra.TopHeaderDetails(loanId, userData.UserId);
 
@@ -121,11 +133,14 @@ namespace BankLoanSystem.Reports
                 dates.ReportDate = DateTime.Now.ToString("MM/dd/yyyy");
             }
 
+            //set data set to report
             rptViewerDeletedUnitsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", details));
 
+            //Get all delete units details and set data set to report
             List<RptDeletedUnit> deletedUnits = ra.RptGetDeletedUnitByLoanIdDateRange(loanId, startDate, endDate);
             rptViewerDeletedUnitsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", deletedUnits));
 
+            //return report viwer
             return rptViewerDeletedUnitsPrint;
         }
     }

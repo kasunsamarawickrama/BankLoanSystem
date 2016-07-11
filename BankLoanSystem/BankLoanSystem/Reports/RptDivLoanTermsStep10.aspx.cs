@@ -12,25 +12,44 @@ namespace BankLoanSystem.Reports
 {
     public partial class RptDivLoanTermsStep10 : System.Web.UI.Page
     {
+        /// <summary>
+        /// Frontend Page: Step 10(Loan Terms Report)
+        /// Title: Display Loan Terms Report
+        /// Designed: Kanishka SHM
+        /// User story: 
+        /// Developed: Kanishka SHM
+        /// Date created: 
+        /// </summary>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 int loanId = 0;
 
+                //if session is not null and assign it.
                 if (Request.QueryString["loanId"] != "")
                     loanId = Convert.ToInt32(Request.QueryString["loanId"]);
 
+                //call RenderReport function to show report on report viwer
                 RenderReport(loanId);
             }
         }
 
+        /// <summary>
+        /// Frontend Page: Step 10(Loan Terms Report)
+        /// Title: Display Loan Terms Report
+        /// Designed: Kanishka SHM
+        /// User story: 
+        /// Developed: Kanishka SHM
+        /// Date created: 
+        /// </summary>
         public void RenderReport(int loanId)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return;
             User userData = (User)Session["AuthenticatedUser"];
 
+            //set reportviewr properties
             rptViewerLoanTerms.ProcessingMode = ProcessingMode.Local;
             rptViewerLoanTerms.Reset();
             rptViewerLoanTerms.LocalReport.EnableExternalImages = true;
@@ -38,13 +57,15 @@ namespace BankLoanSystem.Reports
             rptViewerLoanTerms.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
-            List<RptLoanTerms> loanTermsDetails = ra.RptLoanTermsDetails(loanId);
 
+            //Get loan details and set to reportviwer
+            List<RptLoanTerms> loanTermsDetails = ra.RptLoanTermsDetails(loanId);
             rptViewerLoanTerms.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", loanTermsDetails));
 
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRptforCompanySummary(userData.Company_Id, userData.UserId);
             rptViewerLoanTerms.LocalReport.DataSources.Add(new ReportDataSource("DataSet6", details));
 
+            //get curtailment schedule details and set to reportviwer
             CurtailmentAccess ca = new CurtailmentAccess();
             List<Curtailment> curtailments = ca.retreiveCurtailmentByLoanId(loanId);
 
@@ -57,24 +78,35 @@ namespace BankLoanSystem.Reports
             }
             rptViewerLoanTerms.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
 
+            //get fees details and set to reportviwer
             List<RptFeeLoanTerm> loanTermsFeeDetails = ra.RptLoanTermsFeeDetails(loanId);
             rptViewerLoanTerms.LocalReport.DataSources.Add(new ReportDataSource("DataSet3", loanTermsFeeDetails));
 
+            //get reminders details and set to reportviwer
             List<RptEmailReminder> loanTermsEmailReminders = ra.RptLoanTermsEmailReminders(loanId);
             rptViewerLoanTerms.LocalReport.DataSources.Add(new ReportDataSource("DataSet4", loanTermsEmailReminders));
 
+            //get unit types and set  to reportviwer
             IList<Models.UnitType> unitTypes = ra.RptGetUnitTypes(loanId);
             rptViewerLoanTerms.LocalReport.DataSources.Add(new ReportDataSource("DataSet5", unitTypes));
         }
 
+        /// <summary>
+        /// Frontend Page: Step 10(Loan Terms Report)
+        /// Title: Display Loan Terms Report print page
+        /// Designed: Kanishka SHM
+        /// User story: 
+        /// Developed: Kanishka SHM
+        /// Date created: 
+        /// </summary>
         public ReportViewer PrintPage(int loanId)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return null;
             User userData = (User)Session["AuthenticatedUser"];
 
+            //create reportviwer & set reportviewr properties
             ReportViewer rptViewerLoanTermsPrint = new ReportViewer();
-
             rptViewerLoanTermsPrint.ProcessingMode = ProcessingMode.Local;
             rptViewerLoanTermsPrint.Reset();
             rptViewerLoanTermsPrint.LocalReport.EnableExternalImages = true;
@@ -82,13 +114,15 @@ namespace BankLoanSystem.Reports
             rptViewerLoanTermsPrint.ZoomMode = ZoomMode.PageWidth;
 
             ReportAccess ra = new ReportAccess();
-            List<RptLoanTerms> loanTermsDetails = ra.RptLoanTermsDetails(loanId);
 
+            //Get loan details and set to reportviwer
+            List<RptLoanTerms> loanTermsDetails = ra.RptLoanTermsDetails(loanId);
             rptViewerLoanTermsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", loanTermsDetails));
 
             List<LoanDetailsRpt> details = ra.GetLoanDetailsRptforCompanySummary(userData.Company_Id, userData.UserId);
             rptViewerLoanTermsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet6", details));
 
+            //get curtailment schedule details and set to reportviwer
             CurtailmentAccess ca = new CurtailmentAccess();
             List<Curtailment> curtailments = ca.retreiveCurtailmentByLoanId(loanId);
 
@@ -101,15 +135,19 @@ namespace BankLoanSystem.Reports
             }
             rptViewerLoanTermsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", curtailments));
 
+            //get fees details and set to reportviwer
             List<RptFeeLoanTerm> loanTermsFeeDetails = ra.RptLoanTermsFeeDetails(loanId);
             rptViewerLoanTermsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet3", loanTermsFeeDetails));
 
+            //get reminders details and set to reportviwer
             List<RptEmailReminder> loanTermsEmailReminders = ra.RptLoanTermsEmailReminders(loanId);
             rptViewerLoanTermsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet4", loanTermsEmailReminders));
 
+            //get unit types and set  to reportviwer
             IList<Models.UnitType> unitTypes = ra.RptGetUnitTypes(loanId);
             rptViewerLoanTermsPrint.LocalReport.DataSources.Add(new ReportDataSource("DataSet5", unitTypes));
 
+            //return reportviwer
             return rptViewerLoanTermsPrint;
         }
     }

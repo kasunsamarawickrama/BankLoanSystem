@@ -12,6 +12,14 @@ namespace BankLoanSystem.Reports
 {
     public partial class RptDivBranchSummary : System.Web.UI.Page
     {
+        /// <summary>
+        // Frontend Page: Report page(Branch Summary report)
+        /// Title: Display Branch Summary report
+        /// Designed: Piyumi Perera
+        /// User story: 
+        /// Developed: Piyumi Perera
+        /// Date created: 
+        /// </summary>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -19,16 +27,20 @@ namespace BankLoanSystem.Reports
                 int branchId = 0;
                 string branchName = "";
 
+                //if session is not null and assign it.
                 if (Request.QueryString["branchId"] != "")
                     branchId = Convert.ToInt32(Request.QueryString["branchId"]);
                 if (Request.QueryString["branchName"] != "")
                     branchName = Request.QueryString["branchName"];
 
+                //Get branch summary details
                 ReportAccess ra = new ReportAccess();
                 List<RptBranchSummary> branchSummary = ra.GetBranchSummarRptDetails(branchId);
 
+                //if result count is greater then zero show report, otherwise give a message
                 if (branchSummary.Count > 0)
                 {
+                    //call RenderReport function to show report on report viwer
                     RenderReport(branchId, branchName, branchSummary);
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowFrame", "ShowDive();", true);
                 }
@@ -39,13 +51,21 @@ namespace BankLoanSystem.Reports
             }
         }
 
+        /// <summary>
+        // Frontend Page: Report page(Branch Summary report)
+        /// Title: Display Branch Summary report
+        /// Designed: Piyumi Perera
+        /// User story: 
+        /// Developed: Piyumi Perera
+        /// Date created: 
+        /// </summary>
         public void RenderReport(int branchId,string branchName, List<RptBranchSummary> branchSummary)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return;
             User userData = (User)Session["AuthenticatedUser"];
 
-            //set report viewr property dynamically
+            //set reportviewr properties
             rptViewerBranchSummary.ProcessingMode = ProcessingMode.Local;
             rptViewerBranchSummary.Reset();
             rptViewerBranchSummary.LocalReport.EnableExternalImages = true;
@@ -80,15 +100,22 @@ namespace BankLoanSystem.Reports
             rptViewerBranchSummary.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", branchSummary));
         }
 
+        /// <summary>
+        /// Frontend Page: Report page(Branch Summary report)
+        /// Title: Display Branch Summary print page
+        /// Designed: Piyumi Perera
+        /// User story: 
+        /// Developed: Piyumi Perera
+        /// Date created: 
+        /// </summary>
         public ReportViewer PrintPage(int branchId,string branchName)
         {
             //check authentication session is null, if null return
             if (Session["AuthenticatedUser"] == null) return null;
             User userData = (User)Session["AuthenticatedUser"];
 
-            //set report viewr property dynamically
+            //create reportviwer & set reportviewr properties
             ReportViewer rptViewerBranchSummaryPrint = new ReportViewer();
-
             rptViewerBranchSummaryPrint.ProcessingMode = ProcessingMode.Local;
             rptViewerBranchSummaryPrint.Reset();
             rptViewerBranchSummaryPrint.LocalReport.EnableExternalImages = true;
