@@ -829,10 +829,10 @@ font-family: 'icomoon' !important;
 
 .sel-loan{
     
-     box-shadow: inset 0px 1px 0px #f2f2f2, 0px 5px 0px 0px #187d4a, 0px 10px 5px #999 !important;
-  -webkit-box-shadow: inset 0px 1px 0px #3ad09f, 0px 5px 0px 0px #148c6b, 0px 10px 5px #999 !important;
-      -moz-box-shadow: inset 0px 1px 0px #3ad09f, 0px 5px 0px 0px #148c6b, 0px 10px 5px #999 !important;
-    -o-box-shadow: inset 0px 1px 0px #3ad09f, 0px 5px 0px 0px #148c6b, 0px 10px 5px #999 !important;
+     box-shadow: inset 0px 1px 0px #f2f2f2, 0px 5px 0px 0px #187d4a, 0px 10px 5px #999 ;
+  -webkit-box-shadow: inset 0px 1px 0px #3ad09f, 0px 5px 0px 0px #148c6b, 0px 10px 5px #999 ;
+      -moz-box-shadow: inset 0px 1px 0px #3ad09f, 0px 5px 0px 0px #148c6b, 0px 10px 5px #999 ;
+    -o-box-shadow: inset 0px 1px 0px #3ad09f, 0px 5px 0px 0px #148c6b, 0px 10px 5px #999 ;
 
     border-left: solid 1px #19c346;
 
@@ -899,24 +899,24 @@ font-family: 'icomoon' !important;
 
 .warn-button{
     
-     box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
-  -webkit-box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
-      -moz-box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
-    -o-box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
+     box-shadow: inset 0px 1px 0px #ff9999, 0px 5px 0px 0px #ab6868, 0px 10px 5px #999 ;
+  -webkit-box-shadow: inset 0px 1px 0px #ff9999, 0px 5px 0px 0px #ab6868, 0px 10px 5px #999 ;
+      -moz-box-shadow: inset 0px 1px 0px #ff9999, 0px 5px 0px 0px #ab6868, 0px 10px 5px #999 ;
+    -o-box-shadow: inset 0px 1px 0px #ff9999, 0px 5px 0px 0px #ab6868, 0px 10px 5px #999 ;
 
     border-left: solid 1px #19c346;
 
-     background-image: linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
-	background-image: -o-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
-	background-image: -moz-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
-	background-image: -webkit-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
-	background-image: -ms-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
+     background-image: linear-gradient(bottom, #ff9999 0%,  #ff9999 100%);
+	background-image: -o-linear-gradient(bottom, #ff9999 0%,  #ff9999 100%);
+	background-image: -moz-linear-gradient(bottom, #ff9999 0%,  #ff9999 100%);
+	background-image: -webkit-linear-gradient(bottom,  #ff9999 0%,  #ff9999 100%);
+	background-image: -ms-linear-gradient(bottom,  #ff9999 0%,  #ff9999 100%);
 	background-image: -webkit-gradient(
 	linear,
 	left bottom,
 	left top,
-	color-stop(0, rgb(202, 44, 95)),
-	color-stop(1, rgb(229, 62, 85))
+	color-stop(0,  #ff9999),
+	color-stop(1,  #ff9999)
 	);
 }
 
@@ -928,17 +928,17 @@ font-family: 'icomoon' !important;
 
 font-family: 'icomoon' !important;
 	
-	background-image: linear-gradient(bottom, rgb(125, 10, 31) 0%, rgb(184, 14, 53)) 100%);
-	background-image: -o-linear-gradient(bottom, rgb(125, 10, 31) 0%, rgb(184, 14, 53) 100%);
-	background-image: -moz-linear-gradient(bottom, rgb(125, 10, 31) 0%, rgb(184, 14, 53) 100%);
-	background-image: -webkit-linear-gradient(bottom, rgb(125, 10, 31) 0%, rgb(184, 14, 53) 100%);
-	background-image: -ms-linear-gradient(bottom, rgb(125, 10, 31) 0%, rgb(184, 14, 53) 100%);
+	background-image: linear-gradient(bottom, #983737 0%, #ef5959) 100%);
+	background-image: -o-linear-gradient(bottom, #983737 0%, #ef5959 100%);
+	background-image: -moz-linear-gradient(bottom, #983737 0%, #ef5959 100%);
+	background-image: -webkit-linear-gradient(bottom, #983737 0%, #ef5959 100%);
+	background-image: -ms-linear-gradient(bottom, #983737 0%, #ef5959 100%);
 	background-image: -webkit-gradient(
 	linear,
 	left bottom,
 	left top,
-	color-stop(0, rgb(125, 10, 31)),
-	color-stop(1, rgb(184, 14, 53))
+	color-stop(0, #983737),
+	color-stop(1, #ef5959)
 	);
 
 }
@@ -946,23 +946,23 @@ font-family: 'icomoon' !important;
 
 .warn-button:active {
 	top:3px;
-	 background-image: linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
-	background-image: -o-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
-	background-image: -moz-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
-	background-image: -webkit-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
-	background-image: -ms-linear-gradient(bottom, rgb(202, 44, 95) 0%, rgb(229, 62, 85) 100%);
+	background-image: linear-gradient(bottom, #ff9999 0%,  #ff9999 100%);
+	background-image: -o-linear-gradient(bottom, #ff9999 0%,  #ff9999 100%);
+	background-image: -moz-linear-gradient(bottom, #ff9999 0%,  #ff9999 100%);
+	background-image: -webkit-linear-gradient(bottom,  #ff9999 0%,  #ff9999 100%);
+	background-image: -ms-linear-gradient(bottom,  #ff9999 0%,  #ff9999 100%);
 	background-image: -webkit-gradient(
 	linear,
 	left bottom,
 	left top,
-	color-stop(0, rgb(202, 44, 95)),
-	color-stop(1, rgb(229, 62, 85))
+	color-stop(0,  #ff9999),
+	color-stop(1,  #ff9999)
 	);
 	
-     box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
-  -webkit-box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
-      -moz-box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
-    -o-box-shadow: inset 0px 1px 0px #ec2a57, 0px 5px 0px 0px #851525, 0px 10px 5px #999 !important;
+     box-shadow: inset 0px 1px 0px #ff9999, 0px 2px 0px 0px #ab6868, 0px 5px 3px #999 ;
+  -webkit-box-shadow: inset 0px 1px 0px #ff9999, 0px 2px 0px 0px #ab6868, 0px 5px 3px #999 ;
+      -moz-box-shadow: inset 0px 1px 0px #ff9999, 0px 2px 0px 0px #ab6868, 0px 5px 3px #999 ;
+    -o-box-shadow: inset 0px 1px 0px #ff9999, 0px 2px 0px 0px #ab6868, 0px 5px 3px #999 ;
 }
 
 
@@ -971,10 +971,10 @@ font-family: 'icomoon' !important;
 
 .grey-button{
     color:#716d6d;
-      box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #848080, 0px 10px 5px #999 !important;
-  -webkit-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #848080, 0px 10px 5px #999 !important;
-      -moz-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #848080, 0px 10px 5px #999 !important;
-    -o-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #848080, 0px 10px 5px #999 !important;
+      box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #848080, 0px 10px 5px #999 ;
+  -webkit-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #848080, 0px 10px 5px #999 ;
+      -moz-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #848080, 0px 10px 5px #999 ;
+    -o-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #848080, 0px 10px 5px #999 ;
 
     border-left: solid 1px #19c346;
 
@@ -1014,10 +1014,10 @@ font-family: 'icomoon' !important;
 	);
 
 
-     box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #44423d, 0px 10px 5px #999 !important;
-  -webkit-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #44423d, 0px 10px 5px #999 !important;
-      -moz-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #44423d, 0px 10px 5px #999 !important;
-    -o-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #44423d, 0px 10px 5px #999 !important;
+     box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #44423d, 0px 10px 5px #999 ;
+  -webkit-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #44423d, 0px 10px 5px #999 ;
+      -moz-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #44423d, 0px 10px 5px #999 ;
+    -o-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #44423d, 0px 10px 5px #999 ;
 
 }
 
@@ -1037,8 +1037,8 @@ font-family: 'icomoon' !important;
 	color-stop(1, rgb(217, 217, 217))
 	);
 	
-     box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #848080, 0px 10px 5px #999 !important;
-  -webkit-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #848080, 0px 10px 5px #999 !important;
-      -moz-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #848080, 0px 10px 5px #999 !important;
-    -o-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 5px 0px 0px #848080, 0px 10px 5px #999 !important;
+     box-shadow: inset 0px 1px 0px #d8d4ce, 0px 2px 0px 0px #848080, 0px 5px 3px #999 ;
+  -webkit-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 2px 0px 0px #848080, 0px 5px 3px #999 ;
+      -moz-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 2px 0px 0px #848080, 0px 5px 3px #999 ;
+    -o-box-shadow: inset 0px 1px 0px #d8d4ce, 0px 2px 0px 0px #848080, 0px 5px 3px #999 ;
 }
