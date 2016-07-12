@@ -1959,6 +1959,8 @@ else if (ViewBag.loanCount > 1)
                 // set the loan
                 $("#loanId").val(id);
 
+                //remove error message on below after change the loan
+                $('#errorMsg').text('');
 
                 // change the loan detail bar on top the page
                 LoanNumber = myGrid.jqGrid('getCell', id, 'LoanNumber'); // take loan number from selected loan
