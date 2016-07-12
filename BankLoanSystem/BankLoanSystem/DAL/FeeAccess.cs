@@ -11,18 +11,17 @@ namespace BankLoanSystem.DAL
     public class FeeAccess
     {
 
-        /// <summary>
-        /// CreatedBy : Irfan
-        /// CreatedDate: 04/22/2016
-        /// 
-        /// Getting Curtailment Shedule
-        /// 
-        /// 
-        /// </summary>
-        /// 
-        /// <param name="dueDate">due date</param>
-        /// <param name="loanId">loan id</param>
-        /// <returns></returns>
+        /*
+
+   Frontend page: Fee Page
+   Title: Getting Curtailment Shedule
+   Designed: Irfan Mam
+   User story:
+   Developed: Irfan MAM
+   Date created: 4/22/2016
+
+*/
+
         public bool GetFeesDueDates(int loanId, out string advPayDueDate, out string monPayDueDate, out string lotPayDueDate)
         {
             try
@@ -58,16 +57,18 @@ namespace BankLoanSystem.DAL
             }
         }
 
-        /// <summary>
-        /// CreatedBy : Nadeeka
-        /// CreatedDate: 04/21/2016
-        /// 
-        /// Getting Fees by due date
-        /// </summary>
-        /// <param name="loanId"></param>
-        /// <param name="dueDate"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
+
+
+        /*
+
+ Frontend page: Fee Page
+ Title: Getting Fees by due date
+ Designed: Nadeeka
+ User story:
+ Developed: Nadeeka
+ Date created: 4/21/2016
+
+*/
         public List<Fees> GetFeesByDueDate(int loanId, DateTime dueDate, string type)
         {
             try
@@ -76,7 +77,6 @@ namespace BankLoanSystem.DAL
                 DataHandler dataHandler = new DataHandler();
                 List<object[]> paramertList = new List<object[]>();
                 paramertList.Add(new object[] { "@loan_id", loanId });
-                //paramertList.Add(new object[] { "@unit_id", loanId });
                 paramertList.Add(new object[] { "@bill_due_date", dueDate });
                 paramertList.Add(new object[] { "@type", type });
 
@@ -125,8 +125,7 @@ namespace BankLoanSystem.DAL
                                     fee.AdvanceDate = Convert.ToDateTime(dataRow["due_date"].ToString());
                                 }
                             }
-                            //fee.AdvanceDate = Convert.ToDateTime(dataRow["advance_date"].ToString());
-                            //fee.AdvanceDate = Convert.ToDateTime(dataRow["due_date"].ToString());
+                            
                         }
                      
                         lstFee.Add(fee);
@@ -143,12 +142,25 @@ namespace BankLoanSystem.DAL
                 throw ex;
             }
         }
-        
+
+
+        /*
+
+ Frontend page: Fee Page
+ Title: Update Fees 
+ Designed: Irfan MAM
+ User story:
+ Developed: Irfan MAM
+ Date created: 4/22/2016
+
+*/
         internal int updateFees(List<Fees> lstFee,DateTime paidDate, int loanId , int userId)
         {
             try
             {
                 int i = 1;
+
+                // bind the list of fee details to xml 
                 XElement xEle = new XElement("Fee",
                     from fee in lstFee
                     select new XElement("FeeUnit",
