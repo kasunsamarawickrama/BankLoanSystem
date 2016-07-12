@@ -33,7 +33,7 @@ namespace BankLoanSystem.Controllers.Curtailments
                     if (HttpContext.Request.IsAjaxRequest())
                     {
 
-                        //new HttpStatusCodeResult(404, "Failed to Setup company.");
+                        
                         filterContext.Result = new HttpStatusCodeResult(404, "Due to inactivity your session has timed out, please log in again.");
                     }
                     else
@@ -50,19 +50,19 @@ namespace BankLoanSystem.Controllers.Curtailments
                 filterContext.Result = new RedirectResult("~/Exceptions/Index");
             }
         }
-        
-        public ActionResult Index()
-        {
-            return View();
-        }
 
-        /// <summary>
-        /// CreatedBy:Nadeeka
-        /// CreatedDate:2016/3/21
-        /// set loan code to session
-        /// </summary>
-        /// <param name="loanCode"></param>
-        /// <returns></returns>
+
+        /*
+
+   Frontend page: Dashboard Page
+   Title: set loan code to session and redirect to curtailment page
+   Designed: Nadeeka
+   User story: 
+   Developed: Nadeeka
+   Date created: 3/21/2016
+
+*/
+
         public ActionResult setLoanCode(string loanCode)
         {
             Session["loanCode"] = loanCode;
@@ -70,19 +70,28 @@ namespace BankLoanSystem.Controllers.Curtailments
             return RedirectToAction("PayCurtailments");
         }
 
-        /// <summary>
-        /// CreatedBy:Nadeeka
-        /// CreatedDate:2016/3/21
-        /// GET: Curtailments by today date
-        /// </summary>
-        /// <returns></returns>
+
+        /*
+
+  Frontend page: Curtailment Page
+  Title: Load curtailment page
+  Designed: Nadeeka
+  User story: 
+  Developed: Nadeeka
+  Date created: 3/21/2016
+
+*/
         public ActionResult PayCurtailments()
         {
+
+            // if user access via url -- wrong access
             if (Session["loanCode"] == null || Session["loanCode"].ToString() == "")
                 return RedirectToAction("UserLogin", "Login", new { lbl = "Failed find loan" });
 
-            lCode = Session["loanCode"].ToString();
+            lCode = Session["loanCode"].ToString(); // take the loan code
 
+
+            // if user is a normal user, check his user rights
             if (userData.RoleId == 3)
             {
                 if (Session["CurrentLoanRights"] == null || Session["CurrentLoanRights"].ToString() == "")
@@ -118,32 +127,43 @@ namespace BankLoanSystem.Controllers.Curtailments
 
                 }
             }
+
+            // if user is a dealer user -- he is not allowed
             else if (userData.RoleId == 4)
             {
                 return RedirectToAction("UserDetails", "UserManagement");
             }
+
+
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
-            Session["curtLaonId"] = loanDetails.loanId;
-            ViewBag.curtTotal = (new CurtailmentAccess()).GetCurtailmentsTotal(loanDetails.loanId); // this is not used, have to check --irfan
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString()); // take the loan details
+            Session["curtLaonId"] = loanDetails.loanId;  // save the loan id on session
+            ViewBag.curtTotal = (new CurtailmentAccess()).GetCurtailmentsTotal(loanDetails.loanId); // pass the total amount of curtailment to the view
+
+            // pass the loan details to the view
             ViewBag.loanDetails = loanDetails;
             ViewBag.LoanId = loanDetails.loanId;
 
+            // return pay curtailment page
             return View();
         }
 
-        /// <summary>
-        /// CreatedBy:Nadeeka
-        /// CreatedDate:2016/3/21
-        /// GET: Curtailments by selected due date
-        /// </summary>
-        /// <param name="dueDate"></param>
-        /// <returns></returns>
+
+        /*
+
+ Frontend page: Curtailment Page
+ Title: Curtailments by selected due date
+ Designed: Nadeeka
+ User story: 
+ Developed: Nadeeka
+ Date created: 3/21/2016
+
+*/
         public ActionResult PayCurtailmentForSelectedDueDate(DateTime dueDate)
         {
             CurtailmentScheduleModel curtailmentScheduleModel = new CurtailmentScheduleModel();
             LoanSetupStep1 loanDetails = new LoanSetupStep1();
-            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString());
+            loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(Session["loanCode"].ToString()); // take loan details of selected loan
             ViewBag.loanDetails = loanDetails;
 
             string f = dueDate.ToShortDateString();
@@ -151,38 +171,46 @@ namespace BankLoanSystem.Controllers.Curtailments
 
 
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
-            List<CurtailmentShedule> curtailmentSchedule = curtailmentAccess.GetCurtailmentScheduleByDueDate(loanDetails.loanId, dd);
-            ViewBag.DealerEmail = (string)Session["DealerEmail"];
-            ViewBag.LoanId = loanDetails.loanId;
+            List<CurtailmentShedule> curtailmentSchedule = curtailmentAccess.GetCurtailmentScheduleByDueDate(loanDetails.loanId, dd);  // get curtailment list by due date
+            ViewBag.DealerEmail = (string)Session["DealerEmail"]; // pass dealer email to the view
+            ViewBag.LoanId = loanDetails.loanId;  // pass loan id to the view
 
             curtailmentScheduleModel.CurtailmentScheduleInfoModel = new List<CurtailmentShedule>();
-            curtailmentScheduleModel.CurtailmentScheduleInfoModel.AddRange(curtailmentSchedule);
-            curtailmentScheduleModel.DueDate = dueDate;
+            curtailmentScheduleModel.CurtailmentScheduleInfoModel.AddRange(curtailmentSchedule); // bind the list of curtailment to model
+            curtailmentScheduleModel.DueDate = dueDate; // bind the due date to model
+
+            // return the partial view page
             return PartialView(curtailmentScheduleModel);
         }
 
-        /// <summary>
-        /// CreatedBy:Nadeeka
-        /// CreatedDate:2016/3/21
-        /// POST: Pay selected curtailment/s
-        /// 
-        /// </summary>
-        /// <param name="selectedCurtailmentList"></param>
-        /// <returns></returns>
+
+        /*
+
+Frontend page: Curtailment Page
+Title: Pay selected curtailment/s
+Designed: Nadeeka
+User story: 
+Developed: Nadeeka
+Date created: 3/21/2016
+
+*/
         [HttpPost]
         public string PayCurtailments(SelectedCurtailmentList selectedCurtailmentList, string needSend, string dealerEmail, string dueDate)
         {
+            // if session expired -- return null 
             if (Session["loanCode"] == null || Session["loanCode"].ToString() == "")
                 return null;
 
-            var loanCode = Session["loanCode"].ToString();
+            var loanCode = Session["loanCode"].ToString(); // take loan code from session 
             string paidDate = "";
 
-            var loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode);
+            var loanDetails = (new LoanSetupAccess()).GetLoanDetailsByLoanCode(loanCode); // take loan details of the loan code
 
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
-            string returnValue = curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId, dealerEmail);
+            string returnValue = curtailmentAccess.updateCurtailmets(selectedCurtailmentList, loanDetails.loanId, dealerEmail); // update curtailment details as paid
 
+
+            // if curtailment successfully updated
             if (returnValue != null)
             {
                 // saving for reporting purpose
@@ -269,6 +297,7 @@ namespace BankLoanSystem.Controllers.Curtailments
                 //insert to log
                 string[] arrList = new string[selectedCurtailmentList.SelectedCurtailmentSchedules.Count];
                 int i = 0;
+                // add all paid curtailment details to array
                 foreach (var x in selectedCurtailmentList.SelectedCurtailmentSchedules)
                 {
                     if (!string.IsNullOrEmpty(x.UnitId))
@@ -278,14 +307,13 @@ namespace BankLoanSystem.Controllers.Curtailments
                     }
                 }
 
-                //arrList = arrList.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                ////user.UserRights = arrList.ToString();
+                // join the array with comma seperated
                 string units = string.Join(",", arrList);
                 Log log = new Log(userData.UserId, userData.Company_Id, userData.BranchId, loanDetails.loanId, "Pay Curtailments", units, DateTime.Now);
-
+                // insert into log
                 int islog = (new LogAccess()).InsertLog(log);
             }
-
+            // return the value
             return returnValue;
         }
 
