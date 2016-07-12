@@ -2683,7 +2683,7 @@ namespace BankLoanSystem.Controllers.SetupProcess
 
             CurtailmentAccess curtailmentAccess = new CurtailmentAccess();
             StepAccess sa = new StepAccess();
-            if (curtailmentAccess.InsertCurtailment(curtailmentList, loanData.loanId) == 1)
+            if (curtailmentAccess.InsertCurtailment(curtailmentList, loanData.loanId) > 0)
             {
                 ViewBag.SuccessMsg = "Curtailment Details added successfully";
                 sa.UpdateLoanSetupStep(userData.UserId,loanData.CompanyId, loanData.BranchId, loanData.nonRegisteredBranchId, loanData.loanId, 6);
